@@ -42,9 +42,23 @@ public class Product {
 
     private float discount;
 
-    @OneToMany(mappedBy = "product")
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductAttribute> productAttributes = new HashSet<>();;
 
+
+
+    // Method to add a product attribute
+    public void addProductAttribute(ProductAttribute attribute) {
+        productAttributes.add(attribute);
+        attribute.setProduct(this);
+    }
+
+    // Method to remove a product attribute (optional)
+    public void removeProductAttribute(ProductAttribute attribute) {
+        productAttributes.remove(attribute);
+        attribute.setProduct(null);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

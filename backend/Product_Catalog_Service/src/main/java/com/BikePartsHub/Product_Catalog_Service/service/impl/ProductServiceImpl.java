@@ -1,8 +1,9 @@
 package com.BikePartsHub.Product_Catalog_Service.service.impl;
 
-import com.BikePartsHub.Product_Catalog_Service.dto.BikeResponse;
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductAttributeResponse;
+import com.BikePartsHub.Product_Catalog_Service.dto.ProductAttributeResponseUpdate;
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductGetResponseDTO;
+import com.BikePartsHub.Product_Catalog_Service.dto.ProductUpdateResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.PaginatedResponseItemDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.ProductSpecification;
 import com.BikePartsHub.Product_Catalog_Service.entity.Bike;
@@ -15,14 +16,13 @@ import com.BikePartsHub.Product_Catalog_Service.service.ProductService;
 import com.BikePartsHub.Product_Catalog_Service.utility.mapper.BikeMapper;
 import com.BikePartsHub.Product_Catalog_Service.utility.mapper.ProductAttributeMapper;
 import com.BikePartsHub.Product_Catalog_Service.utility.mapper.ProductMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,10 +58,14 @@ public class ProductServiceImpl implements ProductService {
         return productGetResponseDTOList;
     }
 
+    @Transactional
     @Override
     public void saveProduct(ProductGetResponseDTO productGetResponseDTO) {
         Product product = productMapper.productGetResponseDTOToProduct(productGetResponseDTO);
         Set<ProductAttribute> productAttributes = new HashSet<>();
+        if (productRepo.existsById(productGetResponseDTO.getProductId())){
+            throw new RuntimeException("Duplicate Error");
+        }
 
         for (ProductAttributeResponse productAttributeResponse : productGetResponseDTO.getProductAttributes()) {
             Set<Bike> bikes = new HashSet<>();
@@ -103,6 +107,59 @@ public class ProductServiceImpl implements ProductService {
             return paginatedResponseItemDTO;
         }
     }
+    @Transactional
+    @Override
+    public String updateProductService(ProductUpdateResponseDTO productUpdateResponseDTO) {
+        if (!productRepo.existsById(productUpdateResponseDTO.getProductId())) {
+            throw new RuntimeException("No data found for that ID");
+        }
+
+        // Retrieve the existing product from the repository
+        Product product = productRepo.getReferenceById(productUpdateResponseDTO.getProductId());
+
+        // Update the product details with values from the DTO
+        product.setProductName(productUpdateResponseDTO.getProductName());
+        product.setProductType(productUpdateResponseDTO.getProductType());
+        product.setQuantity(productUpdateResponseDTO.getQuantity());
+        product.setCategory(productUpdateResponseDTO.getCategory());
+        product.setManufacture(productUpdateResponseDTO.getManufacture());
+        product.setItemDescription(productUpdateResponseDTO.getItemDescription());
+        product.setActiveState(productUpdateResponseDTO.isActiveState());
+        product.setAverageRating(productUpdateResponseDTO.getAverageRating());
+        product.setPricePerUnit(productUpdateResponseDTO.getPricePerUnit());
+        product.setDiscount(productUpdateResponseDTO.getDiscount());
+
+        // Update product attributes
+        updateProductAttributes(product, productUpdateResponseDTO.getProductAttributes());
+
+        // Save the updated product back to the repository
+        productRepo.save(product);
+        return "Product Update Successfully";
+    }
+
+    private void updateProductAttributes(Product product, Set<ProductAttributeResponseUpdate> productAttributeResponseUpdates) {
+        // Clear existing attributes
+        product.getProductAttributes().clear();
+
+        // Add new attributes from the DTOs
+        for (ProductAttributeResponseUpdate dto : productAttributeResponseUpdates) {
+            Set<Bike> bikes = new HashSet<>();
+
+            for (Long bikeId : dto.getBike_id()) {
+                if (!bikeRepo.existsById(bikeId)) {
+                    throw new RuntimeException("No Such a Bike");
+                }
+                bikes.add(bikeRepo.getReferenceById(bikeId));
+            }
+            ProductAttributeResponse productAttributeResponse = productAttributeMapper.productAttributeResponseUpdateToProductAttributeResponse(dto);
+            productAttributeResponse.setBikes(bikeMapper.BikeEntityListToBikeDtoList(bikes));
+            ProductAttribute attribute = productAttributeMapper.productAttributeDtoToProductAttribute(productAttributeResponse);
+            attribute.setProduct(product);
+            attribute.setBikes(bikes);
+            product.getProductAttributes().add(attribute);
+        }
+    }
+
 
 
 }

@@ -12,7 +12,7 @@ import java.util.Set;
 public interface BikeMapper {
 
     Set<Bike> bikeDtoListToBikeEntity(Set<BikeResponse> bikeResponse);
-
+    Set<BikeResponse> BikeEntityListToBikeDtoList(Set<Bike> bikeResponse);
     List<BikeResponse> bikeEntityToBikeDto(List<Bike> bike);
 
     Bike bikeDtoToBikeEntity(BikeResponse bikeResponse);

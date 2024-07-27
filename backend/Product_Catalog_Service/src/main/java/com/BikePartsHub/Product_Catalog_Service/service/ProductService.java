@@ -1,6 +1,7 @@
 package com.BikePartsHub.Product_Catalog_Service.service;
 
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductGetResponseDTO;
+import com.BikePartsHub.Product_Catalog_Service.dto.ProductUpdateResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.PaginatedResponseItemDTO;
 import com.BikePartsHub.Product_Catalog_Service.entity.Product;
 import org.springframework.data.domain.Page;
@@ -15,4 +16,6 @@ public interface ProductService {
 
 
     PaginatedResponseItemDTO getProducts(String category, String productType, String productManufacture, boolean activeState, String bikeType, String bikeModel, String bikeManufacture, String color, int page, int size);
+
+    String updateProductService(ProductUpdateResponseDTO productUpdateResponseDTO);
 }

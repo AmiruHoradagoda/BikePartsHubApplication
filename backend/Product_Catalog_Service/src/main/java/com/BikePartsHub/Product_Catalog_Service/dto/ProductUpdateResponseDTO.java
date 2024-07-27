@@ -1,19 +1,17 @@
 package com.BikePartsHub.Product_Catalog_Service.dto;
 
-import com.BikePartsHub.Product_Catalog_Service.entity.Bike;
-import com.BikePartsHub.Product_Catalog_Service.entity.ProductAttribute;
+
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProductGetResponseDTO {
+public class ProductUpdateResponseDTO {
 
     private long productId;
 
@@ -39,6 +37,6 @@ public class ProductGetResponseDTO {
 
     private float discount;
 
-    private Set<ProductAttributeResponse> productAttributes;
+    private Set<ProductAttributeResponseUpdate> productAttributes;
 
 }

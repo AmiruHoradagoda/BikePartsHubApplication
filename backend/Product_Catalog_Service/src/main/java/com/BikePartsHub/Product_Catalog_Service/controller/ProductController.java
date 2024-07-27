@@ -1,6 +1,7 @@
 package com.BikePartsHub.Product_Catalog_Service.controller;
 
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductGetResponseDTO;
+import com.BikePartsHub.Product_Catalog_Service.dto.ProductUpdateResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.PaginatedResponseItemDTO;
 import com.BikePartsHub.Product_Catalog_Service.entity.Product;
 import com.BikePartsHub.Product_Catalog_Service.service.ProductService;
@@ -49,5 +50,11 @@ public class ProductController {
     private ResponseEntity<Void> saveProduct(@RequestBody ProductGetResponseDTO productGetResponseDTO ){
         productService.saveProduct(productGetResponseDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update")
+    public String updateCustomer(@RequestBody ProductUpdateResponseDTO productUpdateResponseDTO){
+        String message = productService.updateProductService(productUpdateResponseDTO);
+        return message;
     }
 }
