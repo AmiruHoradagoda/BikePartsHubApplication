@@ -161,5 +161,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @Override
+    public String deleteProduct(Long product_id) {
+        if (!productRepo.existsById(product_id)){
+            throw new RuntimeException("Product already removed");
+        }
+        productRepo.deleteById(product_id);
+        return "Product delete Successfully";
+    }
+
 
 }

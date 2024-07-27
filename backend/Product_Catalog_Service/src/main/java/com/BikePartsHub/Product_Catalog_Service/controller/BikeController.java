@@ -30,5 +30,20 @@ public class BikeController {
        bikeService.saveBikeDetails(bikeResponse);
        return ResponseEntity.ok().build();
     }
+
+
+    @PutMapping("/update")
+    private  String updateBikeDetails(@RequestBody BikeResponse bikeResponse){
+        String message = bikeService.updateBikeDetails(bikeResponse);
+        return message;
+    }
+
+
+
+    @DeleteMapping("/delete")
+    private  String deleteBikeDetails(@RequestBody Long bike_id){
+        String message = bikeService.deleteBikeDetails(bike_id);
+        return message;
+    }
 }
 

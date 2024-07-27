@@ -5,6 +5,7 @@ import com.BikePartsHub.Product_Catalog_Service.dto.ProductUpdateResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.PaginatedResponseItemDTO;
 import com.BikePartsHub.Product_Catalog_Service.entity.Product;
 import com.BikePartsHub.Product_Catalog_Service.service.ProductService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,8 +54,14 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public String updateCustomer(@RequestBody ProductUpdateResponseDTO productUpdateResponseDTO){
+    public String updateProductDetails(@RequestBody ProductUpdateResponseDTO productUpdateResponseDTO){
         String message = productService.updateProductService(productUpdateResponseDTO);
         return message;
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteProductDetails(@RequestBody Long product_id ){
+        String message = productService.deleteProduct(product_id);
+        return  message;
     }
 }

@@ -18,4 +18,6 @@ public interface ProductService {
     PaginatedResponseItemDTO getProducts(String category, String productType, String productManufacture, boolean activeState, String bikeType, String bikeModel, String bikeManufacture, String color, int page, int size);
 
     String updateProductService(ProductUpdateResponseDTO productUpdateResponseDTO);
+
+    String deleteProduct(Long product_id);
 }

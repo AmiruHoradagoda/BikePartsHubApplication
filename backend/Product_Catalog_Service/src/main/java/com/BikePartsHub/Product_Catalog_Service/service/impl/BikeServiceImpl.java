@@ -30,4 +30,24 @@ public class BikeServiceImpl implements BikeService {
         Bike bike = bikeMapper.bikeDtoToBikeEntity(bikeResponse);
         bikeRepo.save(bike);
     }
+
+    @Override
+    public String deleteBikeDetails(Long bike_id) {
+        if(!bikeRepo.existsById(bike_id)){
+            throw new RuntimeException("Bike is already deleted");
+        }
+        bikeRepo.deleteById(bike_id);
+        return "Bike details successfully deleted";
+    }
+
+    @Override
+    public String updateBikeDetails(BikeResponse bikeResponse) {
+        if(!bikeRepo.existsById(bikeResponse.getBikeId())){
+            throw new RuntimeException("There no such a bike");
+        }
+        bikeRepo.save(bikeMapper.bikeDtoToBikeEntity(bikeResponse));
+        return "Bike details successfully updated";
+    }
+
+
 }
