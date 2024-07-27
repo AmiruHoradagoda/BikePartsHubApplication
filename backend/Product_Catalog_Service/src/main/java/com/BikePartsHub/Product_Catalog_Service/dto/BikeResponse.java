@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class BikeResponse {
+    private Long  bikeId;
     private String type;
     private String model;
     private String version;

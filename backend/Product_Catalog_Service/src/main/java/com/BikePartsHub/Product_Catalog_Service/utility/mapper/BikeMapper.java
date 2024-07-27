@@ -11,5 +11,9 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface BikeMapper {
 
-    Set<Bike> bikeDtoToBikeEntity(Set<BikeResponse> bikeResponse);
+    Set<Bike> bikeDtoListToBikeEntity(Set<BikeResponse> bikeResponse);
+
+    List<BikeResponse> bikeEntityToBikeDto(List<Bike> bike);
+
+    Bike bikeDtoToBikeEntity(BikeResponse bikeResponse);
 }

@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 public class Bike {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bike_id")
     private Long bikeId;
     private String type;
