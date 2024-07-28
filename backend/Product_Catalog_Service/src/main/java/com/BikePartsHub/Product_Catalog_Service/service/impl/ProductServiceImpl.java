@@ -119,7 +119,6 @@ public class ProductServiceImpl implements ProductService {
 
         // Update the product details with values from the DTO
         product.setProductName(productUpdateResponseDTO.getProductName());
-        product.setProductType(productUpdateResponseDTO.getProductType());
         product.setQuantity(productUpdateResponseDTO.getQuantity());
         product.setCategory(productUpdateResponseDTO.getCategory());
         product.setManufacture(productUpdateResponseDTO.getManufacture());

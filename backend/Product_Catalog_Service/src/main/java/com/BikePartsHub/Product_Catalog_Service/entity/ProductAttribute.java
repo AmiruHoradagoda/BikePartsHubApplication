@@ -1,5 +1,6 @@
 package com.BikePartsHub.Product_Catalog_Service.entity;
 
+import com.BikePartsHub.Product_Catalog_Service.entity.enums.ProductColor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,8 @@ public class ProductAttribute {
 
     private String material;
 
-    private String color;
+    @Enumerated(EnumType.STRING)
+    private ProductColor color;
 
     private String partNumber;
 

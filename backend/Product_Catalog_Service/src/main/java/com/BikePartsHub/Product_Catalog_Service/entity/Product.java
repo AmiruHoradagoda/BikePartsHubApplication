@@ -1,13 +1,13 @@
 package com.BikePartsHub.Product_Catalog_Service.entity;
 
 
+import com.BikePartsHub.Product_Catalog_Service.entity.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,7 +22,8 @@ public class Product {
 
     private String productName;
 
-    private  String productType;
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
 
     private String quantity;
 
@@ -33,8 +34,6 @@ public class Product {
     private String itemDescription;
     @Column(name="active_state",columnDefinition = "TINYINT default 0")
     private boolean activeState;
-
-    private String MeasuringUnitType;
 
     private float averageRating;
 
