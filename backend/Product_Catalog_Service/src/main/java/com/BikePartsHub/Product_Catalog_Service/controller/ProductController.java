@@ -3,13 +3,8 @@ package com.BikePartsHub.Product_Catalog_Service.controller;
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductGetResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductUpdateResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.PaginatedResponseItemDTO;
-import com.BikePartsHub.Product_Catalog_Service.entity.Product;
 import com.BikePartsHub.Product_Catalog_Service.service.ProductService;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

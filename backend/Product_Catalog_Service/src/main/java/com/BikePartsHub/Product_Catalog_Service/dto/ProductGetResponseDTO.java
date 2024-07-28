@@ -1,13 +1,10 @@
 package com.BikePartsHub.Product_Catalog_Service.dto;
 
-import com.BikePartsHub.Product_Catalog_Service.entity.Bike;
-import com.BikePartsHub.Product_Catalog_Service.entity.ProductAttribute;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -29,8 +26,8 @@ public class ProductGetResponseDTO {
 
     private String itemDescription;
     @Column(name="active_state",columnDefinition = "TINYINT default 0")
-    private boolean activeState;
 
+    private boolean activeState;
 
     private float averageRating;
 

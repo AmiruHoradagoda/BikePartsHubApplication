@@ -3,9 +3,6 @@ package com.BikePartsHub.Product_Catalog_Service.service;
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductGetResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.ProductUpdateResponseDTO;
 import com.BikePartsHub.Product_Catalog_Service.dto.pagenated.PaginatedResponseItemDTO;
-import com.BikePartsHub.Product_Catalog_Service.entity.Product;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
