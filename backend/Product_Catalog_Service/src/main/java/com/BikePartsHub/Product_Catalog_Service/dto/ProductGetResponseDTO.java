@@ -31,7 +31,6 @@ public class ProductGetResponseDTO {
     @Column(name="active_state",columnDefinition = "TINYINT default 0")
     private boolean activeState;
 
-    private String MeasuringUnitType;
 
     private float averageRating;
 
