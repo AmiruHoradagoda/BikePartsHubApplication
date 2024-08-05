@@ -1,10 +1,10 @@
 package com.bphTeam.bikePartsHub.dto.response;
 
-import com.bphTeam.bikePartsHub.dto.response.ProductAttributeResponse;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -36,6 +36,9 @@ public class ProductGetResponseDTO {
 
     private float discount;
 
-    private Set<ProductAttributeResponse> productAttributes;
+    private String imageUrl;
+
+    private Set<ProductAttributeGetResponse> productAttributes;
+
 
 }

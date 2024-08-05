@@ -1,13 +1,19 @@
 package com.bphTeam.bikePartsHub.controller;
 
+import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
-import com.bphTeam.bikePartsHub.dto.response.ProductUpdateResponseDTO;
+import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
 import com.bphTeam.bikePartsHub.service.ProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
@@ -27,7 +33,7 @@ public class ProductController {
         return ResponseEntity.ok(productGetResponseDTO);
     }
 
-    @GetMapping("/products")
+    @GetMapping("/getProducts")
     public PaginatedResponseItemDTO getProductWithPaginated(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String productType,
@@ -42,15 +48,18 @@ public class ProductController {
 
         return productService.getProducts(category, productType, productManufacture, activeState, bikeType, bikeModel, bikeManufacture, color, page,size);
     }
-    @PostMapping("/save")
-    private ResponseEntity<Void> saveProduct(@RequestBody ProductGetResponseDTO productGetResponseDTO ){
-        productService.saveProduct(productGetResponseDTO);
+    @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> saveProduct(@RequestPart("product") String productJson,
+                                            @RequestPart("image") MultipartFile imageFile) throws IOException, GeneralSecurityException{
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductSaveRequestDto productSaveRequestDto = objectMapper.readValue(productJson, ProductSaveRequestDto.class);
+        productService.saveProduct(productSaveRequestDto, imageFile);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update")
-    public String updateProductDetails(@RequestBody ProductUpdateResponseDTO productUpdateResponseDTO){
-        String message = productService.updateProductService(productUpdateResponseDTO);
+    public String updateProductDetails(@RequestBody ProductUpdateRequestDto productUpdateRequestDto){
+        String message = productService.updateProductService(productUpdateRequestDto);
         return message;
     }
 

@@ -1,15 +1,16 @@
 package com.bphTeam.bikePartsHub.service;
 
-import com.bphTeam.bikePartsHub.dto.response.BikeResponse;
+import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
 
 import java.util.List;
 
 public interface BikeService {
-    List<BikeResponse> getAllBikeDetails();
+    List<BikeSaveRequestDto> getAllBikeDetails();
 
-    void saveBikeDetails(BikeResponse bikeResponse);
+    void saveBikeDetails(BikeSaveRequestDto bikeSaveRequestDto);
 
     String deleteBikeDetails(Long bike_id);
 
-    String updateBikeDetails(BikeResponse bikeResponse);
+    String updateBikeDetails(Long id,BikeUpdateRequestDto bikeUpdateRequestDto);
 }

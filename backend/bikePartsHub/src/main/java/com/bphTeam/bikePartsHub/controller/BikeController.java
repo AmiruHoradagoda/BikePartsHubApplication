@@ -1,7 +1,8 @@
 package com.bphTeam.bikePartsHub.controller;
 
 
-import com.bphTeam.bikePartsHub.dto.response.BikeResponse;
+import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.service.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,24 +22,22 @@ public class BikeController {
     }
 
     @GetMapping("/getAllBikes")
-    private ResponseEntity<List<BikeResponse>>getAllBikeDetails(){
-        List<BikeResponse> bikeResponse = bikeService.getAllBikeDetails();
+    private ResponseEntity<List<BikeSaveRequestDto>>getAllBikeDetails(){
+        List<BikeSaveRequestDto> bikeResponse = bikeService.getAllBikeDetails();
         return ResponseEntity.ok(bikeResponse);
     }
 
     @PostMapping("/save")
-    private ResponseEntity<Void>saveBikeDetails(@RequestBody BikeResponse bikeResponse){
-       bikeService.saveBikeDetails(bikeResponse);
+    private ResponseEntity<Void>saveBikeDetails(@RequestBody BikeSaveRequestDto bikeSaveRequestDto){
+       bikeService.saveBikeDetails(bikeSaveRequestDto);
        return ResponseEntity.ok().build();
     }
 
-
-    @PutMapping("/update")
-    private  String updateBikeDetails(@RequestBody BikeResponse bikeResponse){
-        String message = bikeService.updateBikeDetails(bikeResponse);
+    @PutMapping(value = "/update",params = "id")
+    public String updateBikeDetails(@RequestParam Long id, @RequestBody BikeUpdateRequestDto bikeUpdateRequestDto) {
+        String message = bikeService.updateBikeDetails(id, bikeUpdateRequestDto);
         return message;
     }
-
 
 
     @DeleteMapping("/delete")

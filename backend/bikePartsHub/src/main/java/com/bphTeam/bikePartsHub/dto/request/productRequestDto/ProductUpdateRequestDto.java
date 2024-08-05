@@ -1,7 +1,7 @@
-package com.bphTeam.bikePartsHub.dto.response;
+package com.bphTeam.bikePartsHub.dto.request.productRequestDto;
 
 
-import com.bphTeam.bikePartsHub.dto.response.ProductAttributeResponseUpdate;
+import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeUpdateRequestDto;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProductUpdateResponseDTO {
+public class ProductUpdateRequestDto {
 
     private long productId;
 
@@ -36,6 +36,6 @@ public class ProductUpdateResponseDTO {
 
     private float discount;
 
-    private Set<ProductAttributeResponseUpdate> productAttributes;
+    private Set<ProductAttributeUpdateRequestDto> productAttributes;
 
 }
