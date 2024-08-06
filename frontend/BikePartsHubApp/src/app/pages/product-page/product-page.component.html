@@ -1,114 +1,255 @@
-<div class="text-white bg-gray-800">
-    
-    <main class="container px-4 py-8 mx-auto ">
-            <div class="flex">
-                <aside class="w-1/4 pr-8">
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Price</h3>
-                        <div class="flex justify-between">
-                            <input type="text" placeholder="min: 200000" class="w-24 px-2 py-1 bg-gray-700 rounded">
-                            <input type="text" placeholder="max: 280000" class="w-24 px-2 py-1 bg-gray-700 rounded">
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Manufacturer</h3>
-                        <select class="w-full px-2 py-1 bg-gray-700 rounded">
-                            <option>Select Manufacturer</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Type</h3>
-                        <select class="w-full px-2 py-1 bg-gray-700 rounded">
-                            <option>Select Type</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Model</h3>
-                        <select class="w-full px-2 py-1 bg-gray-700 rounded">
-                            <option>Select Model</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Version</h3>
-                        <select class="w-full px-2 py-1 bg-gray-700 rounded">
-                            <option>Select Version</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Category</h3>
-                        <select class="w-full px-2 py-1 bg-gray-700 rounded">
-                            <option>Select Category</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-lg font-bold">Brand</h3>
-                        <select class="w-full px-2 py-1 bg-gray-700 rounded">
-                            <option>Select Brand</option>
-                        </select>
-                    </div>
-                </aside>
-                <div class="w-3/4">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold">Parts</h2>
-                        <select class="px-2 py-1 bg-gray-700 rounded">
-                            <option>Default Sorting</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-3 gap-6">
-                        <div class="overflow-hidden bg-gray-700 rounded-lg">
-                            <img src="/api/placeholder/300/200" alt="Meter Panel Fz V.1" class="object-cover w-full h-48">
-                            <div class="p-4">
-                                <h3 class="mb-2 font-bold">Meter Panel Fz V.1</h3>
-                                <p class="mb-2 text-lg font-bold">RS:21000.00</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-green-500">In Stock</span>
-                                    <button class="px-4 py-2 text-white bg-orange-500 rounded">Add to Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overflow-hidden bg-gray-700 rounded-lg">
-                            <img src="/api/placeholder/300/200" alt="Coil Pack Fz V.2/V.3" class="object-cover w-full h-48">
-                            <div class="p-4">
-                                <h3 class="mb-2 font-bold">Coil Pack Fz V.2/V.3</h3>
-                                <p class="mb-2 text-lg font-bold">RS:11500.00</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-green-500">In Stock</span>
-                                    <button class="px-4 py-2 text-white bg-orange-500 rounded">Add to Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overflow-hidden bg-gray-700 rounded-lg">
-                            <img src="/api/placeholder/300/200" alt="Motul 4T 10W-40" class="object-cover w-full h-48">
-                            <div class="p-4">
-                                <h3 class="mb-2 font-bold">Motul 4T 10W-40</h3>
-                                <p class="mb-2 text-lg font-bold">RS:4900.00</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-green-500">In Stock</span>
-                                    <button class="px-4 py-2 text-white bg-orange-500 rounded">Add to Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="overflow-hidden bg-gray-700 rounded-lg">
-                            <img src="/api/placeholder/300/200" alt="Dragons FZ 460 ++" class="object-cover w-full h-48">
-                            <div class="p-4">
-                                <h3 class="mb-2 font-bold">Dragons FZ 460 ++</h3>
-                                <p class="mb-2 text-lg font-bold">RS:45000.78</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-green-500">In Stock</span>
-                                    <button class="px-4 py-2 text-white bg-orange-500 rounded">Add to Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Repeat the above div for more products -->
-                    </div>
-                    <div class="flex justify-center mt-8">
-                        <button class="px-3 py-1 mx-1 bg-gray-700 rounded">First Page</button>
-                        <button class="px-3 py-1 mx-1 bg-gray-700 rounded">1</button>
-                        <button class="px-3 py-1 mx-1 bg-orange-500 rounded">2</button>
-                        <button class="px-3 py-1 mx-1 bg-gray-700 rounded">3</button>
-                        <button class="px-3 py-1 mx-1 bg-gray-700 rounded">Last Page</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-</div>
+<main class="w-screen px-8 py-8 mx-auto text-white bg-gray-800">
+  <div class="flex">
+    <aside class="w-1/5 pr-8">
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Price</h3>
+        <div class="flex justify-between">
+          <input
+            type="text"
+            placeholder="min: 200000"
+            class="px-2 py-1 bg-gray-700 rounded w-28"
+          />
+          <input
+            type="text"
+            placeholder="max: 280000"
+            class="px-2 py-1 bg-gray-700 rounded w-28"
+          />
+        </div>
+      </div>
+
+
+
+      
+      <!--Manufacturer  -->
+      @if(category == 'parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Manufacturer</h3>
+        @if(category == 'parts'){
+        <select
+          [(ngModel)]="manufacturer"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>YAMAHA</option>
+        </select>
+        } 
+      </div>
+
+      }
+
+
+
+
+
+
+
+      
+      <!-- Type -->
+      @if(category == 'parts' || category == 'body-parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Type</h3>
+        @if(category == 'parts' ){
+        <select [(ngModel)]="type" class="w-full px-2 py-1 bg-gray-700 rounded">
+          <option>Select Type</option></select
+        >} @if(category == 'body-parts'){
+        <select [(ngModel)]="type" class="w-full px-2 py-1 bg-gray-700 rounded">
+          <option>Select Type</option>
+        </select>
+        }
+      </div>
+
+      }
+
+
+
+
+
+      
+      <!--Model  -->
+      @if(category == 'body-parts' || category == 'parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Model</h3>
+        @if(category == 'body-parts'){
+        <select
+          [(ngModel)]="model"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>FZ</option></select
+        >} @if(category == 'parts'){
+        <select
+          [(ngModel)]="model"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>FZ</option></select
+        >}
+      </div>
+      }
+
+
+
+
+
+
+
+
+
+      
+      <!-- Version  -->
+      @if(category == 'body-parts' || category == 'parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Version</h3>
+        @if(category == 'body-parts'){<select
+          [(ngModel)]="version"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>V_1</option>
+          <option>V_2</option>
+          <option>V_3</option>
+        </select> } @if(category == 'parts'){<select
+          [(ngModel)]="version"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>V_1</option>
+          <option>V_2</option>
+          <option>V_3</option>
+        </select> }
+        
+      </div>
+      }
+
+
+
+
+
+
+
+
+
+      
+      <!-- Category -->
+      @if(category == 'body-parts' || category == 'engine-oil' || category ==
+      'break-oil' || category == 'parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Category</h3>
+        @if(category == 'body-parts'){
+        <select
+          [(ngModel)]="categoryType"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>BODY_KITS</option>
+        </select>
+        } @if(category == 'engine-oil'){
+        <select
+          [(ngModel)]="categoryType"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>Select Category</option>
+        </select>
+        } @if(category == 'break-oil'){
+        <select
+          [(ngModel)]="categoryType"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>Select Category</option></select
+        >} @if(category == 'parts'){
+        <select
+          [(ngModel)]="categoryType"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>BRAKE DISCS_AND_PADS</option>
+          <option>ENGINE_PARTS</option>
+        </select>
+        }
+      </div>
+      }
+
+
+
+
+
+
+
+
+
+      
+      <!--Brand  -->
+      @if( category == 'engine-oil' || category == 'break-oil' || category ==
+      'lubricant-oil' ||category == 'parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Brand</h3>
+        @if(category == 'engine-oil'){
+        <select
+          [(ngModel)]="brand"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>Select Brand</option></select
+        >} @if(category == 'break-oil'){<select
+          [(ngModel)]="brand"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>Select Brand</option>
+        </select>
+        } @if(category == 'lubricant-oil'){
+        <select
+          [(ngModel)]="brand"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>Select Brand</option></select
+        >} @if(category == 'parts'){
+        <select
+          [(ngModel)]="brand"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>YAMAHA</option>
+          <option>BYBREE</option>
+          </select
+        >}
+      </div>
+      }
+
+
+
+
+
+      
+      <!--Color  -->
+      @if(category == 'body-parts'){
+
+      <div class="mb-6">
+        <h3 class="mb-2 text-lg font-bold">Color</h3>
+        <select
+          [(ngModel)]="color"
+          class="w-full px-2 py-1 bg-gray-700 rounded"
+        >
+          <option>Select Color</option>
+        </select>
+      </div>
+      }
+
+
+
+
+
+
+
+
+
+
+      
+    </aside>
+    <div class="w-3/4 pl-8 h-max">
+      <div class="flex items-center justify-between w-full mb-6">
+        <h2 class="text-2xl font-bold">{{ category }}</h2>
+        <select class="px-2 py-1 bg-gray-700 rounded">
+          <option>Default Sorting</option>
+        </select>
+      </div>
+      <app-product-list />
+    </div>
+  </div>
+</main>

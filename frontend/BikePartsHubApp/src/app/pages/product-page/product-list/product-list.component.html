@@ -1,0 +1,12 @@
+<div class="grid grid-cols-3 gap-6">
+  @for (product of products; track product.productId) {
+  <app-product-card [product]="product" />
+  }
+</div>
+<div class="flex justify-center mt-8">
+  <button class="px-3 py-1 mx-1 bg-gray-700 rounded">First Page</button>
+  <button class="px-3 py-1 mx-1 bg-gray-700 rounded">1</button>
+  <button class="px-3 py-1 mx-1 bg-orange-500 rounded">2</button>
+  <button class="px-3 py-1 mx-1 bg-gray-700 rounded">3</button>
+  <button class="px-3 py-1 mx-1 bg-gray-700 rounded">Last Page</button>
+</div>

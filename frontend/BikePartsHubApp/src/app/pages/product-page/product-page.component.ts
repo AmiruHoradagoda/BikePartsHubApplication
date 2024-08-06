@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ProductListComponent } from "./product-list/product-list.component";
 
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [],
+  imports: [ProductListComponent,FormsModule],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.css',
 })
 export class ProductPageComponent implements OnInit {
   category: string | null = null;
+  manufacturer?: string;
+  type?: string;
+  model?: string;
+  version?: string;
+  categoryType?: string;
+  brand?: string;
+  color?: string;
 
   constructor(private route: ActivatedRoute) {}
   ngOnInit(): void {
