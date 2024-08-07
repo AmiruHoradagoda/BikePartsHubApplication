@@ -13,14 +13,11 @@ import java.util.List;
 public interface ProductService {
     List<ProductGetResponseDTO> getAllProducts();
 
-    
-
-
     PaginatedResponseItemDTO getProducts(String category, String productType, String productManufacture, boolean activeState, String bikeType, String bikeModel, String bikeManufacture, String color, int page, int size);
 
     String updateProductService(ProductUpdateRequestDto productUpdateRequestDto);
 
     String deleteProduct(Long product_id);
 
-    void saveProduct(ProductSaveRequestDto productSaveRequestDto, MultipartFile imageFile) throws IOException, GeneralSecurityException;
+    void saveProduct(ProductSaveRequestDto productSaveRequestDto) ;
 }

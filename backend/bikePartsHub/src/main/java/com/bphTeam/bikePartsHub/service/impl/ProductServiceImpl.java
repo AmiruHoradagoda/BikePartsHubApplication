@@ -15,19 +15,14 @@ import com.bphTeam.bikePartsHub.mapper.ProductMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
 import com.bphTeam.bikePartsHub.repository.ProductAttributeRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
-import com.bphTeam.bikePartsHub.service.GoogleDriveService;
 import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,8 +48,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductAttributeRepo productAttributeRepo;
 
-    @Autowired
-    private GoogleDriveService googleDriveService;
 
     @Override
     public List<ProductGetResponseDTO> getAllProducts() {
@@ -64,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void saveProduct(ProductSaveRequestDto productSaveRequestDto, MultipartFile imageFile) throws IOException, GeneralSecurityException {
+    public void saveProduct(ProductSaveRequestDto productSaveRequestDto){
         Product product = productMapper.productGetResponseDtOToProductEntity(productSaveRequestDto);
         Set<ProductAttribute> productAttributes = new HashSet<>();
 
@@ -90,15 +83,6 @@ public class ProductServiceImpl implements ProductService {
 
         product.setProductAttributes(productAttributes);
 
-        // Upload image to Google Drive
-        File tempFile = File.createTempFile("temp", null);
-        imageFile.transferTo(tempFile);
-        String imageUrl = googleDriveService.uploadImageToDrive(tempFile);
-        tempFile.delete();
-
-        // Save product and image URL
-        product.setImageUrl(imageUrl);
-        productRepo.save(product);
         productAttributeRepo.saveAll(productAttributes);
     }
 

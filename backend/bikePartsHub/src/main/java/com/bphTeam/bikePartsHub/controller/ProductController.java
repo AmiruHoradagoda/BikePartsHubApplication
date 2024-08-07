@@ -49,11 +49,8 @@ public class ProductController {
         return productService.getProducts(category, productType, productManufacture, activeState, bikeType, bikeModel, bikeManufacture, color, page,size);
     }
     @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> saveProduct(@RequestPart("product") String productJson,
-                                            @RequestPart("image") MultipartFile imageFile) throws IOException, GeneralSecurityException{
-        ObjectMapper objectMapper = new ObjectMapper();
-        ProductSaveRequestDto productSaveRequestDto = objectMapper.readValue(productJson, ProductSaveRequestDto.class);
-        productService.saveProduct(productSaveRequestDto, imageFile);
+    public ResponseEntity<Void> saveProduct(@RequestBody ProductSaveRequestDto productSaveRequestDto ){
+        productService.saveProduct(productSaveRequestDto);
         return ResponseEntity.ok().build();
     }
 
