@@ -1,9 +1,9 @@
 package com.bphTeam.bikePartsHub.controller;
 
 
-import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
-import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
+
 import com.bphTeam.bikePartsHub.service.BikeService;
+import com.bphTeam.bikePartsHub.dto.response.BikeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
