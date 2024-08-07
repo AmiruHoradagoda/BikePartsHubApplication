@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.config;
+package com.bphTeam.bikePartsHub.config.security;
 
 import com.bphTeam.bikePartsHub.user.UserRepository;
 import lombok.RequiredArgsConstructor;

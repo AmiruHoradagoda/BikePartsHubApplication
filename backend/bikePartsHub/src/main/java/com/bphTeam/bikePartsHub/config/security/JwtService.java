@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.config;
+package com.bphTeam.bikePartsHub.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

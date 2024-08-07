@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.auth;
 
-import com.bphTeam.bikePartsHub.config.JwtService;
+import com.bphTeam.bikePartsHub.config.security.JwtService;
 import com.bphTeam.bikePartsHub.token.Token;
 import com.bphTeam.bikePartsHub.token.TokenRepository;
 import com.bphTeam.bikePartsHub.token.TokenType;
