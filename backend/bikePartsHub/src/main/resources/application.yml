@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: bikePartsHub
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bikepartshub_db?createDatabaseIfNotExist=true
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    show-sql: true
+
+server:
+  port: 8080
+
+
+application:
+  security:
+    jwt:
+      secret-key: 0NM991l/3c4spEXh21eRsP6VE4Yb/IQce44KVbhuLbn/aPfsFFidiCbZVYC6XMhy
+      expiration: 86400000 # a minute
+      refresh-token:
+        expiration: 166400000 # 7 days
+

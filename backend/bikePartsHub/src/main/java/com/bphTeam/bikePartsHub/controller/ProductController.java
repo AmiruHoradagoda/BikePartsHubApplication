@@ -5,15 +5,10 @@ import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
 import com.bphTeam.bikePartsHub.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
