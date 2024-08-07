@@ -41,6 +41,7 @@ public class Product {
 
     private float discount;
 
+    private String imageUrl;
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductAttribute> productAttributes = new HashSet<>();;

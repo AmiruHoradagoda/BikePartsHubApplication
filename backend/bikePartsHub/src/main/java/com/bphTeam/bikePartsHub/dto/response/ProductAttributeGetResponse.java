@@ -9,9 +9,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductAttributeResponseUpdate {
+public class ProductAttributeGetResponse {
+
     private String material;
     private String color;
     private String partNumber;
-    private Set<Long> bike_id;
+    private Set<BikeGetResponse> bikes;
+
 }

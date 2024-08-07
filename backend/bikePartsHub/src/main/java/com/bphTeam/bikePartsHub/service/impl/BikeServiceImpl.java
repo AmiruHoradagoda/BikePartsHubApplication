@@ -1,6 +1,7 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
-import com.bphTeam.bikePartsHub.dto.response.BikeResponse;
+import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.entity.Bike;
 import com.bphTeam.bikePartsHub.mapper.BikeMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
@@ -18,16 +19,16 @@ public class BikeServiceImpl implements BikeService {
     private BikeMapper bikeMapper;
 
     @Override
-    public List<BikeResponse> getAllBikeDetails() {
+    public List<BikeSaveRequestDto> getAllBikeDetails() {
         List<Bike> bike = bikeRepo.findAll();
-        List<BikeResponse> bikeResponse = bikeMapper.bikeEntityToBikeDto(bike);
+        List<BikeSaveRequestDto> bikeResponse = bikeMapper.bikeEntityToBikeSaveDtoList(bike);
 
         return bikeResponse;
     }
 
     @Override
-    public void saveBikeDetails(BikeResponse bikeResponse) {
-        Bike bike = bikeMapper.bikeDtoToBikeEntity(bikeResponse);
+    public void saveBikeDetails(BikeSaveRequestDto bikeSaveRequestDto) {
+        Bike bike = bikeMapper.bikeSaveRequestDtoToBikeEntity(bikeSaveRequestDto);
         bikeRepo.save(bike);
     }
 
@@ -41,11 +42,11 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public String updateBikeDetails(BikeResponse bikeResponse) {
-        if(!bikeRepo.existsById(bikeResponse.getBikeId())){
+    public String updateBikeDetails(Long id,BikeUpdateRequestDto bikeUpdateRequestDto) {
+        if(!bikeRepo.existsById(id)){
             throw new RuntimeException("There no such a bike");
         }
-        bikeRepo.save(bikeMapper.bikeDtoToBikeEntity(bikeResponse));
+        bikeRepo.save(bikeMapper.bikeUpdateRequestDtoToBikeEntity(bikeUpdateRequestDto));
         return "Bike details successfully updated";
     }
 
