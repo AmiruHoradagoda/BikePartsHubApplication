@@ -11,7 +11,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class ProductSaveRequestDto {
-    private long productId;
 
     private String productName;
 

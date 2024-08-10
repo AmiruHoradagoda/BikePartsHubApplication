@@ -57,17 +57,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void saveProduct(ProductSaveRequestDto productSaveRequestDto){
+    public void saveProduct(ProductSaveRequestDto productSaveRequestDto) {
+        // Convert DTO to entity
         Product product = productMapper.productGetResponseDtOToProductEntity(productSaveRequestDto);
+
+
+        // Prepare a set to keep track of product attributes
         Set<ProductAttribute> productAttributes = new HashSet<>();
-
-        if (productRepo.existsById(productSaveRequestDto.getProductId())) {
-            throw new RuntimeException("Duplicate Error");
-        }
-
         for (ProductAttributeSaveRequestDto productAttributeSaveRequestDto : productSaveRequestDto.getProductAttributes()) {
             Set<Bike> bikes = new HashSet<>();
 
+            // Process bikes
             for (Bike bike : bikeMapper.bikeSaveDtoListToBikeEntityList(productAttributeSaveRequestDto.getBikes())) {
                 if (!bikeRepo.existsById(bike.getBikeId())) {
                     bikeRepo.save(bike);
@@ -75,16 +75,22 @@ public class ProductServiceImpl implements ProductService {
                 bikes.add(bike);
             }
 
-            ProductAttribute productAttribute = productAttributeMapper. productAttributeSaveRequestDtoToProductAttributeEntity(productAttributeSaveRequestDto);
-            productAttribute.setProduct(product);
+            // Convert and associate product attribute with the saved product
+            ProductAttribute productAttribute = productAttributeMapper.productAttributeSaveRequestDtoToProductAttributeEntity(productAttributeSaveRequestDto);
+            productAttribute.setProduct(product); // Set the saved product
             productAttribute.setBikes(bikes);
             productAttributes.add(productAttribute);
         }
 
+        // Set product attributes to the saved product
         product.setProductAttributes(productAttributes);
-
+        productRepo.save(product);
+        // Save all product attributes at once
         productAttributeRepo.saveAll(productAttributes);
     }
+
+
+
 
 
     @Override

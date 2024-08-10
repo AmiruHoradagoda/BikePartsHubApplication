@@ -1,7 +1,5 @@
 package com.bphTeam.bikePartsHub.entity;
 
-
-import com.bphTeam.bikePartsHub.entity.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +20,7 @@ public class Product {
 
     private String productName;
 
-    @Enumerated(EnumType.STRING)
-    private ProductType productType;
+    private String productType;
 
     private String quantity;
 

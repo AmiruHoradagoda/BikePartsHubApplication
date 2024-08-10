@@ -1,7 +1,20 @@
 <div class="grid grid-cols-3 gap-6">
-  @for (product of products; track product.productId) {
-  <app-product-card [product]="product" />
-  }
+  @if (category === 'parts') { @for ( product of partProducts; track
+  product.productId) {
+  <app-product-card [product]="product"></app-product-card>
+  } } @if (category === 'body-parts') { @for ( product of bodyPartProducts;
+  track product.productId) {
+  <app-product-card [product]="product"></app-product-card>
+  } } @if (category === 'engine-oil') { @for ( product of enginOilProducts;
+  track product.productId) {
+  <app-product-card [product]="product"></app-product-card>
+  } } @if (category === 'break-oil') { @for ( product of brakeOilProducts; track
+  product.productId) {
+  <app-product-card [product]="product"></app-product-card>
+  } } @if (category === 'lubricant-oil') { @for ( product of lubricantProducts;
+  track product.productId) {
+  <app-product-card [product]="product"></app-product-card>
+  } }
 </div>
 <div class="flex justify-center mt-8">
   <button class="px-3 py-1 mx-1 bg-gray-700 rounded">First Page</button>
