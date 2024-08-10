@@ -4,11 +4,9 @@ import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequest
 import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
+
 
 public interface ProductService {
     List<ProductGetResponseDTO> getAllProducts();
