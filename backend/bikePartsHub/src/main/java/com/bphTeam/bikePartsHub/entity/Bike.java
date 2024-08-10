@@ -19,14 +19,10 @@ public class Bike {
     @Id
     @Column(name = "bike_id")
     private Long bikeId;
-    @Enumerated(EnumType.STRING)
-    private BikeTypes type;
-    @Enumerated(EnumType.STRING)
-    private BikeModals model;
-    @Enumerated(EnumType.STRING)
-    private BikeVersion version;
-    @Enumerated(EnumType.STRING)
-    private BikeManufactures manufacture;
+    private String type;
+    private String model;
+    private String version;
+    private String manufacture;
 
     @ManyToMany(mappedBy = "bikes")
     private Set<ProductAttribute> productAttributes;

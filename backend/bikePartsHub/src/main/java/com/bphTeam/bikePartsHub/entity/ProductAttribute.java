@@ -1,6 +1,5 @@
 package com.bphTeam.bikePartsHub.entity;
 
-import com.bphTeam.bikePartsHub.entity.enums.ProductColor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +23,7 @@ public class ProductAttribute {
 
     private String material;
 
-    @Enumerated(EnumType.STRING)
-    private ProductColor color;
+    private String color;
 
     private String partNumber;
 

@@ -6,7 +6,6 @@ import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateReque
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
 import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -43,7 +42,7 @@ public class ProductController {
 
         return productService.getProducts(category, productType, productManufacture, activeState, bikeType, bikeModel, bikeManufacture, color, page,size);
     }
-    @PostMapping(value = "/save",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/save")
     public ResponseEntity<Void> saveProduct(@RequestBody ProductSaveRequestDto productSaveRequestDto ){
         productService.saveProduct(productSaveRequestDto);
         return ResponseEntity.ok().build();
@@ -60,4 +59,5 @@ public class ProductController {
         String message = productService.deleteProduct(product_id);
         return  message;
     }
+
 }
