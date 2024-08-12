@@ -1,9 +1,5 @@
 package com.bphTeam.bikePartsHub.entity;
 
-import com.bphTeam.bikePartsHub.entity.enums.BikeManufactures;
-import com.bphTeam.bikePartsHub.entity.enums.BikeModals;
-import com.bphTeam.bikePartsHub.entity.enums.BikeTypes;
-import com.bphTeam.bikePartsHub.entity.enums.BikeVersion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
