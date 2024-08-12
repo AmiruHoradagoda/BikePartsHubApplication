@@ -10,8 +10,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class ProductAttributeUpdateRequestDto {
-    private String material;
+//    private String material;
     private String color;
-    private String partNumber;
+//    private String partNumber;
     private Set<Long> bike_id;
 }

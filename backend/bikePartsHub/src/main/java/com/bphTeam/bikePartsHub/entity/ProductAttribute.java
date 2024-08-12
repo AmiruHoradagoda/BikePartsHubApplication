@@ -21,11 +21,11 @@ public class ProductAttribute {
     @Column(name = "product_attribute_id")
     private Long productAttributeId;
 
-    private String material;
+//    private String material;
 
     private String color;
 
-    private String partNumber;
+//    private String partNumber;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

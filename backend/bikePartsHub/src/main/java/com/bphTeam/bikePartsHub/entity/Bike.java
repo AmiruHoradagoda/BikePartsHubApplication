@@ -18,6 +18,7 @@ import java.util.Set;
 public class Bike {
     @Id
     @Column(name = "bike_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bikeId;
     private String type;
     private String model;

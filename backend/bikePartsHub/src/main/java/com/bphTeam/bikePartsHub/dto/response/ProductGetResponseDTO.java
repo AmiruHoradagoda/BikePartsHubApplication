@@ -36,6 +36,10 @@ public class ProductGetResponseDTO {
 
     private float discount;
 
+    private String material;
+
+    private String partNumber;
+
     private String imageUrl;
 
     private Set<ProductAttributeGetResponse> productAttributes;

@@ -128,6 +128,8 @@ public class ProductServiceImpl implements ProductService {
         product.setAverageRating(productUpdateRequestDto.getAverageRating());
         product.setPricePerUnit(productUpdateRequestDto.getPricePerUnit());
         product.setDiscount(productUpdateRequestDto.getDiscount());
+        product.setMaterial(productUpdateRequestDto.getMaterial());
+        product.setPartNumber(productUpdateRequestDto.getPartNumber());
 
         updateProductAttributes(product, productUpdateRequestDto.getProductAttributes());
 

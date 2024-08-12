@@ -33,6 +33,10 @@ public class ProductSaveRequestDto {
 
     private float discount;
 
+    private String material;
+
+    private String partNumber;
+
     private String imageUrl;
 
     private Set<ProductAttributeSaveRequestDto> productAttributes;

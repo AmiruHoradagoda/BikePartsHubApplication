@@ -11,9 +11,9 @@ import java.util.Set;
 @Data
 public class ProductAttributeGetResponse {
 
-    private String material;
+//    private String material;
     private String color;
-    private String partNumber;
+//    private String partNumber;
     private Set<BikeGetResponse> bikes;
 
 }

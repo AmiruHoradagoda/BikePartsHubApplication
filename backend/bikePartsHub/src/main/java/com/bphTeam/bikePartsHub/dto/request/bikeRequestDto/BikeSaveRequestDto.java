@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class BikeSaveRequestDto {
-    private Long  bikeId;
     private String type;
     private String model;
     private String version;

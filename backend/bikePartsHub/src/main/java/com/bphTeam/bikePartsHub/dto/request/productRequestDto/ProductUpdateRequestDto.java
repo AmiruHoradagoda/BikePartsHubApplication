@@ -36,6 +36,10 @@ public class ProductUpdateRequestDto {
 
     private float discount;
 
+    private String material;
+
+    private String partNumber;
+
     private Set<ProductAttributeUpdateRequestDto> productAttributes;
 
 }

@@ -38,6 +38,10 @@ public class Product {
 
     private float discount;
 
+    private String material;
+
+    private String partNumber;
+
     private String imageUrl;
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
