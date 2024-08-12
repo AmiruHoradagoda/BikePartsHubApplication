@@ -1,10 +1,15 @@
 <div class="container mx-auto mt-5">
   <form [formGroup]="productFormGroup" (ngSubmit)="onSubmit()">
-    <div formGroupName="productform" class="p-4 border border-gray-300 rounded-md">
+    <div
+      formGroupName="productform"
+      class="p-4 border border-gray-300 rounded-md"
+    >
       <h2 class="mb-4 text-lg font-semibold">Product Details</h2>
 
       <div class="mb-4">
-        <label for="productName" class="block text-gray-700">Product Name:</label>
+        <label for="productName" class="block text-gray-700"
+          >Product Name:</label
+        >
         <input
           id="productName"
           formControlName="productName"
@@ -14,7 +19,9 @@
       </div>
 
       <div class="mb-4">
-        <label for="productType" class="block text-gray-700">Product Type:</label>
+        <label for="productType" class="block text-gray-700"
+          >Product Type:</label
+        >
         <input
           id="productType"
           formControlName="productType"
@@ -44,7 +51,9 @@
       </div>
 
       <div class="mb-4">
-        <label for="manufacture" class="block text-gray-700">Manufacture:</label>
+        <label for="manufacture" class="block text-gray-700"
+          >Manufacture:</label
+        >
         <input
           id="manufacture"
           formControlName="manufacture"
@@ -54,7 +63,9 @@
       </div>
 
       <div class="mb-4">
-        <label for="itemDescription" class="block text-gray-700">Item Description:</label>
+        <label for="itemDescription" class="block text-gray-700"
+          >Item Description:</label
+        >
         <textarea
           id="itemDescription"
           formControlName="itemDescription"
@@ -64,16 +75,14 @@
 
       <div class="mb-4">
         <label class="block text-gray-700">Active State:</label>
-        <input
-          type="checkbox"
-          formControlName="activeState"
-          class="mr-2"
-        />
+        <input type="checkbox" formControlName="activeState" class="mr-2" />
         Active
       </div>
 
       <div class="mb-4">
-        <label for="averageRating" class="block text-gray-700">Average Rating:</label>
+        <label for="averageRating" class="block text-gray-700"
+          >Average Rating:</label
+        >
         <input
           id="averageRating"
           formControlName="averageRating"
@@ -83,7 +92,9 @@
       </div>
 
       <div class="mb-4">
-        <label for="pricePerUnit" class="block text-gray-700">Price Per Unit:</label>
+        <label for="pricePerUnit" class="block text-gray-700"
+          >Price Per Unit:</label
+        >
         <input
           id="pricePerUnit"
           formControlName="pricePerUnit"
@@ -122,18 +133,43 @@
         />
       </div>
 
-      <div class="mb-4">
-        <label for="imageUrl" class="block text-gray-700">Image URL:</label>
+      <div class="flex flex-col items-center space-y-4">
+        <label
+          for="imageUpload"
+          class="block text-sm font-medium text-gray-700"
+        >
+          Image File
+        </label>
         <input
-          id="imageUrl"
-          formControlName="imageUrl"
-          type="text"
-          class="w-full p-2 border border-gray-300 rounded-md"
+          type="file"
+          (change)="upload($event)"
+          accept=".png,.jpg,.jpeg"
+          id="imageUpload"
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
         />
+        <button
+          (click)="uploadImage()"
+          class="w-full px-4 py-2 mt-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+        >
+          Upload Image
+        </button>
+        <p *ngIf="imageUrl" class="mt-4 text-sm text-green-600">
+          Image uploaded!
+          <a
+            [href]="imageUrl"
+            target="_blank"
+            class="text-blue-600 underline hover:text-blue-800"
+          >
+            View Image
+          </a>
+        </p>
       </div>
     </div>
 
-    <div formGroupName="productAttributeForm" class="p-4 mt-5 border border-gray-300 rounded-md">
+    <div
+      formGroupName="productAttributeForm"
+      class="p-4 mt-5 border border-gray-300 rounded-md"
+    >
       <h2 class="mb-4 text-lg font-semibold">Product Attributes</h2>
 
       <div class="mb-4">
@@ -149,7 +185,10 @@
       </div>
     </div>
 
-    <div formGroupName="bikeForm" class="p-4 mt-5 border border-gray-300 rounded-md">
+    <div
+      formGroupName="bikeForm"
+      class="p-4 mt-5 border border-gray-300 rounded-md"
+    >
       <h2 class="mb-4 text-lg font-semibold">Bike Details</h2>
 
       <div class="mb-4">
@@ -183,7 +222,9 @@
       </div>
 
       <div class="mb-4">
-        <label for="bikeManufacture" class="block text-gray-700">Manufacture:</label>
+        <label for="bikeManufacture" class="block text-gray-700"
+          >Manufacture:</label
+        >
         <input
           id="bikeManufacture"
           formControlName="manufacture"

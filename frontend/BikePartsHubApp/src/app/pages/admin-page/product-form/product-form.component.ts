@@ -10,6 +10,9 @@ import { ProductSave } from '../../../core/models/interface/Product';
 import { BikeSave } from '../../../core/models/interface/Bike';
 import { ProductAttribute } from '../../../core/models/interface/ProductAttribute';
 import { CommonModule } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-product-form',
@@ -22,9 +25,14 @@ export class ProductFormComponent {
   productFormGroup: FormGroup;
   bikeArray: BikeSave[] = [];
   colorArray: string[] = [];
+  file!: File;
+  imageUrl!: string;
   productAttributeArray: ProductAttribute[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private af: AngularFireStorage
+  ) {
     this.productFormGroup = this.formBuilder.group({
       productform: this.formBuilder.group({
         productName: new FormControl('', Validators.required),
@@ -42,7 +50,6 @@ export class ProductFormComponent {
         discount: new FormControl(0),
         material: new FormControl(''),
         partNumber: new FormControl(''),
-        imageUrl: new FormControl(''),
       }),
       productAttributeForm: this.formBuilder.group({
         color: new FormControl<string[]>([]),
@@ -56,12 +63,43 @@ export class ProductFormComponent {
     });
   }
 
+  upload($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.file = input.files[0];
+    }
+  }
+
+  uploadImage() {
+    if (!this.file) {
+      console.error('No file selected for upload');
+      return;
+    }
+
+    const filePath = `files/${Math.random()}_${this.file.name}`;
+    const fileRef = this.af.ref(filePath);
+    const task = this.af.upload(filePath, this.file);
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.imageUrl = url;
+            this.productFormGroup.get('productform.imageUrl')?.setValue(url); 
+            console.log('Download URL:', this.imageUrl);
+          });
+        })
+      )
+      .subscribe();
+  }
+
   addBike(): void {
     if (this.productFormGroup.get('bikeForm')?.valid) {
       const bikeDetails = this.productFormGroup.get('bikeForm')
         ?.value as BikeSave;
       this.bikeArray.push(bikeDetails);
-      this.productFormGroup.get('bikeForm')?.reset(); // Reset the bike form after adding
+      this.productFormGroup.get('bikeForm')?.reset(); 
     } else {
       console.error('Bike form is invalid');
     }
@@ -124,7 +162,7 @@ export class ProductFormComponent {
         discount: formValues.productform.discount,
         material: formValues.productform.material,
         partNumber: formValues.productform.partNumber,
-        imageUrl: formValues.productform.imageUrl,
+        imageUrl: this.imageUrl,
         productAttributes: this.productAttributeArray,
       };
 

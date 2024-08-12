@@ -12,7 +12,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { ProductFormComponent } from './pages/admin-page/product-form/product-form.component';
-
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireModule } from '@angular/fire/compat';
 @NgModule({
   declarations: [AppComponent, AdminPageComponent],
   imports: [
@@ -22,8 +23,18 @@ import { ProductFormComponent } from './pages/admin-page/product-form/product-fo
     HeaderComponent,
     NavComponent,
     FooterComponent,
-    ProductFormComponent
-],
+    ProductFormComponent,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp({
+      apiKey: 'AIzaSyCjRYdIsP6hnMnski-spc1pWuJwjA_7mNI',
+      authDomain: 'bikepartshubapp.firebaseapp.com',
+      projectId: 'bikepartshubapp',
+      storageBucket: 'bikepartshubapp.appspot.com',
+      messagingSenderId: '778797142877',
+      appId: '1:778797142877:web:fd53dc57fcbe02e0f8ceb4',
+      measurementId: 'G-5FKWWRNX6C',
+    }),
+  ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
 })
