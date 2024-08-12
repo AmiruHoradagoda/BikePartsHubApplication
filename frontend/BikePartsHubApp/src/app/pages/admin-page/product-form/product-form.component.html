@@ -1,0 +1,245 @@
+<div class="container mx-auto mt-5">
+  <form [formGroup]="productFormGroup" (ngSubmit)="onSubmit()">
+    <div formGroupName="productform" class="p-4 border border-gray-300 rounded-md">
+      <h2 class="mb-4 text-lg font-semibold">Product Details</h2>
+
+      <div class="mb-4">
+        <label for="productName" class="block text-gray-700">Product Name:</label>
+        <input
+          id="productName"
+          formControlName="productName"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="productType" class="block text-gray-700">Product Type:</label>
+        <input
+          id="productType"
+          formControlName="productType"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="quantity" class="block text-gray-700">Quantity:</label>
+        <input
+          id="quantity"
+          formControlName="quantity"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="category" class="block text-gray-700">Category:</label>
+        <input
+          id="category"
+          formControlName="category"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="manufacture" class="block text-gray-700">Manufacture:</label>
+        <input
+          id="manufacture"
+          formControlName="manufacture"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="itemDescription" class="block text-gray-700">Item Description:</label>
+        <textarea
+          id="itemDescription"
+          formControlName="itemDescription"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        ></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Active State:</label>
+        <input
+          type="checkbox"
+          formControlName="activeState"
+          class="mr-2"
+        />
+        Active
+      </div>
+
+      <div class="mb-4">
+        <label for="averageRating" class="block text-gray-700">Average Rating:</label>
+        <input
+          id="averageRating"
+          formControlName="averageRating"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="pricePerUnit" class="block text-gray-700">Price Per Unit:</label>
+        <input
+          id="pricePerUnit"
+          formControlName="pricePerUnit"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="discount" class="block text-gray-700">Discount:</label>
+        <input
+          id="discount"
+          formControlName="discount"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="material" class="block text-gray-700">Material:</label>
+        <input
+          id="material"
+          formControlName="material"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="partNumber" class="block text-gray-700">Part Number:</label>
+        <input
+          id="partNumber"
+          formControlName="partNumber"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="imageUrl" class="block text-gray-700">Image URL:</label>
+        <input
+          id="imageUrl"
+          formControlName="imageUrl"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+    </div>
+
+    <div formGroupName="productAttributeForm" class="p-4 mt-5 border border-gray-300 rounded-md">
+      <h2 class="mb-4 text-lg font-semibold">Product Attributes</h2>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-gray-700">Color:</label>
+        <div *ngFor="let color of ['Red', 'Blue', 'Green', 'Black', 'White']">
+          <input
+            type="checkbox"
+            (change)="onColorChange($event, color)"
+            [value]="color"
+          />
+          {{ color }}
+        </div>
+      </div>
+    </div>
+
+    <div formGroupName="bikeForm" class="p-4 mt-5 border border-gray-300 rounded-md">
+      <h2 class="mb-4 text-lg font-semibold">Bike Details</h2>
+
+      <div class="mb-4">
+        <label for="type" class="block text-gray-700">Type:</label>
+        <input
+          id="type"
+          formControlName="type"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="model" class="block text-gray-700">Model:</label>
+        <input
+          id="model"
+          formControlName="model"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="version" class="block text-gray-700">Version:</label>
+        <input
+          id="version"
+          formControlName="version"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="bikeManufacture" class="block text-gray-700">Manufacture:</label>
+        <input
+          id="bikeManufacture"
+          formControlName="manufacture"
+          type="text"
+          class="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
+      <button
+        type="button"
+        (click)="addBike()"
+        class="px-4 py-2 text-white bg-blue-500 rounded-md"
+      >
+        Add Bike
+      </button>
+    </div>
+
+    <div class="mt-5">
+      <h2 class="mb-4 text-lg font-semibold">Added Bikes</h2>
+      <table class="w-full border border-collapse border-gray-300">
+        <thead>
+          <tr>
+            <th class="p-2 border border-gray-300">Type</th>
+            <th class="p-2 border border-gray-300">Model</th>
+            <th class="p-2 border border-gray-300">Version</th>
+            <th class="p-2 border border-gray-300">Manufacture</th>
+            <th class="p-2 border border-gray-300">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bike of bikeArray; let i = index">
+            <td class="p-2 border border-gray-300">{{ bike.type }}</td>
+            <td class="p-2 border border-gray-300">{{ bike.model }}</td>
+            <td class="p-2 border border-gray-300">{{ bike.version }}</td>
+            <td class="p-2 border border-gray-300">{{ bike.manufacture }}</td>
+            <td class="p-2 border border-gray-300">
+              <button
+                type="button"
+                (click)="removeBike(i)"
+                class="px-2 py-1 text-white bg-red-500 rounded-md"
+              >
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-5">
+      <button
+        type="submit"
+        class="px-4 py-2 text-white bg-green-500 rounded-md"
+      >
+        Save Product
+      </button>
+    </div>
+  </form>
+</div>
