@@ -14,6 +14,7 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { ProductFormComponent } from './pages/admin-page/product-form/product-form.component';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireModule } from '@angular/fire/compat';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent, AdminPageComponent],
   imports: [
@@ -35,7 +36,7 @@ import { AngularFireModule } from '@angular/fire/compat';
       measurementId: 'G-5FKWWRNX6C',
     }),
   ],
-  providers: [provideClientHydration()],
+  providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
