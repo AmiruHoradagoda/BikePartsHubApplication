@@ -12,6 +12,7 @@ import { ProductAttribute } from '../../../core/models/interface/ProductAttribut
 import { CommonModule } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { AdminService } from '../admin.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class ProductFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private af: AngularFireStorage
+    private af: AngularFireStorage,
+    private adminService: AdminService
   ) {
     this.productFormGroup = this.formBuilder.group({
       productform: this.formBuilder.group({
@@ -86,7 +88,7 @@ export class ProductFormComponent {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             this.imageUrl = url;
-            this.productFormGroup.get('productform.imageUrl')?.setValue(url); 
+            this.productFormGroup.get('productform.imageUrl')?.setValue(url);
             console.log('Download URL:', this.imageUrl);
           });
         })
@@ -99,7 +101,7 @@ export class ProductFormComponent {
       const bikeDetails = this.productFormGroup.get('bikeForm')
         ?.value as BikeSave;
       this.bikeArray.push(bikeDetails);
-      this.productFormGroup.get('bikeForm')?.reset(); 
+      this.productFormGroup.get('bikeForm')?.reset();
     } else {
       console.error('Bike form is invalid');
     }
@@ -165,10 +167,13 @@ export class ProductFormComponent {
         imageUrl: this.imageUrl,
         productAttributes: this.productAttributeArray,
       };
-
-      console.log(
-        'Product saved successfully:',
-        JSON.stringify(productData, null, 2)
+      this.adminService.saveProduct(productData).subscribe(
+        (response) => {
+          console.log('Product saved successfully:', response);
+        },
+        (error) => {
+          console.error('Error saving product:', error);
+        }
       );
     } else {
       console.error('Form is invalid');
