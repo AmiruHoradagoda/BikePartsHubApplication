@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { ProductSave } from '../../../core/models/interface/Product';
-import { BikeSave } from '../../../core/models/interface/Bike';
-import { ProductAttribute } from '../../../core/models/interface/ProductAttribute';
+import { BikeGet, BikeSave } from '../../../core/models/interface/Bike';
+import { ProductAttributeSave } from '../../../core/models/interface/ProductAttribute';
 import { CommonModule } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
-import { AdminService } from '../admin.service';
-
+import { ProductService } from '../../../shared/services/product.service';
+import { ProductFormService } from './product-form.service';
 
 @Component({
   selector: 'app-product-form',
@@ -22,29 +22,42 @@ import { AdminService } from '../admin.service';
   imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./product-form.component.css'],
 })
-export class ProductFormComponent {
+export class ProductFormComponent implements OnInit {
   productFormGroup: FormGroup;
-  bikeArray: BikeSave[] = [];
+  bikeId: number[] = [];
   colorArray: string[] = [];
   file!: File;
   imageUrl!: string;
-  productAttributeArray: ProductAttribute[] = [];
+  productAttributeArray: ProductAttributeSave[] = [];
+
+  bikes: BikeGet[] = [];
+
+  bikeTypes: string[] = [];
+  bikeModels: string[] = [];
+  bikeVersions: string[] = [];
+  bikeManufactures: string[] = [];
+
+  bikeArray: BikeSave[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private af: AngularFireStorage,
-    private adminService: AdminService
+    private productService: ProductService,
+    private productFormService: ProductFormService
   ) {
     this.productFormGroup = this.formBuilder.group({
       productform: this.formBuilder.group({
         productName: new FormControl('', Validators.required),
         productType: new FormControl(''),
-        quantity: new FormControl('', Validators.required),
+        quantity: new FormControl('', [Validators.required, Validators.min(1)]),
         category: new FormControl(''),
         manufacture: new FormControl(''),
         itemDescription: new FormControl(''),
         activeState: new FormControl(true, Validators.required),
-        averageRating: new FormControl(0),
+        averageRating: new FormControl(0, [
+          Validators.min(0),
+          Validators.max(5),
+        ]),
         pricePerUnit: new FormControl(0, [
           Validators.required,
           Validators.min(0),
@@ -52,6 +65,7 @@ export class ProductFormComponent {
         discount: new FormControl(0),
         material: new FormControl(''),
         partNumber: new FormControl(''),
+        imageUrl: new FormControl(''), 
       }),
       productAttributeForm: this.formBuilder.group({
         color: new FormControl<string[]>([]),
@@ -65,14 +79,35 @@ export class ProductFormComponent {
     });
   }
 
-  upload($event: Event) {
+  ngOnInit(): void {
+    this.fetchBikes();
+  }
+
+  fetchBikes(): void {
+    this.productFormService.getBikes().subscribe(
+      (bikes: BikeGet[]) => {
+        this.bikes = bikes;
+        this.bikeTypes = [...new Set(bikes.map((bike) => bike.type))];
+        this.bikeModels = [...new Set(bikes.map((bike) => bike.model))];
+        this.bikeVersions = [...new Set(bikes.map((bike) => bike.version))];
+        this.bikeManufactures = [
+          ...new Set(bikes.map((bike) => bike.manufacture)),
+        ];
+      },
+      (error) => {
+        console.error('Error fetching bikes:', error);
+      }
+    );
+  }
+
+  upload($event: Event): void {
     const input = $event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.file = input.files[0];
     }
   }
 
-  uploadImage() {
+  uploadImage(): void {
     if (!this.file) {
       console.error('No file selected for upload');
       return;
@@ -88,7 +123,7 @@ export class ProductFormComponent {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             this.imageUrl = url;
-            this.productFormGroup.get('productform.imageUrl')?.setValue(url);
+            this.productFormGroup.get('productform.imageUrl')?.setValue(url); // Set imageUrl in the form
             console.log('Download URL:', this.imageUrl);
           });
         })
@@ -98,16 +133,40 @@ export class ProductFormComponent {
 
   addBike(): void {
     if (this.productFormGroup.get('bikeForm')?.valid) {
-      const bikeDetails = this.productFormGroup.get('bikeForm')
-        ?.value as BikeSave;
-      this.bikeArray.push(bikeDetails);
-      this.productFormGroup.get('bikeForm')?.reset();
+      const bikeDetails = this.productFormGroup.get('bikeForm')?.value;
+
+      this.productFormService
+        .getBikeId(
+          bikeDetails.type,
+          bikeDetails.model,
+          bikeDetails.version,
+          bikeDetails.manufacture
+        )
+        .subscribe(
+          (bikeId: number | null) => {
+            if (bikeId !== null) {
+              this.bikeId.push(bikeId);
+              this.bikeArray.push({
+                bikeId: bikeId, // Assuming BikeSave includes bikeId
+                ...bikeDetails,
+              });
+              this.productFormGroup.get('bikeForm')?.reset();
+              console.log('Bike ID added:', bikeId);
+            } else {
+              console.error('Bike ID not found');
+            }
+          },
+          (error) => {
+            console.error('Error fetching bike ID:', error);
+          }
+        );
     } else {
       console.error('Bike form is invalid');
     }
   }
 
   removeBike(index: number): void {
+    this.bikeId.splice(index, 1);
     this.bikeArray.splice(index, 1);
   }
 
@@ -132,9 +191,12 @@ export class ProductFormComponent {
     this.productFormGroup
       .get('productAttributeForm.color')
       ?.setValue(this.colorArray);
-    console.log(' colorArray :', this.colorArray);
+    console.log('colorArray:', this.colorArray);
   }
 
+
+
+  
   onSubmit(): void {
     console.log('Form submission triggered');
 
@@ -145,11 +207,11 @@ export class ProductFormComponent {
       this.productAttributeArray = this.colorArray.map((color) => {
         return {
           color: color,
-          bikes: [...this.bikeArray],
-        } as ProductAttribute;
+          bikeIds: [...this.bikeId], // Changed to bikeIds to match interface
+        } as unknown as ProductAttributeSave;
       });
 
-      console.log(' productAttributeArray :', this.productAttributeArray);
+      console.log('productAttributeArray:', this.productAttributeArray);
 
       const productData: ProductSave = {
         productName: formValues.productform.productName,
@@ -167,7 +229,8 @@ export class ProductFormComponent {
         imageUrl: this.imageUrl,
         productAttributes: this.productAttributeArray,
       };
-      this.adminService.saveProduct(productData).subscribe(
+      console.log(productData);
+      this.productService.saveProduct(productData).subscribe(
         (response) => {
           console.log('Product saved successfully:', response);
         },
