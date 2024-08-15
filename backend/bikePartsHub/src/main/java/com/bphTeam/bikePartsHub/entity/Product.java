@@ -22,14 +22,15 @@ public class Product {
 
     private String productType;
 
-    private String quantity;
+    private int quantity;
 
     private String category;
 
     private String manufacture;
 
     private String itemDescription;
-    @Column(name="active_state",columnDefinition = "TINYINT default 0")
+
+    @Column(name="active_state", columnDefinition = "TINYINT default 0")
     private boolean activeState;
 
     private float averageRating;
@@ -38,12 +39,14 @@ public class Product {
 
     private float discount;
 
+    private String material;
+
+    private String partNumber;
+
     private String imageUrl;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProductAttribute> productAttributes = new HashSet<>();;
-
-
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductAttribute> productAttributes = new HashSet<>();
 
     // Method to add a product attribute
     public void addProductAttribute(ProductAttribute attribute) {
@@ -56,6 +59,7 @@ public class Product {
         productAttributes.remove(attribute);
         attribute.setProduct(null);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,5 +72,4 @@ public class Product {
     public int hashCode() {
         return Objects.hash(productId);
     }
-
 }

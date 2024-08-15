@@ -2,6 +2,7 @@ package com.bphTeam.bikePartsHub.service.impl;
 
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
 import com.bphTeam.bikePartsHub.entity.Bike;
 import com.bphTeam.bikePartsHub.mapper.BikeMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
@@ -19,9 +20,9 @@ public class BikeServiceImpl implements BikeService {
     private BikeMapper bikeMapper;
 
     @Override
-    public List<BikeSaveRequestDto> getAllBikeDetails() {
+    public List<BikeGetResponse> getAllBikeDetails() {
         List<Bike> bike = bikeRepo.findAll();
-        List<BikeSaveRequestDto> bikeResponse = bikeMapper.bikeEntityToBikeSaveDtoList(bike);
+        List<BikeGetResponse> bikeResponse = bikeMapper.bikeEntityToBikeGetDtoList(bike);
 
         return bikeResponse;
     }
@@ -48,6 +49,12 @@ public class BikeServiceImpl implements BikeService {
         }
         bikeRepo.save(bikeMapper.bikeUpdateRequestDtoToBikeEntity(bikeUpdateRequestDto));
         return "Bike details successfully updated";
+    }
+
+    @Override
+    public Long getBikeId(String type, String model, String version, String manufacture) {
+        Bike bike = bikeRepo.findByTypeAndModelAndVersionAndManufacture(type, model, version, manufacture);
+        return bike != null ? bike.getBikeId() : null;
     }
 
 

@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 
 @NoArgsConstructor
@@ -21,23 +19,16 @@ public class ProductAttribute {
     @Column(name = "product_attribute_id")
     private Long productAttributeId;
 
-    private String material;
-
     private String color;
 
-    private String partNumber;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_attribute_bike",
-            joinColumns = @JoinColumn(name = "product_attribute_id"),
-            inverseJoinColumns = @JoinColumn(name = "bike_id")
-    )
-    private Set<Bike> bikes = new HashSet<>();;
+    @ManyToOne
+    @JoinColumn(name="bike_id",nullable = false)
+    private Bike bikes;
 
 
     @Override

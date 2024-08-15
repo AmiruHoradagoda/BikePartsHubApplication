@@ -42,6 +42,8 @@ public class ProductController {
 
         return productService.getProducts(category, productType, productManufacture, activeState, bikeType, bikeModel, bikeManufacture, color, page,size);
     }
+
+
     @PostMapping(value = "/save")
     public ResponseEntity<Void> saveProduct(@RequestBody ProductSaveRequestDto productSaveRequestDto ){
         productService.saveProduct(productSaveRequestDto);

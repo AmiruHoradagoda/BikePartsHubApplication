@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../product.service';
-import { Product } from '../../../core/models/interface/Product';
+import { ProductGet } from '../../../core/models/interface/Product';
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
 import { NgIf, NgFor } from '@angular/common'; // Add NgIf and NgFor for @if and @for
+import { ProductService } from '../../../shared/services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -14,13 +14,13 @@ import { NgIf, NgFor } from '@angular/common'; // Add NgIf and NgFor for @if and
 })
 export class ProductListComponent implements OnInit {
   category: string | null = null;
-  products: Product[] = [];
+  products: ProductGet[] = [];
 
-  partProducts: Product[] = [];
-  bodyPartProducts: Product[] = [];
-  enginOilProducts: Product[] = [];
-  brakeOilProducts: Product[] = [];
-  lubricantProducts: Product[] = [];
+  partProducts: ProductGet[] = [];
+  bodyPartProducts: ProductGet[] = [];
+  enginOilProducts: ProductGet[] = [];
+  brakeOilProducts: ProductGet[] = [];
+  lubricantProducts: ProductGet[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +32,7 @@ export class ProductListComponent implements OnInit {
       this.category = params.get('category');
     });
 
-    this.productService.getProducts().subscribe((data) => {
+    this.productService.getAllProducts().subscribe((data) => {
       this.products = data;
       this.filterProducts();
     });

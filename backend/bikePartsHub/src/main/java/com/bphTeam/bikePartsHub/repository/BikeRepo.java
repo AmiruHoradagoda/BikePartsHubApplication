@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BikeRepo extends JpaRepository<Bike,Long> {
+    boolean existsByTypeAndModelAndManufactureAndVersion(String type, String model, String manufacture, String version);
+    Bike findByTypeAndModelAndVersionAndManufacture(String type, String model, String version, String manufacture);
 }
