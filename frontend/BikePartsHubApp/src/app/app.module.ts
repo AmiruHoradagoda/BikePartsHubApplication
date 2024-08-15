@@ -15,6 +15,7 @@ import { ProductFormComponent } from './pages/admin-page/product-form/product-fo
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { ProductFilterSidebarComponent } from './pages/product-page/product-filter-sidebar/product-filter-sidebar.component';
 @NgModule({
   declarations: [AppComponent, AdminPageComponent],
   imports: [

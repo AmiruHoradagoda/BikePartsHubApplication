@@ -12,3 +12,20 @@ export interface BikeSave {
   version: string;
   manufacture: string;
 }
+
+
+export interface BikeGet{
+  bikeId:number
+  type: string;
+  model: string;
+  version: string;
+  manufacture: string;
+}
+
+export interface BikeUpdate {
+  type: string;
+  model: string;
+  version: string;
+  manufacture: string;
+}
+

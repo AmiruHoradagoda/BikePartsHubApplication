@@ -185,7 +185,7 @@
       </div>
     </div>
 
-    <div
+  <div
       formGroupName="bikeForm"
       class="p-4 mt-5 border border-gray-300 rounded-md"
     >
@@ -193,44 +193,46 @@
 
       <div class="mb-4">
         <label for="type" class="block text-gray-700">Type:</label>
-        <input
+        <select
           id="type"
           formControlName="type"
-          type="text"
           class="w-full p-2 border border-gray-300 rounded-md"
-        />
+        >
+          <option *ngFor="let type of bikeTypes" [value]="type">{{ type }}</option>
+        </select>
       </div>
 
       <div class="mb-4">
         <label for="model" class="block text-gray-700">Model:</label>
-        <input
+        <select
           id="model"
           formControlName="model"
-          type="text"
           class="w-full p-2 border border-gray-300 rounded-md"
-        />
+        >
+          <option *ngFor="let model of bikeModels" [value]="model">{{ model }}</option>
+        </select>
       </div>
 
       <div class="mb-4">
         <label for="version" class="block text-gray-700">Version:</label>
-        <input
+        <select
           id="version"
           formControlName="version"
-          type="text"
           class="w-full p-2 border border-gray-300 rounded-md"
-        />
+        >
+          <option *ngFor="let version of bikeVersions" [value]="version">{{ version }}</option>
+        </select>
       </div>
 
       <div class="mb-4">
-        <label for="bikeManufacture" class="block text-gray-700"
-          >Manufacture:</label
-        >
-        <input
+        <label for="bikeManufacture" class="block text-gray-700">Manufacture:</label>
+        <select
           id="bikeManufacture"
           formControlName="manufacture"
-          type="text"
           class="w-full p-2 border border-gray-300 rounded-md"
-        />
+        >
+          <option *ngFor="let manufacture of bikeManufactures" [value]="manufacture">{{ manufacture }}</option>
+        </select>
       </div>
 
       <button
@@ -242,6 +244,7 @@
       </button>
     </div>
 
+    <!-- Added Bikes Table -->
     <div class="mt-5">
       <h2 class="mb-4 text-lg font-semibold">Added Bikes</h2>
       <table class="w-full border border-collapse border-gray-300">
@@ -273,6 +276,7 @@
         </tbody>
       </table>
     </div>
+
 
     <div class="mt-5">
       <button
