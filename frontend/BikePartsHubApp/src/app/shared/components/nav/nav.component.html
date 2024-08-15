@@ -1,57 +1,49 @@
 <nav class="py-4 text-white bg-gray-900">
-  <ul class="flex justify-center space-x-48">
-    <li><a routerLink="/home" class="hover:text-orange-500">Home</a></li>
-    <li class="relative group">
-      <button class="hover:text-orange-500">Products</button>
-      <div
-        id="dropdownNavbar"
-        class="absolute left-0 z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 group-hover:block"
-      >
-        <ul
-          class="py-2 text-sm text-gray-700 dark:text-gray-200"
-          aria-labelledby="dropdownLargeButton"
-        >
-          <li>
-            <a
-              href="/products?category=parts"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >Parts</a
-            >
-          </li>
-          <li>
-            <a
-              href="/products?category=body-parts"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >Body Parts</a
-            >
-          </li>
-          <li>
-            <a
-              href="/products?category=engine-oil"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >Engine Oil</a
-            >
-          </li>
-          <li>
-            <a
-              href="/products?category=break-oil"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >Break Oil</a
-            >
-          </li>
-          <li>
-            <a
-              href="/products?category=lubricant-oil"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >Lubricant Oil</a
-            >
-          </li>
-        </ul>
-      </div>
-    </li>
-    <li>
-      <a routerLink="/services" class="hover:text-orange-500">Services</a>
-    </li>
-    <li><a routerLink="/aboutus" class="hover:text-orange-500">About us</a></li>
-  </ul>
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+      
+      <ul class="hidden md:flex md:space-x-8 lg:space-x-12 xl:space-x-16 justify-center w-full">
+        <li><a routerLink="/home" class="hover:text-orange-500">Home</a></li>
+        <li class="relative group">
+          <button class="hover:text-orange-500">Products</button>
+          <div id="dropdownNavbar" class="absolute left-0 z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 group-hover:block">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
+              <li><a href="/products?category=parts" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Parts</a></li>
+              <li><a href="/products?category=body-parts" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Body Parts</a></li>
+              <li><a href="/products?category=engine-oil" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Engine Oil</a></li>
+              <li><a href="/products?category=break-oil" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Break Oil</a></li>
+              <li><a href="/products?category=lubricant-oil" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Lubricant Oil</a></li>
+            </ul>
+          </div>
+        </li>
+        <li><a routerLink="/services" class="hover:text-orange-500">Services</a></li>
+        <li><a routerLink="/aboutus" class="hover:text-orange-500">About us</a></li>
+      </ul>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div class="hidden md:hidden mt-4" id="mobile-menu">
+      <ul class="flex flex-col space-y-4">
+        <li><a routerLink="/home" class="block hover:text-orange-500">Home</a></li>
+        <li class="relative">
+          <button class="w-full text-left hover:text-orange-500" id="mobile-products-button">Products</button>
+          <ul class="hidden pl-4 mt-2 space-y-2" id="mobile-products-menu">
+            <li><a href="/products?category=parts" class="block hover:text-orange-500">Parts</a></li>
+            <li><a href="/products?category=body-parts" class="block hover:text-orange-500">Body Parts</a></li>
+            <li><a href="/products?category=engine-oil" class="block hover:text-orange-500">Engine Oil</a></li>
+            <li><a href="/products?category=break-oil" class="block hover:text-orange-500">Break Oil</a></li>
+            <li><a href="/products?category=lubricant-oil" class="block hover:text-orange-500">Lubricant Oil</a></li>
+          </ul>
+        </li>
+        <li><a routerLink="/services" class="block hover:text-orange-500">Services</a></li>
+        <li><a routerLink="/aboutus" class="block hover:text-orange-500">About us</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
+

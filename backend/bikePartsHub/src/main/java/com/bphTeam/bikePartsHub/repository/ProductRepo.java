@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepo extends JpaRepository<Product,Long>, JpaSpecificationExecutor<Product> {
-    Page<Product> findAllByActiveStateEquals(boolean activeState, Specification<Product> products, Pageable pageable);
+public interface ProductRepo extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
+    Page<Product> findAllByActiveStateEquals(boolean activeState, Pageable pageable);
 
     int countAllByActiveStateEquals(boolean activeState);
 }

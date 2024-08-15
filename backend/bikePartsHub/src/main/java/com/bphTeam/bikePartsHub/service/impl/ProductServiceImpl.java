@@ -1,9 +1,10 @@
 package com.bphTeam.bikePartsHub.service.impl;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
-import com.bphTeam.bikePartsHub.dto.pagenated.ProductSpecification;
 import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
+import com.bphTeam.bikePartsHub.dto.response.ProductAttributeGetResponse;
 import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.entity.Bike;
@@ -19,13 +20,13 @@ import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Join;
+import java.util.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,11 +34,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    @Autowired
-    private ProductAttributeMapper productAttributeMapper;
-
-    @Autowired
-    private BikeMapper bikeMapper;
 
     @Autowired
     private ProductRepo productRepo;
@@ -45,116 +41,138 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BikeRepo bikeRepo;
 
-    @Autowired
-    private ProductAttributeRepo productAttributeRepo;
 
 
     @Override
     public List<ProductGetResponseDTO> getAllProducts() {
         List<Product> products = productRepo.findAll();
-        return productMapper.productEntityToProductGetResponseDTO(products);
+        List<ProductGetResponseDTO> productGetResponseDTOS = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductGetResponseDTO productGetResponseDTO = new ProductGetResponseDTO();
+            productGetResponseDTO.setProductId(product.getProductId());
+            productGetResponseDTO.setProductName(product.getProductName());
+            productGetResponseDTO.setProductType(product.getProductType());
+            productGetResponseDTO.setQuantity(product.getQuantity());
+            productGetResponseDTO.setCategory(product.getCategory());
+            productGetResponseDTO.setManufacture(product.getManufacture());
+            productGetResponseDTO.setItemDescription(product.getItemDescription());
+            productGetResponseDTO.setActiveState(product.isActiveState());
+            productGetResponseDTO.setAverageRating(product.getAverageRating());
+            productGetResponseDTO.setPricePerUnit(product.getPricePerUnit());
+            productGetResponseDTO.setDiscount(product.getDiscount());
+            productGetResponseDTO.setMaterial(product.getMaterial());
+            productGetResponseDTO.setPartNumber(product.getPartNumber());
+            productGetResponseDTO.setImageUrl(product.getImageUrl());
+
+            Set<ProductAttributeGetResponse> productAttributeGetResponses = new HashSet<>();
+            for (ProductAttribute productAttribute : product.getProductAttributes()) {
+                ProductAttributeGetResponse productAttributeGetResponse = new ProductAttributeGetResponse();
+                productAttributeGetResponse.setColor(productAttribute.getColor());
+
+                Set<BikeGetResponse> bikeGetResponses = new HashSet<>();
+                Bike bike = productAttribute.getBikes();
+                if (bike != null) {
+                    BikeGetResponse bikeGetResponse = new BikeGetResponse();
+                    bikeGetResponse.setBikeId(bike.getBikeId());
+                    bikeGetResponse.setType(bike.getType());
+                    bikeGetResponse.setModel(bike.getModel());
+                    bikeGetResponse.setVersion(bike.getVersion());
+                    bikeGetResponse.setManufacture(bike.getManufacture());
+                    bikeGetResponses.add(bikeGetResponse);
+                }
+                productAttributeGetResponse.setBikes(bikeGetResponses);
+                productAttributeGetResponses.add(productAttributeGetResponse);
+            }
+            productGetResponseDTO.setProductAttributes(productAttributeGetResponses);
+
+            productGetResponseDTOS.add(productGetResponseDTO);
+        }
+        return productGetResponseDTOS;
     }
 
     @Transactional
     @Override
     public void saveProduct(ProductSaveRequestDto productSaveRequestDto) {
         // Convert DTO to entity
-        Product product = productMapper.productGetResponseDtOToProductEntity(productSaveRequestDto);
-
+        Product product = productMapper.productSaveRequestDtoToProductEntity(productSaveRequestDto);
 
         // Prepare a set to keep track of product attributes
         Set<ProductAttribute> productAttributes = new HashSet<>();
-        for (ProductAttributeSaveRequestDto productAttributeSaveRequestDto : productSaveRequestDto.getProductAttributes()) {
-            Set<Bike> bikes = new HashSet<>();
 
-            // Process bikes
-            for (Bike bike : bikeMapper.bikeSaveDtoListToBikeEntityList(productAttributeSaveRequestDto.getBikes())) {
-                if (!bikeRepo.existsById(bike.getBikeId())) {
-                    bikeRepo.save(bike);
-                }
-                bikes.add(bike);
+        // Loop through each ProductAttributeSaveRequestDto in the request
+        for (ProductAttributeSaveRequestDto attributeDto : productSaveRequestDto.getProductAttributes()) {
+            for (Long bikeId : attributeDto.getBikeIds()) {
+                // Retrieve the Bike entity by ID
+                Bike bike = bikeRepo.findById(bikeId)
+                        .orElseThrow(() -> new RuntimeException("Bike not found with ID: " + bikeId));
+
+                // Create a new ProductAttribute entity
+                ProductAttribute productAttribute = new ProductAttribute();
+                productAttribute.setColor(attributeDto.getColor());
+                productAttribute.setBikes(bike);
+                productAttribute.setProduct(product);
+
+                // Add to the set of product attributes
+                productAttributes.add(productAttribute);
             }
-
-            // Convert and associate product attribute with the saved product
-            ProductAttribute productAttribute = productAttributeMapper.productAttributeSaveRequestDtoToProductAttributeEntity(productAttributeSaveRequestDto);
-            productAttribute.setProduct(product); // Set the saved product
-            productAttribute.setBikes(bikes);
-            productAttributes.add(productAttribute);
         }
 
-        // Set product attributes to the saved product
+        // Set the product attributes to the product entity
         product.setProductAttributes(productAttributes);
+
+        // Save the product entity (this will cascade and save the product attributes)
         productRepo.save(product);
-        // Save all product attributes at once
-        productAttributeRepo.saveAll(productAttributes);
     }
 
-
-
-
-
-    @Override
-    public PaginatedResponseItemDTO getProducts(String category, String productType, String productManufacture, boolean activeState, String bikeType, String bikeModel, String bikeManufacture, String color, int page, int size) {
-        Page<Product> products = productRepo.findAll(ProductSpecification.getProducts(activeState, category, productType, productManufacture, bikeType, bikeModel, bikeManufacture, color), PageRequest.of(page, size));
-        int count = productRepo.countAllByActiveStateEquals(activeState);
-
-        if (products.getSize() < 1) {
-            throw new NotFoundException("No Data");
-        } else {
-            PaginatedResponseItemDTO paginatedResponseItemDTO = new PaginatedResponseItemDTO(
-                    productMapper.productEntityToPaginatedProductGetResponseDTO(products),
-                    count
-            );
-
-            return paginatedResponseItemDTO;
-        }
-    }
 
     @Transactional
     @Override
-    public String updateProductService(ProductUpdateRequestDto productUpdateRequestDto) {
-        if (!productRepo.existsById(productUpdateRequestDto.getProductId())) {
-            throw new RuntimeException("No data found for that ID");
-        }
+    public String updateProductService(ProductUpdateRequestDto updateRequest) {
+        // Retrieve the existing product by ID
+        Product existingProduct = productRepo.findById(updateRequest.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + updateRequest.getProductId()));
 
-        Product product = productRepo.getReferenceById(productUpdateRequestDto.getProductId());
+        // Update the product fields
+        existingProduct.setProductName(updateRequest.getProductName());
+        existingProduct.setProductType(updateRequest.getProductType());
+        existingProduct.setQuantity(updateRequest.getQuantity());
+        existingProduct.setCategory(updateRequest.getCategory());
+        existingProduct.setManufacture(updateRequest.getManufacture());
+        existingProduct.setItemDescription(updateRequest.getItemDescription());
+        existingProduct.setActiveState(updateRequest.isActiveState());
+        existingProduct.setAverageRating(updateRequest.getAverageRating());
+        existingProduct.setPricePerUnit(updateRequest.getPricePerUnit());
+        existingProduct.setDiscount(updateRequest.getDiscount());
+        existingProduct.setMaterial(updateRequest.getMaterial());
+        existingProduct.setPartNumber(updateRequest.getPartNumber());
+        existingProduct.setImageUrl(updateRequest.getImageUrl());
 
-        product.setProductName(productUpdateRequestDto.getProductName());
-        product.setQuantity(productUpdateRequestDto.getQuantity());
-        product.setCategory(productUpdateRequestDto.getCategory());
-        product.setManufacture(productUpdateRequestDto.getManufacture());
-        product.setItemDescription(productUpdateRequestDto.getItemDescription());
-        product.setActiveState(productUpdateRequestDto.isActiveState());
-        product.setAverageRating(productUpdateRequestDto.getAverageRating());
-        product.setPricePerUnit(productUpdateRequestDto.getPricePerUnit());
-        product.setDiscount(productUpdateRequestDto.getDiscount());
+        // Clear the existing product attributes
+        existingProduct.getProductAttributes().clear();
 
-        updateProductAttributes(product, productUpdateRequestDto.getProductAttributes());
+        // Loop through each ProductAttributeUpdateRequestDto in the request
+        for (ProductAttributeUpdateRequestDto attributeDto : updateRequest.getProductAttributes()) {
+            for (Long bikeId : attributeDto.getBike_id()) {
+                // Retrieve the Bike entity by ID
+                Bike bike = bikeRepo.findById(bikeId)
+                        .orElseThrow(() -> new RuntimeException("Bike not found with ID: " + bikeId));
 
-        productRepo.save(product);
-        return "Product Update Successfully";
-    }
+                // Create a new ProductAttribute entity
+                ProductAttribute productAttribute = new ProductAttribute();
+                productAttribute.setColor(attributeDto.getColor());
+                productAttribute.setBikes(bike);
+                productAttribute.setProduct(existingProduct);
 
-    private void updateProductAttributes(Product product, Set<ProductAttributeUpdateRequestDto> productAttributeResponseUpdates) {
-        product.getProductAttributes().clear();
-
-        for (ProductAttributeUpdateRequestDto dto : productAttributeResponseUpdates) {
-            Set<Bike> bikes = new HashSet<>();
-
-            for (Long bikeId : dto.getBike_id()) {
-                if (!bikeRepo.existsById(bikeId)) {
-                    throw new RuntimeException("No Such a Bike");
-                }
-                bikes.add(bikeRepo.getReferenceById(bikeId));
+                // Add to the existing product attributes
+                existingProduct.getProductAttributes().add(productAttribute);
             }
-
-            ProductAttributeSaveRequestDto productAttributeSaveRequestDto = productAttributeMapper.productAttributeUpdateRequestToProductAttributeSaveResponse(dto);
-            productAttributeSaveRequestDto.setBikes(bikeMapper.BikeEntityListToBikeSaveDtoList(bikes));
-            ProductAttribute attribute = productAttributeMapper.productAttributeSaveDtoToProductAttributeEntity(productAttributeSaveRequestDto);
-            attribute.setProduct(product);
-            attribute.setBikes(bikes);
-            product.getProductAttributes().add(attribute);
         }
+
+        // Save the updated product entity (this will cascade and save the product attributes)
+        productRepo.save(existingProduct);
+
+        return "Product updated successfully";
     }
 
     @Override
@@ -165,4 +183,87 @@ public class ProductServiceImpl implements ProductService {
         productRepo.deleteById(product_id);
         return "Product delete Successfully";
     }
+
+    @Override
+    public PaginatedResponseItemDTO getProducts(String category, String productType, String productManufacture, boolean activeState, String bikeType, String bikeModel, String bikeManufacture, String color, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepo.findAll(
+                (root, query, criteriaBuilder) -> {
+                    List<Predicate> predicates = new ArrayList<>();
+                    if (category != null) {
+                        predicates.add(criteriaBuilder.equal(root.get("category"), category));
+                    }
+                    if (productType != null) {
+                        predicates.add(criteriaBuilder.equal(root.get("productType"), productType));
+                    }
+                    if (productManufacture != null) {
+                        predicates.add(criteriaBuilder.equal(root.get("manufacture"), productManufacture));
+                    }
+                    if (activeState) {
+                        predicates.add(criteriaBuilder.isTrue(root.get("activeState")));
+                    }
+                    if (bikeType != null || bikeModel != null || bikeManufacture != null || color != null) {
+                        Join<Product, ProductAttribute> productAttributeJoin = root.join("productAttributes");
+                        if (bikeType != null) {
+                            predicates.add(criteriaBuilder.equal(productAttributeJoin.get("bikes").get("type"), bikeType));
+                        }
+                        if (bikeModel != null) {
+                            predicates.add(criteriaBuilder.equal(productAttributeJoin.get("bikes").get("model"), bikeModel));
+                        }
+                        if (bikeManufacture != null) {
+                            predicates.add(criteriaBuilder.equal(productAttributeJoin.get("bikes").get("manufacture"), bikeManufacture));
+                        }
+                        if (color != null) {
+                            predicates.add(criteriaBuilder.equal(productAttributeJoin.get("color"), color));
+                        }
+                    }
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+                }, pageable);
+
+        List<ProductGetResponseDTO> productGetResponseDTOS = new ArrayList<>();
+        for (Product product : productPage.getContent()) {
+            ProductGetResponseDTO productGetResponseDTO = new ProductGetResponseDTO();
+            productGetResponseDTO.setProductId(product.getProductId());
+            productGetResponseDTO.setProductName(product.getProductName());
+            productGetResponseDTO.setProductType(product.getProductType());
+            productGetResponseDTO.setQuantity(product.getQuantity());
+            productGetResponseDTO.setCategory(product.getCategory());
+            productGetResponseDTO.setManufacture(product.getManufacture());
+            productGetResponseDTO.setItemDescription(product.getItemDescription());
+            productGetResponseDTO.setActiveState(product.isActiveState());
+            productGetResponseDTO.setAverageRating(product.getAverageRating());
+            productGetResponseDTO.setPricePerUnit(product.getPricePerUnit());
+            productGetResponseDTO.setDiscount(product.getDiscount());
+            productGetResponseDTO.setMaterial(product.getMaterial());
+            productGetResponseDTO.setPartNumber(product.getPartNumber());
+            productGetResponseDTO.setImageUrl(product.getImageUrl());
+
+            Set<ProductAttributeGetResponse> productAttributeGetResponses = new HashSet<>();
+            for (ProductAttribute productAttribute : product.getProductAttributes()) {
+                ProductAttributeGetResponse productAttributeGetResponse = new ProductAttributeGetResponse();
+                productAttributeGetResponse.setColor(productAttribute.getColor());
+
+                Set<BikeGetResponse> bikeGetResponses = new HashSet<>();
+                Bike bike = productAttribute.getBikes();
+                if (bike != null) {
+                    BikeGetResponse bikeGetResponse = new BikeGetResponse();
+                    bikeGetResponse.setBikeId(bike.getBikeId());
+                    bikeGetResponse.setType(bike.getType());
+                    bikeGetResponse.setModel(bike.getModel());
+                    bikeGetResponse.setVersion(bike.getVersion());
+                    bikeGetResponse.setManufacture(bike.getManufacture());
+                    bikeGetResponses.add(bikeGetResponse);
+                }
+                productAttributeGetResponse.setBikes(bikeGetResponses);
+                productAttributeGetResponses.add(productAttributeGetResponse);
+            }
+            productGetResponseDTO.setProductAttributes(productAttributeGetResponses);
+
+            productGetResponseDTOS.add(productGetResponseDTO);
+        }
+
+        return new PaginatedResponseItemDTO(productGetResponseDTOS, productPage.getTotalElements());
+    }
+
+
 }

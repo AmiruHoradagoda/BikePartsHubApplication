@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ProductService } from '../../../shared/services/product.service';
+import { BikeService } from '../../../shared/services/bike.service';
 import { Observable, Subject } from 'rxjs';
-import { Product } from '../../core/models/interface/Product';
-import { Bike } from '../../core/models/interface/Bike';
-
+import { Bike } from '../../../core/models/interface/Bike';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class ProductService {
+export class ProductFilterSidebarService {
+
   private apiUrl: string = 'http://localhost:8080';
 
   private partCategory = new Set<string>();
@@ -33,20 +34,19 @@ export class ProductService {
 
   private filtersLoaded = new Subject<void>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private productService: ProductService,
+    private bikeService: BikeService
+  ) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(
-      `${this.apiUrl}/api/v1/product/getAllProducts`
-    );
-  }
 
   getBikes(): Observable<Bike[]> {
     return this.http.get<Bike[]>(`${this.apiUrl}/api/v1/bikes/getAllBikes`);
   }
 
   getFilterList(): void {
-    this.getProducts().subscribe((products) => {
+    this.productService.getAllProducts().subscribe((products) => {
       // Clear previous data
       this.partCategory.clear();
       this.partBrand.clear();
@@ -87,7 +87,7 @@ export class ProductService {
         }
       }
 
-      this.getBikes().subscribe((bikes) => {
+      this.bikeService.getBikes().subscribe((bikes) => {
         for (const bike of bikes) {
           this.bikeModel.add(bike.model);
           this.bikeManufacture.add(bike.manufacture);
@@ -161,20 +161,5 @@ export class ProductService {
     return this.filtersLoaded.asObservable();
   }
 
-  // Additional methods if needed
-  getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/api/v1/product/${id}`);
-  }
 
-  getProductsByCategory(category: string): Observable<Product[]> {
-    return this.http.get<Product[]>(
-      `${this.apiUrl}/api/v1/product/getProductsByCategory/${category}`
-    );
-  }
-
-  searchProducts(query: string): Observable<Product[]> {
-    return this.http.get<Product[]>(
-      `${this.apiUrl}/api/v1/product/searchProducts?q=${query}`
-    );
-  }
 }
