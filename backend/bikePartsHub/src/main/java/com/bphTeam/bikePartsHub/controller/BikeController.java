@@ -3,6 +3,7 @@ package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
 import com.bphTeam.bikePartsHub.service.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class BikeController {
     }
 
     @GetMapping("/getAllBikes")
-    private ResponseEntity<List<BikeSaveRequestDto>>getAllBikeDetails(){
-        List<BikeSaveRequestDto> bikeResponse = bikeService.getAllBikeDetails();
+    private ResponseEntity<List<BikeGetResponse>>getAllBikeDetails(){
+        List<BikeGetResponse> bikeResponse = bikeService.getAllBikeDetails();
         return ResponseEntity.ok(bikeResponse);
     }
 
@@ -39,6 +40,14 @@ public class BikeController {
         return message;
     }
 
+    @GetMapping("/getBikeId")
+    public Long getBikeId(
+            @RequestParam String type,
+            @RequestParam String model,
+            @RequestParam String version,
+            @RequestParam String manufacture) {
+        return bikeService.getBikeId(type, model, version, manufacture);
+    }
 
     @DeleteMapping("/delete")
     private  String deleteBikeDetails(@RequestBody Long bike_id){

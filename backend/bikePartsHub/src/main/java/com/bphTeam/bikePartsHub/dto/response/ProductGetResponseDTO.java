@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -18,14 +19,13 @@ public class ProductGetResponseDTO {
 
     private  String productType;
 
-    private String quantity;
+    private int quantity;
 
     private String category;
 
     private String manufacture;
 
     private String itemDescription;
-    @Column(name="active_state",columnDefinition = "TINYINT default 0")
 
     private boolean activeState;
 
