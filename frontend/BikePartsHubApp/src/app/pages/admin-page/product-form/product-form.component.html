@@ -253,7 +253,9 @@
           </option>
         </select>
       </div>
-
+      <div *ngIf="bikeIdNotFoundMessage" class="mb-4 text-red-600">
+        {{ bikeIdNotFoundMessage }}
+      </div>
       <button
         type="button"
         (click)="addBike()"

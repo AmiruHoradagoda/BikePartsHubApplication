@@ -38,6 +38,7 @@ export class ProductFormComponent implements OnInit {
   bikeManufactures: string[] = [];
 
   bikeArray: BikeSave[] = [];
+  bikeIdNotFoundMessage: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,7 +66,7 @@ export class ProductFormComponent implements OnInit {
         discount: new FormControl(0),
         material: new FormControl(''),
         partNumber: new FormControl(''),
-        imageUrl: new FormControl(''), 
+        imageUrl: new FormControl(''),
       }),
       productAttributeForm: this.formBuilder.group({
         color: new FormControl<string[]>([]),
@@ -147,20 +148,26 @@ export class ProductFormComponent implements OnInit {
             if (bikeId !== null) {
               this.bikeId.push(bikeId);
               this.bikeArray.push({
-                bikeId: bikeId, // Assuming BikeSave includes bikeId
+                bikeId: bikeId,
                 ...bikeDetails,
               });
               this.productFormGroup.get('bikeForm')?.reset();
+              this.bikeIdNotFoundMessage = null; // Clear any previous error message
               console.log('Bike ID added:', bikeId);
             } else {
+              this.bikeIdNotFoundMessage = 'No such bike found.';
               console.error('Bike ID not found');
             }
           },
           (error) => {
+            this.bikeIdNotFoundMessage =
+              'Error fetching bike ID. Please try again.';
             console.error('Error fetching bike ID:', error);
           }
         );
     } else {
+      this.bikeIdNotFoundMessage =
+        'Bike form is invalid. Please fill in all required fields.';
       console.error('Bike form is invalid');
     }
   }
@@ -194,9 +201,6 @@ export class ProductFormComponent implements OnInit {
     console.log('colorArray:', this.colorArray);
   }
 
-
-
-  
   onSubmit(): void {
     console.log('Form submission triggered');
 
