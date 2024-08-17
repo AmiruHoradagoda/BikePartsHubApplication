@@ -1,11 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductFilterSidebarService } from './product-filter-sidebar.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-filter-sidebar',
   standalone: true,
+  imports: [FormsModule,CommonModule],
   templateUrl: './product-filter-sidebar.component.html',
-  styleUrl: './product-filter-sidebar.component.css',
+  styleUrls: ['./product-filter-sidebar.component.css'],
 })
 export class ProductFilterSidebarComponent implements OnInit {
   partCategories: string[] = [];
@@ -24,7 +27,39 @@ export class ProductFilterSidebarComponent implements OnInit {
   bikeVersions: string[] = [];
   bikeManufactures: string[] = [];
 
-  @Input() category: string | null = null;
+  partCategorie: string = "";
+  partBrand: string = "";
+  bodyPartsCategorie: string = "";
+  bodyPartsBrand: string = "";
+  bodyPartsColor: string = "";
+  engineOilCategorie: string = "";
+  engineOilBrand: string = "";
+  brakeOilCategorie: string = "";
+  brakeOilBrand: string = "";
+  lubricantBrand: string = "";
+
+  bikeType: string = "";
+  bikeModel: string = "";
+  bikeVersion: string = "";
+  bikeManufacture: string = "";
+
+  @Input() productType: string | null = null;
+  @Output() partsFilterInfo = new EventEmitter<{
+    partCategorie?: string;
+    partBrand?: string;
+    bodyPartsCategorie?: string;
+    bodyPartsBrand?: string;
+    bodyPartsColor?: string;
+    engineOilCategorie?: string;
+    engineOilBrand?: string;
+    brakeOilCategorie?: string;
+    brakeOilBrand?: string;
+    lubricantBrand?: string;
+    bikeType?: string;
+    bikeModel?: string;
+    bikeVersion?: string;
+    bikeManufacture?: string;
+  }>();
 
   constructor(private productSidebarService: ProductFilterSidebarService) {}
 
@@ -48,9 +83,42 @@ export class ProductFilterSidebarComponent implements OnInit {
       this.bikeModels = this.productSidebarService.getBikeModel();
       this.bikeVersions = this.productSidebarService.getBikeVersion();
       this.bikeManufactures = this.productSidebarService.getBikeManufacture();
+
+    });
+  }
+
+  applyFilters(): void {
+    console.log('Filters applied: ', {
+      partCategorie: this.partCategorie,
+      partBrand: this.partBrand,
+      bodyPartsCategorie: this.bodyPartsCategorie,
+      bodyPartsBrand: this.bodyPartsBrand,
+      bodyPartsColor: this.bodyPartsColor,
+      engineOilCategorie: this.engineOilCategorie,
+      engineOilBrand: this.engineOilBrand,
+      brakeOilCategorie: this.brakeOilCategorie,
+      brakeOilBrand: this.brakeOilBrand,
+      lubricantBrand: this.lubricantBrand,
+      bikeType: this.bikeType,
+      bikeModel: this.bikeModel,
+      bikeVersion: this.bikeVersion,
+      bikeManufacture: this.bikeManufacture,
+    });
+    this.partsFilterInfo.emit({
+      partCategorie: this.partCategorie,
+      partBrand: this.partBrand,
+      bodyPartsCategorie: this.bodyPartsCategorie,
+      bodyPartsBrand: this.bodyPartsBrand,
+      bodyPartsColor: this.bodyPartsColor,
+      engineOilCategorie: this.engineOilCategorie,
+      engineOilBrand: this.engineOilBrand,
+      brakeOilCategorie: this.brakeOilCategorie,
+      brakeOilBrand: this.brakeOilBrand,
+      lubricantBrand: this.lubricantBrand,
+      bikeType: this.bikeType,
+      bikeModel: this.bikeModel,
+      bikeVersion: this.bikeVersion,
+      bikeManufacture: this.bikeManufacture,
     });
   }
 }
-
- 
-
