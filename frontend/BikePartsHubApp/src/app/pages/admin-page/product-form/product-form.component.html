@@ -22,12 +22,17 @@
         <label for="productType" class="block text-gray-700"
           >Product Type:</label
         >
-        <input
+        <select
           id="productType"
           formControlName="productType"
-          type="text"
           class="w-full p-2 border border-gray-300 rounded-md"
-        />
+        >
+          <option value="PARTS">Part</option>
+          <option value="BODY_PARTS">Body Part</option>
+          <option value="ENGINE_OIL">Engine Oil</option>
+          <option value="BRAKE_OIL">Brake Oil</option>
+          <option value="LUBRICANT">Lubricant</option>
+        </select>
       </div>
 
       <div class="mb-4">
@@ -148,6 +153,7 @@
           class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
         />
         <button
+          type="button"
           (click)="uploadImage()"
           class="w-full px-4 py-2 mt-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
         >
@@ -185,7 +191,7 @@
       </div>
     </div>
 
-  <div
+    <div
       formGroupName="bikeForm"
       class="p-4 mt-5 border border-gray-300 rounded-md"
     >
@@ -198,7 +204,9 @@
           formControlName="type"
           class="w-full p-2 border border-gray-300 rounded-md"
         >
-          <option *ngFor="let type of bikeTypes" [value]="type">{{ type }}</option>
+          <option *ngFor="let type of bikeTypes" [value]="type">
+            {{ type }}
+          </option>
         </select>
       </div>
 
@@ -209,7 +217,9 @@
           formControlName="model"
           class="w-full p-2 border border-gray-300 rounded-md"
         >
-          <option *ngFor="let model of bikeModels" [value]="model">{{ model }}</option>
+          <option *ngFor="let model of bikeModels" [value]="model">
+            {{ model }}
+          </option>
         </select>
       </div>
 
@@ -220,18 +230,27 @@
           formControlName="version"
           class="w-full p-2 border border-gray-300 rounded-md"
         >
-          <option *ngFor="let version of bikeVersions" [value]="version">{{ version }}</option>
+          <option *ngFor="let version of bikeVersions" [value]="version">
+            {{ version }}
+          </option>
         </select>
       </div>
 
       <div class="mb-4">
-        <label for="bikeManufacture" class="block text-gray-700">Manufacture:</label>
+        <label for="bikeManufacture" class="block text-gray-700"
+          >Manufacture:</label
+        >
         <select
           id="bikeManufacture"
           formControlName="manufacture"
           class="w-full p-2 border border-gray-300 rounded-md"
         >
-          <option *ngFor="let manufacture of bikeManufactures" [value]="manufacture">{{ manufacture }}</option>
+          <option
+            *ngFor="let manufacture of bikeManufactures"
+            [value]="manufacture"
+          >
+            {{ manufacture }}
+          </option>
         </select>
       </div>
 
@@ -276,7 +295,6 @@
         </tbody>
       </table>
     </div>
-
 
     <div class="mt-5">
       <button
