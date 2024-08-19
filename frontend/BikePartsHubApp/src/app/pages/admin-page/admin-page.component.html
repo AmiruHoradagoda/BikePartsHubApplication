@@ -1,7 +1,9 @@
-<main class="w-screen px-8 py-8 mx-auto text-white bg-gray-800">
-  <div class="flex flex-col h-screen md:flex-row">
-    <app-admin-side-navbar />
-    <div class="flex-1 p-4 overflow-y-auto">
+<main class="w-screen h-screen px-8 py-8 mx-auto text-white bg-gray-800">
+  <div class="flex h-full">
+    <div class="sticky top-0 h-full">
+      <app-admin-side-navbar />
+    </div>
+    <div class="flex-1 h-full p-4 overflow-y-auto">
       <router-outlet />
     </div>
   </div>

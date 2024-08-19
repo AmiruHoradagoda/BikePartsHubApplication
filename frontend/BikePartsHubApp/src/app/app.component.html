@@ -1,4 +1,4 @@
-<app-header />
-<app-nav />
-<router-outlet />
-<app-footer />
+<app-header *ngIf="!isAdminPage"></app-header>
+<app-nav *ngIf="!isAdminPage"></app-nav>
+<router-outlet></router-outlet>
+<app-footer *ngIf="!isAdminPage"></app-footer>
