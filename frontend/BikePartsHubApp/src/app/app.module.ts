@@ -16,6 +16,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { AdminSideNavbarComponent } from "./pages/admin-page/admin-side-navbar/admin-side-navbar.component";
 import { ProductFormComponent } from "./pages/admin-page/product-form/product-form.component";
+import { SearchBarComponent } from './shared/components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [AppComponent, AdminPageComponent],
@@ -37,7 +38,8 @@ import { ProductFormComponent } from "./pages/admin-page/product-form/product-fo
         measurementId: 'G-5FKWWRNX6C',
     }),
     AdminSideNavbarComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    SearchBarComponent
 ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
