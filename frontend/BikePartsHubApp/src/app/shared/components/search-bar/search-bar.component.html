@@ -1,0 +1,47 @@
+<div class="relative w-full max-w-lg">
+  <form (ngSubmit)="hideDropdown()">
+    <div
+      class="flex justify-between overflow-hidden bg-gray-800 rounded-lg shadow-lg"
+    >
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="What are you looking for?"
+        class="flex-1 block w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-l-lg focus:outline-none"
+        name="search"
+      />
+      <button
+        class="absolute top-0 right-0 px-4 py-2 text-white bg-orange-500 rounded-r"
+      >
+        <i class="text-white fas fa-search"></i>
+      </button>
+    </div>
+  </form>
+
+  <div
+    *ngIf="isDropdownVisible && searchResults.length"
+    class="absolute w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60"
+  >
+    <div
+      *ngFor="let result of searchResults; let i = index"
+      [ngClass]="{
+        'bg-gray-800': i % 2 === 0,
+        'bg-gray-900': i % 2 !== 0
+      }"
+      class="flex items-center p-3 transition-all duration-200 cursor-pointer hover:bg-gray-600"
+    >
+      <img
+        [src]="result.imageUrl"
+        [alt]="result.productName"
+        class="object-cover w-16 h-16 mr-3 rounded-md"
+      />
+      <div class="flex items-center justify-between flex-1">
+        <p class="pl-6 text-sm font-semibold text-white">
+          {{ result.productName }}
+        </p>
+        <span class="text-sm text-green-500">In stock</span>
+      </div>
+    </div>
+  </div>
+</div>

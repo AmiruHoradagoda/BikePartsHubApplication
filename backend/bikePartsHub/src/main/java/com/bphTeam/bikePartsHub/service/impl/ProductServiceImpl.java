@@ -7,14 +7,12 @@ import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
 import com.bphTeam.bikePartsHub.dto.response.ProductAttributeGetResponse;
 import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto;
 import com.bphTeam.bikePartsHub.entity.Bike;
 import com.bphTeam.bikePartsHub.entity.Product;
 import com.bphTeam.bikePartsHub.entity.ProductAttribute;
-import com.bphTeam.bikePartsHub.mapper.BikeMapper;
-import com.bphTeam.bikePartsHub.mapper.ProductAttributeMapper;
 import com.bphTeam.bikePartsHub.mapper.ProductMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
-import com.bphTeam.bikePartsHub.repository.ProductAttributeRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
 import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +121,14 @@ public class ProductServiceImpl implements ProductService {
 
         // Save the product entity (this will cascade and save the product attributes)
         productRepo.save(product);
+    }
+
+    @Override
+    public List<ProductSearchResponseDto> getProductsByName(String productName, boolean activeState, int size) {
+        // Ensure the page size does not exceed 10
+        Pageable pageable = PageRequest.of(0, Math.min(size, 10));
+        Page<ProductSearchResponseDto> page = productRepo.findProductsByNameAndActiveState(productName, activeState, pageable);
+        return page.getContent();
     }
 
 

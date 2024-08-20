@@ -1,0 +1,28 @@
+<div class="overflow-hidden bg-gray-700 rounded-lg">
+  <img
+    [src]="product.imageUrl"
+    [alt]="product.productName"
+    class="object-cover w-full h-48"
+  />
+  <div class="p-4">
+    <h3 class="mb-2 font-bold">{{ product.productName }}</h3>
+    <p class="mb-2 text-lg font-bold">{{ product.manufacture }}</p>
+    <div class="flex items-center justify-between mt-2">
+      <span class="px-2 py-1 text-sm text-white bg-green-500 rounded"
+        >In Stock</span
+      >
+      <div>
+        <button
+          class="px-2 py-1 mr-2 text-white bg-orange-500 rounded hover:bg-orange-600"
+        >
+          Edit Item
+        </button>
+        <button
+          class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

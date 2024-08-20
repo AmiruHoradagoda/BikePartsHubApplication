@@ -4,6 +4,7 @@ import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequest
 import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
+import com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto;
 import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,19 @@ public class ProductController {
 
         return productService.getProducts(category, productType, productManufacture, activeState, bikeType, bikeModel, bikeManufacture, color, page,size);
     }
+
+    @GetMapping("/getProductsByName")
+    public ResponseEntity<List<ProductSearchResponseDto>> getProductsByName(
+
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) boolean activeState,
+            @RequestParam(defaultValue = "10") int size) {
+
+        List<ProductSearchResponseDto> productSearchResponse =productService.getProductsByName(productName, activeState,size);
+
+        return ResponseEntity.ok(productSearchResponse);
+    }
+
 
 
     @PostMapping(value = "/save")

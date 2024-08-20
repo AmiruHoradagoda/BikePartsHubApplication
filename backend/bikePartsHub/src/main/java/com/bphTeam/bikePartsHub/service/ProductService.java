@@ -4,6 +4,8 @@ import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequest
 import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
+import com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -18,4 +20,6 @@ public interface ProductService {
      String deleteProduct(Long product_id);
 
     void saveProduct(ProductSaveRequestDto productSaveRequestDto) ;
+
+   List<ProductSearchResponseDto> getProductsByName(String productName, boolean activeState, int size);
 }
