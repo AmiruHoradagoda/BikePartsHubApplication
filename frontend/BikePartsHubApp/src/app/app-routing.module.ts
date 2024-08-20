@@ -5,6 +5,7 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
 import { ProductFormComponent } from './pages/admin-page/product-form/product-form.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { AdminOverviewComponent } from './pages/admin-page/admin-overview/admin-overview.component';
+import { AdminProductsComponent } from './pages/admin-page/admin-products/admin-products.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,7 +27,14 @@ const routes: Routes = [
       // { path: 'reports', component: ReportsComponent }, // Assuming you have this component
       // { path: 'scheduleds', component: ScheduledsComponent }, // Assuming you have this component
       // { path: 'requests', component: RequestsComponent }, // Assuming you have this component
-      { path: 'add-product', component: ProductFormComponent },
+      {
+        path: 'product',
+        component: AdminProductsComponent,
+      },
+      {
+        path: 'add-product',
+        component: ProductFormComponent,
+      },
       // { path: 'services', component: ServicesComponent }, // Assuming you have this component
       // { path: 'details', component: DetailsComponent }, // Assuming you have this component
       { path: '', redirectTo: 'overview', pathMatch: 'full' },

@@ -16,7 +16,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { AdminSideNavbarComponent } from "./pages/admin-page/admin-side-navbar/admin-side-navbar.component";
 import { ProductFormComponent } from "./pages/admin-page/product-form/product-form.component";
-import { SearchBarComponent } from './shared/components/search-bar/search-bar.component';
+import { AdminProductCardComponent } from './pages/admin-page/admin-products/admin-product-card/admin-product-card.component';
+
 
 @NgModule({
   declarations: [AppComponent, AdminPageComponent],
@@ -39,7 +40,6 @@ import { SearchBarComponent } from './shared/components/search-bar/search-bar.co
     }),
     AdminSideNavbarComponent,
     ProductFormComponent,
-    SearchBarComponent
 ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
