@@ -12,5 +12,6 @@ import java.util.List;
 public interface ProductMapper {
 
     Product productSaveRequestDtoToProductEntity(ProductSaveRequestDto productSaveRequestDto);
+//    ProductGetResponseDTO productEntityToProductGetResponseDTO(Product product);
 
 }

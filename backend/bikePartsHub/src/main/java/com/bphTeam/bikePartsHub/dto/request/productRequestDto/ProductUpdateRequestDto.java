@@ -13,8 +13,6 @@ import java.util.Set;
 @Data
 public class ProductUpdateRequestDto {
 
-    private long productId;
-
     private String productName;
 
     private  String productType;

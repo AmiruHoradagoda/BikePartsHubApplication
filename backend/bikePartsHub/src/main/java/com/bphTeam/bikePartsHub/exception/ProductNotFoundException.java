@@ -1,12 +1,10 @@
 package com.bphTeam.bikePartsHub.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public ResourceNotFoundException(String message) {
+    public ProductNotFoundException(String message) {
         super(message);
     }
-
-
 }

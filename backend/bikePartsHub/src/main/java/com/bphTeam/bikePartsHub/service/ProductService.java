@@ -15,11 +15,13 @@ public interface ProductService {
 
     PaginatedResponseItemDTO getProducts(String category, String productType, String productManufacture, boolean activeState, String bikeType, String bikeModel, String bikeManufacture, String color, int page, int size);
 
-    String updateProductService(ProductUpdateRequestDto productUpdateRequestDto);
+    String updateProductService(Long productId,ProductUpdateRequestDto productUpdateRequestDto);
 
      String deleteProduct(Long product_id);
 
     void saveProduct(ProductSaveRequestDto productSaveRequestDto) ;
 
    List<ProductSearchResponseDto> getProductsByName(String productName, boolean activeState, int size);
+
+    ProductGetResponseDTO getProductById(Long productId);
 }

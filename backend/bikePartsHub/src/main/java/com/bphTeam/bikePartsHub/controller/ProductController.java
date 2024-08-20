@@ -56,6 +56,11 @@ public class ProductController {
         return ResponseEntity.ok(productSearchResponse);
     }
 
+    @GetMapping("/getProductById")
+    public ResponseEntity<ProductGetResponseDTO> getProductsById(Long productId){
+        ProductGetResponseDTO productGetResponseDTO = productService.getProductById(productId);
+        return ResponseEntity.ok(productGetResponseDTO);
+    }
 
 
     @PostMapping(value = "/save")
@@ -65,8 +70,8 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public String updateProductDetails(@RequestBody ProductUpdateRequestDto productUpdateRequestDto){
-        String message = productService.updateProductService(productUpdateRequestDto);
+    public String updateProductDetails(Long productId,@RequestBody ProductUpdateRequestDto productUpdateRequestDto){
+        String message = productService.updateProductService(productId,productUpdateRequestDto);
         return message;
     }
 

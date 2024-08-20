@@ -11,6 +11,8 @@ import com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto;
 import com.bphTeam.bikePartsHub.entity.Bike;
 import com.bphTeam.bikePartsHub.entity.Product;
 import com.bphTeam.bikePartsHub.entity.ProductAttribute;
+import com.bphTeam.bikePartsHub.exception.BikeNotFoundException;
+import com.bphTeam.bikePartsHub.exception.ProductNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ProductMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
@@ -89,6 +91,49 @@ public class ProductServiceImpl implements ProductService {
         return productGetResponseDTOS;
     }
 
+    public ProductGetResponseDTO getProductById(Long productId) {
+        Product product = productRepo.getReferenceById(productId);
+
+        ProductGetResponseDTO productGetResponseDTO = new ProductGetResponseDTO();
+        productGetResponseDTO.setProductId(product.getProductId());
+        productGetResponseDTO.setProductName(product.getProductName());
+        productGetResponseDTO.setProductType(product.getProductType());
+        productGetResponseDTO.setQuantity(product.getQuantity());
+        productGetResponseDTO.setCategory(product.getCategory());
+        productGetResponseDTO.setManufacture(product.getManufacture());
+        productGetResponseDTO.setItemDescription(product.getItemDescription());
+        productGetResponseDTO.setActiveState(product.isActiveState());
+        productGetResponseDTO.setAverageRating(product.getAverageRating());
+        productGetResponseDTO.setPricePerUnit(product.getPricePerUnit());
+        productGetResponseDTO.setDiscount(product.getDiscount());
+        productGetResponseDTO.setMaterial(product.getMaterial());
+        productGetResponseDTO.setPartNumber(product.getPartNumber());
+        productGetResponseDTO.setImageUrl(product.getImageUrl());
+
+        Set<ProductAttributeGetResponse> productAttributeGetResponses = new HashSet<>();
+        for (ProductAttribute productAttribute : product.getProductAttributes()) {
+            ProductAttributeGetResponse productAttributeGetResponse = new ProductAttributeGetResponse();
+            productAttributeGetResponse.setColor(productAttribute.getColor());
+
+            Set<BikeGetResponse> bikeGetResponses = new HashSet<>();
+            Bike bike = productAttribute.getBikes();
+            if (bike != null) {
+                BikeGetResponse bikeGetResponse = new BikeGetResponse();
+                bikeGetResponse.setBikeId(bike.getBikeId());
+                bikeGetResponse.setType(bike.getType());
+                bikeGetResponse.setModel(bike.getModel());
+                bikeGetResponse.setVersion(bike.getVersion());
+                bikeGetResponse.setManufacture(bike.getManufacture());
+                bikeGetResponses.add(bikeGetResponse);
+            }
+            productAttributeGetResponse.setBikes(bikeGetResponses);
+            productAttributeGetResponses.add(productAttributeGetResponse);
+        }
+        productGetResponseDTO.setProductAttributes(productAttributeGetResponses);
+
+        return productGetResponseDTO;
+    }
+
     @Transactional
     @Override
     public void saveProduct(ProductSaveRequestDto productSaveRequestDto) {
@@ -131,13 +176,12 @@ public class ProductServiceImpl implements ProductService {
         return page.getContent();
     }
 
-
     @Transactional
     @Override
-    public String updateProductService(ProductUpdateRequestDto updateRequest) {
+    public String updateProductService(Long productId, ProductUpdateRequestDto updateRequest) {
         // Retrieve the existing product by ID
-        Product existingProduct = productRepo.findById(updateRequest.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + updateRequest.getProductId()));
+        Product existingProduct = productRepo.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + productId));
 
         // Update the product fields
         existingProduct.setProductName(updateRequest.getProductName());
@@ -158,20 +202,24 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.getProductAttributes().clear();
 
         // Loop through each ProductAttributeUpdateRequestDto in the request
-        for (ProductAttributeUpdateRequestDto attributeDto : updateRequest.getProductAttributes()) {
-            for (Long bikeId : attributeDto.getBike_id()) {
-                // Retrieve the Bike entity by ID
-                Bike bike = bikeRepo.findById(bikeId)
-                        .orElseThrow(() -> new RuntimeException("Bike not found with ID: " + bikeId));
+        if (updateRequest.getProductAttributes() != null) {
+            for (ProductAttributeUpdateRequestDto attributeDto : updateRequest.getProductAttributes()) {
+                if (attributeDto.getBike_id() != null) {
+                    for (Long bikeId : attributeDto.getBike_id()) {
+                        // Retrieve the Bike entity by ID
+                        Bike bike = bikeRepo.findById(bikeId)
+                                .orElseThrow(() -> new BikeNotFoundException("Bike not found with ID: " + bikeId));
 
-                // Create a new ProductAttribute entity
-                ProductAttribute productAttribute = new ProductAttribute();
-                productAttribute.setColor(attributeDto.getColor());
-                productAttribute.setBikes(bike);
-                productAttribute.setProduct(existingProduct);
+                        // Create a new ProductAttribute entity
+                        ProductAttribute productAttribute = new ProductAttribute();
+                        productAttribute.setColor(attributeDto.getColor());
+                        productAttribute.setBikes(bike);
+                        productAttribute.setProduct(existingProduct);
 
-                // Add to the existing product attributes
-                existingProduct.getProductAttributes().add(productAttribute);
+                        // Add to the existing product attributes
+                        existingProduct.getProductAttributes().add(productAttribute);
+                    }
+                }
             }
         }
 
@@ -180,6 +228,7 @@ public class ProductServiceImpl implements ProductService {
 
         return "Product updated successfully";
     }
+
 
     @Override
     public String deleteProduct(Long product_id) {
