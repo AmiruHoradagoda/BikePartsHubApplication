@@ -27,7 +27,7 @@
         ></textarea>
       </div>
 
-      <!--  -->
+
       <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">
         <div class="mb-4">
           <label for="productType" class="block text-orange-500"
@@ -182,6 +182,7 @@
           <div *ngFor="let color of ['Red', 'Blue', 'Green', 'Black', 'White']">
             <input
               type="checkbox"
+              [checked]="colorArray.includes(color)"
               (change)="onColorChange($event, color)"
               [value]="color"
             />

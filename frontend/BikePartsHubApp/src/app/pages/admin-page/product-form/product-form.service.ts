@@ -3,6 +3,7 @@ import { BikeService } from '../../../shared/services/bike.service';
 import { Observable } from 'rxjs';
 import { Bike } from '../../../core/models/interface/Bike';
 import { HttpClient } from '@angular/common/http';
+import { ProductGet } from '../../../core/models/interface/Product';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,6 @@ export class ProductFormService {
     version: string,
     manufacture: string
   ): Observable<number | null> {
- 
     const url = `${
       this.apiUrl
     }/api/v1/bikes/getBikeId?type=${encodeURIComponent(
@@ -38,5 +38,14 @@ export class ProductFormService {
 
     // Perform the GET request and return the observable
     return this.http.get<number | null>(url);
+  }
+
+  getProductById(productId: string): Observable<ProductGet> {
+    return this.http.get<ProductGet>(
+      `${this.apiUrl}/api/v1/product/getProductById`,
+      {
+        params: { productId },
+      }
+    );
   }
 }

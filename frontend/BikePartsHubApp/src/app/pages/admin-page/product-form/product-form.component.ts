@@ -6,7 +6,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ProductSave } from '../../../core/models/interface/Product';
+import {
+  ProductGet,
+  ProductSave,
+} from '../../../core/models/interface/Product';
 import { BikeGet, BikeSave } from '../../../core/models/interface/Bike';
 import { ProductAttributeSave } from '../../../core/models/interface/ProductAttribute';
 import { CommonModule } from '@angular/common';
@@ -14,6 +17,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { ProductService } from '../../../shared/services/product.service';
 import { ProductFormService } from './product-form.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-form',
@@ -44,7 +48,8 @@ export class ProductFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private af: AngularFireStorage,
     private productService: ProductService,
-    private productFormService: ProductFormService
+    private productFormService: ProductFormService,
+    private route: ActivatedRoute
   ) {
     this.productFormGroup = this.formBuilder.group({
       productform: this.formBuilder.group({
@@ -81,9 +86,59 @@ export class ProductFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const productId = params.get('id');
+      if (productId) {
+        this.loadProductDetails(productId);
+      }
+    });
     this.fetchBikes();
   }
+  loadProductDetails(productId: string): void {
+    this.productFormService.getProductById(productId).subscribe(
+      (product: ProductGet) => {
+        this.productFormGroup.get('productform')?.patchValue({
+          productName: product.productName,
+          productType: product.productType,
+          quantity: product.quantity,
+          category: product.category,
+          manufacture: product.manufacture,
+          itemDescription: product.itemDescription,
+          activeState: product.activeState,
+          averageRating: product.averageRating,
+          pricePerUnit: product.pricePerUnit,
+          discount: product.discount,
+          material: product.material,
+          partNumber: product.partNumber,
+          imageUrl: product.imageUrl,
+        });
 
+        // Initialize the arrays with unique bikes
+        this.bikeArray = [];
+        product.productAttributes.forEach((attr) => {
+          attr.bikes.forEach((bike) => {
+            if (this.isBikeUnique(bike, this.bikeArray)) {
+              this.bikeArray.push(bike);
+            }
+          });
+        });
+
+        this.colorArray = product.productAttributes.map((attr) => attr.color);
+      },
+      (error) => {
+        console.error('Error loading product details:', error);
+      }
+    );
+  }
+  isBikeUnique(bike: BikeSave, existingBikes: BikeSave[]): boolean {
+    return !existingBikes.some(
+      (existingBike) =>
+        existingBike.type === bike.type &&
+        existingBike.model === bike.model &&
+        existingBike.version === bike.version &&
+        existingBike.manufacture === bike.manufacture
+    );
+  }
   fetchBikes(): void {
     this.productFormService.getBikes().subscribe(
       (bikes: BikeGet[]) => {

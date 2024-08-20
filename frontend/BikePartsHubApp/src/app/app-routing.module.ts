@@ -35,6 +35,10 @@ const routes: Routes = [
         path: 'add-product',
         component: ProductFormComponent,
       },
+      {
+        path: 'update-product/:id',
+        component: ProductFormComponent,
+      },
       // { path: 'services', component: ServicesComponent }, // Assuming you have this component
       // { path: 'details', component: DetailsComponent }, // Assuming you have this component
       { path: '', redirectTo: 'overview', pathMatch: 'full' },

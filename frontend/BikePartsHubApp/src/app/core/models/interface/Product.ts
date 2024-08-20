@@ -1,4 +1,4 @@
-import { ProductAttribute, ProductAttributeSave } from './ProductAttribute';
+import { ProductAttribute, ProductAttributeGet, ProductAttributeSave } from './ProductAttribute';
 
 
 export interface ProductSave {
@@ -34,7 +34,7 @@ export interface ProductGet {
   material: string;
   partNumber: string;
   imageUrl: string;
-  productAttributes: ProductAttribute[];
+  productAttributes: ProductAttributeGet[];
 }
 
 
