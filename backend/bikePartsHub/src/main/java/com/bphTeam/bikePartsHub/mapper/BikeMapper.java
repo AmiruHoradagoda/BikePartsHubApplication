@@ -20,4 +20,5 @@ public interface BikeMapper {
 
     List<BikeGetResponse> bikeEntityToBikeGetDtoList(List<Bike> bike);
 
+    BikeGetResponse bikeEntityToBikeGetDto(Bike bike);
 }

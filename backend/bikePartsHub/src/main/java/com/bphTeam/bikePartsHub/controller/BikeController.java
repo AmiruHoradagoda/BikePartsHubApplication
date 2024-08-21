@@ -49,6 +49,13 @@ public class BikeController {
         return bikeService.getBikeId(type, model, version, manufacture);
     }
 
+    @GetMapping("/getBikeById")
+    public ResponseEntity<BikeGetResponse> getBikeById(
+            @RequestParam Long bikeId) {
+        BikeGetResponse bikeResponse = bikeService.getBikeById(bikeId);
+        return ResponseEntity.ok(bikeResponse);
+    }
+
     @DeleteMapping("/delete")
     private  String deleteBikeDetails(@RequestBody Long bike_id){
         String message = bikeService.deleteBikeDetails(bike_id);

@@ -57,5 +57,12 @@ public class BikeServiceImpl implements BikeService {
         return bike != null ? bike.getBikeId() : null;
     }
 
+    @Override
+    public BikeGetResponse getBikeById(Long bikeId) {
+        Bike bike   = bikeRepo.getReferenceById(bikeId);
+        BikeGetResponse bikeGetResponse = bikeMapper.bikeEntityToBikeGetDto(bike);
+        return bikeGetResponse;
+    }
+
 
 }
