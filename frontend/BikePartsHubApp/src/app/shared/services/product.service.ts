@@ -61,15 +61,6 @@ export class ProductService {
     );
   }
 
-  // Update an existing product
-  updateProductDetails(
-    productUpdateRequestDto: ProductUpdate
-  ): Observable<string> {
-    return this.http.put<string>(
-      `${this.apiUrl}/api/v1/product/update`,
-      productUpdateRequestDto
-    );
-  }
 
   // Delete a product by its ID
   deleteProductDetails(productId: number): Observable<string> {

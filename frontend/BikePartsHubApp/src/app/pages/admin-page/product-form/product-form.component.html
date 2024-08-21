@@ -301,12 +301,13 @@
     </div>
 
     <div class="mt-5">
-      <button
-        type="submit"
-        class="px-4 py-2 text-white bg-green-500 rounded-md"
-      >
-        Save Product
-      </button>
-    </div>
+  <button
+    type="submit"
+    class="px-4 py-2 text-white bg-green-500 rounded-md"
+  >
+    {{ productId ? 'Update Product' : 'Save Product' }}
+  </button>
+</div>
+
   </form>
 </div>

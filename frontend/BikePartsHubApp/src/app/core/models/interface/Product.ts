@@ -39,6 +39,7 @@ export interface ProductGet {
 
 
 export interface ProductUpdate {
+  productId: number;
   productName: string;
   productType: string;
   quantity: number;
@@ -52,5 +53,5 @@ export interface ProductUpdate {
   material: string;
   partNumber: string;
   imageUrl: string;
-  productAttributes: ProductAttribute[];
+  productAttributes: ProductAttributeSave[];
 }

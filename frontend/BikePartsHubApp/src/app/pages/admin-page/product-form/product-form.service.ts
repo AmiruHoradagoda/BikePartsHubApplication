@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BikeService } from '../../../shared/services/bike.service';
 import { Observable } from 'rxjs';
-import { Bike } from '../../../core/models/interface/Bike';
+import { Bike, BikeGet } from '../../../core/models/interface/Bike';
 import { HttpClient } from '@angular/common/http';
-import { ProductGet } from '../../../core/models/interface/Product';
+import { ProductGet, ProductSave, ProductUpdate } from '../../../core/models/interface/Product';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +46,21 @@ export class ProductFormService {
       {
         params: { productId },
       }
+    );
+  }
+  saveProduct(productSaveRequestDto: ProductSave): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/api/v1/product/save`,
+      productSaveRequestDto
+    );
+  }
+  updateProductDetails(
+    productId: string,
+    productUpdateRequestDto: ProductUpdate
+  ): Observable<string> {
+    return this.http.put<string>(
+      `${this.apiUrl}/api/v1/product/update?productId=${productId}`, // Append productId to the URL
+      productUpdateRequestDto
     );
   }
 }

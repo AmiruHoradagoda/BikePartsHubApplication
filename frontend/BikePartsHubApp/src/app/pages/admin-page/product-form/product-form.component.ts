@@ -9,6 +9,7 @@ import {
 import {
   ProductGet,
   ProductSave,
+  ProductUpdate,
 } from '../../../core/models/interface/Product';
 import { BikeGet, BikeSave } from '../../../core/models/interface/Bike';
 import { ProductAttributeSave } from '../../../core/models/interface/ProductAttribute';
@@ -18,6 +19,7 @@ import { finalize } from 'rxjs/operators';
 import { ProductService } from '../../../shared/services/product.service';
 import { ProductFormService } from './product-form.service';
 import { ActivatedRoute } from '@angular/router';
+import { BikeService } from '../../../shared/services/bike.service';
 
 @Component({
   selector: 'app-product-form',
@@ -28,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductFormComponent implements OnInit {
   productFormGroup: FormGroup;
+  productId = this.route.snapshot.paramMap.get('id');
   bikeId: number[] = [];
   colorArray: string[] = [];
   file!: File;
@@ -49,6 +52,7 @@ export class ProductFormComponent implements OnInit {
     private af: AngularFireStorage,
     private productService: ProductService,
     private productFormService: ProductFormService,
+    private bikeService: BikeService,
     private route: ActivatedRoute
   ) {
     this.productFormGroup = this.formBuilder.group({
@@ -94,9 +98,11 @@ export class ProductFormComponent implements OnInit {
     });
     this.fetchBikes();
   }
+
   loadProductDetails(productId: string): void {
     this.productFormService.getProductById(productId).subscribe(
       (product: ProductGet) => {
+        // Patch product details into the form
         this.productFormGroup.get('productform')?.patchValue({
           productName: product.productName,
           productType: product.productType,
@@ -113,16 +119,22 @@ export class ProductFormComponent implements OnInit {
           imageUrl: product.imageUrl,
         });
 
-        // Initialize the arrays with unique bikes
+        // Reset bike arrays
         this.bikeArray = [];
+        this.bikeId = [];
+
+        // Populate bike details and bike IDs
         product.productAttributes.forEach((attr) => {
           attr.bikes.forEach((bike) => {
+            // Add unique bikes to the bikeArray and bikeId
             if (this.isBikeUnique(bike, this.bikeArray)) {
               this.bikeArray.push(bike);
+              this.bikeId.push(bike.bikeId); 
             }
           });
         });
 
+        // Populate color array
         this.colorArray = product.productAttributes.map((attr) => attr.color);
       },
       (error) => {
@@ -130,6 +142,7 @@ export class ProductFormComponent implements OnInit {
       }
     );
   }
+
   isBikeUnique(bike: BikeSave, existingBikes: BikeSave[]): boolean {
     return !existingBikes.some(
       (existingBike) =>
@@ -289,14 +302,35 @@ export class ProductFormComponent implements OnInit {
         productAttributes: this.productAttributeArray,
       };
       console.log(productData);
-      this.productService.saveProduct(productData).subscribe(
-        (response) => {
-          console.log('Product saved successfully:', response);
-        },
-        (error) => {
-          console.error('Error saving product:', error);
-        }
-      );
+
+      const productId = this.route.snapshot.paramMap.get('id');
+      if (productId) {
+        // If a product ID exists in the route, update the product
+        const updateData: ProductUpdate = {
+          productId: Number(productId),
+          ...productData,
+        };
+        this.productFormService
+          .updateProductDetails(productId, updateData)
+          .subscribe(
+            (response) => {
+              console.log('Product updated successfully:', response);
+            },
+            (error) => {
+              console.error('Error updating product:', error);
+            }
+          );
+      } else {
+        // If no product ID is in the route, save the product as a new one
+        this.productService.saveProduct(productData).subscribe(
+          (response) => {
+            console.log('Product saved successfully:', response);
+          },
+          (error) => {
+            console.error('Error saving product:', error);
+          }
+        );
+      }
     } else {
       console.error('Form is invalid');
     }
