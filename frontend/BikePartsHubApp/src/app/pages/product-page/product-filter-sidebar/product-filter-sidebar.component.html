@@ -1,11 +1,6 @@
-<aside class="w-full pr-8">
-  <button
-    (click)="applyFilters()"
-    class="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
-  >
-    Filter Apply
-  </button>
-
+<aside
+  class=" min-w-72 px-4 py-4 bg-[#1A242E] flex flex-col justify-between sticky top-16 border-transparent rounded-lg shadow-lg shadow-indigo-900-700-500/40"
+>
   <!--Manufacturer  -->
   @if(productType == 'PARTS' || productType == 'BODY_PARTS'){
 
@@ -184,4 +179,11 @@
     </select>
   </div>
   }
+
+  <button
+    (click)="applyFilters()"
+    class="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+  >
+    Filter Apply
+  </button>
 </aside>
