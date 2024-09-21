@@ -1,4 +1,6 @@
-<div class="overflow-hidden text-black bg-white rounded-lg shadow-xl shadow-bl-950/40">
+<div
+  class="overflow-hidden text-black bg-white rounded-lg shadow-xl shadow-bl-950/40"
+>
   <img
     src="{{ product.imageUrl }}"
     alt="{{ product.productName }}"
@@ -12,12 +14,16 @@
           {{ product.pricePerUnit | currency : "RS: " }}
         </p>
       </div>
-      <span class="font-bold text-green-900"
-        >In Stock <br />
-        <hr class="border-2 border-green-500"
-      /></span>
+      <span *ngIf="product.quantity > 0" class="font-bold text-green-900">
+  In Stock <br />
+  <hr class="border-2 border-green-500" />
+</span>
+<span *ngIf="product.quantity <= 0" class="font-bold text-red-900">
+  Out of Stock <br />
+  <hr class="border-2 border-red-500" />
+</span>
     </div>
-    <button class="px-4 py-2 text-black bg-[#FF6600] ">
+    <button class="px-4 py-2 text-black bg-[#FF6600]">
       <span><i class="mx-2 fas fa-shopping-cart"></i></span>
       Add to Cart
     </button>
