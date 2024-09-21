@@ -84,10 +84,16 @@ public class ProductController {
     }
 
 
-    @DeleteMapping("/delete")
-    public String deleteProductDetails(@RequestBody Long product_id ){
-        String message = productService.deleteProduct(product_id);
-        return  message;
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<Map<String, String>> deleteProductDetails(@PathVariable Long productId) {
+        String message = productService.deleteProduct(productId);
+
+        // Wrap message in a Map for JSON response
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+
+        return ResponseEntity.ok(response);
     }
+
 
 }

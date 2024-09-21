@@ -57,6 +57,7 @@ export class ProductFormService {
       productSaveRequestDto
     );
   }
+
   updateProductDetails(
     productId: string,
     productUpdateRequestDto: ProductUpdate
@@ -66,4 +67,6 @@ export class ProductFormService {
       productUpdateRequestDto
     );
   }
+
+  
 }

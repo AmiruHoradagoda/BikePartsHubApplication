@@ -1,8 +1,8 @@
-<div class="overflow-hidden text-black bg-white rounded-lg">
+<div class="overflow-hidden text-black bg-white rounded-lg ">
   <img
     [src]="product.imageUrl"
     [alt]="product.productName"
-    class="object-cover w-full h-48"
+    class="w-full object-fit h-80"
   />
 
   <div class="flex justify-between px-2">
@@ -24,7 +24,7 @@
     <i class="fas fa-edit"></i>
       Edit Item
     </button>
-    <button class="px-2 py-2 text-black rounded hover:bg-red-500">
+    <button (click)="deleteProduct(product.productId)" class="px-2 py-2 text-black rounded hover:bg-red-500">
      <i class="mx-2 fas fa-trash"></i>
     </button>
   </div>

@@ -138,9 +138,9 @@ export class ProductFormComponent implements OnInit {
 
         // Populate color array
         this.colorArray = product.productAttributes.map((attr) => attr.color);
-       this.toastr.success('Product details loaded successfully', 'Success', {
-         closeButton: true,
-       });
+        this.toastr.success('Product details loaded successfully', 'Success', {
+          closeButton: true,
+        });
       },
       (error) => {
         console.error('Error loading product details:', error);
@@ -300,7 +300,10 @@ export class ProductFormComponent implements OnInit {
       });
 
       console.log('productAttributeArray:', this.productAttributeArray);
-
+      let finalImageUrl = formValues.productform.imageUrl;
+      if (!finalImageUrl && this.imageUrl) {
+        finalImageUrl = this.imageUrl; // Use the previously loaded image URL
+      }
       const productData: ProductSave = {
         productName: formValues.productform.productName,
         productType: formValues.productform.productType,
@@ -314,7 +317,7 @@ export class ProductFormComponent implements OnInit {
         discount: formValues.productform.discount,
         material: formValues.productform.material,
         partNumber: formValues.productform.partNumber,
-        imageUrl: this.imageUrl,
+        imageUrl: finalImageUrl,
         productAttributes: this.productAttributeArray,
       };
       console.log(productData);

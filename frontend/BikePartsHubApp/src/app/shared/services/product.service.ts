@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; // Adjust the import paths as needed
 import { environment } from '../../../environments/environment.development'; // Import the correct environment
 import { PaginatedResponseIProduct } from '../../core/models/interface/PaginatedResponseIProduct';
@@ -61,11 +61,12 @@ export class ProductService {
     );
   }
 
-
-  // Delete a product by its ID
-  deleteProductDetails(productId: number): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/api/v1/product/delete`, {
-      body: productId,
-    });
+  deleteProduct(productId: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiUrl}/api/v1/product/delete/${productId}`,
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      }
+    );
   }
 }
