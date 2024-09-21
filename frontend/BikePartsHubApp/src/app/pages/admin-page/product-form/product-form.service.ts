@@ -9,6 +9,9 @@ import { ProductGet, ProductSave, ProductUpdate } from '../../../core/models/int
   providedIn: 'root',
 })
 export class ProductFormService {
+  updateProduct(productId: string, product: ProductSave) {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl: string = 'http://localhost:8080';
 
   private bikeType = new Set<string>();

@@ -20,6 +20,7 @@ import { ProductService } from '../../../shared/services/product.service';
 import { ProductFormService } from './product-form.service';
 import { ActivatedRoute } from '@angular/router';
 import { BikeService } from '../../../shared/services/bike.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-form',
@@ -53,13 +54,14 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductService,
     private productFormService: ProductFormService,
     private bikeService: BikeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.productFormGroup = this.formBuilder.group({
       productform: this.formBuilder.group({
         productName: new FormControl('', Validators.required),
         productType: new FormControl(''),
-        quantity: new FormControl('', [Validators.required, Validators.min(1)]),
+        quantity: new FormControl('', [Validators.required, Validators.min(0)]),
         category: new FormControl(''),
         manufacture: new FormControl(''),
         itemDescription: new FormControl(''),
@@ -129,16 +131,20 @@ export class ProductFormComponent implements OnInit {
             // Add unique bikes to the bikeArray and bikeId
             if (this.isBikeUnique(bike, this.bikeArray)) {
               this.bikeArray.push(bike);
-              this.bikeId.push(bike.bikeId); 
+              this.bikeId.push(bike.bikeId);
             }
           });
         });
 
         // Populate color array
         this.colorArray = product.productAttributes.map((attr) => attr.color);
+       this.toastr.success('Product details loaded successfully', 'Success', {
+         closeButton: true,
+       });
       },
       (error) => {
         console.error('Error loading product details:', error);
+        this.toastr.error('Failed to load product details');
       }
     );
   }
@@ -162,9 +168,11 @@ export class ProductFormComponent implements OnInit {
         this.bikeManufactures = [
           ...new Set(bikes.map((bike) => bike.manufacture)),
         ];
+        this.toastr.success('Bikes loaded successfully');
       },
       (error) => {
         console.error('Error fetching bikes:', error);
+        this.toastr.error('Failed to fetch bikes');
       }
     );
   }
@@ -173,12 +181,14 @@ export class ProductFormComponent implements OnInit {
     const input = $event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.file = input.files[0];
+      this.toastr.info('File selected for upload');
     }
   }
 
   uploadImage(): void {
     if (!this.file) {
       console.error('No file selected for upload');
+      this.toastr.error('Please select a file to upload');
       return;
     }
 
@@ -193,6 +203,7 @@ export class ProductFormComponent implements OnInit {
           fileRef.getDownloadURL().subscribe((url) => {
             this.imageUrl = url;
             this.productFormGroup.get('productform.imageUrl')?.setValue(url); // Set imageUrl in the form
+            this.toastr.success('Image uploaded successfully');
             console.log('Download URL:', this.imageUrl);
           });
         })
@@ -221,21 +232,25 @@ export class ProductFormComponent implements OnInit {
               });
               this.productFormGroup.get('bikeForm')?.reset();
               this.bikeIdNotFoundMessage = null; // Clear any previous error message
+              this.toastr.success('Bike added successfully');
               console.log('Bike ID added:', bikeId);
             } else {
               this.bikeIdNotFoundMessage = 'No such bike found.';
+              this.toastr.warning('Bike not found');
               console.error('Bike ID not found');
             }
           },
           (error) => {
             this.bikeIdNotFoundMessage =
               'Error fetching bike ID. Please try again.';
+            this.toastr.error('Error fetching bike ID');
             console.error('Error fetching bike ID:', error);
           }
         );
     } else {
       this.bikeIdNotFoundMessage =
         'Bike form is invalid. Please fill in all required fields.';
+      this.toastr.error('Bike form is invalid');
       console.error('Bike form is invalid');
     }
   }
@@ -243,6 +258,7 @@ export class ProductFormComponent implements OnInit {
   removeBike(index: number): void {
     this.bikeId.splice(index, 1);
     this.bikeArray.splice(index, 1);
+    this.toastr.success('Bike removed successfully');
   }
 
   onColorChange(event: Event, color: string): void {
@@ -279,7 +295,7 @@ export class ProductFormComponent implements OnInit {
       this.productAttributeArray = this.colorArray.map((color) => {
         return {
           color: color,
-          bikeIds: [...this.bikeId], // Changed to bikeIds to match interface
+          bike_id: [...this.bikeId], // Changed to bike_id to match interface
         } as unknown as ProductAttributeSave;
       });
 
@@ -315,9 +331,11 @@ export class ProductFormComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Product updated successfully:', response);
+              this.toastr.success('Product updated successfully');
             },
             (error) => {
               console.error('Error updating product:', error);
+              this.toastr.error('Failed to update product');
             }
           );
       } else {
@@ -325,13 +343,16 @@ export class ProductFormComponent implements OnInit {
         this.productService.saveProduct(productData).subscribe(
           (response) => {
             console.log('Product saved successfully:', response);
+            this.toastr.success('Product saved successfully');
           },
           (error) => {
             console.error('Error saving product:', error);
+            this.toastr.error('Failed to saved product');
           }
         );
       }
     } else {
+      this.toastr.error('Form is invalid. Please fix the errors');
       console.error('Form is invalid');
     }
   }

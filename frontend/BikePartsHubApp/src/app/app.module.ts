@@ -17,7 +17,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { AdminSideNavbarComponent } from "./pages/admin-page/admin-side-navbar/admin-side-navbar.component";
 import { ProductFormComponent } from "./pages/admin-page/product-form/product-form.component";
 import { AdminProductCardComponent } from './pages/admin-page/admin-products/admin-product-card/admin-product-card.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent, AdminPageComponent],
@@ -30,17 +31,19 @@ import { AdminProductCardComponent } from './pages/admin-page/admin-products/adm
     FooterComponent,
     AngularFireStorageModule,
     AngularFireModule.initializeApp({
-        apiKey: 'AIzaSyCjRYdIsP6hnMnski-spc1pWuJwjA_7mNI',
-        authDomain: 'bikepartshubapp.firebaseapp.com',
-        projectId: 'bikepartshubapp',
-        storageBucket: 'bikepartshubapp.appspot.com',
-        messagingSenderId: '778797142877',
-        appId: '1:778797142877:web:fd53dc57fcbe02e0f8ceb4',
-        measurementId: 'G-5FKWWRNX6C',
+      apiKey: 'AIzaSyCjRYdIsP6hnMnski-spc1pWuJwjA_7mNI',
+      authDomain: 'bikepartshubapp.firebaseapp.com',
+      projectId: 'bikepartshubapp',
+      storageBucket: 'bikepartshubapp.appspot.com',
+      messagingSenderId: '778797142877',
+      appId: '1:778797142877:web:fd53dc57fcbe02e0f8ceb4',
+      measurementId: 'G-5FKWWRNX6C',
     }),
     AdminSideNavbarComponent,
     ProductFormComponent,
-],
+    BrowserAnimationsModule, // required for animations
+    ToastrModule.forRoot(),
+  ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
 })
