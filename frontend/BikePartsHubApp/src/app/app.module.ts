@@ -19,9 +19,10 @@ import { ProductFormComponent } from "./pages/admin-page/product-form/product-fo
 import { AdminProductCardComponent } from './pages/admin-page/admin-products/admin-product-card/admin-product-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ProductDetailsComponent } from './pages/product-page/product-details/product-details.component';
 
 @NgModule({
-  declarations: [AppComponent, AdminPageComponent],
+  declarations: [AppComponent, AdminPageComponent, ProductDetailsComponent],
   imports: [
     CommonModule,
     BrowserModule,
