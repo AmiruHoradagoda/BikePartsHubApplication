@@ -6,6 +6,7 @@ import { ProductFormComponent } from './pages/admin-page/product-form/product-fo
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { AdminOverviewComponent } from './pages/admin-page/admin-overview/admin-overview.component';
 import { AdminProductsComponent } from './pages/admin-page/admin-products/admin-products.component';
+import { ProductDetailsComponent } from './pages/product-page/product-details/product-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductPageComponent,
+  },
+  {
+    path: 'product-name/:id',
+    component: ProductDetailsComponent,
   },
   {
     path: 'admin',
@@ -33,6 +38,10 @@ const routes: Routes = [
       },
       {
         path: 'add-product',
+        component: ProductFormComponent,
+      },
+      {
+        path: 'update-product/:id',
         component: ProductFormComponent,
       },
       // { path: 'services', component: ServicesComponent }, // Assuming you have this component

@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ProductSearchResponseDto {
-
+    private long productId;
     private String productName;
+    private String manufacture;
     private String imageUrl;
 }

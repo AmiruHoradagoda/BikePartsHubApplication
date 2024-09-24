@@ -1,5 +1,15 @@
 <main class="flex-grow p-4">
-  <header class="flex flex-col items-center justify-between mb-4 md:flex-row">
+  <header class="flex flex-col justify-between mb-4 md:flex-row">
+    <!-- Search bar -->
+    <div class="flex items-center justify-center mx-3">
+      <h3 class="mr-4 text-lg font-bold">Search</h3>
+      <input
+        type="text"
+        placeholder="Search products..."
+        class="max-w-xl p-3 text-gray-700 border border-gray-300 rounded-full shadow-sm w-96 focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none"
+        (input)="onSearch($event)"
+      />
+    </div>
     <div class="flex space-x-2">
       <button
         class="px-4 py-2 bg-gray-400 rounded hover:bg-gray-500"
@@ -9,16 +19,6 @@
       </button>
     </div>
   </header>
-
- <!-- Search bar -->
-  <div class="flex justify-center mb-6">
-    <input
-      type="text"
-      placeholder="Search products..."
-      class="w-full max-w-lg p-3 text-gray-700 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-      (input)="onSearch($event)"
-    />
-  </div>
 
   <!-- Product grid -->
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

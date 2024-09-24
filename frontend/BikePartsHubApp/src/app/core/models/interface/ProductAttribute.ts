@@ -9,7 +9,7 @@ export interface ProductAttribute {
 
 export interface ProductAttributeSave {
   color: string;
-  bikeId: Number[];
+  bike_id: Number[];
 }
 
 export interface ProductAttributeGet {

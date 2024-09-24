@@ -21,7 +21,9 @@ import { ProductListService } from './product-list.service';
 export class ProductListComponent implements OnInit, OnChanges {
   products: ProductGet[] = [];
   filteredProducts: ProductGet[] = [];
+  selectedProduct: ProductGet | null = null; // State for selected product
 
+  
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 10;
@@ -205,5 +207,14 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   trackByProductId(index: number, product: ProductGet): number {
     return product.productId;
+  }
+
+  // New methods for handling product selection and modal
+  selectProduct(product: ProductGet): void {
+    this.selectedProduct = product;
+  }
+
+  closeProductDetails(): void {
+    this.selectedProduct = null;
   }
 }

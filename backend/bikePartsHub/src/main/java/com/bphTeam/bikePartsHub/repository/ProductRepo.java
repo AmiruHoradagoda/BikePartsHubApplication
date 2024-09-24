@@ -19,7 +19,7 @@ public interface ProductRepo extends JpaRepository<Product, Long>, JpaSpecificat
 
     int countAllByActiveStateEquals(boolean activeState);
 
-    @Query("SELECT new com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto(p.productName, p.imageUrl) " +
+    @Query("SELECT new com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto(p.productId,p.productName, p.manufacture, p.imageUrl) " +
             "FROM Product p " +
             "WHERE (:productName IS NULL OR p.productName LIKE %:productName%) " +
             "AND p.activeState = :activeState")
@@ -27,4 +27,5 @@ public interface ProductRepo extends JpaRepository<Product, Long>, JpaSpecificat
             @Param("productName") String productName,
             @Param("activeState") boolean activeState,
             Pageable pageable);
+
 }

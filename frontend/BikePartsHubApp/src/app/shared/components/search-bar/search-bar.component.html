@@ -1,4 +1,4 @@
-<div class="relative w-full max-w-lg">
+<div class="relative z-50 w-full max-w-lg">
   <form (ngSubmit)="hideDropdown()">
     <div
       class="flex justify-between overflow-hidden bg-gray-800 rounded-lg shadow-lg"
@@ -8,7 +8,7 @@
         [(ngModel)]="searchTerm"
         (input)="onSearchChange()"
         placeholder="What are you looking for?"
-        class="flex-1 block w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-l-lg focus:outline-none"
+        class="flex-1 block w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-l-lg focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
         name="search"
       />
       <button
@@ -21,7 +21,7 @@
 
   <div
     *ngIf="isDropdownVisible && searchResults.length"
-    class="absolute w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60"
+    class="absolute z-50 w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60"
   >
     <div
       *ngFor="let result of searchResults; let i = index"
@@ -29,7 +29,7 @@
         'bg-gray-800': i % 2 === 0,
         'bg-gray-900': i % 2 !== 0
       }"
-      class="flex items-center p-3 transition-all duration-200 cursor-pointer hover:bg-gray-600"
+      class="z-50 flex items-center p-3 transition-all duration-200 cursor-pointer hover:bg-gray-600"
     >
       <img
         [src]="result.imageUrl"

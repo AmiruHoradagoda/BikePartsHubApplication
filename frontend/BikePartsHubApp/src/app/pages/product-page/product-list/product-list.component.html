@@ -1,32 +1,147 @@
-<div class="grid grid-cols-3 gap-6">
-  @for ( product of filteredProducts; track product.productId) {
-  <app-product-card [product]="product"></app-product-card>
-  }
-</div>
-<div class="flex justify-center mt-8">
-  <button
-    class="px-3 py-1 mx-1 bg-gray-700 rounded"
-    (click)="goToFirstPage()"
-    [disabled]="currentPage === 1"
+<div class="relative">
+  <div class="grid h-screen grid-cols-3 gap-6">
+    @for ( product of filteredProducts; track product.productId) {
+    <app-product-card
+      [product]="product"
+      (click)="selectProduct(product)"
+    ></app-product-card>
+    }
+  </div>
+  <div class="absolute left-0 right-0 flex justify-center mt-8 bottom-1">
+    <button
+      class="px-3 py-1 mx-1 bg-gray-700 rounded"
+      (click)="goToFirstPage()"
+      [disabled]="currentPage === 1"
+    >
+      First Page
+    </button>
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      class="px-3 py-1 mx-1"
+      [ngClass]="{
+        'bg-orange-500': currentPage === i + 1,
+        'bg-gray-700': currentPage !== i + 1
+      }"
+      (click)="changePage(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+    <button
+      class="px-3 py-1 mx-1 bg-gray-700 rounded"
+      (click)="goToLastPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Last Page
+    </button>
+  </div>
+
+  <!-- Product Details Modal -->
+  <div
+    *ngIf="selectedProduct"
+    class="fixed inset-0 z-50 flex items-center justify-center "
   >
-    First Page
-  </button>
-  <button
-    *ngFor="let page of [].constructor(totalPages); let i = index"
-    class="px-3 py-1 mx-1"
-    [ngClass]="{
-      'bg-orange-500': currentPage === i + 1,
-      'bg-gray-700': currentPage !== i + 1
-    }"
-    (click)="changePage(i + 1)"
-  >
-    {{ i + 1 }}
-  </button>
-  <button
-    class="px-3 py-1 mx-1 bg-gray-700 rounded"
-    (click)="goToLastPage()"
-    [disabled]="currentPage === totalPages"
-  >
-    Last Page
-  </button>
+    <!-- Blurred Background -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+
+    <!-- Product Details Content -->
+    <div
+      class="relative z-10 w-11/12 max-w-4xl py-6 pr-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:space-x-10"
+    >
+      <!-- Close Button -->
+      <button
+        (click)="closeProductDetails()"
+        class="absolute text-3xl text-gray-500 top-2 right-2"
+      >
+        &times;
+      </button>
+
+      <div class="flex flex-col">
+        <div class="flex items-start justify-between">
+          <div>
+            <img
+              [src]="selectedProduct.imageUrl"
+              alt="Product Image"
+              class="w-full pr-4 mx-auto duration-200 hover:scale-105"
+            />
+          </div>
+          <div class="px-4">
+            <!-- Title -->
+            <div
+              class="text-3xl font-bold text-center text-orange-600 md:text-left"
+            >
+              MOTUL 10W40 Engine Oil - 1200 Litre
+            </div>
+
+            <!-- Rating and Reviews -->
+            <div class="flex items-center space-x-2 text-center md:text-left">
+        
+              <div class="flex items-center">
+                <!-- Star Ratings (Assume 5-star ratings display) -->
+                <span>⭐⭐⭐⭐⭐</span>
+                <p class="px-1 text-xs text-gray-500 ">(167909 reviews)</p>
+                <p class="px-1 text-xs text-gray-500">167909 sold</p>
+              </div>
+            </div>
+
+            <!-- Stock Status -->
+            <div class="flex flex-col items-start font-bold text-green-600">
+              <div class="flex">
+                <p>In-stock</p>
+                <p class="px-2 text-black">(178 Available)</p>
+              </div>
+              <br />
+              <p class="text-black">Manufacturer : MOTUL</p>
+              <p class="text-black">Material : Synthetic</p>
+              <p class="text-black">Category :10W40</p>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center justify-around px-4 py-4 bg-gray-200 border h-72 rounded-2xl"
+          >
+            <!-- Price Container -->
+            <div class="text-4xl font-bold text-center text-gray-900">
+              Rs.450,000/=
+              <p class="text-sm text-gray-500">Price per Can includes VAT.</p>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="flex items-center">
+              <button class="px-4 py-2 text-gray-700 bg-gray-200">-</button>
+              <p class="text-black">10 units</p>
+              <button class="px-4 py-2 text-gray-700 bg-gray-200">+</button>
+            </div>
+
+            <!-- Button Group -->
+            <div class="flex flex-col items-center justify-around w-full p-4">
+              <button
+                class="w-full py-3 my-4 text-white transition duration-150 bg-orange-500 rounded-lg shadow-lg hover:bg-orange-600"
+              >
+                Add to Cart
+              </button>
+              <button
+                class="w-full py-3 text-black transition duration-150 bg-gray-300 rounded-lg shadow-lg hover:bg-gray-400"
+              >
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Description -->
+        <div class="max-w-4xl p-6 bg-white rounded-lg shadow-lg">
+          <div class="flex justify-start pb-4 mb-4 border-b">
+            <h3 class="pr-4 text-2xl font-bold text-black">Description</h3>
+            <h3 class="text-2xl font-bold text-black">Reviews</h3>
+          </div>
+          <p class="text-gray-700">
+            Motor oil, engine oil, or engine lubricant is any one of various
+            substances used for the lubrication of internal combustion engines.
+            They typically consist of base oils enhanced with various additives,
+            particularly antiwear additives, detergents, dispersants, and, for
+            multi-grade oils, viscosity index improvers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

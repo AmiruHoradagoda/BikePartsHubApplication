@@ -9,7 +9,10 @@ import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/product")
@@ -56,6 +59,11 @@ public class ProductController {
         return ResponseEntity.ok(productSearchResponse);
     }
 
+    @GetMapping("/getProductById")
+    public ResponseEntity<ProductGetResponseDTO> getProductsById(Long productId){
+        ProductGetResponseDTO productGetResponseDTO = productService.getProductById(productId);
+        return ResponseEntity.ok(productGetResponseDTO);
+    }
 
 
     @PostMapping(value = "/save")
@@ -65,15 +73,27 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public String updateProductDetails(@RequestBody ProductUpdateRequestDto productUpdateRequestDto){
-        String message = productService.updateProductService(productUpdateRequestDto);
-        return message;
+    public ResponseEntity<Map<String, String>> updateProductDetails(@RequestParam Long productId, @RequestBody ProductUpdateRequestDto productUpdateRequestDto) {
+        String message = productService.updateProductService(productId, productUpdateRequestDto);
+
+        // Wrap message in a Map for JSON response
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete")
-    public String deleteProductDetails(@RequestBody Long product_id ){
-        String message = productService.deleteProduct(product_id);
-        return  message;
+
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<Map<String, String>> deleteProductDetails(@PathVariable Long productId) {
+        String message = productService.deleteProduct(productId);
+
+        // Wrap message in a Map for JSON response
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+
+        return ResponseEntity.ok(response);
     }
+
 
 }
