@@ -11,6 +11,6 @@ import java.util.Set;
 @Data
 public class ProductAttributeSaveRequestDto {
     private String color;
-    private Set<Long> bikeIds;
+    private Set<Long> bike_id;
 }
 

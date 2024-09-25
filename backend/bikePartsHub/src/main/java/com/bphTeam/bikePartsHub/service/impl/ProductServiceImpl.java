@@ -145,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Loop through each ProductAttributeSaveRequestDto in the request
         for (ProductAttributeSaveRequestDto attributeDto : productSaveRequestDto.getProductAttributes()) {
-            for (Long bikeId : attributeDto.getBikeIds()) {
+            for (Long bikeId : attributeDto.getBike_id()) {
                 // Retrieve the Bike entity by ID
                 Bike bike = bikeRepo.findById(bikeId)
                         .orElseThrow(() -> new RuntimeException("Bike not found with ID: " + bikeId));
