@@ -16,13 +16,13 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { AdminSideNavbarComponent } from "./pages/admin-page/admin-side-navbar/admin-side-navbar.component";
 import { ProductFormComponent } from "./pages/admin-page/product-form/product-form.component";
-import { AdminProductCardComponent } from './pages/admin-page/admin-products/admin-product-card/admin-product-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductDetailsComponent } from './pages/product-page/product-details/product-details.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
 
 @NgModule({
-  declarations: [AppComponent, AdminPageComponent, ProductDetailsComponent],
+  declarations: [AppComponent, AdminPageComponent, ProductDetailsComponent, UserPageComponent],
   imports: [
     CommonModule,
     BrowserModule,

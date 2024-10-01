@@ -7,9 +7,24 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { AdminOverviewComponent } from './pages/admin-page/admin-overview/admin-overview.component';
 import { AdminProductsComponent } from './pages/admin-page/admin-products/admin-products.component';
 import { ProductDetailsComponent } from './pages/product-page/product-details/product-details.component';
+// import { UserPageComponent } from './pages/user-page/user-page.component';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
+import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  // {
+  //   path: 'user',
+  //   component: UserPageComponent,
+  // },
+  {
+    path: 'checkout',
+    component: CheckoutPageComponent,
+  },
+  {
+    path: 'cart',
+    component: CartPageComponent,
+  },
   {
     path: 'home',
     component: HomePageComponent,
@@ -27,11 +42,11 @@ const routes: Routes = [
     component: AdminPageComponent,
     children: [
       { path: 'overview', component: AdminOverviewComponent },
-      // { path: 'orders', component: OrdersComponent }, // Assuming you have this component
-      // { path: 'users', component: UsersComponent }, // Assuming you have this component
-      // { path: 'reports', component: ReportsComponent }, // Assuming you have this component
-      // { path: 'scheduleds', component: ScheduledsComponent }, // Assuming you have this component
-      // { path: 'requests', component: RequestsComponent }, // Assuming you have this component
+      // { path: 'orders', component: OrdersComponent },
+      // { path: 'users', component: UsersComponent },
+      // { path: 'reports', component: ReportsComponent },
+      // { path: 'scheduleds', component: ScheduledsComponent },
+      // { path: 'requests', component: RequestsComponent },
       {
         path: 'product',
         component: AdminProductsComponent,
@@ -44,8 +59,8 @@ const routes: Routes = [
         path: 'update-product/:id',
         component: ProductFormComponent,
       },
-      // { path: 'services', component: ServicesComponent }, // Assuming you have this component
-      // { path: 'details', component: DetailsComponent }, // Assuming you have this component
+      // { path: 'services', component: ServicesComponent },
+      // { path: 'details', component: DetailsComponent },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
     ],
   },
