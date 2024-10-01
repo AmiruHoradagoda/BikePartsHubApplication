@@ -37,16 +37,17 @@ export class CartPageComponent implements OnInit {
     this.cartService.clearCart();
   }
 
-  onChangeQuantity(item: CartItem, delta: number) {
-    const newQuantity = item.quantity + delta;
-
-    // Remove item if quantity goes to 0 or less
-    if (newQuantity <= 0) {
-      this.onRemoveItem(item.productId);
+  onChangeQuantity(item: CartItem, change: number): void {
+    const updatedQuantity = item.quantity + change;
+    if (updatedQuantity > 0) {
+      const updatedItem = { ...item, quantity: updatedQuantity };
+      this.cartService.updateCartItemQuantity(updatedItem);
     } else {
-      item.quantity = newQuantity;
-      this.cartService.updateCartItemQuantity(item);
+      this.cartService.removeFromCart(item.productId);
     }
+  }
+  private calculateTotalPrice(): void {
+    this.totalPrice = this.cartService.getTotalPrice();
   }
 }
 
