@@ -26,7 +26,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   
   currentPage: number = 1;
   totalPages: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 9;
 
   @Input() partsFilterInfo: {
     productType?: string;

@@ -1,5 +1,5 @@
 <div class="relative">
-  <div class="grid h-screen grid-cols-3 gap-6">
+  <div class="grid grid-cols-3 gap-6 py-5">
     @for ( product of filteredProducts; track product.productId) {
     <app-product-card
       [product]="product"
@@ -7,7 +7,7 @@
     ></app-product-card>
     }
   </div>
-  <div class="absolute left-0 right-0 flex justify-center mt-8 bottom-1">
+  <div class="absolute left-0 right-0 flex justify-center mt-8 -bottom-5">
     <button
       class="px-3 py-1 mx-1 bg-gray-700 rounded"
       (click)="goToFirstPage()"
@@ -69,6 +69,7 @@
             <div
               class="text-3xl font-bold text-center text-orange-600 md:text-left"
             >
+              {{ selectedProduct.productName }}
               MOTUL 10W40 Engine Oil - 1200 Litre
             </div>
 
@@ -86,12 +87,12 @@
             <div class="flex flex-col items-start font-bold text-green-600">
               <div class="flex">
                 <p>In-stock</p>
-                <p class="px-2 text-black">(178 Available)</p>
+                <p class="px-2 text-black">( {{ selectedProduct.quantity }} Available)</p>
               </div>
               <br />
-              <p class="text-black">Manufacturer : MOTUL</p>
-              <p class="text-black">Material : Synthetic</p>
-              <p class="text-black">Category :10W40</p>
+              <p class="text-black">Manufacturer :  {{ selectedProduct.manufacture }}</p>
+              <p class="text-black">Material :  {{ selectedProduct.material }}</p>
+              <p class="text-black">Category :  {{ selectedProduct.category }}</p>
             </div>
           </div>
           <div
@@ -133,11 +134,7 @@
             <h3 class="text-2xl font-bold text-black">Reviews</h3>
           </div>
           <p class="text-gray-700">
-            Motor oil, engine oil, or engine lubricant is any one of various
-            substances used for the lubrication of internal combustion engines.
-            They typically consist of base oils enhanced with various additives,
-            particularly antiwear additives, detergents, dispersants, and, for
-            multi-grade oils, viscosity index improvers.
+             {{ selectedProduct.itemDescription }}
           </p>
         </div>
       </div>
