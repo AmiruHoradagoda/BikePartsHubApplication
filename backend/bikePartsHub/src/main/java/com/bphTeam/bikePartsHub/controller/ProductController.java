@@ -42,7 +42,7 @@ public class ProductController {
             @RequestParam(required = false) String bikeManufacture,
             @RequestParam(required = false) String color,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "9") int size) {
 
         return productService.getProducts(category, productType, productManufacture, activeState, bikeType, bikeModel, bikeManufacture, color, page,size);
     }
