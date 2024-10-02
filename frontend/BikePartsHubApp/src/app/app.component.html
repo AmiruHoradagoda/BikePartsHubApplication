@@ -1,4 +1,7 @@
-<app-header *ngIf="!isAdminPage"></app-header>
-<app-nav *ngIf="!isAdminPage"></app-nav>
-<router-outlet></router-outlet>
-<app-footer *ngIf="!isAdminPage"></app-footer>
+<div class="relative w-screen">
+    <app-header *ngIf="!isAdminPage"></app-header>
+    <app-nav *ngIf="!isAdminPage"></app-nav>
+    <router-outlet></router-outlet>
+    <app-footer *ngIf="!isAdminPage"></app-footer>
+
+</div>
