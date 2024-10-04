@@ -49,10 +49,10 @@
               </div>
             </td>
             <td class="p-4 text-xl font-bold">
-              {{ item.unitPrice | currency }}
+              {{ item.unitPrice | currency : "RS: "  }}
             </td>
             <td class="p-4 text-xl font-bold">
-              {{ item.unitPrice * item.quantity | currency }}
+              {{ item.unitPrice * item.quantity | currency : "RS: "  }}
             </td>
             <td class="p-4 text-center">
               <button
@@ -66,7 +66,7 @@
           <tr class="bg-gray-600 rounded-md shadow-sm hover:bg-gray-700">
             <td class="p-4" colspan="4"></td>
             <td class="p-4">Total</td>
-            <td class="p-4 text-xl font-bold">{{ totalPrice | currency }}</td>
+            <td class="p-4 text-xl font-bold">{{ totalPrice | currency : "RS: "  }}</td>
             <td class="p-4 text-center"></td>
           </tr>
         </tbody>
@@ -90,20 +90,20 @@
     <div class="space-y-2">
       <div class="flex justify-between">
         <p>Total</p>
-        <p>{{ totalPrice | currency }}</p>
+        <p>{{ totalPrice | currency : "RS: "  }}</p>
       </div>
       <div class="flex justify-between">
         <p>Courier Charges</p>
-        <p>60,000</p>
+        <p>60,00</p>
       </div>
       <div class="flex justify-between">
         <p>Order Tax</p>
-        <p>60,000</p>
+        <p>60,00</p>
       </div>
       <hr class="my-2 border-gray-600" />
       <div class="flex justify-between text-xl font-bold">
         <p>Grand Total</p>
-        <p>{{ totalPrice + 120000 | currency }}</p>
+        <p>{{ totalPrice +120 | currency : "RS: "  }}</p>
         <!-- Update to reflect courier and tax -->
       </div>
     </div>
