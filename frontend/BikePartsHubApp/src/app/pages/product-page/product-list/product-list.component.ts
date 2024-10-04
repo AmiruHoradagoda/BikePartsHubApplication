@@ -23,7 +23,6 @@ export class ProductListComponent implements OnInit, OnChanges {
   filteredProducts: ProductGet[] = [];
   selectedProduct: ProductGet | null = null; // State for selected product
 
-  
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 9;
@@ -68,11 +67,28 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   loadProducts(): void {
+    let itemCategory, itemBrand;
+
+    if (this.productType === 'PARTS') {
+      itemCategory = this.partsFilterInfo.partCategorie;
+      itemBrand = this.partsFilterInfo.partBrand;
+    } else if (this.productType === 'BODY_PARTS') {
+      itemCategory = this.partsFilterInfo.bodyPartsCategorie;
+      itemBrand = this.partsFilterInfo.bodyPartsBrand;
+    } else if (this.productType === 'ENGINE_OIL') {
+      itemCategory = this.partsFilterInfo.engineOilCategorie;
+      itemBrand = this.partsFilterInfo.engineOilBrand;
+    } else if (this.productType === 'BRAKE_OIL') {
+      itemBrand = this.partsFilterInfo.brakeOilBrand;
+    } else if (this.productType === 'LUBRICANT') {
+      itemBrand = this.partsFilterInfo.lubricantBrand;
+    }
+
     this.productListService
       .getProducts(
-        this.partsFilterInfo.partCategorie,
+        itemCategory,
         this.productType,
-        this.partsFilterInfo.partBrand,
+        itemBrand,
         true, // Assuming activeState is true for filtering active products
         this.partsFilterInfo.bikeType,
         this.partsFilterInfo.bikeModel,

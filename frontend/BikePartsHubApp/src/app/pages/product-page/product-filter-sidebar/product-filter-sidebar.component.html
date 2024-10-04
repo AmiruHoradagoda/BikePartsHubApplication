@@ -125,11 +125,11 @@
     @if(productType == 'ENGINE_OIL'){
     <select
       class="w-full px-2 py-1 bg-gray-700 rounded"
-      [(ngModel)]="partBrand"
+      [(ngModel)]="engineOilBrand"
     >
       <option value="" disabled selected>Select a Brand</option>
-      @for (partBrand of partBrands; track $index) {
-      <option>{{ partBrand }}</option>
+      @for (engineOilBrand of engineOilBrands; track $index) {
+      <option>{{ engineOilBrand }}</option>
       }
     </select>
     } @if(productType == 'BRAKE_OIL'){

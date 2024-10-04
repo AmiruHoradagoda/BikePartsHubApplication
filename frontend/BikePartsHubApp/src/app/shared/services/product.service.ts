@@ -31,7 +31,7 @@ export class ProductService {
     bikeManufacture?: string,
     color?: string,
     page: number = 0,
-    size: number = 10
+    size: number = 9
   ): Observable<PaginatedResponseIProduct> {
     let params = new HttpParams().set('page', page).set('size', size);
 

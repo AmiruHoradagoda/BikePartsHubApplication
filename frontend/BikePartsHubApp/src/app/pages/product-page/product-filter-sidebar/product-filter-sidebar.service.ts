@@ -45,6 +45,10 @@ export class ProductFilterSidebarService {
     return this.http.get<Bike[]>(`${this.apiUrl}/api/v1/bikes/getAllBikes`);
   }
 
+
+
+
+  
   getFilterList(): void {
     this.productService.getAllProducts().subscribe((products) => {
       // Clear previous data
