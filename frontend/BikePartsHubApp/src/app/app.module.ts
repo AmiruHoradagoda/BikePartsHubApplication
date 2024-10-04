@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductDetailsComponent } from './pages/product-page/product-details/product-details.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
+import { SearchBarComponent } from "./shared/components/search-bar/search-bar.component";
 
 @NgModule({
   declarations: [AppComponent, AdminPageComponent, ProductDetailsComponent, UserPageComponent],
@@ -32,19 +33,20 @@ import { UserPageComponent } from './pages/user-page/user-page.component';
     FooterComponent,
     AngularFireStorageModule,
     AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyCjRYdIsP6hnMnski-spc1pWuJwjA_7mNI',
-      authDomain: 'bikepartshubapp.firebaseapp.com',
-      projectId: 'bikepartshubapp',
-      storageBucket: 'bikepartshubapp.appspot.com',
-      messagingSenderId: '778797142877',
-      appId: '1:778797142877:web:fd53dc57fcbe02e0f8ceb4',
-      measurementId: 'G-5FKWWRNX6C',
+        apiKey: 'AIzaSyCjRYdIsP6hnMnski-spc1pWuJwjA_7mNI',
+        authDomain: 'bikepartshubapp.firebaseapp.com',
+        projectId: 'bikepartshubapp',
+        storageBucket: 'bikepartshubapp.appspot.com',
+        messagingSenderId: '778797142877',
+        appId: '1:778797142877:web:fd53dc57fcbe02e0f8ceb4',
+        measurementId: 'G-5FKWWRNX6C',
     }),
     AdminSideNavbarComponent,
     ProductFormComponent,
     BrowserAnimationsModule, // required for animations
     ToastrModule.forRoot(),
-  ],
+    SearchBarComponent
+],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
 })
