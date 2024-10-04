@@ -1,0 +1,3 @@
+#dropdownNavbar {
+  z-index: 50; /* Ensure it's higher than the navbar */
+}
