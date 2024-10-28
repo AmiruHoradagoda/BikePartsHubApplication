@@ -43,7 +43,7 @@ import { SearchBarComponent } from "./shared/components/search-bar/search-bar.co
     }),
     AdminSideNavbarComponent,
     ProductFormComponent,
-    BrowserAnimationsModule, // required for animations
+    BrowserAnimationsModule, 
     ToastrModule.forRoot(),
     SearchBarComponent
 ],

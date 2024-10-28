@@ -1,0 +1,121 @@
+:host ::ng-deep .custom-calendar {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+:host ::ng-deep .p-calendar {
+  width: 100%;
+}
+
+:host ::ng-deep .p-datepicker {
+  width: 100%;
+  min-width: 320px;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+}
+
+:host ::ng-deep .p-datepicker table {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+:host ::ng-deep .p-datepicker table th {
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+:host ::ng-deep .p-datepicker table td {
+  padding: 0.5rem;
+}
+
+/* Prevent ripple effect */
+:host ::ng-deep .p-ripple {
+  overflow: hidden !important;
+}
+
+:host ::ng-deep .p-ink {
+  display: none !important;
+}
+
+:host ::ng-deep .p-datepicker table td > span {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4b5563;
+  position: relative;
+  overflow: hidden;
+}
+
+:host ::ng-deep .p-datepicker table td > span:hover {
+  background: transparent;
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+  background: transparent;
+  color: #4b5563;
+  font-weight: normal;
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-selected > span {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+/* Remove any pseudo-elements that might cause number duplication */
+:host ::ng-deep .p-datepicker table td > span::before,
+:host ::ng-deep .p-datepicker table td > span::after {
+  display: none !important;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 0.5rem;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-title {
+  margin: 0 2.5rem;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-prev,
+:host ::ng-deep .p-datepicker .p-datepicker-next {
+  width: 2rem;
+  height: 2rem;
+  color: #4b5563;
+  border-radius: 50%;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-prev:hover,
+:host ::ng-deep .p-datepicker .p-datepicker-next:hover {
+  background: transparent;
+}
+
+:host ::ng-deep .p-datepicker .p-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-other-month {
+  opacity: 0.5;
+}
+
+/* Additional fixes for ripple and interaction effects */
+:host ::ng-deep .p-datepicker table td.p-ripple {
+  overflow: hidden !important;
+}
+
+:host ::ng-deep .p-datepicker table td .p-ripple-element {
+  display: none !important;
+}
+
+/* Ensure clicked state doesn't create artifacts */
+:host ::ng-deep .p-datepicker table td > span:active {
+  transform: none;
+}

@@ -137,10 +137,12 @@ export class ProductFormComponent implements OnInit {
         });
 
         // Populate color array
+        /*
         this.colorArray = product.productAttributes.map((attr) => attr.color);
         this.toastr.success('Product details loaded successfully', 'Success', {
           closeButton: true,
         });
+        */
       },
       (error) => {
         console.error('Error loading product details:', error);
@@ -168,7 +170,7 @@ export class ProductFormComponent implements OnInit {
         this.bikeManufactures = [
           ...new Set(bikes.map((bike) => bike.manufacture)),
         ];
-        this.toastr.success('Bikes loaded successfully');
+        // this.toastr.success('Bikes loaded successfully');
       },
       (error) => {
         console.error('Error fetching bikes:', error);

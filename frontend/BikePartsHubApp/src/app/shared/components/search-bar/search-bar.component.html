@@ -1,4 +1,4 @@
-<div class="relative w-full max-w-lg">
+<div class="relative z-50 w-full max-w-lg">
   <form (ngSubmit)="hideDropdown()">
     <div
       class="flex justify-between overflow-hidden bg-gray-800 rounded-lg shadow-lg"
@@ -12,7 +12,7 @@
         name="search"
       />
       <button
-        class="absolute top-0 right-0 px-4 py-2 text-white bg-orange-500 rounded-r"
+        class="top-0 right-0 px-4 py-2 text-white bg-orange-500 rounded-r"
       >
         <i class="text-white fas fa-search"></i>
       </button>
@@ -21,7 +21,7 @@
 
   <div
     *ngIf="isDropdownVisible && searchResults.length"
-    class="absolute w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60"
+    class="absolute z-[9999] w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60"
   >
     <div
       *ngFor="let result of searchResults; let i = index"

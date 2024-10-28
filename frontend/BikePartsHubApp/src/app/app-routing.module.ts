@@ -7,19 +7,20 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { AdminOverviewComponent } from './pages/admin-page/admin-overview/admin-overview.component';
 import { AdminProductsComponent } from './pages/admin-page/admin-products/admin-products.component';
 import { ProductDetailsComponent } from './pages/product-page/product-details/product-details.component';
-// import { UserPageComponent } from './pages/user-page/user-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
+import { AppointmentPageComponent } from './pages/appintment-page/appintment-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  // {
-  //   path: 'user',
-  //   component: UserPageComponent,
-  // },
+
   {
     path: 'checkout',
     component: CheckoutPageComponent,
+  },
+  {
+    path: 'appointment',
+    component: AppointmentPageComponent,
   },
   {
     path: 'cart',

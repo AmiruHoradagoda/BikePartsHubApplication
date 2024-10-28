@@ -12,6 +12,9 @@ import { CartService } from '../../../pages/cart-page/cart.service';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
+selectProduct(_t11: any) {
+throw new Error('Method not implemented.');
+}
   cartItemCount = 0; // Variable to hold the count of cart items
 
   constructor(private cartService: CartService) {}
