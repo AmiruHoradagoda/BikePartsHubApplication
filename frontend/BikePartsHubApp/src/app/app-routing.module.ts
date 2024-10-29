@@ -10,10 +10,13 @@ import { ProductDetailsComponent } from './pages/product-page/product-details/pr
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
 import { AppointmentPageComponent } from './pages/appintment-page/appintment-page.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   {
     path: 'checkout',
     component: CheckoutPageComponent,
