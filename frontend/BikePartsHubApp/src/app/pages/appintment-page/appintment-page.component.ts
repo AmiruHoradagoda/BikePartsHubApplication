@@ -67,7 +67,7 @@ export class AppointmentPageComponent implements OnInit {
       id: 3,
       name: '3-Hour Service',
       duration: 3,
-      price: 2000,
+      price: 3000,
       description: 'Comprehensive maintenance service',
     },
   ];

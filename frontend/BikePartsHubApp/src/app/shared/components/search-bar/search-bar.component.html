@@ -1,8 +1,7 @@
-<div class="relative z-50 w-full max-w-lg">
+<!-- search.component.html -->
+<div class="static w-full max-w-lg"> <!-- Changed to static positioning -->
   <form (ngSubmit)="hideDropdown()">
-    <div
-      class="flex justify-between overflow-hidden bg-gray-800 rounded-lg shadow-lg"
-    >
+    <div class="flex justify-between overflow-hidden bg-gray-800 rounded-lg shadow-lg">
       <input
         type="text"
         [(ngModel)]="searchTerm"
@@ -11,31 +10,24 @@
         class="flex-1 block w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-l-lg focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
         name="search"
       />
-      <button
-        class="top-0 right-0 px-4 py-2 text-white bg-orange-500 rounded-r"
-      >
+      <button class="top-0 right-0 px-4 py-2 text-white bg-orange-500 rounded-r">
         <i class="text-white fas fa-search"></i>
       </button>
     </div>
   </form>
 
-  <div
-    *ngIf="isDropdownVisible && searchResults.length"
-    class="absolute z-[9999] w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60"
-  >
-    <div
-      *ngFor="let result of searchResults; let i = index"
-      [ngClass]="{
-        'bg-gray-800': i % 2 === 0,
-        'bg-gray-900': i % 2 !== 0
-      }"
-      class="flex items-center p-3 transition-all duration-200 cursor-pointer hover:bg-gray-600"
-    >
-      <img
-        [src]="result.imageUrl"
-        [alt]="result.productName"
-        class="object-cover w-16 h-16 mr-3 rounded-md"
-      />
+  <!-- Updated dropdown with Tailwind classes -->
+  <div *ngIf="isDropdownVisible && searchResults.length"
+       class="fixed left-0 right-0 w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60 z-[9999]">
+    <div *ngFor="let result of searchResults; let i = index"
+         [ngClass]="{
+           'bg-gray-800': i % 2 === 0,
+           'bg-gray-900': i % 2 !== 0
+         }"
+         class="flex items-center p-3 transition-all duration-200 cursor-pointer hover:bg-gray-600">
+      <img [src]="result.imageUrl"
+           [alt]="result.productName"
+           class="object-cover w-16 h-16 mr-3 rounded-md" />
       <div class="flex items-center justify-between flex-1">
         <p class="pl-6 text-sm font-semibold text-white">
           {{ result.productName }}<br />
