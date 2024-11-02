@@ -11,11 +11,10 @@ import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 
 interface ServiceType {
-  id: number;
-  name: string;
   duration: number;
   price: number;
   description: string;
+  features: string[];
 }
 
 interface Appointment {
@@ -50,25 +49,34 @@ interface TimeSlotStatus {
 export class AppointmentPageComponent implements OnInit {
   services: ServiceType[] = [
     {
-      id: 1,
-      name: '1-Hour Service',
-      duration: 1,
-      price: 550,
-      description: 'Quick maintenance service',
-    },
-    {
-      id: 2,
-      name: '2-Hour Service',
       duration: 2,
-      price: 2000,
-      description: 'Standard maintenance service',
+      description: 'Basic cleaning service with essential housekeeping tasks',
+      price: 999,
+      features: [
+        'Basic house cleaning',
+        'Dusting & mopping',
+        'Bathroom cleaning',
+      ],
     },
     {
-      id: 3,
-      name: '3-Hour Service',
-      duration: 3,
-      price: 3000,
-      description: 'Comprehensive maintenance service',
+      duration: 4,
+      description: 'Standard cleaning with additional deep cleaning services',
+      price: 1999,
+      features: [
+        'Everything in Basic',
+        'Kitchen deep clean',
+        'Window cleaning',
+      ],
+    },
+    {
+      duration: 8,
+      description: 'Premium service with comprehensive cleaning solutions',
+      price: 3999,
+      features: [
+        'Everything in Standard',
+        'Carpet cleaning',
+        'Furniture deep clean',
+      ],
     },
   ];
 
@@ -85,6 +93,7 @@ export class AppointmentPageComponent implements OnInit {
   engineOils: string[] = ['Brand A', 'Brand B', 'Brand C', 'Brand D'];
   selectedOil: string | undefined;
   addOnsCharge: number = 0;
+date: any;
 
   constructor(private fb: FormBuilder) {
     this.bookingForm = this.fb.group({

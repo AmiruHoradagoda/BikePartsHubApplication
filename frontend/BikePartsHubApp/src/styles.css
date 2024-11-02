@@ -4,3 +4,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+:root {
+  /* Base colors - use these consistently across home and footer */
+  --primary: #FF6600;
+  --primary-hover: #ff8533;
+  --primary-light: rgba(255, 102, 0, 0.1);
+  --bg-dark: #111827;
+  --bg-card: #1F2937;
+  --text-primary: #ffffff;
+  --text-secondary: #D1D5DB;
+}
+
+/* Common section styles */
+.section-dark {
+  @apply bg-gray-900;  /* Same as your current bg-gray-900 */
+  background: var(--bg-dark);
+}
+
+.section-card {
+  @apply bg-gray-800;  /* Same as your current bg-gray-800 */
+  background: var(--bg-card);
+}
+
+/* Consistent button styles */
+.btn-primary {
+  @apply px-6 py-3 transition-all duration-300 rounded-full;
+  background-color: var(--primary);
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
+}
+
+/* Consistent card styles */
+.content-card {
+  @apply p-6 rounded-lg border border-[#FF6600] transition-all duration-300;
+  background: var(--bg-card);
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Section spacing */
+.section-spacing {
+  @apply py-12 md:py-16;
+}
+
+/* Text colors */
+.text-theme-primary {
+  color: var(--primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}

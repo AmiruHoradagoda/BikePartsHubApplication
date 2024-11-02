@@ -22,6 +22,7 @@ import { ProductDetailsComponent } from './pages/product-page/product-details/pr
 import { UserPageComponent } from './pages/user-page/user-page.component';
 import { SearchBarComponent } from "./shared/components/search-bar/search-bar.component";
 
+
 @NgModule({
   declarations: [AppComponent, AdminPageComponent, ProductDetailsComponent, UserPageComponent],
   imports: [
