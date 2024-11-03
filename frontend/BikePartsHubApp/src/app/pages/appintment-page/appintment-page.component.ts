@@ -9,30 +9,12 @@ import {
 } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
+import { catchError, finalize, of } from 'rxjs';
+import { AppointmentService } from './appointment.service';
+import { ServiceType } from '../../core/models/interface/ServiceType';
+import { Appointment } from '../../core/models/interface/Appointment';
+import { TimeSlotStatus } from '../../core/models/interface/TimeSlotStatus';
 
-interface ServiceType {
-  duration: number;
-  price: number;
-  description: string;
-  features: string[];
-}
-
-interface Appointment {
-  id: string;
-  serviceDuration: number;
-  date: string;
-  startTime: string;
-  name: string;
-  mobile: string;
-  plateNumber: string;
-  engineOil: string | undefined;
-  totalCharge: number;
-}
-interface TimeSlotStatus {
-  slot: string;
-  status: 'available' | 'busy' | 'highly-busy' | 'not-available';
-  bookedCount: number;
-}
 @Component({
   selector: 'app-appointment-page',
   standalone: true,
@@ -47,39 +29,7 @@ interface TimeSlotStatus {
   styleUrl: './appintment-page.component.css',
 })
 export class AppointmentPageComponent implements OnInit {
-  services: ServiceType[] = [
-    {
-      duration: 2,
-      description: 'Basic cleaning service with essential housekeeping tasks',
-      price: 999,
-      features: [
-        'Basic house cleaning',
-        'Dusting & mopping',
-        'Bathroom cleaning',
-      ],
-    },
-    {
-      duration: 4,
-      description: 'Standard cleaning with additional deep cleaning services',
-      price: 1999,
-      features: [
-        'Everything in Basic',
-        'Kitchen deep clean',
-        'Window cleaning',
-      ],
-    },
-    {
-      duration: 8,
-      description: 'Premium service with comprehensive cleaning solutions',
-      price: 3999,
-      features: [
-        'Everything in Standard',
-        'Carpet cleaning',
-        'Furniture deep clean',
-      ],
-    },
-  ];
-
+  services: ServiceType[] = [];
   selectedService: ServiceType | null = null;
   bookingForm: FormGroup;
   appointments: Appointment[] = [];
@@ -93,9 +43,13 @@ export class AppointmentPageComponent implements OnInit {
   engineOils: string[] = ['Brand A', 'Brand B', 'Brand C', 'Brand D'];
   selectedOil: string | undefined;
   addOnsCharge: number = 0;
-date: any;
+  loading: boolean = false;
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private appointmentService: AppointmentService
+  ) {
     this.bookingForm = this.fb.group({
       name: ['', Validators.required],
       mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
@@ -107,6 +61,25 @@ date: any;
   ngOnInit() {
     this.maxDate.setDate(this.maxDate.getDate() + 30);
     this.generateDisabledDates();
+    this.loadServices();
+  }
+
+  loadServices() {
+    this.loading = true;
+    this.appointmentService
+      .getAllServices()
+      .pipe(
+        catchError((error) => {
+          this.errorMessage =
+            'Failed to load services. Please try again later.';
+          console.error('Error loading services:', error);
+          return of([]);
+        }),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe((services) => {
+        this.services = services;
+      });
   }
 
   get totalCharge(): number {
@@ -138,90 +111,73 @@ date: any;
       return;
     }
 
-    const slots: TimeSlotStatus[] = [];
-    const startHour = 8;
-    const endHour = 17;
+    const dateStr = this.selectedDate.toISOString().split('T')[0];
+    this.loading = true;
 
-    for (let hour = startHour; hour < endHour; hour++) {
-      for (let minute of ['00', '30']) {
-        const timeSlot = `${hour.toString().padStart(2, '0')}:${minute}`;
-        const status = this.getTimeSlotStatus(timeSlot);
-        slots.push(status);
-
-        if (
-          status.status === 'available' ||
-          status.status === 'busy' ||
-          status.status === 'highly-busy'
-        ) {
-          this.availableTimeSlots.push(timeSlot);
-        }
-      }
-    }
-
-    this.timeSlotStatuses = slots;
+    this.appointmentService
+      .getAvailableTimeSlots(dateStr, this.selectedService.duration)
+      .pipe(
+        catchError((error) => {
+          this.errorMessage =
+            'Failed to load time slots. Please try again later.';
+          console.error('Error loading time slots:', error);
+          return of([]);
+        }),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe((timeSlots) => {
+        this.availableTimeSlots = timeSlots;
+        this.updateTimeSlotStatuses();
+      });
   }
 
-  getTimeSlotStatus(timeSlot: string): TimeSlotStatus {
+  updateTimeSlotStatuses() {
     if (!this.selectedDate || !this.selectedService) {
-      return { slot: timeSlot, status: 'not-available', bookedCount: 0 };
-    }
-
-    const [hours, minutes] = timeSlot.split(':').map(Number);
-    const endHour = hours + this.selectedService.duration;
-
-    // Check if the service would extend beyond working hours
-    if (endHour > 17) {
-      return { slot: timeSlot, status: 'not-available', bookedCount: 0 };
+      this.timeSlotStatuses = [];
+      return;
     }
 
     const dateStr = this.selectedDate.toISOString().split('T')[0];
-    const conflictingAppointments = this.appointments.filter(
-      (apt) =>
-        apt.date === dateStr &&
+    this.appointmentService
+      .getAppointmentsByDate(dateStr)
+      .pipe(
+        catchError((error) => {
+          this.errorMessage =
+            'Failed to load appointment status. Please try again later.';
+          console.error('Error loading appointment status:', error);
+          return of([]);
+        })
+      )
+      .subscribe((appointments) => {
+        this.appointments = appointments;
+        this.calculateTimeSlotStatuses();
+      });
+  }
+
+  calculateTimeSlotStatuses() {
+    this.timeSlotStatuses = this.availableTimeSlots.map((slot) => {
+      const conflictingAppointments = this.appointments.filter((apt) =>
         this.doTimeSlotsOverlap(
-          timeSlot,
+          slot,
           this.selectedService!.duration,
           apt.startTime,
           apt.serviceDuration
         )
-    );
+      );
 
-    const bookedCount = conflictingAppointments.length;
+      const bookedCount = conflictingAppointments.length;
 
-    if (bookedCount >= 3) {
-      return { slot: timeSlot, status: 'not-available', bookedCount };
-    } else if (bookedCount === 2) {
-      return { slot: timeSlot, status: 'highly-busy', bookedCount };
-    } else if (bookedCount === 1) {
-      return { slot: timeSlot, status: 'busy', bookedCount };
-    } else {
-      return { slot: timeSlot, status: 'available', bookedCount };
-    }
-  }
+      let status: TimeSlotStatus['status'] = 'available';
+      if (bookedCount >= 3) {
+        status = 'not-available';
+      } else if (bookedCount === 2) {
+        status = 'highly-busy';
+      } else if (bookedCount === 1) {
+        status = 'busy';
+      }
 
-  getTimeSlotClasses(slot: string): string {
-    const status =
-      this.timeSlotStatuses.find((s) => s.slot === slot)?.status ||
-      'not-available';
-    const isSelected = this.selectedTimeSlot === slot;
-
-    const baseClasses = 'p-3 text-center transition-colors rounded-md';
-
-    const statusClasses = {
-      available:
-        'bg-green-100 hover:bg-green-200 text-green-800 cursor-pointer',
-      busy: 'bg-yellow-100 hover:bg-yellow-200 text-yellow-800 cursor-pointer',
-      'highly-busy':
-        'bg-orange-100 hover:bg-orange-200 text-orange-800 cursor-pointer',
-      'not-available':
-        'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50',
-    };
-
-    const selectedClasses = isSelected
-      ? 'ring-2 ring-blue-500 ring-offset-2'
-      : '';
-
-    return `${baseClasses} ${statusClasses[status]} ${selectedClasses}`;
+      return { slot, status, bookedCount };
+    });
   }
 
   selectService(service: ServiceType) {
@@ -258,11 +214,29 @@ date: any;
     return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
-  isTimeSlotAvailable(timeSlot: string): boolean {
-    const status = this.timeSlotStatuses.find(
-      (s) => s.slot === timeSlot
-    )?.status;
-    return status !== 'not-available';
+  getTimeSlotClasses(slot: string): string {
+    const status =
+      this.timeSlotStatuses.find((s) => s.slot === slot)?.status ||
+      'not-available';
+    const isSelected = this.selectedTimeSlot === slot;
+
+    const baseClasses = 'p-3 text-center transition-colors rounded-md';
+
+    const statusClasses = {
+      available:
+        'bg-green-100 hover:bg-green-200 text-green-800 cursor-pointer',
+      busy: 'bg-yellow-100 hover:bg-yellow-200 text-yellow-800 cursor-pointer',
+      'highly-busy':
+        'bg-orange-100 hover:bg-orange-200 text-orange-800 cursor-pointer',
+      'not-available':
+        'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50',
+    };
+
+    const selectedClasses = isSelected
+      ? 'ring-2 ring-blue-500 ring-offset-2'
+      : '';
+
+    return `${baseClasses} ${statusClasses[status]} ${selectedClasses}`;
   }
 
   doTimeSlotsOverlap(
@@ -298,12 +272,12 @@ date: any;
     this.selectedOil = undefined;
     this.bookingForm.reset();
     this.addOnsCharge = 0;
+    this.errorMessage = '';
   }
 
   submitBooking() {
     if (this.isFormValid() && this.selectedService) {
       const appointment: Appointment = {
-        id: Date.now().toString(),
         serviceDuration: this.selectedService.duration,
         date: this.selectedDate!.toISOString().split('T')[0],
         startTime: this.selectedTimeSlot!,
@@ -312,12 +286,27 @@ date: any;
         plateNumber: this.bookingForm.value.plateNumber,
         engineOil: this.selectedOil,
         totalCharge: this.totalCharge,
+        serviceType: this.selectedService,
       };
 
-      this.appointments.push(appointment);
-      console.log('New appointment booked:', appointment);
-      console.log('All appointments:', this.appointments);
-      this.backToServices();
+      this.loading = true;
+      this.appointmentService
+        .createAppointment(appointment)
+        .pipe(
+          catchError((error) => {
+            this.errorMessage =
+              'Failed to create appointment. Please try again later.';
+            console.error('Error creating appointment:', error);
+            return of(null);
+          }),
+          finalize(() => (this.loading = false))
+        )
+        .subscribe((response) => {
+          if (response) {
+            console.log('New appointment booked:', response);
+            this.backToServices();
+          }
+        });
     }
   }
 
@@ -326,7 +315,8 @@ date: any;
       this.bookingForm.valid &&
       !!this.selectedDate &&
       !!this.selectedTimeSlot &&
-      !!this.selectedOil
+      !!this.selectedOil &&
+      !!this.selectedService
     );
   }
 }
