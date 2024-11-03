@@ -75,3 +75,30 @@ INSERT INTO product_attribute (product_attribute_id, color, product_id, bike_id)
                                                                                      (40, 'Black', 20, 1),
                                                                                      (41, 'Black', 21, 2),
                                                                                      (42, 'Black', 21, 1);
+
+
+INSERT INTO service_type (duration, price, description) VALUES
+                                                            (2, 999.00, 'Basic cleaning service with essential housekeeping tasks'),
+                                                            (4, 1999.00, 'Standard cleaning with additional deep cleaning services'),
+                                                            (8, 3999.00, 'Premium service with comprehensive cleaning solutions');
+
+-- Since features is stored in a separate table due to @ElementCollection,
+-- First we need to get the generated IDs from the service_type table
+
+-- For Basic Service Features (assuming service_type_id = 1)
+INSERT INTO service_type_features (service_type_id, features) VALUES
+                                                                  (1, 'Basic house cleaning'),
+                                                                  (1, 'Dusting & mopping'),
+                                                                  (1, 'Bathroom cleaning');
+
+-- For Standard Service Features (assuming service_type_id = 2)
+INSERT INTO service_type_features (service_type_id, features) VALUES
+                                                                  (2, 'Everything in Basic'),
+                                                                  (2, 'Kitchen deep clean'),
+                                                                  (2, 'Window cleaning');
+
+-- For Premium Service Features (assuming service_type_id = 3)
+INSERT INTO service_type_features (service_type_id, features) VALUES
+                                                                  (3, 'Everything in Standard'),
+                                                                  (3, 'Carpet cleaning'),
+                                                                  (3, 'Furniture deep clean');
