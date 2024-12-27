@@ -1,0 +1,150 @@
+:host ::ng-deep .p-calendar {
+  width: 100%;
+}
+
+:host ::ng-deep .p-datepicker {
+  width: 100%;
+  min-width: 320px;
+  padding: 0.5rem;
+  background-color: #1e293b; /* Slate-800 */
+  border: 1px solid #475569; /* Slate-600 */
+  border-radius: 0.5rem;
+  color: #f8fafc; /* Slate-50 */
+}
+
+:host ::ng-deep .p-datepicker table {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+:host ::ng-deep .p-datepicker table th {
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: #94a3b8; /* Slate-400 */
+}
+
+:host ::ng-deep .p-datepicker table td {
+  padding: 0.5rem;
+}
+
+/* Base date cell styles */
+:host ::ng-deep .p-datepicker table td > span {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e2e8f0; /* Slate-200 */
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+/* Hover state */
+:host ::ng-deep .p-datepicker table td > span:hover {
+  background-color: #4c1d95; /* Violet-900 */
+  color: #ffffff;
+}
+
+/* Selected date - This style will persist */
+:host ::ng-deep .p-datepicker table td.p-datepicker-selected > span {
+  background-color: #60a5fa !important; /* Light blue-400 */
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+}
+
+/* Selected date active state */
+:host ::ng-deep .p-datepicker table td.p-datepicker-selected > span:active {
+  background-color: #60a5fa !important; /* Light blue-400 */
+  color: #ffffff !important;
+}
+
+/* Today's date styling */
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+  border: 2px solid #60a5fa; /* Light blue-400 */
+  color: #60a5fa; /* Light blue-400 */
+  background-color: transparent;
+  font-weight: 600;
+}
+
+/* Today's date when selected */
+:host ::ng-deep .p-datepicker table td.p-datepicker-today.p-datepicker-selected > span {
+  background-color: #60a5fa !important;
+  color: #ffffff !important;
+  border: none;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #60a5fa;
+}
+
+/* Header styles */
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+  padding: 0.5rem;
+  border-bottom: 1px solid #475569; /* Slate-600 */
+  margin-bottom: 0.5rem;
+  background-color: #334155; /* Slate-700 */
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-title {
+  margin: 0 2.5rem;
+  color: #f8fafc; /* Slate-50 */
+}
+
+/* Navigation buttons */
+:host ::ng-deep .p-datepicker .p-datepicker-prev,
+:host ::ng-deep .p-datepicker .p-datepicker-next {
+  width: 2rem;
+  height: 2rem;
+  color: #94a3b8; /* Slate-400 */
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-prev:hover,
+:host ::ng-deep .p-datepicker .p-datepicker-next:hover {
+  background: transparent;
+  color: #60a5fa; /* Light blue-400 */
+}
+
+/* Other month dates */
+:host ::ng-deep .p-datepicker table td.p-datepicker-other-month {
+  opacity: 0.35;
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-other-month > span {
+  color: #94a3b8; /* Slate-400 */
+}
+
+/* Disabled dates */
+:host ::ng-deep .p-datepicker table td.p-datepicker-unselectable > span {
+  color: #64748b; /* Slate-500 */
+  opacity: 0.5;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Prevent ripple effects */
+:host ::ng-deep .p-ripple {
+  overflow: hidden !important;
+}
+
+:host ::ng-deep .p-ink,
+:host ::ng-deep .p-datepicker table td .p-ripple-element {
+  display: none !important;
+}
+
+/* Month/Year dropdown */
+:host ::ng-deep .p-datepicker .p-datepicker-header select {
+  background-color: #334155; /* Slate-700 */
+  color: #f8fafc; /* Slate-50 */
+  border: 1px solid #475569; /* Slate-600 */
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Disabled state */
+:host ::ng-deep .p-datepicker .p-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

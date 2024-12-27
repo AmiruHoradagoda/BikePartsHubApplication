@@ -1,0 +1,109 @@
+    <footer class="relative w-full py-12 text-white bg-gradient-to-b from-zinc-800 to-zinc-900">
+      <div class="container px-4 mx-auto">
+        
+
+        <!-- Main Footer Content -->
+        <div class="grid grid-cols-1 gap-12 mb-12 sm:grid-cols-2 md:grid-cols-4">
+          <!-- Brand Section -->
+          <div class="text-center sm:text-left">
+            <div class="flex flex-col items-center sm:items-start">
+              <div class="w-24 h-24 mb-4">
+                <img
+                  src="/assets/icon.png"
+                  alt="Bike Parts Hub Logo"
+                  class="object-contain w-full h-full transition-transform hover:scale-105"
+                />
+              </div>
+              <p class="mb-4 text-zinc-400">Road towards the betterment of your bike</p>
+              <!-- Social Media Icons -->
+              <div class="flex gap-4 mt-4">
+                <a *ngFor="let social of socialLinks"
+                   [href]="social.link"
+                   [attr.aria-label]="social.label"
+                   class="p-2 transition-colors rounded-full hover:bg-[#FF6600] bg-zinc-700">
+                  <i [class]="social.icon"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discovery Section -->
+          <div class="text-center sm:text-left">
+            <h3 class="mb-6 text-lg font-bold text-[#FF6600] uppercase">Discovery</h3>
+            <ul class="space-y-3">
+              <li *ngFor="let item of discoveryLinks">
+                <a [href]="item.link" 
+                   class="flex items-center justify-center gap-2 transition-colors sm:justify-start group">
+                  <i class="text-[#FF6600] transition-transform fas fa-chevron-right group-hover:translate-x-2"></i>
+                  <span class="text-zinc-400 group-hover:text-white">{{item.label}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- About Section -->
+          <div class="text-center sm:text-left">
+            <h3 class="mb-6 text-lg font-bold text-[#FF6600] uppercase">About</h3>
+            <ul class="space-y-3">
+              <li *ngFor="let item of aboutLinks">
+                <a [href]="item.link" 
+                   class="flex items-center justify-center gap-2 transition-colors sm:justify-start group">
+                  <i class="text-[#FF6600] transition-transform fas fa-chevron-right group-hover:translate-x-2"></i>
+                  <span class="text-zinc-400 group-hover:text-white">{{item.label}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact Section -->
+          <div class="text-center sm:text-left">
+            <h3 class="mb-6 text-lg font-bold text-[#FF6600] uppercase">Contact</h3>
+            <ul class="space-y-3">
+              <li class="flex items-center justify-center gap-3 sm:justify-start">
+                <i class="text-[#FF6600] fas fa-map-marker-alt"></i>
+                <span class="text-zinc-400">123 Bike Street, City, Country</span>
+              </li>
+              <li class="flex items-center justify-center gap-3 sm:justify-start">
+                <i class="text-[#FF6600] fas fa-phone"></i>
+                <span class="text-zinc-400">+1 234 567 8900</span>
+              </li>
+              <li class="flex items-center justify-center gap-3 sm:justify-start">
+                <i class="text-[#FF6600] fas fa-envelope"></i>
+                <span class="text-zinc-400">supportbikepartshub.com</span>
+              </li>
+              <li class="flex items-center justify-center gap-3 sm:justify-start">
+                <i class="text-[#FF6600] fas fa-clock"></i>
+                <span class="text-zinc-400">Mon - Sat: 9:00 AM - 6:00 PM</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="pt-8 mt-8 text-center border-t border-zinc-700/50">
+          <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <p class="text-zinc-400">
+              &copy; 2024 BikeParts Hub. All Rights Reserved
+            </p>
+            <div class="flex items-center gap-6">
+              <a href="#" class="text-zinc-400 hover:text-white">Privacy Policy</a>
+              <span class="text-zinc-600">|</span>
+              <a href="#" class="text-zinc-400 hover:text-white">Terms & Conditions</a>
+              <span class="text-zinc-600">|</span>
+              <a href="#" class="text-zinc-400 hover:text-white">Sitemap</a>
+            </div>
+            <p class="flex items-center gap-2 text-zinc-400">
+              Designed with <i class="text-red-500 animate-pulse fas fa-heart"></i> by BPH team
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to Top Button -->
+      <button 
+        (click)="scrollToTop()"
+        class="fixed p-3 text-white transition-all bg-[#FF6600] rounded-full bottom-8 right-8 hover:bg-[#ff8533] hover:shadow-lg hover:shadow-orange-500/20 group"
+      >
+        <i class="transition-transform fas fa-arrow-up group-hover:-translate-y-1"></i>
+      </button>
+    </footer>
