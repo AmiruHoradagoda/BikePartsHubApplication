@@ -20,6 +20,5 @@ spring:
     init:
       mode: always
 
-  # No need for sql.init.mode if using Hibernate import.sql
 server:
   port: 8080
