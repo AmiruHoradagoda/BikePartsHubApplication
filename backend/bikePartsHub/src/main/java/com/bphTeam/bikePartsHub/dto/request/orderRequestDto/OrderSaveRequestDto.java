@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class OrderSaveRequestDto {
-    private Long userId;
+    private Integer userId;
     private LocalDateTime orderDate;
     private double total;
     private List<OrderDetailRequestDto> orderDetails;

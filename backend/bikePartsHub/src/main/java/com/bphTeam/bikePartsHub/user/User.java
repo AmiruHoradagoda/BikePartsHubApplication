@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.user;
 
+import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -21,11 +23,13 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
 
     @Enumerated(EnumType.STRING)
     private Role role;
