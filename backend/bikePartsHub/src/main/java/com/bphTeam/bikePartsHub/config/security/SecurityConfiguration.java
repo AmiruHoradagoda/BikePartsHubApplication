@@ -1,6 +1,5 @@
 package com.bphTeam.bikePartsHub.config.security;
 
-import com.bphTeam.bikePartsHub.config.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,45 +13,55 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.bphTeam.bikePartsHub.user.Role.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    private static final String[] WHITE_LIST_URL = {
+            "/api/v1/auth/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/swagger-resources",
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
+    };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/v1/auth/**",
-                                        "/swagger-ui/**",
-                                        "/swagger-resources/**",
-                                        "/swagger-resources",
-                                        "/v3/api-docs/**",
-                                        "/swagger-ui.html")
-                                .permitAll()
-                                .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
-//                                .requestMatchers("/api/v1/user/**").hasRole(USER.name())
+                        req
+                                // Whitelist public URLs
+                                .requestMatchers(WHITE_LIST_URL).permitAll()
+                                .requestMatchers("/api/v1/appointment/**").permitAll()
+                                .requestMatchers("/api/v1/order/**").permitAll()
+                                .requestMatchers(GET, "/api/v1/product/**").permitAll()
+                                .requestMatchers(GET, "/api/v1/bikes/**").permitAll()
 
+                                // Allow POST, PUT, DELETE only for ADMIN
+                                .requestMatchers(POST, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
+                                .requestMatchers(PUT, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
+                                .requestMatchers(DELETE, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
 
-                                .anyRequest()
-                                .authenticated()
+                                // Default: authenticate all other requests
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout ->
-                        logout.logoutUrl("/api/v1/auth/logout")
-                                .addLogoutHandler(logoutHandler)
-                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                )
-        ;
+                .logout(logout -> logout
+                        .logoutUrl("/api/v1/auth/logout")
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                );
 
         return http.build();
     }
