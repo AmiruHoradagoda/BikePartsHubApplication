@@ -5,7 +5,7 @@ import com.bphTeam.bikePartsHub.token.Token;
 import com.bphTeam.bikePartsHub.token.TokenRepository;
 import com.bphTeam.bikePartsHub.token.TokenType;
 import com.bphTeam.bikePartsHub.user.User;
-import com.bphTeam.bikePartsHub.user.UserRepository;
+import com.bphTeam.bikePartsHub.user.UserRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
+    private final UserRepo repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -80,7 +80,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUserId());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
