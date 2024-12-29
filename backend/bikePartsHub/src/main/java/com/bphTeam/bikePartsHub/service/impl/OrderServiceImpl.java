@@ -4,18 +4,15 @@ import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDt
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
-import com.bphTeam.bikePartsHub.entity.User;
 import com.bphTeam.bikePartsHub.repository.OrderDetailRepo;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
-import com.bphTeam.bikePartsHub.repository.UserRepo;
 import com.bphTeam.bikePartsHub.service.OrderService;
+import com.bphTeam.bikePartsHub.user.User;
+import com.bphTeam.bikePartsHub.user.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {

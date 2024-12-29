@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.entity;
 
+import com.bphTeam.bikePartsHub.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
