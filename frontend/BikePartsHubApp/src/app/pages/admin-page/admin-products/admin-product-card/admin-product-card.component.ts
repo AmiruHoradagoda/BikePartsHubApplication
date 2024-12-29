@@ -6,8 +6,6 @@ import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-admin-product-card',
-  standalone: true,
-  imports: [RouterModule],
   templateUrl: './admin-product-card.component.html',
   styleUrls: ['./admin-product-card.component.css'], // Fixed typo from styleUrl to styleUrls
 })

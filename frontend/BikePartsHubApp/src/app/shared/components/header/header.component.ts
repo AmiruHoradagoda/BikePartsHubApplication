@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchBarComponent } from "../search-bar/search-bar.component";
-import { NavComponent } from "../nav/nav.component";
 import { CartItem } from '../../../core/models/interface/CartItem';
 import { CartService } from '../../../pages/cart-page/cart.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [SearchBarComponent, NavComponent],
+  imports: [SearchBarComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

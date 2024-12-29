@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductFilterSidebarService } from './product-filter-sidebar.service';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-product-filter-sidebar',
-  standalone: true,
-  imports: [FormsModule,CommonModule],
   templateUrl: './product-filter-sidebar.component.html',
   styleUrls: ['./product-filter-sidebar.component.css'],
 })

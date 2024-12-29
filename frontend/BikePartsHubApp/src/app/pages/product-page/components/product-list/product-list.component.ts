@@ -6,22 +6,18 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductGet } from '../../../core/models/interface/Product';
-import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
-import { NgIf, NgFor, CommonModule } from '@angular/common';
+import { ProductGet } from '../../../../core/models/interface/Product';
 import { ProductListService } from './product-list.service';
 
 @Component({
   selector: 'app-product-list',
-  standalone: true,
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
-  imports: [ProductCardComponent, CommonModule],
 })
 export class ProductListComponent implements OnInit, OnChanges {
   products: ProductGet[] = [];
   filteredProducts: ProductGet[] = [];
-  selectedProduct: ProductGet | null = null; // State for selected product
+  selectedProduct: ProductGet | null = null; 
 
   currentPage: number = 1;
   totalPages: number = 1;

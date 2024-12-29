@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProductService } from '../../../shared/services/product.service';
-import { BikeService } from '../../../shared/services/bike.service';
+
 import { Observable, Subject } from 'rxjs';
-import { Bike } from '../../../core/models/interface/Bike';
+import { ProductService } from '../../../../shared/services/product.service';
+import { Bike } from '../../../../core/models/interface/Bike';
+import { BikeService } from '../../../../shared/services/bike.service';
+
 
 @Injectable({
   providedIn: 'root'

@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AdminProductCardComponent } from "./admin-product-card/admin-product-card.component";
 import { ProductSearchDetail } from '../../../core/models/interface/ProductSearchDetail';
 import { SearchBarService } from '../../../shared/components/search-bar/search-bar.service';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-admin-products',
-  standalone: true,
-  imports: [RouterModule, AdminProductCardComponent, CommonModule],
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.css',
 })

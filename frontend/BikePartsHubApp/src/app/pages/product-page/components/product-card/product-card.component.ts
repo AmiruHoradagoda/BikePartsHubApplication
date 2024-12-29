@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProductGet } from '../../../core/models/interface/Product';
+import { ProductGet } from '../../../../core/models/interface/Product';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../../pages/cart-page/cart.service';
+import { CartService } from '../../../cart-page/cart.service';
 
 @Component({
   selector: 'app-product-card',
-  standalone: true,
-  imports: [RouterModule, CommonModule],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })
