@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,11 @@ import { Router, RouterModule } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -28,11 +33,18 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      // Add your login logic here
-
-      // Example navigation to another route after login
-      this.router.navigate(['/home']); // Update '/home' to your target route
+      const loginData = this.loginForm.value;
+      this.authService.login(loginData).subscribe(
+        (response) => {
+          console.log('Login successful:', response);
+          localStorage.setItem('accessToken', response.accessToken);
+          localStorage.setItem('refreshToken', response.refreshToken);
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          console.error('Login error:', error);
+        }
+      );
     }
   }
 }
