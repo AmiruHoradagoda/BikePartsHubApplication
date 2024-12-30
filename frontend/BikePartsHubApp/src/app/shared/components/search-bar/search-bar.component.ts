@@ -6,8 +6,6 @@ import { ProductSearchDetail } from '../../../core/models/interface/ProductSearc
 
 @Component({
   selector: 'app-search-bar',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css'],
 })

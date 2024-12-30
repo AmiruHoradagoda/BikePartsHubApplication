@@ -12,8 +12,6 @@ interface FooterLink {
 }
 @Component({
   selector: 'app-footer',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',
   styles: [
