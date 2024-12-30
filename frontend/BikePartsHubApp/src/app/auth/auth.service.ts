@@ -6,19 +6,36 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/v1/auth'; // Replace with your backend URL
+  private baseUrl = 'http://localhost:8080/api/v1/auth';
 
   constructor(private http: HttpClient) {}
 
   register(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, data);
+    return this.http.post(`${this.baseUrl}/register`, data);
   }
 
-  login(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/authenticate`, data);
+  authenticate(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/authenticate`, data);
   }
 
-  refreshToken(refreshToken: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/refresh-token`, { refreshToken });
+  refreshToken(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/refresh-token`, {});
+  }
+
+  saveTokens(accessToken: string, refreshToken: string): void {
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refresh_token');
+  }
+
+  logout(): void {
+    localStorage.clear();
   }
 }
