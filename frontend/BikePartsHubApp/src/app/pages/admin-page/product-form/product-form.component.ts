@@ -24,9 +24,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-form',
-  standalone: true,
   templateUrl: './product-form.component.html',
-  imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./product-form.component.css'],
 })
 export class ProductFormComponent implements OnInit {
