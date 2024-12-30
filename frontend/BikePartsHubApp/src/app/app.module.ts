@@ -15,25 +15,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductDetailsComponent } from './pages/product-page/components/product-details/product-details.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
-import { SearchBarComponent } from './shared/components/search-bar/search-bar.component';
 import { AdminPageModule } from './pages/admin-page/admin-page.module';
 import { ProductPageModule } from './pages/product-page/product-page.module';
-import { ProductCardComponent } from './pages/product-page/components/product-card/product-card.component';
 import { AuthModule } from './auth/auth.module';
+import { SharedCommonModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProductDetailsComponent,
-    UserPageComponent,
-  ],
+  declarations: [AppComponent, ProductDetailsComponent, UserPageComponent],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    HeaderComponent,
-    NavComponent,
-    FooterComponent,
+    SharedCommonModule,
     AuthModule,
     AdminPageModule,
     ProductPageModule,
@@ -47,10 +40,8 @@ import { AuthModule } from './auth/auth.module';
       appId: '1:778797142877:web:fd53dc57fcbe02e0f8ceb4',
       measurementId: 'G-5FKWWRNX6C',
     }),
-    ProductFormComponent,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    SearchBarComponent,
   ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
