@@ -4,6 +4,9 @@ export interface AuthenticationRequest {
 }
 
 export interface AuthenticationResponse {
+  firstName: string;
+  lastName: string;
+  email: string;
   access_token: string;
   refresh_token: string;
 }
