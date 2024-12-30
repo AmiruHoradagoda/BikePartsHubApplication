@@ -19,6 +19,7 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      rememberMe: [false],
     });
   }
 
@@ -26,10 +27,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.authenticate(this.loginForm.value).subscribe(
         (response) => {
-          this.authService.saveTokens(
-            response.access_token,
-            response.refresh_token
-          );
+          this.authService.saveUserDetails(response.user);
           this.router.navigate(['/']);
         },
         (error) => {

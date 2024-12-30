@@ -74,6 +74,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe(
         (response) => {
+          this.authService.saveUserDetails(response.user);
           console.log('Registration successful:', response);
         },
         (error) => {
