@@ -8,6 +8,7 @@ import { AdminProductCardComponent } from './admin-products/admin-product-card/a
 import { AdminPageComponent } from './admin-page.component';
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AdminProductsComponent } from './admin-products/admin-products.component';
+import { ProductFormComponent } from './product-form/product-form.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AdminProductsComponent } from './admin-products/admin-products.componen
     AdminSideNavbarComponent,
     AdminProductCardComponent,
     AdminProductsComponent,
+    ProductFormComponent,
   ],
   imports: [
     CommonModule,
