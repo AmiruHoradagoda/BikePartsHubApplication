@@ -19,6 +19,7 @@ import { SearchBarComponent } from './shared/components/search-bar/search-bar.co
 import { AdminPageModule } from './pages/admin-page/admin-page.module';
 import { ProductPageModule } from './pages/product-page/product-page.module';
 import { ProductCardComponent } from './pages/product-page/components/product-card/product-card.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ProductCardComponent } from './pages/product-page/components/product-ca
     HeaderComponent,
     NavComponent,
     FooterComponent,
+    AuthModule,
     AdminPageModule,
     ProductPageModule,
     AngularFireStorageModule,
