@@ -1,44 +1,32 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
   showPassword = false;
   showConfirmPassword = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authService: AuthService
-  ) {
-    this.registerForm = this.formBuilder.group(
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.registerForm = this.fb.group(
       {
-        firstName: ['', [Validators.required, Validators.minLength(2)]],
-        lastName: ['', [Validators.required, Validators.minLength(2)]],
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', Validators.required],
+        phone: ['', Validators.required],
         address: ['', Validators.required],
         city: ['', Validators.required],
         state: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
         termsAccepted: [false, Validators.requiredTrue],
+        role: ['CUSTOMER'],
       },
       {
         validator: this.passwordMatchValidator,
@@ -46,68 +34,52 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
-
-  // Custom validator to check if password and confirmPassword match
-  passwordMatchValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
-    return password &&
-      confirmPassword &&
-      password.value !== confirmPassword.value
-      ? { mismatch: true }
-      : null;
+  passwordMatchValidator(form: FormGroup) {
+    return form.get('password')?.value === form.get('confirmPassword')?.value
+      ? null
+      : { mismatch: true };
   }
 
-  // Getter for form controls
   get f() {
     return this.registerForm.controls;
   }
 
-  // Method to show or hide the password
-  togglePasswordVisibility(controlName: string) {
-    if (controlName === 'password') {
-      this.showPassword = !this.showPassword;
-    } else if (controlName === 'confirmPassword') {
-      this.showConfirmPassword = !this.showConfirmPassword;
-    }
-  }
-
-  // Method to get error messages for each form control
   getErrorMessage(controlName: string): string {
     const control = this.registerForm.get(controlName);
     if (control?.hasError('required')) {
       return `${controlName} is required`;
-    } else if (control?.hasError('minlength')) {
-      return `${controlName} must be at least ${control.errors?.['minlength'].requiredLength} characters long`;
     } else if (control?.hasError('email')) {
-      return 'Please enter a valid email address';
-    } else if (control?.hasError('mismatch')) {
+      return 'Please enter a valid email';
+    } else if (control?.hasError('minlength')) {
+      return `${controlName} must be at least ${control.errors?.['minlength'].requiredLength} characters`;
+    } else if (
+      controlName === 'confirmPassword' &&
+      this.registerForm.hasError('mismatch')
+    ) {
       return 'Passwords do not match';
     }
     return '';
   }
 
-  // Submit method
-  onSubmit() {
-    this.submitted = true;
-
-    // Stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
+  togglePasswordVisibility(field: string): void {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
     }
+  }
 
-    const registerData = this.registerForm.value;
-    this.authService.register(registerData).subscribe(
-      (response) => {
-        console.log('Registration successful:', response);
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.error('Registration error:', error);
-      }
-    );
+  onSubmit(): void {
+    this.submitted = true;
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value).subscribe(
+        (response) => {
+          console.log('Registration successful:', response);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
 }

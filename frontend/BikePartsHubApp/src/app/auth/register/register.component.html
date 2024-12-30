@@ -1,77 +1,40 @@
-<div
-  class="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-900"
->
+<div class="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-900">
   <div class="w-full max-w-2xl">
-    <!-- Logo -->
-    <!-- <div class="flex justify-center mb-8">
-      <svg
-        class="w-12 h-12 text-orange-500"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path
-          d="M22 17.04C21.44 17.4 20.84 17.7 20.2 17.93L20.5 18.33C20.75 18.65 20.75 19.12 20.5 19.44L20.2 19.84C19.95 20.16 19.5 20.16 19.24 19.84L18.24 18.5C17.24 18.75 16.18 18.75 15.18 18.5L14.18 19.84C13.93 20.16 13.48 20.16 13.23 19.84L12.93 19.44C12.68 19.12 12.68 18.65 12.93 18.33L13.23 17.93C11.75 17.33 10.67 16.22 10.35 14.84C8.05 14.3 6.85 13.07 6.85 11.84C6.85 10.86 7.69 9.97 9.04 9.42L8.24 8.42C8.24 8.42 9.89 7.5 10.24 7.9L10.89 8.73C11.69 8.53 12.59 8.42 13.54 8.42C14.49 8.42 15.39 8.53 16.19 8.73L16.84 7.9C17.19 7.5 18.84 8.42 18.84 8.42L18.04 9.42C19.39 9.97 20.23 10.86 20.23 11.84C20.23 13.07 19.03 14.3 16.73 14.84C17.09 16.42 18.71 17.47 20.69 17.47L22 17.04Z"
-        />
-      </svg>
-    </div> -->
-
     <!-- Registration Form -->
     <div class="p-8 bg-gray-800 rounded-lg shadow-lg">
       <h2 class="mb-8 text-3xl font-bold text-center text-white">
         Create Your Account
       </h2>
 
-      <form
-        [formGroup]="registerForm"
-        (ngSubmit)="onSubmit()"
-        class="space-y-6"
-      >
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
         <!-- Personal Information -->
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- First Name -->
           <div>
-            <label
-              for="firstName"
-              class="block mb-2 text-sm font-medium text-white"
-              >First Name</label
-            >
+            <label for="firstName" class="block mb-2 text-sm font-medium text-white">First Name</label>
             <input
               id="firstName"
               type="text"
               formControlName="firstName"
               class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-              [ngClass]="{
-                'border-red-500': submitted && f['firstName'].errors
-              }"
+              [ngClass]="{'border-red-500': submitted && f['firstName'].errors}"
             />
-            <div
-              *ngIf="submitted && f['firstName'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['firstName'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("firstName") }}
             </div>
           </div>
 
           <!-- Last Name -->
           <div>
-            <label
-              for="lastName"
-              class="block mb-2 text-sm font-medium text-white"
-              >Last Name</label
-            >
+            <label for="lastName" class="block mb-2 text-sm font-medium text-white">Last Name</label>
             <input
               id="lastName"
               type="text"
               formControlName="lastName"
               class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-              [ngClass]="{
-                'border-red-500': submitted && f['lastName'].errors
-              }"
+              [ngClass]="{'border-red-500': submitted && f['lastName'].errors}"
             />
-            <div
-              *ngIf="submitted && f['lastName'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['lastName'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("lastName") }}
             </div>
           </div>
@@ -81,40 +44,30 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Email -->
           <div>
-            <label for="email" class="block mb-2 text-sm font-medium text-white"
-              >Email Address</label
-            >
+            <label for="email" class="block mb-2 text-sm font-medium text-white">Email Address</label>
             <input
               id="email"
               type="email"
               formControlName="email"
               class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-              [ngClass]="{ 'border-red-500': submitted && f['email'].errors }"
+              [ngClass]="{'border-red-500': submitted && f['email'].errors}"
             />
-            <div
-              *ngIf="submitted && f['email'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['email'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("email") }}
             </div>
           </div>
 
           <!-- Phone -->
           <div>
-            <label for="phone" class="block mb-2 text-sm font-medium text-white"
-              >Phone Number</label
-            >
+            <label for="phone" class="block mb-2 text-sm font-medium text-white">Phone Number</label>
             <input
               id="phone"
               type="tel"
               formControlName="phone"
               class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-              [ngClass]="{ 'border-red-500': submitted && f['phone'].errors }"
+              [ngClass]="{'border-red-500': submitted && f['phone'].errors}"
             />
-            <div
-              *ngIf="submitted && f['phone'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['phone'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("phone") }}
             </div>
           </div>
@@ -124,20 +77,14 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Password -->
           <div class="relative">
-            <label
-              for="password"
-              class="block mb-2 text-sm font-medium text-white"
-              >Password</label
-            >
+            <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
             <div class="relative">
               <input
                 id="password"
                 [type]="showPassword ? 'text' : 'password'"
                 formControlName="password"
                 class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-                [ngClass]="{
-                  'border-red-500': submitted && f['password'].errors
-                }"
+                [ngClass]="{'border-red-500': submitted && f['password'].errors}"
               />
               <button
                 type="button"
@@ -147,33 +94,21 @@
                 {{ showPassword ? "Hide" : "Show" }}
               </button>
             </div>
-            <div
-              *ngIf="submitted && f['password'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['password'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("password") }}
             </div>
           </div>
 
           <!-- Confirm Password -->
           <div class="relative">
-            <label
-              for="confirmPassword"
-              class="block mb-2 text-sm font-medium text-white"
-              >Confirm Password</label
-            >
+            <label for="confirmPassword" class="block mb-2 text-sm font-medium text-white">Confirm Password</label>
             <div class="relative">
               <input
                 id="confirmPassword"
                 [type]="showConfirmPassword ? 'text' : 'password'"
                 formControlName="confirmPassword"
                 class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-                [ngClass]="{
-                  'border-red-500':
-                    submitted &&
-                    (f['confirmPassword'].errors ||
-                      registerForm.hasError('mismatch'))
-                }"
+                [ngClass]="{'border-red-500': submitted && (f['confirmPassword'].errors || registerForm.hasError('mismatch'))}"
               />
               <button
                 type="button"
@@ -183,40 +118,24 @@
                 {{ showConfirmPassword ? "Hide" : "Show" }}
               </button>
             </div>
-            <div
-              *ngIf="
-                submitted &&
-                (f['confirmPassword'].errors ||
-                  registerForm.hasError('mismatch'))
-              "
-              class="mt-1 text-sm text-red-500"
-            >
-              <span *ngIf="f['confirmPassword'].errors?.['required']"
-                >Confirm Password is required</span
-              >
-              <span *ngIf="registerForm.hasError('mismatch')"
-                >Passwords do not match</span
-              >
+            <div *ngIf="submitted && (f['confirmPassword'].errors || registerForm.hasError('mismatch'))" class="mt-1 text-sm text-red-500">
+              <span *ngIf="f['confirmPassword'].errors?.['required']">Confirm Password is required</span>
+              <span *ngIf="registerForm.hasError('mismatch')">Passwords do not match</span>
             </div>
           </div>
         </div>
 
         <!-- Address Information -->
         <div>
-          <label for="address" class="block mb-2 text-sm font-medium text-white"
-            >Address</label
-          >
+          <label for="address" class="block mb-2 text-sm font-medium text-white">Address</label>
           <input
             id="address"
             type="text"
             formControlName="address"
             class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-            [ngClass]="{ 'border-red-500': submitted && f['address'].errors }"
+            [ngClass]="{'border-red-500': submitted && f['address'].errors}"
           />
-          <div
-            *ngIf="submitted && f['address'].errors"
-            class="mt-1 text-sm text-red-500"
-          >
+          <div *ngIf="submitted && f['address'].errors" class="mt-1 text-sm text-red-500">
             {{ getErrorMessage("address") }}
           </div>
         </div>
@@ -224,39 +143,29 @@
         <!-- City and State -->
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label for="city" class="block mb-2 text-sm font-medium text-white"
-              >City</label
-            >
+            <label for="city" class="block mb-2 text-sm font-medium text-white">City</label>
             <input
               id="city"
               type="text"
               formControlName="city"
               class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-              [ngClass]="{ 'border-red-500': submitted && f['city'].errors }"
+              [ngClass]="{'border-red-500': submitted && f['city'].errors}"
             />
-            <div
-              *ngIf="submitted && f['city'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['city'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("city") }}
             </div>
           </div>
 
           <div>
-            <label for="state" class="block mb-2 text-sm font-medium text-white"
-              >State</label
-            >
+            <label for="state" class="block mb-2 text-sm font-medium text-white">State</label>
             <input
               id="state"
               type="text"
               formControlName="state"
               class="w-full px-4 py-2 text-white bg-gray-700 border border-gray-600 rounded focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
-              [ngClass]="{ 'border-red-500': submitted && f['state'].errors }"
+              [ngClass]="{'border-red-500': submitted && f['state'].errors}"
             />
-            <div
-              *ngIf="submitted && f['state'].errors"
-              class="mt-1 text-sm text-red-500"
-            >
+            <div *ngIf="submitted && f['state'].errors" class="mt-1 text-sm text-red-500">
               {{ getErrorMessage("state") }}
             </div>
           </div>
@@ -272,19 +181,12 @@
           />
           <label for="termsAccepted" class="ml-2 text-sm text-gray-300">
             I agree to the
-            <a href="#" class="text-orange-500 hover:text-orange-400"
-              >Terms and Conditions</a
-            >
+            <a href="#" class="text-orange-500 hover:text-orange-400">Terms and Conditions</a>
             and
-            <a href="#" class="text-orange-500 hover:text-orange-400"
-              >Privacy Policy</a
-            >
+            <a href="#" class="text-orange-500 hover:text-orange-400">Privacy Policy</a>
           </label>
         </div>
-        <div
-          *ngIf="submitted && f['termsAccepted'].errors"
-          class="mt-1 text-sm text-red-500"
-        >
+        <div *ngIf="submitted && f['termsAccepted'].errors" class="mt-1 text-sm text-red-500">
           You must accept the terms and conditions
         </div>
 
@@ -299,9 +201,7 @@
         <!-- Login Link -->
         <p class="mt-4 text-center text-gray-400">
           Already have an account?
-          <a routerLink="/login" class="text-orange-500 hover:text-orange-400"
-            >Sign in</a
-          >
+          <a routerLink="/login" class="text-orange-500 hover:text-orange-400">Sign in</a>
         </p>
       </form>
     </div>
