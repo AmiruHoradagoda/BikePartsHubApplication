@@ -1,30 +1,36 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
   showPassword = false;
   showConfirmPassword = false;
+  error: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group(
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         phone: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
         address: ['', Validators.required],
         city: ['', Validators.required],
         state: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required],
         termsAccepted: [false, Validators.requiredTrue],
         role: ['CUSTOMER'],
       },
@@ -34,14 +40,14 @@ export class RegisterComponent {
     );
   }
 
+  get f() {
+    return this.registerForm.controls;
+  }
+
   passwordMatchValidator(form: FormGroup) {
     return form.get('password')?.value === form.get('confirmPassword')?.value
       ? null
       : { mismatch: true };
-  }
-
-  get f() {
-    return this.registerForm.controls;
   }
 
   getErrorMessage(controlName: string): string {
@@ -52,11 +58,6 @@ export class RegisterComponent {
       return 'Please enter a valid email';
     } else if (control?.hasError('minlength')) {
       return `${controlName} must be at least ${control.errors?.['minlength'].requiredLength} characters`;
-    } else if (
-      controlName === 'confirmPassword' &&
-      this.registerForm.hasError('mismatch')
-    ) {
-      return 'Passwords do not match';
     }
     return '';
   }
@@ -72,15 +73,23 @@ export class RegisterComponent {
   onSubmit(): void {
     this.submitted = true;
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe(
-        (response) => {
-          this.authService.saveUserDetails(response.user);
-          console.log('Registration successful:', response);
+      const registerData = {
+        firstName: this.registerForm.value.firstName,
+        lastName: this.registerForm.value.lastName,
+        email: this.registerForm.value.email,
+        password: this.registerForm.value.password,
+        role: this.registerForm.value.role,
+      };
+
+      this.authService.register(registerData).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
         },
-        (error) => {
-          console.error(error);
-        }
-      );
+        error: (err) => {
+          this.error = 'Registration failed. Please try again.';
+          console.error('Registration error:', err);
+        },
+      });
     }
   }
 }
