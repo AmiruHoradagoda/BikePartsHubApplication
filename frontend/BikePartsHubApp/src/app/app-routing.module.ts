@@ -8,11 +8,18 @@ import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.compo
 import { AppointmentPageComponent } from './pages/appintment-page/appintment-page.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  {
+    path: 'userdashbord',
+    component: UserPageComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'checkout',
     component: CheckoutPageComponent,
