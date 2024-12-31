@@ -1,55 +1,94 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import {
+  AuthenticationRequest,
+  AuthenticationResponse,
+  RegisterRequest,
+} from './auth.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private baseUrl = 'http://localhost:8080/api/v1/auth';
-  private userSubject = new BehaviorSubject<any>(
-    this.getUserFromLocalStorage()
-  );
-  user$ = this.userSubject.asObservable();
+  private currentUserSubject =
+    new BehaviorSubject<AuthenticationResponse | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Check localStorage on initialization
+    //TODO change below code 
+     if (typeof localStorage !== 'undefined') {
+       const storedUser = localStorage.getItem('currentUser');
+       if (storedUser) {
+         this.currentUserSubject.next(JSON.parse(storedUser));
+       }
+     }
+  }
 
-  register(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, data).pipe(
-      tap((response: any) => {
-        this.saveUserDetails(response.user);
-      })
+  register(request: RegisterRequest): Observable<AuthenticationResponse> {
+    return this.http
+      .post<AuthenticationResponse>(`${this.baseUrl}/register`, request)
+      .pipe(
+        tap((response) => {
+          this.storeUserData(response);
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  authenticate(
+    request: AuthenticationRequest
+  ): Observable<AuthenticationResponse> {
+    return this.http
+      .post<AuthenticationResponse>(`${this.baseUrl}/authenticate`, request)
+      .pipe(
+        tap((response) => {
+          this.storeUserData(response);
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  refreshToken(): Observable<AuthenticationResponse> {
+    const refreshToken = localStorage.getItem('refresh_token');
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${refreshToken}`
     );
+
+    return this.http
+      .post<AuthenticationResponse>(
+        `${this.baseUrl}/refresh-token`,
+        {},
+        { headers }
+      )
+      .pipe(
+        tap((response) => {
+          this.storeUserData(response);
+        }),
+        catchError(this.handleError)
+      );
   }
 
-  authenticate(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/authenticate`, data).pipe(
-      tap((response: any) => {
-        this.saveUserDetails(response.user);
-      })
-    );
+  logout(): void {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    this.currentUserSubject.next(null);
   }
 
-  private getUserFromLocalStorage(): any {
-    if (typeof localStorage !== 'undefined') {
-      const userJson = localStorage.getItem('user');
-      return userJson ? JSON.parse(userJson) : null;
-    }
-    return null;
+  private storeUserData(response: AuthenticationResponse): void {
+    localStorage.setItem('currentUser', JSON.stringify(response));
+    localStorage.setItem('access_token', response.access_token);
+    localStorage.setItem('refresh_token', response.refresh_token);
+    this.currentUserSubject.next(response);
   }
 
-  saveUserDetails(user: any): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('user', JSON.stringify(user));
-    }
-    this.userSubject.next(user);
-  }
-
-  clearUserDetails(): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem('user');
-    }
-    this.userSubject.next(null);
+  private handleError(error: any) {
+    console.error('An error occurred:', error);
+    return throwError(() => error);
   }
 }
