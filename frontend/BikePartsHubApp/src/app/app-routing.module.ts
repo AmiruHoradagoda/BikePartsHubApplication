@@ -23,6 +23,7 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: CheckoutPageComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'appointment',
