@@ -1,1 +1,12 @@
-<p>user-page works!</p>
+<div class="max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
+  <h2 class="mb-4 text-2xl font-bold text-center">User Dashboard</h2>
+  <div *ngIf="currentUser">
+    <p class="text-lg"><strong>First Name:</strong> {{ currentUser.firstName }}</p>
+    <p class="text-lg"><strong>Last Name:</strong> {{ currentUser.lastName }}</p>
+    <p class="text-lg"><strong>Email:</strong> {{ currentUser.email }}</p>
+    <button (click)="logout()" class="w-full py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700">Logout</button>
+  </div>
+  <div *ngIf="!currentUser">
+    <p class="text-lg text-center">Please log in to see your details.</p>
+  </div>
+</div>
