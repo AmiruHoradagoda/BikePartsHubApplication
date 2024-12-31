@@ -19,15 +19,17 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     // Check localStorage on initialization
-    //TODO change below code 
-     if (typeof localStorage !== 'undefined') {
-       const storedUser = localStorage.getItem('currentUser');
-       if (storedUser) {
-         this.currentUserSubject.next(JSON.parse(storedUser));
-       }
-     }
+    //TODO change below code
+    if (typeof localStorage !== 'undefined') {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        this.currentUserSubject.next(JSON.parse(storedUser));
+      }
+    }
   }
-
+  get currentUserValue(): AuthenticationResponse | null {
+    return this.currentUserSubject.value;
+  }
   register(request: RegisterRequest): Observable<AuthenticationResponse> {
     return this.http
       .post<AuthenticationResponse>(`${this.baseUrl}/register`, request)
