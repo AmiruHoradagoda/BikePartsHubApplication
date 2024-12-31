@@ -23,10 +23,10 @@
       <div
         class="flex items-center justify-between w-full md:w-auto md:space-x-8"
       >
-        <a href="/appointment" class="text-xl md:text-2xl"
+        <a routerLink="/appointment" class="text-xl md:text-2xl"
           ><i class="far fa-calendar-alt"></i
         ></a>
-        <a href="/cart" class="text-xl md:text-2xl">
+        <a routerLink="/cart" class="text-xl md:text-2xl">
           <i class="relative fas fa-shopping-cart">
             <div
               class="absolute flex items-center justify-center w-5 h-5 text-xs bg-white border border-black rounded-full -bottom-2 -right-2"
@@ -36,10 +36,16 @@
           </i>
         </a>
 
-        <a href="/login" class="flex flex-col items-center text-xl md:text-2xl">
+        <a
+          routerLink="/login"
+          class="flex flex-col items-center text-xl md:text-2xl"
+        >
           <i class="fas fa-user"></i>
           <span class="mt-1 text-xs md:text-sm">
-            {{ userFirstName ? userFirstName : "Login" }}
+            <ng-container *ngIf="currentUser; else loginTemplate">
+              Hi {{ currentUser.firstName }}
+            </ng-container>
+            <ng-template #loginTemplate> Login </ng-template>
           </span>
         </a>
       </div>
