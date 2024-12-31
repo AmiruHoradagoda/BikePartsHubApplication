@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BikeService } from '../../../shared/services/bike.service';
+import { BikeService } from '../../../../shared/services/bike.service';
 import { Observable } from 'rxjs';
-import { Bike, BikeGet } from '../../../core/models/interface/Bike';
+import { Bike, BikeGet } from '../../../../core/models/interface/Bike';
 import { HttpClient } from '@angular/common/http';
-import { ProductGet, ProductSave, ProductUpdate } from '../../../core/models/interface/Product';
+import {
+  ProductGet,
+  ProductSave,
+  ProductUpdate,
+} from '../../../../core/models/interface/Product';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +71,4 @@ export class ProductFormService {
       productUpdateRequestDto
     );
   }
-
-  
 }

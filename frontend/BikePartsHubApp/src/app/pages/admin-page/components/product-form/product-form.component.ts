@@ -10,16 +10,16 @@ import {
   ProductGet,
   ProductSave,
   ProductUpdate,
-} from '../../../core/models/interface/Product';
-import { BikeGet, BikeSave } from '../../../core/models/interface/Bike';
-import { ProductAttributeSave } from '../../../core/models/interface/ProductAttribute';
+} from '../../../../core/models/interface/Product';
+import { BikeGet, BikeSave } from '../../../../core/models/interface/Bike';
+import { ProductAttributeSave } from '../../../../core/models/interface/ProductAttribute';
 import { CommonModule } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
-import { ProductService } from '../../../shared/services/product.service';
+import { ProductService } from '../../../../shared/services/product.service';
 import { ProductFormService } from './product-form.service';
 import { ActivatedRoute } from '@angular/router';
-import { BikeService } from '../../../shared/services/bike.service';
+import { BikeService } from '../../../../shared/services/bike.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
