@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
-import { AdminProductsComponent } from './admin-products/admin-products.component';
-import { ProductFormComponent } from './product-form/product-form.component';
+import { AdminOverviewComponent } from './components/admin-overview/admin-overview.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
 import { AdminPageComponent } from './admin-page.component';
+import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 
 const routes: Routes = [
   {
@@ -37,6 +37,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminPageRoutingModule { }
+export class AdminPageRoutingModule {}

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ProductFormComponent } from './pages/admin-page/product-form/product-form.component';
+import { ProductFormComponent } from './pages/admin-page/components/product-form/product-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductDetailsComponent } from './pages/product-page/components/product-details/product-details.component';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductSearchDetail } from '../../../core/models/interface/ProductSearchDetail';
-import { SearchBarService } from '../../../shared/components/search-bar/search-bar.service';
+import { ProductSearchDetail } from '../../../../core/models/interface/ProductSearchDetail';
+import { SearchBarService } from '../../../../shared/components/search-bar/search-bar.service';
 
 
 @Component({

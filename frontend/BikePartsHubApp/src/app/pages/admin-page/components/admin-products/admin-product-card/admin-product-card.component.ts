@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ProductSearchDetail } from '../../../../core/models/interface/ProductSearchDetail';
-import { RouterModule } from '@angular/router';
-import { ProductService } from '../../../../shared/services/product.service';
 import { ToastrService } from 'ngx-toastr'; // Import ToastrService
+import { ProductSearchDetail } from '../../../../../core/models/interface/ProductSearchDetail';
+import { ProductService } from '../../../../../shared/services/product.service';
 
 @Component({
   selector: 'app-admin-product-card',
