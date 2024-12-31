@@ -36,6 +36,11 @@
           </div>
         </div>
 
+        <!-- Error Message -->
+        <div *ngIf="error" class="text-sm text-red-500">
+          {{ error }}
+        </div>
+
         <!-- Remember Me & Forgot Password -->
         <div class="flex items-center justify-between">
           <div class="flex items-center">
