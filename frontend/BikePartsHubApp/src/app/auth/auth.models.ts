@@ -4,6 +4,7 @@ export interface AuthenticationRequest {
 }
 
 export interface AuthenticationResponse {
+  userId: number;
   firstName: string;
   lastName: string;
   email: string;
