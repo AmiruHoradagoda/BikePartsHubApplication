@@ -19,9 +19,14 @@ import { AdminPageModule } from './pages/admin-page/admin-page.module';
 import { ProductPageModule } from './pages/product-page/product-page.module';
 import { AuthModule } from './auth/auth.module';
 import { SharedCommonModule } from './shared/shared.module';
+import { CheckoutModule } from './pages/checkout-page/checkout.module';
 
 @NgModule({
-  declarations: [AppComponent, ProductDetailsComponent, UserPageComponent],
+  declarations: [
+    AppComponent,
+    ProductDetailsComponent,
+    UserPageComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -30,6 +35,7 @@ import { SharedCommonModule } from './shared/shared.module';
     AuthModule,
     AdminPageModule,
     ProductPageModule,
+    CheckoutModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp({
       apiKey: 'AIzaSyCjRYdIsP6hnMnski-spc1pWuJwjA_7mNI',
