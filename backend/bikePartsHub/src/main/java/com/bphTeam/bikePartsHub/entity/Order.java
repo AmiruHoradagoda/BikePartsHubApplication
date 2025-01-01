@@ -33,6 +33,10 @@ public class Order {
     @OneToMany(mappedBy = "orders")
     private Set<OrderDetails> oderDetails;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shipping_address_id", referencedColumnName = "shipping_id", nullable = false)
+    private ShippingAddress shippingAddress;
+
     public Order(User byId, Date orderDate, double total) {
     }
 }
