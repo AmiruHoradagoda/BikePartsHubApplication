@@ -2,7 +2,9 @@ package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.service.OrderService;
+import com.bphTeam.bikePartsHub.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,10 @@ public class OrderController {
     @PostMapping(
             path = {"/save"}
     )
-    public ResponseEntity<OrderSaveRequestDto> saveItem(@RequestBody OrderSaveRequestDto requestOderSaveDTO){
-        String id  = orderService.addOrder(requestOderSaveDTO);
+    public ResponseEntity<StandardResponse> saveItem(@RequestBody OrderSaveRequestDto requestOderSaveDTO){
+        String message  = orderService.addOrder(requestOderSaveDTO);
 
-        return null;
+        return new ResponseEntity<StandardResponse>(new StandardResponse(201,"Order is Saved",message), HttpStatus.CREATED);
     }
 
 }
