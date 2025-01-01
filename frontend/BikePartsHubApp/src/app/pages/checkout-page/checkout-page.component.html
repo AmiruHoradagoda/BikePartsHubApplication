@@ -1,127 +1,112 @@
 <div class="text-white bg-gray-900">
-  <!-- Main Form Content -->
   <div class="container p-6 mx-auto space-y-8">
-    <!-- Shipping Address -->
+    <!-- Error Alert -->
+    <div *ngIf="error" class="p-4 mb-4 text-red-400 bg-red-900 rounded-md">
+      {{ error }}
+    </div>
+
+    <!-- Order Summary -->
     <div class="p-6 bg-gray-800 rounded-md shadow-md">
-      <h2 class="mb-4 text-xl font-bold text-orange-500">Shipping Address</h2>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <input
-          type="text"
-          placeholder="Address Line"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Postal Code"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="City"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Province"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="District"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Country"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
+      <h2 class="mb-4 text-xl font-bold text-orange-500">Order Summary</h2>
+      <div *ngFor="let item of cartItems" class="flex justify-between py-2">
+        <div class="flex items-center">
+          <img [src]="item.imageUrl" alt="Product" class="w-12 h-12 mr-3 rounded">
+          <span>{{item.name}} x {{item.quantity}}</span>
+        </div>
+        <span>${{item.unitPrice * item.quantity}}</span>
+      </div>
+      <div class="pt-4 mt-4 border-t border-gray-700">
+        <div class="flex justify-between">
+          <span class="font-bold">Total</span>
+          <span class="font-bold">${{total}}</span>
+        </div>
       </div>
     </div>
 
-    <!-- Billing Address -->
-    <div class="p-6 bg-gray-800 rounded-md shadow-md">
-      <h2 class="mb-4 text-xl font-bold text-orange-500">Billing Address</h2>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <input
-          type="text"
-          placeholder="Address Line"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Postal Code"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="City"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Province"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="District"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Country"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-      </div>
-    </div>
+    <form [formGroup]="checkoutForm" (ngSubmit)="handleCheckout()">
+      <!-- Shipping Address -->
+      <div class="p-6 bg-gray-800 rounded-md shadow-md" formGroupName="shippingAddress">
+        <h2 class="mb-4 text-xl font-bold text-orange-500">Shipping Address</h2>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div class="flex flex-col">
+            <input
+              formControlName="address"
+              type="text"
+              placeholder="Address Line"
+              class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
+              [class.border-red-500]="checkoutForm.get('shippingAddress.address')?.touched && 
+                                    checkoutForm.get('shippingAddress.address')?.invalid"
+            />
+            <span class="mt-1 text-sm text-red-400" 
+                  *ngIf="checkoutForm.get('shippingAddress.address')?.touched && 
+                         checkoutForm.get('shippingAddress.address')?.invalid">
+              Address is required
+            </span>
+          </div>
 
-    <!-- Personal Information -->
-    <div class="p-6 bg-gray-800 rounded-md shadow-md">
-      <h2 class="mb-4 text-xl font-bold text-orange-500">
-        Personal Information
-      </h2>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <input
-          type="text"
-          placeholder="First Name"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Phone Number 1"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Phone Number 2 (Optional)"
-          class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
-        />
-      </div>
-    </div>
+          <div class="flex flex-col">
+            <input
+              formControlName="postalCode"
+              type="text"
+              placeholder="Postal Code"
+              class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
+              [class.border-red-500]="checkoutForm.get('shippingAddress.postalCode')?.touched && 
+                                    checkoutForm.get('shippingAddress.postalCode')?.invalid"
+            />
+            <span class="mt-1 text-sm text-red-400" 
+                  *ngIf="checkoutForm.get('shippingAddress.postalCode')?.touched && 
+                         checkoutForm.get('shippingAddress.postalCode')?.invalid">
+              Enter valid postal code
+            </span>
+          </div>
 
-    <!-- Payment Method -->
-    <div class="p-6 bg-gray-800 rounded-md shadow-md">
-      <h2 class="mb-4 text-xl font-bold text-orange-500">Payment Method</h2>
-      <div class="flex space-x-4">
-        <button class="w-full px-4 py-2 text-gray-900 bg-gray-200 rounded-md">
-          Cash on Delivery
+          <input
+            formControlName="city"
+            type="text"
+            placeholder="City"
+            class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
+          />
+          <input
+            formControlName="state"
+            type="text"
+            placeholder="Province"
+            class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
+          />
+          <input
+            formControlName="district"
+            type="text"
+            placeholder="District"
+            class="w-full p-2 text-gray-200 bg-gray-700 rounded-md"
+          />
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="p-6 bg-gray-800 rounded-md shadow-md">
+        <h2 class="mb-4 text-xl font-bold text-orange-500">Payment Method</h2>
+        <div class="flex space-x-4">
+          <button type="button" class="w-full px-4 py-2 text-gray-900 bg-gray-200 rounded-md">
+            Cash on Delivery
+          </button>
+          <button type="button" class="w-full px-4 py-2 text-gray-900 bg-gray-200 rounded-md">
+            Online Pay
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end mt-6 space-x-4">
+        <button type="button" class="px-6 py-2 text-gray-900 bg-gray-200 rounded-md" [routerLink]="['/cart']">
+          Back to Cart
         </button>
-        <button class="w-full px-4 py-2 text-gray-900 bg-gray-200 rounded-md">
-          Online Pay
+        <button 
+          type="submit" 
+          [disabled]="!checkoutForm.valid || loading"
+          class="flex items-center px-6 py-2 text-white bg-orange-500 rounded-md disabled:opacity-50">
+          <span *ngIf="loading" class="w-4 h-4 mr-2 border-2 border-white rounded-full border-t-transparent animate-spin"></span>
+          {{ loading ? 'Processing...' : 'Place Order' }}
         </button>
       </div>
-    </div>
-
-    <!-- Cancel Payment Button -->
-    <div class="text-right">
-      <button class="px-4 py-2 text-gray-900 bg-gray-200 rounded-md">
-        Cancel Payment
-      </button>
-    </div>
+    </form>
   </div>
 </div>
