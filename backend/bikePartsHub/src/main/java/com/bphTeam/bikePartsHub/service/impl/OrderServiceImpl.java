@@ -4,9 +4,12 @@ import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDt
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
+import com.bphTeam.bikePartsHub.entity.ShippingAddress;
+import com.bphTeam.bikePartsHub.mapper.ShippingMapper;
 import com.bphTeam.bikePartsHub.repository.OrderDetailRepo;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
+import com.bphTeam.bikePartsHub.repository.ShippingRepo;
 import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.user.User;
 import com.bphTeam.bikePartsHub.user.UserRepo;
@@ -25,17 +28,23 @@ public class OrderServiceImpl implements OrderService {
     private OrderDetailRepo orderDetailRepo;
     @Autowired
     private ProductRepo productRepo;
+    @Autowired
+    private ShippingMapper shippingMapper;
+    @Autowired
+    private ShippingRepo shippingRepo;
 
     @Transactional
     public String addOrder(OrderSaveRequestDto requestOrderSaveDTO) {
         // Retrieve the user by ID
         User user = userRepo.getById(requestOrderSaveDTO.getUserId());
-
+        ShippingAddress shippingAddress = shippingMapper.toShippingEntity(requestOrderSaveDTO.getShippingAddress());
+        shippingRepo.save(shippingAddress);
         // Create the Order entity
         Order order = new Order();
         order.setUser(user);
         order.setDate(requestOrderSaveDTO.getOrderDate());
         order.setTotal(requestOrderSaveDTO.getTotal());
+        order.setShippingAddress(shippingAddress);
 
         // Save the Order entity
         orderRepo.save(order);
