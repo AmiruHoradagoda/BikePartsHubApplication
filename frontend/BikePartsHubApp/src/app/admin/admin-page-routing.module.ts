@@ -8,7 +8,7 @@ import { LoginAdminComponent } from './auth-admin/login-admin/login-admin.compon
 
 const routes: Routes = [
   {
-    path: 'login',
+    path: 'login-admin',
     component: LoginAdminComponent,
   },
   {
