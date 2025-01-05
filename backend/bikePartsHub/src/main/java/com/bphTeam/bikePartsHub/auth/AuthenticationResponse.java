@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.auth;
 
+import com.bphTeam.bikePartsHub.user.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ public class AuthenticationResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private Role role;
 
     @JsonProperty("access_token")
     private String accessToken;
