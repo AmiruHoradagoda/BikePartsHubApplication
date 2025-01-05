@@ -48,6 +48,7 @@ public class AuthenticationService {
                 .firstName(savedUser.getFirstName())
                 .lastName(savedUser.getLastName())
                 .email(savedUser.getEmail())
+                .role(savedUser.getRole())
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -71,6 +72,7 @@ public class AuthenticationService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
