@@ -10,7 +10,7 @@ export class AppComponent {
   isAdminPage = false;
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
-      // Check if the current route starts with '/admin'
+      
       this.isAdminPage = this.router.url.startsWith('/admin');
     });
   }

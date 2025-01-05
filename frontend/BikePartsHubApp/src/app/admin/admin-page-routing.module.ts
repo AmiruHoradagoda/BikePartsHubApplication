@@ -1,0 +1,47 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AdminOverviewComponent } from './components/admin-overview/admin-overview.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+import { AdminProductsComponent } from './components/admin-products/admin-products.component';
+import { AdminComponent } from './admin.component';
+import { LoginAdminComponent } from './auth-admin/login-admin/login-admin.component';
+
+const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginAdminComponent,
+  },
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+      {
+        path: 'overview',
+        component: AdminOverviewComponent,
+      },
+      {
+        path: 'product',
+        component: AdminProductsComponent,
+      },
+      {
+        path: 'add-product',
+        component: ProductFormComponent,
+      },
+      {
+        path: 'update-product/:id',
+        component: ProductFormComponent,
+      },
+    ],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class AdminPageRoutingModule {}
