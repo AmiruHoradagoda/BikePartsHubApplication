@@ -4,5 +4,5 @@ import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 
 public interface UserService {
 
-    UserResponseDto getUserDetails(Long userId);
+    UserResponseDto getUserDetails(int userId);
 }
