@@ -16,8 +16,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getUserDetails/{id}")
-    private ResponseEntity<StandardResponse> getUserDetails(@RequestParam(value = "id") Long userId) {
-        UserResponseDto userDetails = userService.getUserDetails(userId);
+    private ResponseEntity<StandardResponse> getUserDetails(@PathVariable Integer id) {
+        UserResponseDto userDetails = userService.getUserDetails(id);
         return new ResponseEntity<StandardResponse>(new StandardResponse(200, "User Details sent", userDetails), HttpStatus.OK);
     }
 }
