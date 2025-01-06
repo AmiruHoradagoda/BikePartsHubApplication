@@ -17,6 +17,8 @@ public class UserResponseDto {
     private String firstName;
     private String lastName;
     private String email;
+    private String address;
+    private String phone;
     private Role role;
     private Set<OrderResponseDto> orders;
 }

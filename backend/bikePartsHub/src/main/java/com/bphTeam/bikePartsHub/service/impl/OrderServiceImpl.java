@@ -13,6 +13,7 @@ import com.bphTeam.bikePartsHub.repository.ShippingRepo;
 import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.user.User;
 import com.bphTeam.bikePartsHub.user.UserRepo;
+import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(requestOrderSaveDTO.getOrderDate());
         order.setTotal(requestOrderSaveDTO.getTotal());
         order.setShippingAddress(shippingAddress);
+        order.setStatus(OrderStatus.PROCESSING);
 
         // Save the Order entity
         orderRepo.save(order);

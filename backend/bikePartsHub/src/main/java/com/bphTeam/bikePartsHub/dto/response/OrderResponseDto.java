@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.response;
 
+import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,6 @@ import java.time.LocalDateTime;
 public class OrderResponseDto {
     private long orderId;
     private LocalDateTime date;
-    private String status; //delivered,processing,shipped
+    private OrderStatus status; //delivered,processing,shipped
     private double total;
 }

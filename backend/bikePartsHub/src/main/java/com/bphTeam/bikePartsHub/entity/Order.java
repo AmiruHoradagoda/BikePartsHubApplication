@@ -1,6 +1,7 @@
 package com.bphTeam.bikePartsHub.entity;
 
 import com.bphTeam.bikePartsHub.user.User;
+import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,8 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "shipping_id", nullable = false)
     private ShippingAddress shippingAddress;
+
+    private OrderStatus status;
 
     public Order(User byId, Date orderDate, double total) {
     }

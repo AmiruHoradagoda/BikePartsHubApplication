@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .phone(user.getPhone())
+                .address(user.getAddress())
                 .role(user.getRole())
                 .orders(orderResponseDtos)
                 .build();
