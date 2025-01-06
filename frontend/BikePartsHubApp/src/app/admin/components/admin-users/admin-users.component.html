@@ -1,0 +1,115 @@
+<main class="min-h-screen lg:ml-64">
+  <!-- Customer List -->
+  <div class="p-6">
+    <div class="bg-white rounded-lg shadow">
+      <!-- Tabs -->
+      <div class="flex items-center gap-4 p-4 border-b border-gray-200">
+        <button class="font-medium text-purple-600">All Customers</button>
+        <button class="text-gray-600">New Customers</button>
+        <button class="text-gray-600">VIP Customers</button>
+        <div class="flex gap-2 ml-auto">
+          <button
+            class="flex items-center gap-2 px-4 py-2 text-gray-600 border border-gray-200 rounded-lg"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Export
+          </button>
+          <button
+            class="flex items-center gap-2 px-4 py-2 text-white bg-purple-600 rounded-lg"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add Customers
+          </button>
+        </div>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="flex flex-col gap-4 p-4 lg:flex-row">
+        <button
+          class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg"
+        >
+          <i data-lucide="filter" class="w-4 h-4"></i>
+          Filter
+        </button>
+        <div class="relative flex-1">
+          <input
+            type="text"
+            placeholder="Search Customer..."
+            class="w-full py-2 pl-10 pr-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+          <i
+            data-lucide="search"
+            class="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="w-8 p-4">
+                <input type="checkbox" class="rounded" />
+              </th>
+              <th class="p-4 text-left">Customer</th>
+              <th class="p-4 text-left">Email</th>
+              <th class="p-4 text-left">Location</th>
+              <th class="p-4 text-left">Orders</th>
+              <th class="p-4 text-left">Spent</th>
+              <th class="p-4 text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200">
+              <td class="p-4">
+                <input type="checkbox" class="rounded" />
+              </td>
+              <td class="p-4">
+                <div class="flex items-center gap-3">
+                  <img
+                    src="/api/placeholder/32/32"
+                    alt="Customer"
+                    class="w-8 h-8 rounded-full"
+                  />
+                  <span>Amiru Miththa</span>
+                </div>
+              </td>
+              <td class="p-4">amiru&#64;gmail.com</td>
+              <td class="p-4">Galauda, Dunhinda, Badulla</td>
+              <td class="p-4">4</td>
+              <td class="p-4">Rs 11500</td>
+              <td class="p-4">
+                <span
+                  class="px-3 py-1 text-sm text-green-600 bg-green-100 rounded-full"
+                  >Complete</span
+                >
+              </td>
+            </tr>
+            <!-- More rows would follow the same pattern -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex items-center justify-center gap-2 p-4">
+        <button class="p-2 rounded-lg hover:bg-gray-100">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100">1</button>
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100">2</button>
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100">3</button>
+        <button class="w-8 h-8 text-purple-600 bg-purple-100 rounded-lg">
+          4
+        </button>
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100">5</button>
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100">6</button>
+        <span>...</span>
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100">20</button>
+        <button class="p-2 rounded-lg hover:bg-gray-100">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
