@@ -45,6 +45,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/order/**").permitAll()
                                 .requestMatchers(GET, "/api/v1/product/**").permitAll()
                                 .requestMatchers(GET, "/api/v1/bikes/**").permitAll()
+                                .requestMatchers(GET, "/api/v1/user/**").permitAll()
 
                                 // Allow POST, PUT, DELETE only for ADMIN
                                 .requestMatchers(POST, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
