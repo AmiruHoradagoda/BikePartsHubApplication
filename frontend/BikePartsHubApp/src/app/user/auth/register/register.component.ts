@@ -29,8 +29,6 @@ export class RegisterComponent {
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
         address: ['', Validators.required],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
         termsAccepted: [false, Validators.requiredTrue],
         role: ['CUSTOMER'],
       },
@@ -78,6 +76,8 @@ export class RegisterComponent {
         lastName: this.registerForm.value.lastName,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
+        address: this.registerForm.value.address,
+        phone: this.registerForm.value.phone,
         role: this.registerForm.value.role,
       };
 
