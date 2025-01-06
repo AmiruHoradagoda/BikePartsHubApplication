@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.response;
 
+import com.bphTeam.bikePartsHub.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,6 @@ public class UserResponseDto {
     private String firstName;
     private String lastName;
     private String email;
-    private String role;
+    private Role role;
     private Set<OrderResponseDto> orders;
 }
