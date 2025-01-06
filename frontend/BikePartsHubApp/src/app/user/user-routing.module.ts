@@ -9,8 +9,8 @@ import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.compo
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProductDetailsComponent } from './pages/product-page/components/product-details/product-details.component';
 import { ProductPageComponent } from './pages/product-page/product-page.component';
-import { UserDashboadComponent } from './pages/user-dashboad/user-dashboad.component';
 import { UserComponent } from './user.component';
+import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent },
       {
         path: 'userdashbord',
-        component: UserDashboadComponent,
+        component: UserDashboardComponent,
         canActivate: [AuthGuard],
       },
       {
@@ -56,8 +56,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserRoutingModule { 
-  
-}
+export class UserRoutingModule {}

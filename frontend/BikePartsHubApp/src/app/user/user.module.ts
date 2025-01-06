@@ -15,9 +15,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AuthModule } from './auth/auth.module';
-import { UserDashboadComponent } from './pages/user-dashboad/user-dashboad.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
+import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { UserComponent } from './user.component';
     CartPageComponent,
     HomePageComponent,
     ProductDetailsComponent,
-    UserDashboadComponent,
+    UserDashboardComponent,
   ],
   imports: [
     AuthModule,
