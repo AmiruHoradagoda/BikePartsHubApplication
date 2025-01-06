@@ -28,6 +28,8 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String password;
+    private String address;
+    private String phone;
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
