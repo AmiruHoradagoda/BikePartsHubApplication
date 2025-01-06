@@ -1,16 +1,21 @@
 package com.bphTeam.bikePartsHub.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserResponseDto {
-    private long userId;
-    private String userName;
+    private int userId;
+    private String firstName;
+    private String lastName;
     private String email;
-    private String userRole;
-    private String mobileNumber;
+    private String role;
+    private Set<OrderResponseDto> orders;
 }
