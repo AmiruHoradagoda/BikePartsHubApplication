@@ -5,6 +5,7 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 import { AdminProductsComponent } from './components/admin-products/admin-products.component';
 import { AdminComponent } from './admin.component';
 import { LoginAdminComponent } from './auth-admin/login-admin/login-admin.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'update-product/:id',
         component: ProductFormComponent,
+      },
+      {
+        path: 'users',
+        component: AdminUsersComponent,
       },
     ],
   },

@@ -10,6 +10,8 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 import { AdminPageRoutingModule } from './admin-page-routing.module';
 import { AdminComponent } from './admin.component';
 import { AuthAdminModule } from './auth-admin/auth-admin.module';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { AuthAdminModule } from './auth-admin/auth-admin.module';
     AdminProductCardComponent,
     AdminProductsComponent,
     ProductFormComponent,
+    AdminUsersComponent,
+    AdminHeaderComponent,
   ],
   imports: [
     CommonModule,
