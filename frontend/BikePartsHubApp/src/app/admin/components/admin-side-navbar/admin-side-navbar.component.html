@@ -1,10 +1,12 @@
 <aside
   class="fixed top-0 left-0 hidden w-64 h-full bg-white border-r border-gray-200 lg:block"
 >
-  <div class="p-4">
-    <div class="flex items-center gap-2 mb-8">
-      <i data-lucide="bike" class="w-8 h-8 text-purple-600"></i>
-      <span class="text-xl font-bold text-purple-600">BIKE PARTS HUB</span>
+  <div class="flex flex-col h-full p-4">
+    <div class="mb-8">
+      <div class="flex items-center gap-2">
+        <i data-lucide="bike" class="w-8 h-8 text-purple-600"></i>
+        <span class="text-xl font-bold text-purple-600">BIKE PARTS HUB</span>
+      </div>
     </div>
 
     <nav class="space-y-2">
@@ -25,46 +27,12 @@
         <span>Orders</span>
       </a>
       <a
-        routerLink="/admin/users"
-        routerLinkActive="bg-purple-50 text-purple-600"
-        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
-      >
-        <i data-lucide="message-square" class="w-5 h-5"></i>
-        <span>Users</span>
-      </a>
-      <a
         routerLink="/admin/customers"
         routerLinkActive="bg-purple-50 text-purple-600"
         class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
         <i data-lucide="users" class="w-5 h-5"></i>
         <span>Customers</span>
-      </a>
-      <a
-        routerLink="/admin/reports"
-        routerLinkActive="bg-purple-50 text-purple-600"
-        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
-      >
-        <i data-lucide="package" class="w-5 h-5"></i>
-        <span>Reports</span>
-      </a>
-
-      <a
-        routerLink="/admin/scheduleds"
-        routerLinkActive="bg-purple-50 text-purple-600"
-        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
-      >
-        <i data-lucide="package" class="w-5 h-5"></i>
-        <span>Scheduleds</span>
-      </a>
-
-      <a
-        routerLink="/admin/requests"
-        routerLinkActive="bg-purple-50 text-purple-600"
-        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
-      >
-        <i data-lucide="package" class="w-5 h-5"></i>
-        <span>Requests</span>
       </a>
       <a
         routerLink="/admin/product"
@@ -75,17 +43,24 @@
         <span>Products</span>
       </a>
       <a
-        routerLink="/admin/services"
+        routerLink="/admin/overview"
         routerLinkActive="bg-purple-50 text-purple-600"
         class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
-         aria-disabled="true"
+      >
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Scheduleds</span>
+      </a>
+      <a
+        routerLink="/admin/overview"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
+        aria-disabled="true"
       >
         <i data-lucide="package" class="w-5 h-5"></i>
         <span>Services</span>
       </a>
-
       <a
-        routerLink="/admin/details"
+        routerLink="/admin/overview"
         routerLinkActive="bg-purple-50 text-purple-600"
         class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
         aria-disabled="true"
@@ -94,5 +69,14 @@
         <span>Details</span>
       </a>
     </nav>
+
+    <!-- Logout Button -->
+    <button 
+      (click)="logout()" 
+      class="flex items-center gap-3 p-3 mt-auto text-gray-600 transition-colors rounded-lg hover:bg-purple-50 hover:text-purple-600"
+    >
+      <i class="text-purple-600 fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </button>
   </div>
 </aside>
