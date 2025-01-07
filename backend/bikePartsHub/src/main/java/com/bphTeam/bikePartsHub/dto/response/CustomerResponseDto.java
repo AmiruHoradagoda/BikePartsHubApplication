@@ -1,6 +1,5 @@
 package com.bphTeam.bikePartsHub.dto.response;
 
-import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

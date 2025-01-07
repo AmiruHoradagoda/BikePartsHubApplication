@@ -1,6 +1,5 @@
 package com.bphTeam.bikePartsHub.dto.request.productAttributeDto;
 
-import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
