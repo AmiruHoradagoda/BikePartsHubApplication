@@ -1,11 +1,8 @@
-<main class="w-screen h-screen px-8 py-8 mx-auto text-white bg-[#34495E] ">
+<div class="bg-gray-50">
+  <app-admin-side-navbar></app-admin-side-navbar>
 
-  <div class="flex h-full">
-    <div class="sticky top-0">
-      <app-admin-side-navbar />
-    </div>
-    <div class="flex-1 p-4 overflow-y-auto">
-      <router-outlet />
-    </div>
-  </div>
-</main>
+  <main class="min-h-screen lg:ml-64">
+    <app-admin-header></app-admin-header>
+    <router-outlet></router-outlet>
+  </main>
+</div>

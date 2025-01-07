@@ -1,76 +1,98 @@
-<nav class="h-full px-4 py-12 bg-[#1A242E] rounded-lg md:w-64">
-  <div class="flex flex-col justify-between h-full text-black">
-    <div class="mb-2">
-      <a
-        href="/admin/overview"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Overview</a
-      >
+<aside
+  class="fixed top-0 left-0 hidden w-64 h-full bg-white border-r border-gray-200 lg:block"
+>
+  <div class="p-4">
+    <div class="flex items-center gap-2 mb-8">
+      <i data-lucide="bike" class="w-8 h-8 text-purple-600"></i>
+      <span class="text-xl font-bold text-purple-600">BIKE PARTS HUB</span>
     </div>
-    <div class="mb-2">
+
+    <nav class="space-y-2">
       <a
-        href="/admin/orders"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Orders</a
+        routerLink="/admin/overview"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>Overview</span>
+      </a>
       <a
-        href="/admin/users"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Users</a
+        routerLink="/admin/orders"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+        <span>Orders</span>
+      </a>
       <a
-        href="/admin/reports"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Reports</a
+        routerLink="/admin/users"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="message-square" class="w-5 h-5"></i>
+        <span>Users</span>
+      </a>
       <a
-        href="/admin/scheduleds"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Scheduleds</a
+        routerLink="/admin/customers"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="users" class="w-5 h-5"></i>
+        <span>Customers</span>
+      </a>
       <a
-        href="/admin/requests"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Requests</a
+        routerLink="/admin/reports"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Reports</span>
+      </a>
+
       <a
-        href="/admin/product"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Products</a
+        routerLink="/admin/scheduleds"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Scheduleds</span>
+      </a>
+
       <a
-        href="/admin/services"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Services</a
+        routerLink="/admin/requests"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
-    <div class="mb-2">
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Requests</span>
+      </a>
       <a
-        href="/admin/details"
-        routerLinkActive="bg-orange-500 text-white"
-        class="block w-full px-4 py-2 font-semibold text-center transition-all duration-200 bg-[#81878E] rounded hover:bg-orange-400 hover:text-white"
-        >Details</a
+        routerLink="/admin/product"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
       >
-    </div>
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Products</span>
+      </a>
+      <a
+        routerLink="/admin/services"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
+         aria-disabled="true"
+      >
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Services</span>
+      </a>
+
+      <a
+        routerLink="/admin/details"
+        routerLinkActive="bg-purple-50 text-purple-600"
+        class="flex items-center gap-3 p-3 text-gray-600 rounded-lg hover:bg-purple-50"
+        aria-disabled="true"
+      >
+        <i data-lucide="package" class="w-5 h-5"></i>
+        <span>Details</span>
+      </a>
+    </nav>
   </div>
-</nav>
+</aside>
