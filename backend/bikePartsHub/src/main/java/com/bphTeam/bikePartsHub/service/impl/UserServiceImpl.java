@@ -1,6 +1,5 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
-import com.bphTeam.bikePartsHub.dto.response.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.OrderResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.entity.Order;
@@ -48,19 +47,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<CustomerResponseDto> getAllCustomerDetails(int page, int size) {
+    public Set<UserResponseDto> getAllCustomerDetails(String customerName, Role role, int page, int size) {
         Set<Role> roles = Set.of(Role.CUSTOMER, Role.LOYAL_CUSTOMER);
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<User> customerPage = userRepo.getAllCustomers(roles, pageable);
-        Set<CustomerResponseDto> customerResponseDtos = new HashSet<>();
+        Page<User> customerPage = userRepo.getAllCustomers(
+                customerName != null && !customerName.isEmpty() ? customerName : null,
+                role,
+                roles,
+                pageable
+        );
 
+        Set<UserResponseDto> customerResponseDtos = new HashSet<>();
         for (User customer : customerPage.getContent()) {
             Set<Order> orders = orderRepo.findOrderByUser(customer);
             Set<OrderResponseDto> orderResponseDtos = orderMapper.toOrder(orders);
 
-            CustomerResponseDto customerResponse = CustomerResponseDto.builder()
-                    .user(customer)
+            UserResponseDto customerResponse = UserResponseDto.builder()
+                    .userId(customer.getUserId())
+                    .firstName(customer.getFirstName())
+                    .lastName(customer.getLastName())
+                    .email(customer.getEmail())
+                    .phone(customer.getPhone())
+                    .address(customer.getAddress())
+                    .role(customer.getRole())
                     .orders(orderResponseDtos)
                     .build();
             customerResponseDtos.add(customerResponse);
@@ -68,5 +78,6 @@ public class UserServiceImpl implements UserService {
 
         return customerResponseDtos;
     }
+
 
 }

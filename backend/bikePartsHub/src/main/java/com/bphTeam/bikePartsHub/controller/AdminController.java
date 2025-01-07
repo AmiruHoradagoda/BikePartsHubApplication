@@ -1,9 +1,8 @@
 package com.bphTeam.bikePartsHub.controller;
 
-import com.bphTeam.bikePartsHub.dto.response.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.service.UserService;
-import com.bphTeam.bikePartsHub.utils.StandardResponse;
+import com.bphTeam.bikePartsHub.user.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,35 +15,19 @@ import java.util.Set;
 @RequestMapping("/api/v1/admin")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
-//    @GetMapping
-//    @PreAuthorize("hasAuthority('admin:read')")
-//    public String get(){
-//        return "Get ::Admin controller";
-//    }
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('admin:create')")
-//    public String post(){
-//        return "Post ::Admin controller";
-//    }
-//    @PutMapping
-//    @PreAuthorize("hasAuthority('admin:updatee')")
-//    public String put(){
-//        return "Put ::Admin controller";
-//    }
-//    @DeleteMapping
-//    @PreAuthorize("hasAuthority('admin:delete')")
-//    public String delete(){
-//        return "Delete ::Admin controller";
-//    }
-
     @Autowired
     private UserService userService;
 
     @GetMapping("/getAllCustomerDetails")
-    private ResponseEntity<Set<CustomerResponseDto>> getAllCustomerDetails(@RequestParam(defaultValue = "0") int page,
-                                                                   @RequestParam(defaultValue = "9") int size) {
-        Set<CustomerResponseDto> customerDetails = userService.getAllCustomerDetails(page,size);
-        return new ResponseEntity<Set<CustomerResponseDto>>(customerDetails, HttpStatus.OK);
+    private ResponseEntity<Set<UserResponseDto>> getAllCustomerDetails(
+            @RequestParam(required = false) String customerName,
+            @RequestParam(required = false) Role role,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size
+    )
+    {
+        Set<UserResponseDto> customerDetails = userService.getAllCustomerDetails(customerName,role,page, size);
+        return new ResponseEntity<Set<UserResponseDto>>(customerDetails, HttpStatus.OK);
     }
 
 }
