@@ -1,0 +1,88 @@
+<main class="w-full min-h-screen p-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold">Order</h1>
+      <div class="flex items-center gap-2 px-4 py-2 text-white rounded-lg bg-violet-600">
+        <i data-lucide="calendar" class="w-5 h-5"></i>
+        Jan - Feb 2025
+      </div>
+    </div>
+
+    <div class="flex gap-4 mb-6">
+      <button class="font-medium text-violet-600">All Orders</button>
+      <button class="text-gray-600">Completed</button>
+      <button class="text-gray-600">Pending</button>
+      <button class="text-gray-600">Cancel</button>
+    </div>
+
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b">
+            <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">#</th>
+            <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Order ID</th>
+            <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Address</th>
+            <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Date</th>
+            <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Total Price</th>
+            <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders" class="border-b">
+            <td class="px-6 py-4">{{ order.index }}</td>
+            <td class="px-6 py-4">{{ order.orderId }}</td>
+            <td class="px-6 py-4">{{ order.address }}</td>
+            <td class="px-6 py-4">{{ order.date | date: 'dd/MM/yyyy' }}</td>
+            <td class="px-6 py-4">Rs {{ order.totalPrice }}</td>
+            <td class="px-6 py-4">
+              <span
+                *ngIf="order.status === 'Complete'"
+                class="px-3 py-1 text-sm text-green-600 bg-green-100 rounded-full"
+              >
+                {{ order.status }}
+              </span>
+              <span
+                *ngIf="order.status === 'Pending'"
+                class="px-3 py-1 text-sm text-yellow-600 bg-yellow-100 rounded-full"
+              >
+                {{ order.status }}
+              </span>
+              <span
+                *ngIf="order.status === 'Canceled'"
+                class="px-3 py-1 text-sm text-red-600 bg-red-100 rounded-full"
+              >
+                {{ order.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex items-center justify-center gap-2 mt-6">
+      <button
+        (click)="onPageChange(currentPage - 1)"
+        [disabled]="currentPage === 0"
+        class="p-2 rounded-lg hover:bg-gray-100"
+      >
+        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+      </button>
+      <button
+        *ngFor="let page of getPages()"
+        (click)="onPageChange(page)"
+        [class.text-violet-600]="currentPage === page"
+        [class.bg-violet-100]="currentPage === page"
+        class="px-3 py-1 rounded-lg hover:bg-gray-100"
+      >
+        {{ page + 1 }}
+      </button>
+      <button
+        (click)="onPageChange(currentPage + 1)"
+        [disabled]="currentPage === totalPages - 1"
+        class="p-2 rounded-lg hover:bg-gray-100"
+      >
+        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </div>
+</main>
