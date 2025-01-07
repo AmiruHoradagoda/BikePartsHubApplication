@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './admin-header.component.css'
 })
 export class AdminHeaderComponent {
+toggleMenu: any;
 
 }
