@@ -47,7 +47,7 @@
           <input
             type="text"
             [(ngModel)]="searchTerm"
-            (keyup.enter)="onSearch(searchTerm)"
+            (keyup)="onSearch(searchTerm)"
             placeholder="Search Customer..."
             class="w-full py-2 pl-10 pr-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
@@ -86,20 +86,20 @@
               <td class="p-4">{{ customer.orders.length || 0 }}</td>
               <td class="p-4">
                 Rs
-                {{calculateTotalSpent(customer)}}
+                {{ calculateTotalSpent(customer) }}
               </td>
               <td class="p-4">
                 <span
                   class="px-3 py-1 text-sm text-green-600 bg-green-100 rounded-full"
                   *ngIf="customer.orders.length > 0"
                 >
-                   {{customer.orders[0].status}}
+                  {{ customer.orders[0].status }}
                 </span>
                 <span
                   class="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full"
                   *ngIf="customer.orders.length === 0"
                 >
-                   No Orders
+                  No Orders
                 </span>
               </td>
             </tr>
@@ -107,7 +107,7 @@
         </table>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination Buttons -->
       <div class="flex items-center justify-center w-full gap-2 p-4">
         <button
           (click)="onPageChange(currentPage - 1)"

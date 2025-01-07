@@ -22,11 +22,12 @@ export interface OrderResponseDto {
   total: number;
 }
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class AdminCustomersService {
-  private apiUrl = `${environment.apiUrl}/api/admin`;
+  private apiUrl = `${environment.apiUrl}/api/v1/admin`;
 
   constructor(private http: HttpClient) {}
 
