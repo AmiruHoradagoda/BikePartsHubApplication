@@ -13,12 +13,17 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/admin")
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/getAllCustomerDetails")
+//    @PreAuthorize("hasAuthority('admin:read')")
     private ResponseEntity<Set<UserResponseDto>> getAllCustomerDetails(
             @RequestParam(required = false) String customerName,
             @RequestParam(required = false) Role role,
