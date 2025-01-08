@@ -1,0 +1,15 @@
+package com.bphTeam.bikePartsHub.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class OrderDetailsDto {
+    private Long orderDetailId;
+    private String productName;
+    private int qty;
+    private double amount;
+}
