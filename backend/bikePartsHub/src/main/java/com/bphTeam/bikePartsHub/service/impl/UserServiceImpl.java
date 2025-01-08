@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
+import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.OrderResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.entity.Order;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserResponseDto> getAllCustomerDetails(String customerName, Role role, int page, int size) {
+    public PaginatedUserResponseDto getAllCustomerDetails(String customerName, Role role, int page, int size) {
         Set<Role> roles = Set.of(Role.CUSTOMER, Role.LOYAL_CUSTOMER);
         Pageable pageable = PageRequest.of(page, size);
 
@@ -75,8 +76,9 @@ public class UserServiceImpl implements UserService {
                     .build();
             customerResponseDtos.add(customerResponse);
         }
+        PaginatedUserResponseDto PaginatedCustomerResponse = new PaginatedUserResponseDto(customerResponseDtos,customerPage.getTotalElements());
 
-        return customerResponseDtos;
+        return PaginatedCustomerResponse;
     }
 
 

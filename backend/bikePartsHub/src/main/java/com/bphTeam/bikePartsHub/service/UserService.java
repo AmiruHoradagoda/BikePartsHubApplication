@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.service;
 
+import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.user.Role;
@@ -10,5 +11,5 @@ public interface UserService {
 
     UserResponseDto getUserDetails(int userId);
 
-    Set<UserResponseDto> getAllCustomerDetails(String customerName, Role role, int page, int size);
+    PaginatedUserResponseDto getAllCustomerDetails(String customerName, Role role, int page, int size);
 }

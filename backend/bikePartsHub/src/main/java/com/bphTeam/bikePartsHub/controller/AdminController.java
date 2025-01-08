@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.controller;
 
+import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.user.Role;
@@ -24,15 +25,15 @@ public class AdminController {
 
     @GetMapping("/getAllCustomerDetails")
 //    @PreAuthorize("hasAuthority('admin:read')")
-    private ResponseEntity<Set<UserResponseDto>> getAllCustomerDetails(
+    private ResponseEntity<PaginatedUserResponseDto> getAllCustomerDetails(
             @RequestParam(required = false) String customerName,
             @RequestParam(required = false) Role role,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size
     )
     {
-        Set<UserResponseDto> customerDetails = userService.getAllCustomerDetails(customerName,role,page, size);
-        return new ResponseEntity<Set<UserResponseDto>>(customerDetails, HttpStatus.OK);
+        PaginatedUserResponseDto customerDetails = userService.getAllCustomerDetails(customerName,role,page, size);
+        return new ResponseEntity<PaginatedUserResponseDto>(customerDetails, HttpStatus.OK);
     }
 
 }
