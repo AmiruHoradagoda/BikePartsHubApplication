@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 
-
 export interface UserResponseDto {
   userId: number;
   firstName: string;
@@ -22,6 +21,10 @@ export interface OrderResponseDto {
   total: number;
 }
 
+export interface PaginatedUserResponseDto {
+  userResponseDtos: UserResponseDto[];
+  dataCount: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +39,7 @@ export class AdminCustomersService {
     role?: string,
     page: number = 0,
     size: number = 9
-  ): Observable<UserResponseDto[]> {
+  ): Observable<PaginatedUserResponseDto> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -48,7 +51,7 @@ export class AdminCustomersService {
       params = params.set('role', role);
     }
 
-    return this.http.get<UserResponseDto[]>(
+    return this.http.get<PaginatedUserResponseDto>(
       `${this.apiUrl}/getAllCustomerDetails`,
       { params }
     );

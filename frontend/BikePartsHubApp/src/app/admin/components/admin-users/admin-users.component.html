@@ -58,8 +58,18 @@
         </div>
       </div>
 
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex justify-center p-8">
+        <i data-lucide="loader" class="w-8 h-8 animate-spin"></i>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="p-4 text-center text-red-600">
+        {{ error }}
+      </div>
+
       <!-- Table -->
-      <div class="w-full overflow-x-auto">
+      <div *ngIf="!isLoading && !error" class="w-full overflow-x-auto">
         <table class="w-full">
           <thead class="bg-gray-50">
             <tr>
@@ -107,33 +117,42 @@
         </table>
       </div>
 
-      <!-- Pagination Buttons -->
-      <div class="flex items-center justify-center w-full gap-2 p-4">
-        <button
-          (click)="onPageChange(currentPage - 1)"
-          [disabled]="currentPage === 0"
-          class="p-2 rounded-lg hover:bg-gray-100"
-        >
-          <i data-lucide="chevron-left" class="w-5 h-5"></i>
-        </button>
+      <!-- Pagination -->
+      <div *ngIf="!isLoading && !error && totalItems > 0" class="flex items-center justify-between w-full gap-2 p-4">
+        <!-- Items per page info -->
+        <div class="text-sm text-gray-600">
+          Showing {{ currentPage * pageSize + 1 }} to {{ Math.min((currentPage + 1) * pageSize, totalItems) }} of {{ totalItems }} entries
+        </div>
 
-        <button
-          *ngFor="let page of getPages()"
-          (click)="onPageChange(page)"
-          [class.text-purple-600]="currentPage === page"
-          [class.bg-purple-100]="currentPage === page"
-          class="w-8 h-8 rounded-lg hover:bg-gray-100"
-        >
-          {{ page + 1 }}
-        </button>
+        <!-- Pagination Controls -->
+        <div class="flex items-center gap-2">
+          <button
+            (click)="onPageChange(currentPage - 1)"
+            [disabled]="isFirstPage()"
+            class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
 
-        <button
-          (click)="onPageChange(currentPage + 1)"
-          [disabled]="currentPage === totalPages - 1"
-          class="p-2 rounded-lg hover:bg-gray-100"
-        >
-          <i data-lucide="chevron-right" class="w-5 h-5"></i>
-        </button>
+          <button
+            *ngFor="let page of getPages()"
+            (click)="onPageChange(page)"
+            [class.text-purple-600]="currentPage === page"
+            [class.bg-purple-100]="currentPage === page"
+            [class.font-medium]="currentPage === page"
+            class="w-8 h-8 rounded-lg hover:bg-gray-100"
+          >
+            {{ page + 1 }}
+          </button>
+
+          <button
+            (click)="onPageChange(currentPage + 1)"
+            [disabled]="isLastPage()"
+            class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
