@@ -1,5 +1,4 @@
-<!-- admin-order-view.component.html -->
-<div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-sm">
+<div class="w-full max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-sm">
   <!-- Order ID Header -->
   <div class="flex items-center justify-between mb-6">
     <div class="flex items-center space-x-2">
@@ -18,35 +17,39 @@
   </div>
 
   <!-- Order Items -->
-  <div class="mb-6 overflow-hidden border rounded-lg">
-    <table class="w-full">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-4 py-2 text-sm text-left text-gray-600">
-            Product Name
-          </th>
-          <th class="px-4 py-2 text-sm text-left text-gray-600">Quantity</th>
-          <th class="px-4 py-2 text-sm text-right text-gray-600">
-            Price (Rs.)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let detail of order.oderDetails" class="border-t">
-          <td class="flex items-center px-4 py-3 space-x-3">
-            <img
-              [src]="'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
-              [alt]="detail.productName"
-              class="w-12 h-12 rounded-md"
-            />
-            <span>{{ detail.productName }}</span>
-          </td>
-          <td class="px-4 py-3">{{ detail.qty }}</td>
-          <td class="px-4 py-3 text-right">{{ detail.amount }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+ <div 
+  class="mb-6 overflow-hidden border rounded-lg"
+  style="max-height: calc(3 * 80px); overflow-y: auto;"
+>
+  <table class="w-full">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-4 py-2 text-sm text-left text-gray-600">
+          Product Name
+        </th>
+        <th class="px-4 py-2 text-sm text-left text-gray-600">Quantity</th>
+        <th class="px-4 py-2 text-sm text-right text-gray-600">
+          Price (Rs.)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let detail of order.orderDetails" class="border-t">
+        <td class="flex items-center px-4 py-3 space-x-3">
+          <img
+            [src]="detail.imageUrl"
+            [alt]="detail.productName"
+            class="w-12 h-12 rounded-md"
+          />
+          <span>{{ detail.productName }}</span>
+        </td>
+        <td class="px-4 py-3">{{ detail.qty }}</td>
+        <td class="px-4 py-3 text-right">{{ detail.amount }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
   <!-- Customer Details and Total -->
   <div

@@ -11,5 +11,6 @@ public class OrderDetailsDto {
     private Long orderDetailId;
     private String productName;
     private int qty;
+    private String imageUrl;
     private double amount;
 }

@@ -10,6 +10,7 @@ export interface OrderDetail {
   orderDetailId: number;
   productName: string;
   qty: number;
+  imageUrl:string;
   amount: number;
 }
 
@@ -22,7 +23,7 @@ export interface OrderResponse {
   date: string; // Use Date if you plan to parse it into a JavaScript Date object
   status: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'CANCELED';
   total: number;
-  oderDetails: OrderDetail[]; // Typo fixed: "oderDetails" should probably be "orderDetails"
+  orderDetails: OrderDetail[]; // Typo fixed: "oderDetails" should probably be "orderDetails"
 }
 
 export interface OrderResponses {

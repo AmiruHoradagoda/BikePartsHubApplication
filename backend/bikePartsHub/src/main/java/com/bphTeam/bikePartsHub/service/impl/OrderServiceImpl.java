@@ -109,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
                             orderDetail.getOrderDetailId(),
                             orderDetail.getProductName(),
                             orderDetail.getQty(),
+                            orderDetail.getProduct().getImageUrl(),
                             orderDetail.getAmount()
                     );
                     orderDetailsDtos.add(orderDetailsDto);
