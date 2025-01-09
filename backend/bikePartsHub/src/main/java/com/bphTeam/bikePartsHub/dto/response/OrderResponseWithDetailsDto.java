@@ -22,5 +22,6 @@ public class OrderResponseWithDetailsDto {
     private LocalDateTime date;
     private OrderStatus status; //delivered,processing,shipped
     private double total;
-    private Set<OrderDetailsDto> oderDetails;
+    private Set<OrderDetailsDto> orderDetails;
 }
+

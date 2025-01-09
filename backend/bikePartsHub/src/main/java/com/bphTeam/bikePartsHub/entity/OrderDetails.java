@@ -1,14 +1,13 @@
 package com.bphTeam.bikePartsHub.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class OrderDetails {
 
     @Id
@@ -25,8 +24,9 @@ public class OrderDetails {
     @Column(name = "amount",nullable = false)
     private double amount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "orderId",nullable = false)
+    @ToString.Exclude
     private Order orders;
 
     @ManyToOne

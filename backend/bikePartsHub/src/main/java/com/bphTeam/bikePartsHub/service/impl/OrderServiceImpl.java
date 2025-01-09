@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -79,31 +80,43 @@ public class OrderServiceImpl implements OrderService {
         return "Order save failed";
     }
 
+    @Transactional
     @Override
     public PaginatedOrderResponseWithDetailsDto getAllOrderDetails(OrderStatus orderStatus, int page, int size) {
         // Create a Pageable object for pagination
         Pageable pageable = PageRequest.of(page, size);
 
         // Fetch paginated orders from the database
-        Page<Order> ordersPage;
-        if (orderStatus != null) {
-            ordersPage = orderRepo.findAllByStatus(orderStatus, pageable);
-        } else {
-            ordersPage = orderRepo.findAll(pageable);
-        }
+        Page<Order> ordersPage = orderStatus != null
+                ? orderRepo.findAllByStatus(orderStatus, pageable)
+                : orderRepo.findAll(pageable);
 
-        // Map the Order entities to OrderResponseWithDetailsDto
-        Set<OrderResponseWithDetailsDto> orderResponseDtos = ordersPage.stream().map(order -> {
-            Set<OrderDetailsDto> orderDetailsDtos = order.getOderDetails().stream().map(orderDetail ->
-                    new OrderDetailsDto(
+        // Initialize a set to store the OrderResponseWithDetailsDto
+        Set<OrderResponseWithDetailsDto> orderResponseDtos = new HashSet<>();
+
+        // Iterate through the orders
+        for (Order order : ordersPage) {
+            System.out.println("Order ID: " + order.getOrderId() + " Details size: " +
+                    (order.getOrderDetails() != null ? order.getOrderDetails().size() : "null"));
+
+            // Initialize a set to store the OrderDetailsDto
+            Set<OrderDetailsDto> orderDetailsDtos = new HashSet<>();
+
+            // Iterate through the order details
+            if (order.getOrderDetails() != null) {
+                for (OrderDetails orderDetail : order.getOrderDetails()) {
+                    OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
                             orderDetail.getOrderDetailId(),
                             orderDetail.getProductName(),
                             orderDetail.getQty(),
                             orderDetail.getAmount()
-                    )
-            ).collect(Collectors.toSet());
+                    );
+                    orderDetailsDtos.add(orderDetailsDto);
+                }
+            }
 
-            return new OrderResponseWithDetailsDto(
+            // Create an OrderResponseWithDetailsDto for the current order
+            OrderResponseWithDetailsDto orderResponseDto = new OrderResponseWithDetailsDto(
                     order.getOrderId(),
                     order.getUser().getFirstName(),
                     order.getUser().getLastName(),
@@ -114,12 +127,14 @@ public class OrderServiceImpl implements OrderService {
                     order.getTotal(),
                     orderDetailsDtos
             );
-        }).collect(Collectors.toSet());
+
+            // Add the OrderResponseWithDetailsDto to the set
+            orderResponseDtos.add(orderResponseDto);
+        }
 
         // Create and return the paginated response DTO
         return new PaginatedOrderResponseWithDetailsDto(orderResponseDtos, ordersPage.getTotalElements());
     }
-
 
 }
 
