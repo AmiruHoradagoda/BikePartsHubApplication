@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AdminOrderService } from './admin-order.service';
+import { OrderResponse, OrderResponses } from './order.models';
 @Component({
   selector: 'app-admin-order',
   templateUrl: './admin-order.component.html',
   styleUrls: ['./admin-order.component.css'],
 })
 export class AdminOrderComponent implements OnInit {
-  orders: any[] = [];
+  orders: OrderResponse[] = [];
   currentPage = 0;
   totalPages = 0;
-  selectedStatus: string | null = null; // For filtering by status
   currentStatus: string | null = null;
+  selectedOrder: OrderResponse | null = null;
+  readonly itemsPerPage = 9;
 
   constructor(private adminOrderService: AdminOrderService) {}
 
@@ -20,16 +22,24 @@ export class AdminOrderComponent implements OnInit {
 
   fetchOrders(): void {
     this.adminOrderService
-      .getAllOrderDetails(this.selectedStatus, this.currentPage)
-      .subscribe(
-        (response: any) => {
+      .getAllOrderDetails(this.currentStatus, this.currentPage)
+      .subscribe({
+        next: (response: OrderResponses) => {
           this.orders = response.orderResponses;
-          this.totalPages = Math.ceil(response.dataCount / 9); // Assuming 9 items per page
+          this.totalPages = Math.ceil(response.dataCount / this.itemsPerPage);
         },
-        (error) => {
+        error: (error) => {
           console.error('Error fetching orders:', error);
-        }
-      );
+        },
+      });
+  }
+
+  onOrderClick(order: OrderResponse): void {
+    this.selectedOrder = order;
+  }
+
+  closeOrderView(): void {
+    this.selectedOrder = null;
   }
 
   onPageChange(page: number): void {
@@ -40,9 +50,8 @@ export class AdminOrderComponent implements OnInit {
   }
 
   filterByStatus(status: string | null): void {
-    this.selectedStatus = status;
-    this.currentStatus = status; 
-    this.currentPage = 0; // Reset to first page
+    this.currentStatus = status;
+    this.currentPage = 0;
     this.fetchOrders();
   }
 

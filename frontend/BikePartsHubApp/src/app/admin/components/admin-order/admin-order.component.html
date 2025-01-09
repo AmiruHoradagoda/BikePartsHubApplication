@@ -1,5 +1,7 @@
+<!-- admin-order.component.html -->
 <main class="w-full min-h-screen p-6">
   <div class="max-w-6xl mx-auto">
+    <!-- Header -->
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold">Order</h1>
       <div class="flex items-center gap-2 px-4 py-2 text-white rounded-lg bg-violet-600">
@@ -8,42 +10,24 @@
       </div>
     </div>
 
-<div class="flex gap-4 mb-6">
-  <button
-    (click)="filterByStatus(null)"
-    [class.text-violet-600]="!currentStatus"
-    [class.font-medium]="!currentStatus"
-    class="text-gray-600"
-  >
-    All Orders
-  </button>
-  <button
-    (click)="filterByStatus('SHIPPED')"
-    [class.text-violet-600]="currentStatus === 'SHIPPED'"
-    [class.font-medium]="currentStatus === 'SHIPPED'"
-    class="text-gray-600"
-  >
-    Shipped
-  </button>
-  <button
-    (click)="filterByStatus('PROCESSING')"
-    [class.text-violet-600]="currentStatus === 'PROCESSING'"
-    [class.font-medium]="currentStatus === 'PROCESSING'"
-    class="text-gray-600"
-  >
-    Processing
-  </button>
-  <button
-    (click)="filterByStatus('CANCELED')"
-    [class.text-violet-600]="currentStatus === 'CANCELED'"
-    [class.font-medium]="currentStatus === 'CANCELED'"
-    class="text-gray-600"
-  >
-    Cancel
-  </button>
-</div>
+    <!-- Status Filters -->
+    <div class="flex gap-4 mb-6">
+      <button
+        (click)="filterByStatus(null)"
+        [ngClass]="{'text-violet-600 font-medium': !currentStatus}"
+        class="text-gray-600">
+        All Orders
+      </button>
+      <button
+        *ngFor="let status of ['SHIPPED', 'PROCESSING', 'CANCELED']"
+        (click)="filterByStatus(status)"
+        [ngClass]="{'text-violet-600 font-medium': currentStatus === status}"
+        class="text-gray-600">
+        {{status | titlecase}}
+      </button>
+    </div>
 
-
+    <!-- Orders Table -->
     <div class="overflow-x-auto bg-white rounded-lg shadow">
       <table class="w-full">
         <thead>
@@ -57,30 +41,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orders; let i = index" class="border-b">
-            <td class="px-6 py-4">{{ i + 1 }}</td>
-            <td class="px-6 py-4">{{ order.orderId }}</td>
-            <td class="px-6 py-4">{{ order.shippingAddress.address }}</td>
-            <td class="px-6 py-4">{{ order.date | date: 'dd/MM/yyyy' }}</td>
-            <td class="px-6 py-4">Rs {{ order.total }}</td>
+          <tr *ngFor="let order of orders; let i = index" 
+              class="border-b cursor-pointer hover:bg-gray-50"
+              (click)="onOrderClick(order)">
+            <td class="px-6 py-4">{{i + 1}}</td>
+            <td class="px-6 py-4">{{order.orderId}}</td>
+            <td class="px-6 py-4">{{order.shippingAddress.address}}</td>
+            <td class="px-6 py-4">{{order.date | date:'dd/MM/yyyy'}}</td>
+            <td class="px-6 py-4">Rs {{order.total}}</td>
             <td class="px-6 py-4">
-              <span
-                *ngIf="order.status === 'SHIPPED'"
-                class="px-3 py-1 text-sm text-green-600 bg-green-100 rounded-full"
-              >
-                {{ order.status }}
-              </span>
-              <span
-                *ngIf="order.status === 'PROCESSING'"
-                class="px-3 py-1 text-sm text-yellow-600 bg-yellow-100 rounded-full"
-              >
-                {{ order.status }}
-              </span>
-              <span
-                *ngIf="order.status === 'CANCELED'"
-                class="px-3 py-1 text-sm text-red-600 bg-red-100 rounded-full"
-              >
-                {{ order.status }}
+              <span [ngClass]="{
+                'px-3 py-1 text-sm rounded-full': true,
+                'text-green-600 bg-green-100': order.status === 'SHIPPED',
+                'text-yellow-600 bg-yellow-100': order.status === 'PROCESSING',
+                'text-red-600 bg-red-100': order.status === 'CANCELED'
+              }">
+                {{order.status}}
               </span>
             </td>
           </tr>
@@ -88,30 +64,39 @@
       </table>
     </div>
 
+    <!-- Pagination -->
     <div class="flex items-center justify-center gap-2 mt-6">
       <button
         (click)="onPageChange(currentPage - 1)"
         [disabled]="currentPage === 0"
-        class="p-2 rounded-lg hover:bg-gray-100"
-      >
+        class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50">
         <i data-lucide="chevron-left" class="w-5 h-5"></i>
       </button>
       <button
         *ngFor="let page of getPages()"
         (click)="onPageChange(page)"
-        [class.text-violet-600]="currentPage === page"
-        [class.bg-violet-100]="currentPage === page"
-        class="px-3 py-1 rounded-lg hover:bg-gray-100"
-      >
-        {{ page + 1 }}
+        [ngClass]="{'text-violet-600 bg-violet-100': currentPage === page}"
+        class="px-3 py-1 rounded-lg hover:bg-gray-100">
+        {{page + 1}}
       </button>
       <button
         (click)="onPageChange(currentPage + 1)"
         [disabled]="currentPage === totalPages - 1"
-        class="p-2 rounded-lg hover:bg-gray-100"
-      >
+        class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50">
         <i data-lucide="chevron-right" class="w-5 h-5"></i>
       </button>
     </div>
   </div>
+
+  <!-- Order Detail Modal -->
+  <div *ngIf="selectedOrder" 
+       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="w-full max-w-2xl p-6 mx-auto bg-white rounded-lg">
+      <app-admin-order-view 
+        [order]="selectedOrder"
+        (close)="closeOrderView()">
+      </app-admin-order-view>
+    </div>
+  </div>
 </main>
+

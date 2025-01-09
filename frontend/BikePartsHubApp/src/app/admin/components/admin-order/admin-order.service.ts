@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { OrderResponses } from './order.models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class AdminOrderService {
     orderStatus?: string | null,
     page: number = 0,
     size: number = 9
-  ): Observable<any> {
+  ): Observable<OrderResponses> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -31,6 +32,8 @@ export class AdminOrderService {
       params = params.set('orderStatus', orderStatus);
     }
 
-    return this.http.get(`${this.baseUrl}/getAllOrderDetails`, { params });
+    return this.http.get<OrderResponses>(`${this.baseUrl}/getAllOrderDetails`, {
+      params,
+    });
   }
 }
