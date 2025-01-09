@@ -13,6 +13,7 @@ import { AuthAdminModule } from './auth-admin/auth-admin.module';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
+import { AdminOrderViewComponent } from './components/admin-order/admin-order-view/admin-order-view.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AdminOrderComponent } from './components/admin-order/admin-order.compon
     AdminUsersComponent,
     AdminHeaderComponent,
     AdminOrderComponent,
+    AdminOrderViewComponent,
   ],
   imports: [
     CommonModule,
