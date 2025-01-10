@@ -165,12 +165,14 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   getStatusClass(status: string): string {
     const baseClasses = 'px-2 py-1 text-xs font-medium rounded-full';
     switch (status?.toLowerCase()) {
-      case 'delivered':
-        return `${baseClasses} bg-green-900 text-green-300`;
+      case 'pending':
+        return `${baseClasses} bg-green-900  text-yellow-300`;
       case 'processing':
-        return `${baseClasses} bg-yellow-900 text-yellow-300`;
+        return `${baseClasses} bg-yellow-900 text-green-300 `;
       case 'shipped':
         return `${baseClasses} bg-blue-900 text-blue-300`;
+      case 'canceled':
+        return `${baseClasses} bg-blue-900 text-red-300`;
       default:
         return `${baseClasses} bg-gray-900 text-gray-300`;
     }

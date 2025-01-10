@@ -17,39 +17,38 @@
   </div>
 
   <!-- Order Items -->
- <div 
-  class="mb-6 overflow-hidden border rounded-lg"
-  style="max-height: calc(3 * 80px); overflow-y: auto;"
->
-  <table class="w-full">
-    <thead class="bg-gray-50">
-      <tr>
-        <th class="px-4 py-2 text-sm text-left text-gray-600">
-          Product Name
-        </th>
-        <th class="px-4 py-2 text-sm text-left text-gray-600">Quantity</th>
-        <th class="px-4 py-2 text-sm text-right text-gray-600">
-          Price (Rs.)
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let detail of order.orderDetails" class="border-t">
-        <td class="flex items-center px-4 py-3 space-x-3">
-          <img
-            [src]="detail.imageUrl"
-            [alt]="detail.productName"
-            class="w-12 h-12 rounded-md"
-          />
-          <span>{{ detail.productName }}</span>
-        </td>
-        <td class="px-4 py-3">{{ detail.qty }}</td>
-        <td class="px-4 py-3 text-right">{{ detail.amount }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+  <div
+    class="mb-6 overflow-hidden border rounded-lg"
+    style="max-height: calc(3 * 80px); overflow-y: auto"
+  >
+    <table class="w-full">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-sm text-left text-gray-600">
+            Product Name
+          </th>
+          <th class="px-4 py-2 text-sm text-left text-gray-600">Quantity</th>
+          <th class="px-4 py-2 text-sm text-right text-gray-600">
+            Price (Rs.)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of order.orderDetails" class="border-t">
+          <td class="flex items-center px-4 py-3 space-x-3">
+            <img
+              [src]="detail.imageUrl"
+              [alt]="detail.productName"
+              class="w-12 h-12 rounded-md"
+            />
+            <span>{{ detail.productName }}</span>
+          </td>
+          <td class="px-4 py-3">{{ detail.qty }}</td>
+          <td class="px-4 py-3 text-right">{{ detail.amount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Customer Details and Total -->
   <div
@@ -57,11 +56,11 @@
   >
     <div class="space-y-2">
       <div class="flex items-center space-x-3">
-        <img
-          src="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Profile"
-          class="w-10 h-10 rounded-full"
-        />
+        <div
+          class="flex items-center justify-center w-12 h-12 text-xl font-semibold text-white bg-orange-500 rounded-full"
+        >
+          {{ order?.firstName?.charAt(0) }}{{ order?.lastName?.charAt(0) }}
+        </div>
         <div>
           <div class="font-medium">
             {{ order.firstName }} {{ order.lastName }}
@@ -85,31 +84,100 @@
     </div>
   </div>
 
-  <!-- Progress Bar -->
+  <!-- Progress Tracker -->
   <div class="mt-8 mb-8">
-    <div class="relative">
-      <div class="h-2 bg-gray-200 rounded-full">
+    <div class="w-full max-w-2xl mx-auto">
+      <div class="relative flex items-center justify-between">
+        <!-- Progress Line -->
+        <div class="absolute left-0 w-full top-3">
+          <div
+            class="relative w-full h-2 overflow-hidden rounded-full shadow-lg bg-gradient-to-b from-gray-200 to-gray-300"
+          >
+            <!-- Gloss effect -->
+            <div
+              class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"
+            ></div>
+
+            <!-- Active progress -->
+            <div
+              class="absolute h-full transition-all duration-300 ease-out rounded-full bg-gradient-to-r from-violet-400 to-violet-600"
+              [style.width.%]="getProgressPercentage(currentStatus)"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Buttons -->
         <div
-          class="h-2 rounded-full bg-violet-500"
-          [style.width.%]="
-            order.status === 'SHIPPED'
-              ? 100
-              : order.status === 'PROCESSING'
-              ? 67
-              : 33
+          *ngFor="
+            let status of [
+              OrderStatus.PENDING,
+              OrderStatus.PROCESSING,
+              OrderStatus.SHIPPED
+            ]
           "
-        ></div>
-      </div>
-      <div class="flex justify-between mt-2">
-        <span class="text-sm text-violet-600">Pending</span>
-        <span class="text-sm text-violet-600">On the way</span>
-        <span class="text-sm text-gray-400">Completed</span>
+          class="relative z-10"
+        >
+          <button
+            (click)="onStatusChange(status)"
+            class="flex flex-col items-center transition-transform duration-150 transform group focus:outline-none hover:scale-105"
+            [disabled]="isUpdating"
+          >
+            <!-- 3D Circle -->
+            <div class="relative">
+              <div
+                class="w-8 h-8 transition-all duration-300 transform rounded-full shadow-lg"
+                [ngClass]="{
+                  'bg-gradient-to-b from-violet-400 to-violet-600 border-violet-700':
+                    getProgressPercentage(currentStatus) >=
+                    getProgressPercentage(status),
+                  'bg-gradient-to-b from-gray-100 to-gray-300 border-gray-400':
+                    getProgressPercentage(currentStatus) <
+                    getProgressPercentage(status)
+                }"
+              >
+                <div
+                  class="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-transparent"
+                ></div>
+
+                <!-- Completion indicator -->
+                <div
+                  *ngIf="
+                    getProgressPercentage(currentStatus) >=
+                    getProgressPercentage(status)
+                  "
+                  class="absolute inset-0 flex items-center justify-center"
+                >
+                  <div class="w-3 h-3 bg-blue-700 rounded-full shadow-inner"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Label -->
+            <span
+              class="mt-3 text-sm font-semibold transition-all duration-300"
+              [ngClass]="{
+                'text-violet-600':
+                  getProgressPercentage(currentStatus) >=
+                  getProgressPercentage(status),
+                'text-gray-500':
+                  getProgressPercentage(currentStatus) <
+                  getProgressPercentage(status)
+              }"
+            >
+              {{ status | titlecase }}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Action Buttons -->
-  <div class="flex space-x-4">
+  <div class="flex justify-between mt-6">
     <button
       (click)="onClose()"
       class="flex items-center px-4 py-2 border rounded-lg text-violet-600 border-violet-200"
@@ -129,8 +197,26 @@
       </svg>
       Back to Orders
     </button>
-    <button class="px-4 py-2 text-white rounded-lg bg-violet-600">
-      Cancel Order
-    </button>
+
+    <div class="flex space-x-4">
+      <button
+        (click)="applyChanges()"
+        class="px-4 py-2 text-white rounded-lg bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="
+          isUpdating ||
+          currentStatus === order.status 
+        "
+      >
+        {{ isUpdating ? "Updating..." : "Apply Changes" }}
+      </button>
+
+      <button
+        (click)="onStatusChange(OrderStatus.CANCELED)"
+        class="px-4 py-2 text-white bg-red-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="isUpdating"
+      >
+        Cancel Order
+      </button>
+    </div>
   </div>
 </div>

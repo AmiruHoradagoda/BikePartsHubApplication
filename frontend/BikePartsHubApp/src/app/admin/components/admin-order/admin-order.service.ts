@@ -12,13 +12,6 @@ export class AdminOrderService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Fetch all orders with optional status, page, and size parameters.
-   * @param orderStatus Optional order status filter.
-   * @param page Page number for pagination.
-   * @param size Number of items per page.
-   * @returns Observable containing paginated order data.
-   */
   getAllOrderDetails(
     orderStatus?: string | null,
     page: number = 0,
@@ -33,6 +26,16 @@ export class AdminOrderService {
     }
 
     return this.http.get<OrderResponses>(`${this.baseUrl}/getAllOrderDetails`, {
+      params,
+    });
+  }
+
+  changeOrderStatus(orderId: number, status: string): Observable<string> {
+    const params = new HttpParams()
+      .set('orderId', orderId.toString())
+      .set('status', status);
+
+    return this.http.put<string>(`${this.baseUrl}/changeOrderStatus`, null, {
       params,
     });
   }

@@ -91,8 +91,19 @@
                 <input type="checkbox" class="rounded" />
               </td>
               <td class="p-4">
-                {{ customer.firstName }} {{ customer.lastName }}
+                <div class="flex items-center">
+                  <div
+                    class="flex items-center justify-center w-10 h-10 text-xl font-semibold text-white bg-orange-500 rounded-full"
+                  >
+                    {{ customer?.firstName?.charAt(0)
+                    }}{{ customer?.lastName?.charAt(0) }}
+                  </div>
+                  <span class="ml-4">
+                    {{ customer.firstName }} {{ customer.lastName }}</span
+                  >
+                </div>
               </td>
+
               <td class="p-4">{{ customer.orders.length || 0 }}</td>
               <td class="p-4">
                 Rs
@@ -118,10 +129,15 @@
       </div>
 
       <!-- Pagination -->
-      <div *ngIf="!isLoading && !error && totalItems > 0" class="flex items-center justify-between w-full gap-2 p-4">
+      <div
+        *ngIf="!isLoading && !error && totalItems > 0"
+        class="flex items-center justify-between w-full gap-2 p-4"
+      >
         <!-- Items per page info -->
         <div class="text-sm text-gray-600">
-          Showing {{ currentPage * pageSize + 1 }} to {{ Math.min((currentPage + 1) * pageSize, totalItems) }} of {{ totalItems }} entries
+          Showing {{ currentPage * pageSize + 1 }} to
+          {{ Math.min((currentPage + 1) * pageSize, totalItems) }} of
+          {{ totalItems }} entries
         </div>
 
         <!-- Pagination Controls -->
