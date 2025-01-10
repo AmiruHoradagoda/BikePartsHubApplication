@@ -48,6 +48,14 @@ public class AdminController {
         return new ResponseEntity<PaginatedOrderResponseWithDetailsDto>(orderDetails, HttpStatus.OK);
     }
 
+    @PutMapping("/changeOrderStatus")
+    private ResponseEntity<String>changeOrderStatus(
+            @RequestParam long orderId,
+            @RequestParam OrderStatus status
+    ){
+       String message = orderService.changeOrderStatus(orderId,status);
+        return new ResponseEntity<String>(message,HttpStatus.OK) ;
+    }
 
 
 }

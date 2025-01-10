@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(requestOrderSaveDTO.getOrderDate());
         order.setTotal(requestOrderSaveDTO.getTotal());
         order.setShippingAddress(shippingAddress);
-        order.setStatus(OrderStatus.PROCESSING);
+        order.setStatus(OrderStatus.PENDING);
 
         // Save the Order entity
         orderRepo.save(order);
@@ -135,6 +135,22 @@ public class OrderServiceImpl implements OrderService {
 
         // Create and return the paginated response DTO
         return new PaginatedOrderResponseWithDetailsDto(orderResponseDtos, ordersPage.getTotalElements());
+    }
+
+    @Override
+    public String changeOrderStatus(long orderId, OrderStatus status) {
+        // Retrieve the order by ID
+        Order order = orderRepo.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order with ID " + orderId + " not found."));
+
+        // Update the order's status
+        order.setStatus(status);
+
+        // Save the updated order
+        orderRepo.save(order);
+
+        // Return success message
+        return "Order status changed to " + status + " for order ID " + orderId + ".";
     }
 
 }

@@ -8,4 +8,6 @@ public interface OrderService {
     String addOrder(OrderSaveRequestDto requestOderSaveDTO);
 
     PaginatedOrderResponseWithDetailsDto getAllOrderDetails(OrderStatus orderStatus, int page, int size);
+
+    String changeOrderStatus(long orderId, OrderStatus status);
 }
