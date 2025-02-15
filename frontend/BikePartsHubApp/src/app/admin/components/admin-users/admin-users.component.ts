@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AdminCustomersService,
   UserResponseDto,
@@ -21,13 +22,16 @@ export class AdminUsersComponent implements OnInit {
   error: string | null = null;
 
   Math = Math;
-
-  constructor(private customerService: AdminCustomersService) {}
-
+  constructor(
+    private customerService: AdminCustomersService,
+    private router: Router
+  ) {}
   ngOnInit() {
     this.loadCustomers();
   }
-
+  navigateToCustomer(customerId: string) {
+    this.router.navigate(['/admin/customer-view', customerId]);
+  }
   loadCustomers() {
     this.isLoading = true;
     this.error = null;

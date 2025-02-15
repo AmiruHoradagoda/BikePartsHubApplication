@@ -86,6 +86,7 @@
             <tr
               *ngFor="let customer of customers"
               class="border-t border-gray-200"
+              (click)="customer?.userId && navigateToCustomer(customer.userId.toString())"
             >
               <td class="p-4">
                 <input type="checkbox" class="rounded" />
