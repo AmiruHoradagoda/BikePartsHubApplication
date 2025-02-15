@@ -1,0 +1,22 @@
+<div class="p-6">
+  <!-- Header with Navigation -->
+  <div class="mb-6">
+    <nav class="flex gap-6 mb-8 border-b border-gray-200">
+      <a 
+        *ngFor="let tab of tabs" 
+        [class]="'pb-3 px-1 cursor-pointer ' + (activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600 font-medium' : 'text-gray-500')"
+        (click)="activeTab = tab"
+      >
+        {{tab}}
+      </a>
+    </nav>
+  </div>
+
+<!-- Dynamic Content Based on Tab -->
+  <ng-container [ngSwitch]="activeTab">
+    <app-profile *ngSwitchCase="'Profile'" [userId]="userId"></app-profile>
+    <app-orders *ngSwitchCase="'Orders'" [userId]="userId"></app-orders>
+    <app-schedules *ngSwitchCase="'Schedules'" [userId]="userId"></app-schedules>
+    <app-offers *ngSwitchCase="'Offers'" [userId]="userId"></app-offers>
+  </ng-container>
+</div>
