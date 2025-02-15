@@ -4,10 +4,10 @@ import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttribute
 import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
-import com.bphTeam.bikePartsHub.dto.response.ProductAttributeGetResponse;
-import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
+import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductAttributeGetResponse;
+import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
-import com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto;
+import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductSearchResponseDto;
 import com.bphTeam.bikePartsHub.entity.Bike;
 import com.bphTeam.bikePartsHub.entity.Product;
 import com.bphTeam.bikePartsHub.entity.ProductAttribute;
