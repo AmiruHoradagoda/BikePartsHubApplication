@@ -26,6 +26,7 @@
     "@types/gapi": "^0.0.47",
     "@types/gapi.calendar": "^3.0.11",
     "bike-parts-hub-app": "file:",
+    "chart.js": "^4.4.7",
     "express": "^4.18.2",
     "font-awesome": "^4.7.0",
     "ngx-toastr": "^19.0.0",
