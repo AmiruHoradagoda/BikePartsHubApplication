@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.controller;
 
-import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
+import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,8 @@ public class UserController {
 
     @GetMapping("/getUserDetails/{id}")
     private ResponseEntity<StandardResponse> getUserDetails(@PathVariable Integer id) {
-        UserResponseDto userDetails = userService.getUserDetails(id);
+        CustomerResponseDto userDetails = userService.getUserDetails(id);
         return new ResponseEntity<StandardResponse>(new StandardResponse(200, "User Details sent", userDetails), HttpStatus.OK);
     }
+
 }

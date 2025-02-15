@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.user;
 
+import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.token.Token;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +37,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Appointment> appointments = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private List <Token>tokens;
