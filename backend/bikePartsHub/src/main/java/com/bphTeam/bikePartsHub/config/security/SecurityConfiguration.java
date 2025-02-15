@@ -50,9 +50,9 @@ public class SecurityConfiguration {
                                 .requestMatchers(PUT, "/api/v1/admin/**").permitAll()
 
                                 // Allow POST, PUT, DELETE only for ADMIN
-                                .requestMatchers(POST, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
-                                .requestMatchers(PUT, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
-                                .requestMatchers(DELETE, "/api/v1/product/**", "/api/v1/bikes/**").hasRole("ADMIN")
+                                .requestMatchers(POST, "/api/v1/product/**", "/api/v1/bikes/**").hasAuthority("admin:create")
+                                .requestMatchers(PUT, "/api/v1/product/**", "/api/v1/bikes/**").hasAuthority("admin:update")
+                                .requestMatchers(DELETE, "/api/v1/product/**", "/api/v1/bikes/**").hasAuthority("admin:delete")
 
                                 // Default: authenticate all other requests
                                 .anyRequest().authenticated()
