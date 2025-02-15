@@ -1,7 +1,5 @@
 package com.bphTeam.bikePartsHub.mapper;
 
-import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeSaveRequestDto;
-import com.bphTeam.bikePartsHub.entity.ProductAttribute;
 import org.mapstruct.Mapper;
 
 

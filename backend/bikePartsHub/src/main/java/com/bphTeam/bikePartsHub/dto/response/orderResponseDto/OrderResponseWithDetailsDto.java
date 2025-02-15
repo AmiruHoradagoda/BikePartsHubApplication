@@ -1,7 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.response.orderResponseDto;
 
 import com.bphTeam.bikePartsHub.dto.response.ShippingAddressDto;
-import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderDetailsDto;
 import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;

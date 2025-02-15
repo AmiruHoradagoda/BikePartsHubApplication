@@ -8,7 +8,6 @@ import com.bphTeam.bikePartsHub.mapper.AppointmentMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
 import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
-import com.bphTeam.bikePartsHub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

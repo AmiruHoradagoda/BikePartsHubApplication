@@ -3,7 +3,6 @@ package com.bphTeam.bikePartsHub.service;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

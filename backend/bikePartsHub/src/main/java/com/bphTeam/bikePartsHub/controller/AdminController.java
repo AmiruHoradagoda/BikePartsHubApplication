@@ -4,7 +4,6 @@ import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsD
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
-import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
 import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.service.UserService;

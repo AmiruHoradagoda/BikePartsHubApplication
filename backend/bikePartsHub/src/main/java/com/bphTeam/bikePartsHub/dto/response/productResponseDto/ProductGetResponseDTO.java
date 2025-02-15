@@ -1,6 +1,5 @@
 package com.bphTeam.bikePartsHub.dto.response.productResponseDto;
 
-import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductAttributeGetResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
