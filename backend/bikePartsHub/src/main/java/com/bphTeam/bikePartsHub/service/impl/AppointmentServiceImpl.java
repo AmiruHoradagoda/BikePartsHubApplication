@@ -1,10 +1,14 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
+import com.bphTeam.bikePartsHub.dto.request.AppointmentSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
+import com.bphTeam.bikePartsHub.mapper.AppointmentMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
 import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
+import com.bphTeam.bikePartsHub.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
@@ -19,6 +25,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private ServiceTypeRepository serviceTypeRepository;
+    @Autowired
+    private AppointmentMapper appointmentMapper;
 
     @Override
     public List<ServiceType> getAllServices() {
@@ -37,12 +45,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment createAppointment(Appointment appointment) {
-        if (!isTimeSlotAvailable(appointment.getDate(),
-                appointment.getStartTime(),
-                appointment.getServiceDuration())) {
+    public Appointment createAppointment(AppointmentSaveRequestDto appointmentDto) {
+        if (!isTimeSlotAvailable(appointmentDto.getDate(),
+                appointmentDto.getStartTime(),
+                appointmentDto.getServiceDuration())) {
             throw new RuntimeException("Time slot not available");
         }
+        Appointment appointment = appointmentMapper.toAppointment(appointmentDto);
         return appointmentRepository.save(appointment);
     }
 
@@ -84,5 +93,25 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         return availableSlots;
+    }
+
+    @Override
+    public List<AppointmentResponseDto> getCustomerAppointments(Integer id) {
+        // Get appointments directly using user id
+        List<Appointment> appointments = appointmentRepository.findByUser_UserId(id);
+
+        // Map appointments to DTOs with hardcoded values for new fields
+        return appointments.stream()
+                .map(appointment -> {
+                    AppointmentResponseDto dto = appointmentMapper.toAppointmentResponseDto(appointment);
+                    // Set hardcoded values for new fields
+                    dto.setServiceName("Full Service");
+                    dto.setServiceCharge(3455.00);  // Hardcoded service charge
+                    dto.setOilCharge(345.00);       // Hardcoded oil charge
+                    dto.setNotes("Tire needs to be repaired Tire needs to be repaired Tire needs to be repaired");
+                    dto.setTotalCharge(dto.getServiceCharge() + dto.getOilCharge()); // Calculate total
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }
