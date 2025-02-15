@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.pagenated;
 
-import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
+import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductGetResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

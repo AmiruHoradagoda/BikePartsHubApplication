@@ -3,8 +3,8 @@ package com.bphTeam.bikePartsHub.service.impl;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
-import com.bphTeam.bikePartsHub.dto.response.OrderDetailsDto;
-import com.bphTeam.bikePartsHub.dto.response.OrderResponseWithDetailsDto;
+import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderDetailsDto;
+import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
 import com.bphTeam.bikePartsHub.entity.ShippingAddress;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -151,6 +150,52 @@ public class OrderServiceImpl implements OrderService {
 
         // Return success message
         return "Order status changed to " + status + " for order ID " + orderId + ".";
+    }
+
+    @Override
+    public PaginatedOrderResponseWithDetailsDto getCustomerOrders(Integer id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        // Fetch orders directly for the specific user with pagination
+        Page<Order> ordersPage = orderRepo.findByUser_UserId(id, pageable);
+
+        Set<OrderResponseWithDetailsDto> orderResponseDtos = new HashSet<>();
+
+        for (Order order : ordersPage.getContent()) {
+            Set<OrderDetailsDto> orderDetailsDtos = new HashSet<>();
+
+            if (order.getOrderDetails() != null) {
+                for (OrderDetails orderDetail : order.getOrderDetails()) {
+                    OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
+                            orderDetail.getOrderDetailId(),
+                            orderDetail.getProductName(),
+                            orderDetail.getQty(),
+                            orderDetail.getProduct().getImageUrl(),
+                            orderDetail.getAmount()
+                    );
+                    orderDetailsDtos.add(orderDetailsDto);
+                }
+            }
+
+            OrderResponseWithDetailsDto orderResponseDto = new OrderResponseWithDetailsDto(
+                    order.getOrderId(),
+                    order.getUser().getFirstName(),
+                    order.getUser().getLastName(),
+                    order.getUser().getEmail(),
+                    shippingMapper.toShippingAddressDto(order.getShippingAddress()),
+                    order.getDate(),
+                    order.getStatus(),
+                    order.getTotal(),
+                    orderDetailsDtos
+            );
+
+            orderResponseDtos.add(orderResponseDto);
+        }
+
+        return new PaginatedOrderResponseWithDetailsDto(
+                orderResponseDtos,
+                ordersPage.getTotalElements()
+        );
     }
 
 }

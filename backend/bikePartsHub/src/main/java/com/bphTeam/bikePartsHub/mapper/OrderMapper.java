@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.mapper;
 
-import com.bphTeam.bikePartsHub.dto.response.OrderResponseDto;
+import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import org.mapstruct.Mapper;
 

@@ -32,4 +32,5 @@ public interface OrderRepo extends JpaRepository<Order, Long> {
             countQuery = "SELECT COUNT(o) FROM Order o")
     Page<Order> findAll(Pageable pageable);
 
+    Page<Order> findByUser_UserId(Integer id, Pageable pageable);
 }
