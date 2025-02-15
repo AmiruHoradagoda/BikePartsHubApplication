@@ -11,4 +11,5 @@ export interface Appointment {
   engineOil: string | undefined;
   totalCharge: number;
   serviceType: ServiceType;
+  appointmentStatus: 'COMPLETED' | 'ATTENDED' | 'UPCOMING' | 'MISSED';
 }

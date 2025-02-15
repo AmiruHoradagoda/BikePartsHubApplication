@@ -275,6 +275,7 @@ export class AppointmentPageComponent implements OnInit {
         engineOil: this.selectedOil,
         totalCharge: this.totalCharge,
         serviceType: this.selectedService,
+        appointmentStatus: 'UPCOMING',
       };
 
       this.loading = true;
