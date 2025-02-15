@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.controller;
 
+import com.bphTeam.bikePartsHub.dto.request.AppointmentSaveRequestDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
@@ -45,7 +46,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointments")
-    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
-        return ResponseEntity.ok(appointmentService.createAppointment(appointment));
+    public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentSaveRequestDto appointmentDto) {
+        return ResponseEntity.ok(appointmentService.createAppointment(appointmentDto));
     }
 }
