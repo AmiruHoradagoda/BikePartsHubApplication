@@ -1,0 +1,125 @@
+<!-- schedules-view.component.html -->
+<div class="max-w-3xl p-6 mx-auto bg-white rounded-lg shadow-sm">
+  <!-- Header -->
+  <div class="mb-6">
+    <h2 class="mb-1 text-xl font-semibold text-purple-600">
+      Appointment ID: #{{ appointment.id }}
+    </h2>
+    <p class="text-sm text-gray-500">
+      (Service Booked: {{ appointment.date }})
+    </p>
+  </div>
+
+  <!-- Service Details -->
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+    <!-- Left Column -->
+    <div class="space-y-6">
+      <!-- Service Type -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center w-10 h-10">
+          <i class="text-2xl text-purple-600 fas fa-motorcycle"></i>
+        </div>
+        <div class="px-4 py-2 font-medium text-purple-700 bg-purple-100 rounded-lg">
+          {{ appointment.serviceName }}
+        </div>
+      </div>
+
+      <!-- Time Slot -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center w-10 h-10">
+          <i class="text-2xl text-purple-600 far fa-clock"></i>
+        </div>
+        <div>{{ appointment.startTime }}</div>
+      </div>
+
+      <!-- Date -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center w-10 h-10">
+          <i class="text-2xl text-purple-600 far fa-calendar"></i>
+        </div>
+        <div>{{ appointment.date }}</div>
+      </div>
+
+      <!-- Engine Oil -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center w-10 h-10">
+          <i class="text-2xl text-purple-600 fas fa-oil-can"></i>
+        </div>
+        <div>{{ appointment.engineOil }}</div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="space-y-4">
+      <!-- Charges -->
+      <div class="flex justify-between">
+        <span>Service charge:</span>
+        <span>Rs. {{ appointment.serviceCharge.toFixed(2) }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Oil Charge:</span>
+        <span>Rs. {{ appointment.oilCharge.toFixed(2) }}</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>-</span>
+        <button class="px-4 py-2 text-purple-700 transition-colors bg-purple-100 rounded-lg hover:bg-purple-200">
+          Add offers
+        </button>
+      </div>
+      <div class="flex justify-between font-semibold">
+        <span>Total</span>
+        <span>Rs. {{ appointment.totalCharge.toFixed(2) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div *ngIf="appointment.notes" class="p-4 mt-6 bg-gray-100 rounded-lg">
+    <div class="flex items-start gap-2">
+      <i class="mt-1 text-purple-600 fas fa-sticky-note"></i>
+      <p class="text-gray-700">{{ appointment.notes }}</p>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="relative mt-8">
+    <div class="h-2 bg-gray-200 rounded-full">
+      <div 
+        class="h-full transition-all duration-300 bg-purple-600 rounded-full"
+        [style.width]="getProgressWidth()"
+      ></div>
+    </div>
+    <div class="flex justify-between mt-2">
+      <span class="text-sm font-medium text-purple-600">Upcoming</span>
+      <span class="text-sm font-medium text-purple-600">Attended</span>
+      <span class="text-sm font-medium text-purple-600">Completed</span>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex justify-between mt-8">
+    <button 
+      (click)="onBackClick()"
+      class="flex items-center gap-2 px-6 py-2 text-purple-700 transition-colors bg-purple-100 rounded-lg hover:bg-purple-200"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back to Schedules
+    </button>
+    <div class="flex gap-4">
+  <button 
+    *ngIf="getNextStatus()"
+    (click)="onApplyChanges()"
+    class="px-6 py-2 text-white transition-colors bg-purple-600 rounded-lg hover:bg-purple-700"
+  >
+    {{ getNextStatus() === AppointmentStatus.ATTENDED ? 'Mark Attended' : 'Mark Completed' }}
+  </button>
+  <button 
+    *ngIf="canMarkMissed()"
+    (click)="onMarkMissed()"
+    class="px-6 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700"
+  >
+    Missed
+  </button>
+</div>
+  </div>
+</div>
