@@ -1,11 +1,10 @@
 package com.bphTeam.bikePartsHub.service;
 
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequestDto;
-import com.bphTeam.bikePartsHub.dto.response.ProductGetResponseDTO;
+import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductGetResponseDTO;
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
-import com.bphTeam.bikePartsHub.dto.response.ProductSearchResponseDto;
-import org.springframework.http.ResponseEntity;
+import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductSearchResponseDto;
 
 import java.util.List;
 
