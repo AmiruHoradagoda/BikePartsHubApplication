@@ -14,6 +14,13 @@ import { AdminUsersComponent } from './components/admin-users/admin-users.compon
 import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 import { AdminOrderViewComponent } from './components/admin-order/admin-order-view/admin-order-view.component';
+import { AdminCustomerViewComponent } from './components/admin-users/admin-customer-view/admin-customer-view.component';
+import { ProfileComponent } from './components/admin-users/components/profile/profile.component';
+import { OrdersComponent } from './components/admin-users/components/orders/orders.component';
+import { SchedulesComponent } from './components/admin-users/components/schedules/schedules.component';
+import { OffersComponent } from './components/admin-users/components/offers/offers.component';
+import { OrderViewComponent } from './components/admin-users/components/orders/order-view/order-view.component';
+import { SchedulesViewComponent } from './components/admin-users/components/schedules/schedules-view/schedules-view.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +34,19 @@ import { AdminOrderViewComponent } from './components/admin-order/admin-order-vi
     AdminHeaderComponent,
     AdminOrderComponent,
     AdminOrderViewComponent,
+    AdminCustomerViewComponent,
+    ProfileComponent,
+    OrdersComponent,
+    SchedulesComponent,
+    OffersComponent,
+    OrderViewComponent,
+    SchedulesViewComponent,
   ],
   imports: [
     CommonModule,
     AdminPageRoutingModule,
     AuthAdminModule,
     ReactiveFormsModule,
-    RouterModule,
   ],
   exports: [AdminComponent, AdminSideNavbarComponent],
 })

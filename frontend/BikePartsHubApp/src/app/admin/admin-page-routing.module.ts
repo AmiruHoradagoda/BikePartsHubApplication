@@ -7,6 +7,7 @@ import { AdminComponent } from './admin.component';
 import { LoginAdminComponent } from './auth-admin/login-admin/login-admin.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
+import { AdminCustomerViewComponent } from './components/admin-users/admin-customer-view/admin-customer-view.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
       {
         path: 'overview',
         component: AdminOverviewComponent,
+      },
+      {
+        path: 'customer-view/:id',
+        component: AdminCustomerViewComponent,
       },
       {
         path: 'product',
