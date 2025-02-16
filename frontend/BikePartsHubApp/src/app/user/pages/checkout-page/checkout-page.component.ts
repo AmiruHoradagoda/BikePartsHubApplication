@@ -42,7 +42,7 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authService.currentUserValue) {
+    if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return;
     }
@@ -62,10 +62,18 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   async handleCheckout() {
-    if (this.checkoutForm.valid && this.authService.currentUserValue) {
+    if (this.checkoutForm.valid && this.authService.isLoggedIn()) {
       this.loading = true;
+      const currentUser = this.authService.getCurrentUser();
+
+      if (!currentUser) {
+        this.error = 'User not logged in';
+        this.loading = false;
+        return;
+      }
+
       const orderData = {
-        userId: this.authService.currentUserValue.userId,
+        userId: currentUser.userId,
         orderDate: new Date(),
         total: this.total,
         orderDetails: this.cartItems.map((item) => ({

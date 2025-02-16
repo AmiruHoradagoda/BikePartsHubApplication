@@ -8,29 +8,36 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class CheckoutService {
-  private apiUrl = `${environment.apiUrl}/api/v1/order`;
+  private API_URL = `${environment.apiUrl}/api/v1/order`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   async saveOrder(orderData: any): Promise<any> {
     try {
-      const headers = new HttpHeaders().set(
-        'Authorization',
-        `Bearer ${localStorage.getItem('user_access_token')}`
-      );
+      const headers = this.authService.getAuthHeader();
 
-      const response = await firstValueFrom(
-        this.http.post(`${this.apiUrl}/save`, orderData, { headers })
-      );
-
-      if (!response) {
-        throw new Error('No response from server');
+      if (!headers.get('Authorization')) {
+        throw new Error('No authentication token found');
       }
-      return response;
+
+      // Using firstValueFrom to convert Observable to Promise
+      return await firstValueFrom(
+        this.http.post(`${this.API_URL}/save`, orderData, { headers })
+      );
     } catch (error: any) {
-      if (error.status === 401) {
-        await firstValueFrom(this.authService.refreshToken());
-        return this.saveOrder(orderData);
+      // If token is expired, try to refresh and retry
+      if (error.status === 403) {
+        try {
+          await firstValueFrom(this.authService.refreshToken());
+          const newHeaders = this.authService.getAuthHeader();
+          return await firstValueFrom(
+            this.http.post(`${this.API_URL}/save`, orderData, {
+              headers: newHeaders,
+            })
+          );
+        } catch (refreshError) {
+          throw new Error('Session expired. Please login again.');
+        }
       }
       throw error;
     }
