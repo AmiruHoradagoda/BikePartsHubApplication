@@ -22,3 +22,9 @@ export interface RegisterRequest {
   phone: string;
   role: string;
 }
+
+export interface TokenPayload {
+  sub: string;
+  iat: number;
+  exp: number;
+}

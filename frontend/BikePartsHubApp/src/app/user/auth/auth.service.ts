@@ -6,6 +6,7 @@ import {
   AuthenticationRequest,
   AuthenticationResponse,
   RegisterRequest,
+  TokenPayload,
 } from './auth.models';
 
 @Injectable({
@@ -17,15 +18,15 @@ export class AuthService {
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
-  private readonly STORAGE_KEYS = {
-    CURRENT_USER: 'currentUser',
-    ACCESS_TOKEN: 'user_access_token',
-    REFRESH_TOKEN: 'user_refresh_token',
-  };
+  private readonly STORAGE_KEY = 'currentUser';
 
   constructor(private http: HttpClient) {
+    this.initializeUserFromStorage();
+  }
+
+  private initializeUserFromStorage(): void {
     if (typeof localStorage !== 'undefined') {
-      const storedUser = localStorage.getItem(this.STORAGE_KEYS.CURRENT_USER);
+      const storedUser = localStorage.getItem(this.STORAGE_KEY);
       if (storedUser) {
         try {
           const user = JSON.parse(storedUser);
@@ -41,8 +42,13 @@ export class AuthService {
     }
   }
 
-  get currentUserValue(): AuthenticationResponse | null {
+  getCurrentUser(): AuthenticationResponse | null {
     return this.currentUserSubject.value;
+  }
+
+  getCurrentUserId(): number {
+    const user = this.getCurrentUser();
+    return user?.userId || 0;
   }
 
   register(request: RegisterRequest): Observable<AuthenticationResponse> {
@@ -71,14 +77,14 @@ export class AuthService {
   }
 
   refreshToken(): Observable<AuthenticationResponse> {
-    const refreshToken = localStorage.getItem(this.STORAGE_KEYS.REFRESH_TOKEN);
-    if (!refreshToken) {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser?.refresh_token) {
       return throwError(() => new Error('No refresh token available'));
     }
 
     const headers = new HttpHeaders().set(
       'Authorization',
-      `Bearer ${refreshToken}`
+      `Bearer ${currentUser.refresh_token}`
     );
 
     return this.http
@@ -102,19 +108,20 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.STORAGE_KEYS.CURRENT_USER);
-    localStorage.removeItem(this.STORAGE_KEYS.ACCESS_TOKEN);
-    localStorage.removeItem(this.STORAGE_KEYS.REFRESH_TOKEN);
+    localStorage.removeItem(this.STORAGE_KEY);
     this.currentUserSubject.next(null);
   }
 
   getAuthHeader(): HttpHeaders {
-    const token = localStorage.getItem(this.STORAGE_KEYS.ACCESS_TOKEN);
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const user = this.getCurrentUser();
+    return new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${user?.access_token || ''}`
+    );
   }
 
   isLoggedIn(): boolean {
-    const user = this.currentUserValue;
+    const user = this.getCurrentUser();
     return !!user && !this.isTokenExpired(user.access_token);
   }
 
@@ -122,24 +129,15 @@ export class AuthService {
     if (!response.access_token || !response.refresh_token) {
       throw new Error('Invalid authentication response');
     }
-    localStorage.setItem(
-      this.STORAGE_KEYS.CURRENT_USER,
-      JSON.stringify(response)
-    );
-    localStorage.setItem(this.STORAGE_KEYS.ACCESS_TOKEN, response.access_token);
-    localStorage.setItem(
-      this.STORAGE_KEYS.REFRESH_TOKEN,
-      response.refresh_token
-    );
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(response));
     this.currentUserSubject.next(response);
   }
 
   private isTokenExpired(token: string): boolean {
     if (!token) return true;
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const expiry = payload.exp * 1000;
-      return Date.now() >= expiry;
+      const payload = JSON.parse(atob(token.split('.')[1])) as TokenPayload;
+      return Date.now() >= payload.exp * 1000;
     } catch (e) {
       return true;
     }
@@ -154,5 +152,19 @@ export class AuthService {
       errorMessage = `Error: ${error.error.message || error.statusText}`;
     }
     return throwError(() => errorMessage);
+  }
+
+  // Utility methods for appointment system
+  getUserFullName(): string {
+    const user = this.getCurrentUser();
+    return user ? `${user.firstName} ${user.lastName}` : '';
+  }
+
+  getUserEmail(): string {
+    return this.getCurrentUser()?.email || '';
+  }
+
+  isCustomer(): boolean {
+    return this.getCurrentUser()?.role === 'CUSTOMER';
   }
 }
