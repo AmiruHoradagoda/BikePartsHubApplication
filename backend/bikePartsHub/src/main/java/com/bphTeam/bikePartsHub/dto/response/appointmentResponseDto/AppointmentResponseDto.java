@@ -1,20 +1,21 @@
-package com.bphTeam.bikePartsHub.dto.response;
+package com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto;
 
+import com.bphTeam.bikePartsHub.dto.ServiceTypeDto;
 import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
 @Data
 public class AppointmentResponseDto {
-    private Long id;
-    private String serviceName;
-    private int serviceDuration;
+    private String name;
+    private String mobile;
     private LocalDate date;
     private String startTime;
+    private int serviceDuration;
+    private String plateNumber;
     private String engineOil;
-    private double serviceCharge;//newly added
-    private double oilCharge; //newly added
+    private double engineOilCost;
     private double totalCharge;
-    private String notes;//newly added
+    private ServiceTypeDto serviceTypeDto;
     private AppointmentStatus appointmentStatus;
 }
