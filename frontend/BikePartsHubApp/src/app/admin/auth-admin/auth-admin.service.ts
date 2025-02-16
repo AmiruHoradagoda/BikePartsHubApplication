@@ -13,11 +13,26 @@ export class AdminAuthService {
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentAdmin$ = this.currentAdminSubject.asObservable();
 
+  private readonly STORAGE_KEYS = {
+    CURRENT_ADMIN: 'currentAdmin',
+    ADMIN_ACCESS_TOKEN: 'admin_access_token',
+    ADMIN_REFRESH_TOKEN: 'admin_refresh_token',
+  };
+
   constructor(private http: HttpClient) {
     if (typeof localStorage !== 'undefined') {
-      const storedAdmin = localStorage.getItem('currentAdmin');
+      const storedAdmin = localStorage.getItem(this.STORAGE_KEYS.CURRENT_ADMIN);
       if (storedAdmin) {
-        this.currentAdminSubject.next(JSON.parse(storedAdmin));
+        try {
+          const admin = JSON.parse(storedAdmin);
+          if (this.isTokenExpired(admin.access_token)) {
+            this.logout();
+          } else {
+            this.currentAdminSubject.next(admin);
+          }
+        } catch (e) {
+          this.logout();
+        }
       }
     }
   }
@@ -50,7 +65,13 @@ export class AdminAuthService {
   }
 
   refreshToken(): Observable<AuthenticationResponse> {
-    const refreshToken = localStorage.getItem('refresh_token');
+    const refreshToken = localStorage.getItem(
+      this.STORAGE_KEYS.ADMIN_REFRESH_TOKEN
+    );
+    if (!refreshToken) {
+      return throwError(() => new Error('No admin refresh token available'));
+    }
+
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${refreshToken}`
@@ -64,36 +85,76 @@ export class AdminAuthService {
       )
       .pipe(
         tap((response) => {
+          if (response.role !== 'ADMIN') {
+            throw new Error('Invalid admin token refresh response');
+          }
           this.storeAdminData(response);
         }),
-        catchError(this.handleError)
+        catchError((error) => {
+          if (error.status === 401 || error.status === 403) {
+            this.logout();
+            return throwError(
+              () => new Error('Admin session expired. Please login again.')
+            );
+          }
+          return this.handleError(error);
+        })
       );
   }
 
   logout(): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem('currentAdmin');
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-    }
+    localStorage.removeItem(this.STORAGE_KEYS.CURRENT_ADMIN);
+    localStorage.removeItem(this.STORAGE_KEYS.ADMIN_ACCESS_TOKEN);
+    localStorage.removeItem(this.STORAGE_KEYS.ADMIN_REFRESH_TOKEN);
     this.currentAdminSubject.next(null);
   }
 
+  getAuthHeader(): HttpHeaders {
+    const token = localStorage.getItem(this.STORAGE_KEYS.ADMIN_ACCESS_TOKEN);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   isAdminLoggedIn(): boolean {
-    return !!this.currentAdminValue && this.currentAdminValue.role === 'ADMIN';
+    const admin = this.currentAdminValue;
+    return (
+      !!admin &&
+      admin.role === 'ADMIN' &&
+      !this.isTokenExpired(admin.access_token)
+    );
   }
 
   private storeAdminData(admin: AuthenticationResponse): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('currentAdmin', JSON.stringify(admin));
-      localStorage.setItem('access_token', admin.access_token);
-      localStorage.setItem('refresh_token', admin.refresh_token);
+    if (!admin.access_token || !admin.refresh_token) {
+      throw new Error('Invalid authentication response');
     }
+    localStorage.setItem(
+      this.STORAGE_KEYS.CURRENT_ADMIN,
+      JSON.stringify(admin)
+    );
+    localStorage.setItem(
+      this.STORAGE_KEYS.ADMIN_ACCESS_TOKEN,
+      admin.access_token
+    );
+    localStorage.setItem(
+      this.STORAGE_KEYS.ADMIN_REFRESH_TOKEN,
+      admin.refresh_token
+    );
     this.currentAdminSubject.next(admin);
   }
 
+  private isTokenExpired(token: string): boolean {
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000;
+      return Date.now() >= expiry;
+    } catch (e) {
+      return true;
+    }
+  }
+
   private handleError(error: any) {
-    console.error('An error occurred:', error);
+    console.error('Admin auth service error:', error);
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;

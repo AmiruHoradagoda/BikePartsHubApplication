@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { OrderResponses } from './order.models';
+import { AdminAuthService } from '../../auth-admin/auth-admin.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { OrderResponses } from './order.models';
 export class AdminOrderService {
   private baseUrl = `${environment.apiUrl}/api/v1/admin`; // Base URL for the API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,  private adminAuthService: AdminAuthService) {}
 
   getAllOrderDetails(
     orderStatus?: string | null,
@@ -26,7 +27,7 @@ export class AdminOrderService {
     }
 
     return this.http.get<OrderResponses>(`${this.baseUrl}/getAllOrderDetails`, {
-      params,
+      params, headers: this.adminAuthService.getAuthHeader()
     });
   }
 
@@ -37,6 +38,7 @@ export class AdminOrderService {
 
     return this.http.put<string>(`${this.baseUrl}/changeOrderStatus`, null, {
       params,
+      headers: this.adminAuthService.getAuthHeader(),
     });
   }
 }
