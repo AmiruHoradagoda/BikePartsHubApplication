@@ -12,17 +12,18 @@ import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/admin")
-//@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
-    private  final AppointmentService appointmentService;
+    private final AppointmentService appointmentService;
+
     @Autowired
     public AdminController(UserService userService, OrderService orderService, AppointmentService appointmentService) {
 
@@ -32,7 +33,6 @@ public class AdminController {
     }
 
     @GetMapping("/getAllCustomerDetails")
-//    @PreAuthorize("hasAuthority('admin:read')")
     private ResponseEntity<PaginatedUserResponseDto> getAllCustomerDetails(
             @RequestParam(required = false) String customerName,
             @RequestParam(required = false) Role role,
@@ -67,6 +67,12 @@ public class AdminController {
         return ResponseEntity.ok(appointmentResponseDtos);
     }
 
+    @GetMapping("/getCustomerProfile/{id}")
+    private ResponseEntity<CustomerProfileDto> getCustomerProfile(@PathVariable Integer id) {
+        CustomerProfileDto customerProfile = userService.getAllCustomerProfile(id);
+        return ResponseEntity.ok(customerProfile);
+    }
+
     @PutMapping("/changeOrderStatus")
     private ResponseEntity<String> changeOrderStatus(
             @RequestParam long orderId,
@@ -74,12 +80,6 @@ public class AdminController {
     ) {
         String message = orderService.changeOrderStatus(orderId, status);
         return new ResponseEntity<String>(message, HttpStatus.OK);
-    }
-
-    @GetMapping("/getCustomerProfile/{id}")
-    private ResponseEntity<CustomerProfileDto> getCustomerProfile(@PathVariable Integer id) {
-        CustomerProfileDto customerProfile = userService.getAllCustomerProfile(id);
-        return ResponseEntity.ok(customerProfile);
     }
 
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/appointment")
 @CrossOrigin
-@PreAuthorize("permitAll()")
 public class AppointmentController {
 
     @Autowired
@@ -46,7 +45,9 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointments")
-    public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentSaveRequestDto appointmentDto) {
-        return ResponseEntity.ok(appointmentService.createAppointment(appointmentDto));
+    @PreAuthorize("hasAnyAuthority('customer:create', 'loyal_customer:create', 'admin:create')")
+    public ResponseEntity<Void> createAppointment(@RequestBody AppointmentSaveRequestDto appointmentDto) {
+        appointmentService.createAppointment(appointmentDto);
+        return ResponseEntity.ok().build();
     }
 }
