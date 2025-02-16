@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.service;
 
-import com.bphTeam.bikePartsHub.dto.request.AppointmentSaveRequestDto;
-import com.bphTeam.bikePartsHub.dto.response.AppointmentResponseDto;
+import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
 

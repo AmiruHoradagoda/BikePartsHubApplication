@@ -1,13 +1,15 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
-import com.bphTeam.bikePartsHub.dto.request.AppointmentSaveRequestDto;
-import com.bphTeam.bikePartsHub.dto.response.AppointmentResponseDto;
+import com.bphTeam.bikePartsHub.dto.ServiceTypeDto;
+import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
 import com.bphTeam.bikePartsHub.mapper.AppointmentMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
 import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
+import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private ServiceTypeRepository serviceTypeRepository;
+
     @Autowired
     private AppointmentMapper appointmentMapper;
 
@@ -40,40 +43,67 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsByDate(LocalDate date) {
-        return appointmentRepository.findByDate(date);
+        return appointmentRepository.findByStartDate(date);
     }
 
     @Override
     public void createAppointment(AppointmentSaveRequestDto appointmentDto) {
-        if (!isTimeSlotAvailable(appointmentDto.getDate(),
+        // Get service type to check duration
+        ServiceType serviceType = serviceTypeRepository.findById((long) appointmentDto.getServiceTypeId())
+                .orElseThrow(() -> new RuntimeException("Service type not found"));
+
+        // Check if time slot is available
+        if (!isTimeSlotAvailable(appointmentDto.getStartDate(),
                 appointmentDto.getStartTime(),
-                appointmentDto.getServiceDuration())) {
+                (int) serviceType.getServiceDuration())) {
             throw new RuntimeException("Time slot not available");
         }
+
+        // Calculate total charge if not set
+        if (appointmentDto.getTotalCharge() == 0) {
+            double totalCharge = serviceType.getServiceCost() + appointmentDto.getEngineOilCost();
+            appointmentDto.setTotalCharge(totalCharge);
+        }
+
+        // Set initial appointment status if not set
+        if (appointmentDto.getAppointmentStatus() == null) {
+            appointmentDto.setAppointmentStatus(AppointmentStatus.UPCOMING);
+        }
+
+        // Create and save appointment
         Appointment appointment = appointmentMapper.toAppointment(appointmentDto);
+        appointmentRepository.save(appointment);
     }
 
     @Override
     public boolean isTimeSlotAvailable(LocalDate date, String startTime, int duration) {
-        List<Appointment> existingAppointments = appointmentRepository.findByDate(date);
+        List<Appointment> existingAppointments = appointmentRepository.findByStartDate(date);
         int conflictCount = 0;
 
         LocalTime newStartTime = LocalTime.parse(startTime);
         LocalTime newEndTime = newStartTime.plusHours(duration);
 
+        // Check if the time is within business hours (8:00 - 17:00)
+        LocalTime businessStart = LocalTime.of(8, 0);
+        LocalTime businessEnd = LocalTime.of(17, 0);
+
+        if (newStartTime.isBefore(businessStart) || newEndTime.isAfter(businessEnd)) {
+            return false;
+        }
+
         for (Appointment existing : existingAppointments) {
             LocalTime existingStart = LocalTime.parse(existing.getStartTime());
-            LocalTime existingEnd = existingStart.plusHours(existing.getServiceDuration());
+            LocalTime existingEnd = existingStart.plusHours((int) existing.getServiceType().getServiceDuration());
 
             if (!(newEndTime.isBefore(existingStart) || newStartTime.isAfter(existingEnd))) {
                 conflictCount++;
-                if (conflictCount >= 3) {
+                if (conflictCount >= 3) {  // Allow up to 3 concurrent appointments
                     return false;
                 }
             }
         }
 
-        return newEndTime.isBefore(LocalTime.of(17, 0));
+        return true;
     }
 
     @Override
@@ -95,19 +125,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentResponseDto> getCustomerAppointments(Integer id) {
-        // Get appointments directly using user id
         List<Appointment> appointments = appointmentRepository.findByUser_UserId(id);
 
-        // Map appointments to DTOs with hardcoded values for new fields
         return appointments.stream()
                 .map(appointment -> {
                     AppointmentResponseDto dto = appointmentMapper.toAppointmentResponseDto(appointment);
-                    // Set hardcoded values for new fields
-                    dto.setServiceName("Full Service");
-                    dto.setServiceCharge(3455.00);  // Hardcoded service charge
-                    dto.setOilCharge(345.00);       // Hardcoded oil charge
-                    dto.setNotes("Tire needs to be repaired Tire needs to be repaired Tire needs to be repaired");
-                    dto.setTotalCharge(dto.getServiceCharge() + dto.getOilCharge()); // Calculate total
+
+                    // Ensure serviceTypeDto is properly set
+                    if (appointment.getServiceType() != null) {
+                        ServiceTypeDto serviceTypeDto = appointmentMapper.toServiceTypeDto(appointment.getServiceType());
+                        dto.setServiceTypeDto(serviceTypeDto);
+                    }
+
                     return dto;
                 })
                 .collect(Collectors.toList());

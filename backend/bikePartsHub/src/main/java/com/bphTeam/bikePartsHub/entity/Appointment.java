@@ -14,22 +14,21 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String serviceName;//newly added
-    private LocalDate date;
-    private String startTime;
-    private String engineOil;
-    private double totalCharge;
-    private AppointmentStatus appointmentStatus;
-    private int serviceDuration;
-    private String name;
+    private String customerName;
     private String mobile;
     private String plateNumber;
+    private LocalDate startDate;
+    private String startTime;
+    private String engineOil;
+    private double engineOilCost;
+    private double totalCharge;
+    private AppointmentStatus appointmentStatus;
 
     @ManyToOne
-    @JoinColumn(name = "service_type_id")
+    @JoinColumn(name = "service_Type_Id")
     private ServiceType serviceType;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_Id")
     private User user;
 }

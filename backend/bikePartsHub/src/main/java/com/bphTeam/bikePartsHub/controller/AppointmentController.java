@@ -1,13 +1,12 @@
 package com.bphTeam.bikePartsHub.controller;
 
-import com.bphTeam.bikePartsHub.dto.request.AppointmentSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -45,7 +44,6 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointments")
-    @PreAuthorize("hasAnyAuthority('customer:create', 'loyal_customer:create', 'admin:create')")
     public ResponseEntity<Void> createAppointment(@RequestBody AppointmentSaveRequestDto appointmentDto) {
         appointmentService.createAppointment(appointmentDto);
         return ResponseEntity.ok().build();
