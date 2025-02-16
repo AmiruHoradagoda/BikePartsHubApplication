@@ -19,5 +19,4 @@ public class AppointmentSaveRequestDto {
     private double totalCharge;
     private ServiceType serviceType;
     private AppointmentStatus appointmentStatus;
-    private User user;
 }

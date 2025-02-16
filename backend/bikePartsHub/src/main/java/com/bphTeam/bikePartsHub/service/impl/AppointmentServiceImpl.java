@@ -44,14 +44,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment createAppointment(AppointmentSaveRequestDto appointmentDto) {
+    public void createAppointment(AppointmentSaveRequestDto appointmentDto) {
         if (!isTimeSlotAvailable(appointmentDto.getDate(),
                 appointmentDto.getStartTime(),
                 appointmentDto.getServiceDuration())) {
             throw new RuntimeException("Time slot not available");
         }
         Appointment appointment = appointmentMapper.toAppointment(appointmentDto);
-        return appointmentRepository.save(appointment);
     }
 
     @Override

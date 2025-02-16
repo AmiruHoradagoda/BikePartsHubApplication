@@ -12,7 +12,7 @@ public interface AppointmentService {
     List<ServiceType> getAllServices();
     ServiceType getServiceById(Long id);
     List<Appointment> getAppointmentsByDate(LocalDate date);
-    Appointment createAppointment(AppointmentSaveRequestDto appointmentDto);
+    void createAppointment(AppointmentSaveRequestDto appointmentDto);
     boolean isTimeSlotAvailable(LocalDate date, String startTime, int duration);
     List<String> getAvailableTimeSlots(LocalDate date, int duration);
 
