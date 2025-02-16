@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdminCustomersService, AppointmentResponseDto, AppointmentStatus } from '../../admin-customers.service';
-
+interface StatusOption {
+  value: AppointmentStatus;
+  label: string;
+}
 
 
 
@@ -11,7 +14,6 @@ import { AdminCustomersService, AppointmentResponseDto, AppointmentStatus } from
 export class SchedulesComponent implements OnInit {
   @Input() userId!: string;
 
-  AppointmentStatus = AppointmentStatus;
   appointments: AppointmentResponseDto[] = [];
   filteredAppointments: AppointmentResponseDto[] = [];
   loading = false;
@@ -19,7 +21,9 @@ export class SchedulesComponent implements OnInit {
   currentStatus = AppointmentStatus.ALL;
   selectedAppointment: AppointmentResponseDto | null = null;
 
-  readonly STATUSES = [
+  readonly AppointmentStatus = AppointmentStatus;
+
+  readonly STATUSES: StatusOption[] = [
     { value: AppointmentStatus.COMPLETED, label: 'Completed' },
     { value: AppointmentStatus.ATTENDED, label: 'Attended' },
     { value: AppointmentStatus.UPCOMING, label: 'Upcoming' },
@@ -28,29 +32,36 @@ export class SchedulesComponent implements OnInit {
 
   constructor(private adminCustomersService: AdminCustomersService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if (!this.userId) {
+      this.error = 'User ID is required';
+      return;
+    }
     this.loadAppointments();
   }
 
-  loadAppointments() {
+  loadAppointments(): void {
     this.loading = true;
+    this.error = null;
+
     this.adminCustomersService
       .getCustomerAppointments(parseInt(this.userId))
       .subscribe({
         next: (appointments) => {
           this.appointments = appointments;
           this.applyFilter();
-          this.loading = false;
         },
         error: (error) => {
-          this.error = 'Failed to load appointments';
-          this.loading = false;
           console.error('Error loading appointments:', error);
+          this.error = 'Failed to load appointments. Please try again.';
+        },
+        complete: () => {
+          this.loading = false;
         },
       });
   }
 
-  applyFilter() {
+  applyFilter(): void {
     this.filteredAppointments =
       this.currentStatus === AppointmentStatus.ALL
         ? [...this.appointments]
@@ -59,7 +70,7 @@ export class SchedulesComponent implements OnInit {
           );
   }
 
-  filterByStatus(status: AppointmentStatus) {
+  filterByStatus(status: AppointmentStatus): void {
     this.currentStatus = status;
     this.applyFilter();
   }
@@ -73,54 +84,41 @@ export class SchedulesComponent implements OnInit {
   }
 
   getStatusColor(status: AppointmentStatus): string {
-    switch (status) {
-      case AppointmentStatus.COMPLETED:
-        return 'text-green-600';
-      case AppointmentStatus.ATTENDED:
-        return 'text-orange-600';
-      case AppointmentStatus.UPCOMING:
-        return 'text-blue-600';
-      case AppointmentStatus.MISSED:
-        return 'text-red-600';
-      default:
-        return 'text-gray-600';
-    }
+    const statusColors = {
+      [AppointmentStatus.COMPLETED]: 'text-green-600',
+      [AppointmentStatus.ATTENDED]: 'text-orange-600',
+      [AppointmentStatus.UPCOMING]: 'text-blue-600',
+      [AppointmentStatus.MISSED]: 'text-red-600',
+      [AppointmentStatus.ALL]: 'text-gray-600',
+    };
+    return statusColors[status] || statusColors[AppointmentStatus.ALL];
   }
 
   getStatusClass(status: AppointmentStatus): string {
     const baseClass = 'px-3 py-1 text-sm rounded-full';
-    switch (status) {
-      case AppointmentStatus.COMPLETED:
-        return `${baseClass} text-green-600 bg-green-100`;
-      case AppointmentStatus.ATTENDED:
-        return `${baseClass} text-orange-600 bg-orange-100`;
-      case AppointmentStatus.UPCOMING:
-        return `${baseClass} text-blue-600 bg-blue-100`;
-      case AppointmentStatus.MISSED:
-        return `${baseClass} text-red-600 bg-red-100`;
-      default:
-        return `${baseClass} text-gray-600 bg-gray-100`;
-    }
+    const statusClasses = {
+      [AppointmentStatus.COMPLETED]: `${baseClass} text-green-600 bg-green-100`,
+      [AppointmentStatus.ATTENDED]: `${baseClass} text-orange-600 bg-orange-100`,
+      [AppointmentStatus.UPCOMING]: `${baseClass} text-blue-600 bg-blue-100`,
+      [AppointmentStatus.MISSED]: `${baseClass} text-red-600 bg-red-100`,
+      [AppointmentStatus.ALL]: `${baseClass} text-gray-600 bg-gray-100`,
+    };
+    return statusClasses[status] || statusClasses[AppointmentStatus.ALL];
   }
 
-  onAppointmentClick(appointment: AppointmentResponseDto) {
+  onAppointmentClick(appointment: AppointmentResponseDto): void {
     this.selectedAppointment = appointment;
   }
 
-  closeAppointmentView() {
+  closeAppointmentView(): void {
     this.selectedAppointment = null;
     this.loadAppointments();
   }
 
-  onBack() {
-    // Implement back navigation
-  }
-
-  generateReport() {
-    // Implement report generation
-  }
-
-  getTotalAppointments(): number {
-    return this.appointments.length;
+  formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
   }
 }

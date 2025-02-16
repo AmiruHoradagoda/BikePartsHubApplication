@@ -3,7 +3,7 @@
   <!-- Header -->
   <div class="mb-6">
     <h2 class="mb-1 text-xl font-semibold text-purple-600">
-      Appointment ID: #{{ appointment.id }}
+      Appointment ID: #{{ 333 }}
     </h2>
     <p class="text-sm text-gray-500">
       (Service Booked: {{ appointment.date }})
@@ -20,7 +20,7 @@
           <i class="text-2xl text-purple-600 fas fa-motorcycle"></i>
         </div>
         <div class="px-4 py-2 font-medium text-purple-700 bg-purple-100 rounded-lg">
-          {{ appointment.serviceName }}
+          {{ appointment.name }}
         </div>
       </div>
 
@@ -54,11 +54,11 @@
       <!-- Charges -->
       <div class="flex justify-between">
         <span>Service charge:</span>
-        <span>Rs. {{ appointment.serviceCharge.toFixed(2) }}</span>
+        <span>Rs. {{ appointment.serviceTypeDto.serviceCost }}</span>
       </div>
       <div class="flex justify-between">
         <span>Oil Charge:</span>
-        <span>Rs. {{ appointment.oilCharge.toFixed(2) }}</span>
+        <span>Rs. {{ appointment.engineOilCost.toFixed(2) }}</span>
       </div>
       <div class="flex items-center justify-between">
         <span>-</span>
@@ -74,10 +74,10 @@
   </div>
 
   <!-- Notes -->
-  <div *ngIf="appointment.notes" class="p-4 mt-6 bg-gray-100 rounded-lg">
+  <div *ngIf="appointment.serviceTypeDto.description" class="p-4 mt-6 bg-gray-100 rounded-lg">
     <div class="flex items-start gap-2">
       <i class="mt-1 text-purple-600 fas fa-sticky-note"></i>
-      <p class="text-gray-700">{{ appointment.notes }}</p>
+      <p class="text-gray-700">{{ appointment.serviceTypeDto.description }}</p>
     </div>
   </div>
 

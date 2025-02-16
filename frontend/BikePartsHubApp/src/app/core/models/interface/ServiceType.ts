@@ -1,7 +1,8 @@
 export interface ServiceType {
   id: number;
-  duration: number;
-  price: number;
+  serviceName: string;
+  serviceDuration: number;
+  serviceCost: number;
   description: string;
   features: string[];
 }
