@@ -11,8 +11,9 @@ public class ServiceType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int duration;
-    private double price;
+    private String serviceName;
+    private double serviceDuration;
+    private double serviceCost;
     private String description;
     @ElementCollection
     private List<String> features;
