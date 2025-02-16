@@ -6,9 +6,9 @@ import {
 } from '@angular/forms';
 
 import { catchError, finalize, of } from 'rxjs';
-import { AppointmentService, TimeSlotStatus } from './appointment.service';
-import { ServiceType } from '../../../core/models/interface/ServiceType';
-import { Appointment } from '../../../core/models/interface/Appointment';
+import { Appointment, AppointmentSaveRequest, AppointmentService, AppointmentStatus, ServiceType, TimeSlotStatus } from './appointment.service';
+import { AuthService } from '../../auth/auth.service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -36,7 +36,9 @@ export class AppointmentPageComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private authService: AuthService,
+    private messageService: MessageService
   ) {
     this.bookingForm = this.fb.group({
       name: ['', Validators.required],
@@ -71,7 +73,7 @@ export class AppointmentPageComponent implements OnInit {
   }
 
   get totalCharge(): number {
-    return (this.selectedService?.price || 0) + this.addOnsCharge;
+    return (this.selectedService?.serviceCost || 0) + this.addOnsCharge;
   }
 
   initializeCalendar() {
@@ -103,7 +105,7 @@ export class AppointmentPageComponent implements OnInit {
     this.loading = true;
 
     this.appointmentService
-      .getAvailableTimeSlots(dateStr, this.selectedService.duration)
+      .getAvailableTimeSlots(dateStr, this.selectedService.serviceDuration)
       .pipe(
         catchError((error) => {
           this.errorMessage =
@@ -147,9 +149,9 @@ export class AppointmentPageComponent implements OnInit {
       const conflictingAppointments = this.appointments.filter((apt) =>
         this.doTimeSlotsOverlap(
           slot,
-          this.selectedService!.duration,
+          this.selectedService!.serviceDuration,
           apt.startTime,
-          apt.serviceDuration
+          apt.serviceType.serviceDuration
         )
       );
 
@@ -186,7 +188,7 @@ export class AppointmentPageComponent implements OnInit {
 
   selectEngineOil(oil: string) {
     this.selectedOil = oil;
-    this.addOnsCharge = 2000;
+    this.addOnsCharge = 2000; // Fixed charge for engine oil
   }
 
   onDateSelect(date: Date) {
@@ -208,23 +210,18 @@ export class AppointmentPageComponent implements OnInit {
       'not-available';
     const isSelected = this.selectedTimeSlot === slot;
 
-    const baseClasses = 'p-3 text-center transition-colors rounded-md';
-
+    const baseClasses =
+      'p-3 rounded-md cursor-pointer transition-colors duration-200';
     const statusClasses = {
-      available:
-        'bg-green-100 hover:bg-green-200 text-green-800 cursor-pointer',
-      busy: 'bg-yellow-100 hover:bg-yellow-200 text-yellow-800 cursor-pointer',
-      'highly-busy':
-        'bg-orange-100 hover:bg-orange-200 text-orange-800 cursor-pointer',
-      'not-available':
-        'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50',
+      available: 'bg-green-500/20 hover:bg-green-500/30 text-green-300',
+      busy: 'bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300',
+      'highly-busy': 'bg-orange-500/20 hover:bg-orange-500/30 text-orange-300',
+      'not-available': 'bg-slate-500/20 text-slate-300 cursor-not-allowed',
     };
 
-    const selectedClasses = isSelected
-      ? 'ring-2 ring-blue-500 ring-offset-2'
-      : '';
-
-    return `${baseClasses} ${statusClasses[status]} ${selectedClasses}`;
+    return `${baseClasses} ${statusClasses[status]} ${
+      isSelected ? 'ring-2 ring-violet-500' : ''
+    }`;
   }
 
   doTimeSlotsOverlap(
@@ -244,15 +241,6 @@ export class AppointmentPageComponent implements OnInit {
     return startMinutes1 < endMinutes2 && startMinutes2 < endMinutes1;
   }
 
-  getOilSelectionClasses(oil: string): string {
-    return `p-4 border rounded cursor-pointer text-center
-           ${
-             this.selectedOil === oil
-               ? 'border-blue-500 bg-blue-50'
-               : 'hover:border-blue-300'
-           }`;
-  }
-
   backToServices() {
     this.selectedService = null;
     this.selectedDate = null;
@@ -262,25 +250,25 @@ export class AppointmentPageComponent implements OnInit {
     this.addOnsCharge = 0;
     this.errorMessage = '';
   }
-
   submitBooking() {
     if (this.isFormValid() && this.selectedService) {
-      const appointment: Appointment = {
-        serviceDuration: this.selectedService.duration,
-        date: this.selectedDate!.toISOString().split('T')[0],
-        startTime: this.selectedTimeSlot!,
-        name: this.bookingForm.value.name,
+      const appointmentRequest: AppointmentSaveRequest = {
+        customerName: this.bookingForm.value.name,
         mobile: this.bookingForm.value.mobile,
+        startDate: this.selectedDate!.toISOString().split('T')[0],
+        startTime: this.selectedTimeSlot!,
         plateNumber: this.bookingForm.value.plateNumber,
-        engineOil: this.selectedOil,
+        engineOil: this.selectedOil!,
+        engineOilCost: this.addOnsCharge,
         totalCharge: this.totalCharge,
-        serviceType: this.selectedService,
-        appointmentStatus: 'UPCOMING',
+        serviceTypeId: this.selectedService.id,
+        appointmentStatus: AppointmentStatus.UPCOMING,
+        userId: this.authService.getCurrentUserId(),
       };
 
       this.loading = true;
       this.appointmentService
-        .createAppointment(appointment)
+        .createAppointment(appointmentRequest)
         .pipe(
           catchError((error) => {
             this.errorMessage =
@@ -290,11 +278,22 @@ export class AppointmentPageComponent implements OnInit {
           }),
           finalize(() => (this.loading = false))
         )
-        .subscribe((response) => {
-          if (response) {
-            console.log('New appointment booked:', response);
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Appointment booked successfully!',
+            });
             this.backToServices();
-          }
+          },
+          error: (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: this.errorMessage,
+            });
+          },
         });
     }
   }
