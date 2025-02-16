@@ -76,29 +76,35 @@ INSERT INTO product_attribute (product_attribute_id, color, product_id, bike_id)
                                                                                      (41, 'Black', 21, 2),
                                                                                      (42, 'Black', 21, 1);
 
+-- Insert main service types
+INSERT INTO service_type (service_name, service_duration, service_cost, description) VALUES
+                                                                                         ('Basic Service', 2, 999.00, 'Basic cleaning service with essential housekeeping tasks'),
+                                                                                         ('Standard Service', 4, 1999.00, 'Standard cleaning with additional deep cleaning services'),
+                                                                                         ('Premium Service', 8, 3999.00, 'Premium service with comprehensive cleaning solutions');
 
-INSERT INTO service_type (duration, price, description) VALUES
-                                                            (2, 999.00, 'Basic cleaning service with essential housekeeping tasks'),
-                                                            (4, 1999.00, 'Standard cleaning with additional deep cleaning services'),
-                                                            (8, 3999.00, 'Premium service with comprehensive cleaning solutions');
-
--- Since features is stored in a separate table due to @ElementCollection,
--- First we need to get the generated IDs from the service_type table
-
--- For Basic Service Features (assuming service_type_id = 1)
+-- Insert features for Basic Service
 INSERT INTO service_type_features (service_type_id, features) VALUES
-                                                                  (1, 'Basic house cleaning'),
-                                                                  (1, 'Dusting & mopping'),
-                                                                  (1, 'Bathroom cleaning');
+                                                                  (1, 'Oil Change'),
+                                                                  (1, 'Engine Check'),
+                                                                  (1, 'Basic Inspection'),
+                                                                  (1, 'Filter Cleaning'),
+                                                                  (1, 'Basic Tuning');
 
--- For Standard Service Features (assuming service_type_id = 2)
+-- Insert features for Standard Service
 INSERT INTO service_type_features (service_type_id, features) VALUES
                                                                   (2, 'Everything in Basic'),
-                                                                  (2, 'Kitchen deep clean'),
-                                                                  (2, 'Window cleaning');
+                                                                  (2, 'Deep Engine Cleaning'),
+                                                                  (2, 'Brake Service'),
+                                                                  (2, 'Chain Lubrication'),
+                                                                  (2, 'Tire Pressure Check'),
+                                                                  (2, 'Battery Check');
 
--- For Premium Service Features (assuming service_type_id = 3)
+-- Insert features for Premium Service
 INSERT INTO service_type_features (service_type_id, features) VALUES
                                                                   (3, 'Everything in Standard'),
-                                                                  (3, 'Carpet cleaning'),
-                                                                  (3, 'Furniture deep clean');
+                                                                  (3, 'Full Engine Service'),
+                                                                  (3, 'Complete Diagnostics'),
+                                                                  (3, 'Spark Plug Replacement'),
+                                                                  (3, 'Carburetor Cleaning'),
+                                                                  (3, 'Performance Tuning'),
+                                                                  (3, 'Detailed Inspection');
