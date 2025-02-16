@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { environment } from '../../../../environments/environment.development';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,29 +12,27 @@ export class CheckoutService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  saveOrder(orderData: any): Promise<any> {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${localStorage.getItem('access_token')}`
-    );
+  async saveOrder(orderData: any): Promise<any> {
+    try {
+      const headers = new HttpHeaders().set(
+        'Authorization',
+        `Bearer ${localStorage.getItem('user_access_token')}`
+      );
 
-    return this.http
-      .post(`${this.apiUrl}/save`, orderData, { headers })
-      .toPromise()
-      .then((response) => {
-        if (!response) {
-          throw new Error('No response from server');
-        }
-        return response;
-      })
-      .catch((error) => {
-        if (error.status === 401) {
-          return this.authService
-            .refreshToken()
-            .toPromise()
-            .then(() => this.saveOrder(orderData));
-        }
-        throw error;
-      });
+      const response = await firstValueFrom(
+        this.http.post(`${this.apiUrl}/save`, orderData, { headers })
+      );
+
+      if (!response) {
+        throw new Error('No response from server');
+      }
+      return response;
+    } catch (error: any) {
+      if (error.status === 401) {
+        await firstValueFrom(this.authService.refreshToken());
+        return this.saveOrder(orderData);
+      }
+      throw error;
+    }
   }
 }

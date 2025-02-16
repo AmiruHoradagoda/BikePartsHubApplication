@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { ServiceType } from '../../../core/models/interface/ServiceType';
 import { Appointment } from '../../../core/models/interface/Appointment';
+import { AuthService } from '../../auth/auth.service';
 
 
 
@@ -18,7 +19,10 @@ export interface TimeSlotStatus {
 export class AppointmentService {
   private readonly API_URL = 'http://localhost:8080/api/v1/appointment';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService // Add AuthService to constructor
+  ) {}
 
   getAllServices(): Observable<ServiceType[]> {
     return this.http.get<ServiceType[]>(`${this.API_URL}/services`);
@@ -45,9 +49,29 @@ export class AppointmentService {
   createAppointment(
     appointment: Omit<Appointment, 'id'>
   ): Observable<Appointment> {
-    return this.http.post<Appointment>(
-      `${this.API_URL}/appointments`,
-      appointment
+    const createRequest = () => {
+      return this.http.post<Appointment>(
+        `${this.API_URL}/appointments`,
+        appointment,
+        { headers: this.authService.getAuthHeader() }
+      );
+    };
+
+    return createRequest().pipe(
+      catchError((error) => {
+        if (error.status === 401) {
+          // If unauthorized, try refreshing token and retry
+          return this.authService.refreshToken().pipe(
+            switchMap(() => createRequest()),
+            catchError((refreshError) => {
+              // If refresh fails, propagate the error
+              return throwError(() => refreshError);
+            })
+          );
+        }
+        // If not a 401 error, rethrow
+        return throwError(() => error);
+      })
     );
   }
 }

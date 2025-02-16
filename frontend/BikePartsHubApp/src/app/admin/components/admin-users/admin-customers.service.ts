@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { AdminAuthService } from '../../auth-admin/auth-admin.service';
 
 export interface UserResponseDto {
   userId: number;
@@ -74,7 +75,7 @@ export enum AppointmentStatus {
   ATTENDED = 'ATTENDED',
   UPCOMING = 'UPCOMING',
   MISSED = 'MISSED',
-  ALL = "ALL",
+  ALL = 'ALL',
 }
 
 export interface AppointmentResponseDto {
@@ -97,7 +98,10 @@ export interface AppointmentResponseDto {
 export class AdminCustomersService {
   private apiUrl = `${environment.apiUrl}/api/v1/admin`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private adminAuthService: AdminAuthService
+  ) {}
 
   getAllCustomers(
     customerName?: string,
@@ -118,13 +122,19 @@ export class AdminCustomersService {
 
     return this.http.get<PaginatedUserResponseDto>(
       `${this.apiUrl}/getAllCustomerDetails`,
-      { params }
+      {
+        params,
+        headers: this.adminAuthService.getAuthHeader(),
+      }
     );
   }
 
   getCustomerProfile(id: number): Observable<CustomerProfileDto> {
     return this.http.get<CustomerProfileDto>(
-      `${this.apiUrl}/getCustomerProfile/${id}`
+      `${this.apiUrl}/getCustomerProfile/${id}`,
+      {
+        headers: this.adminAuthService.getAuthHeader(),
+      }
     );
   }
 
@@ -144,15 +154,16 @@ export class AdminCustomersService {
 
     return this.http.get<PaginatedOrderResponseWithDetails>(
       `${this.apiUrl}/getCustomerOrders/${id}`,
-      { params }
+      { params, headers: this.adminAuthService.getAuthHeader() }
     );
   }
 
   getCustomerAppointments(id: number): Observable<AppointmentResponseDto[]> {
     return this.http.get<AppointmentResponseDto[]>(
-      `${this.apiUrl}/getCustomerAppointments/${id}`
+      `${this.apiUrl}/getCustomerAppointments/${id}`,
+      {
+        headers: this.adminAuthService.getAuthHeader(),
+      }
     );
   }
 }
-
-

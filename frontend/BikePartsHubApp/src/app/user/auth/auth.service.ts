@@ -17,24 +17,39 @@ export class AuthService {
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
+  private readonly STORAGE_KEYS = {
+    CURRENT_USER: 'currentUser',
+    ACCESS_TOKEN: 'user_access_token',
+    REFRESH_TOKEN: 'user_refresh_token',
+  };
+
   constructor(private http: HttpClient) {
     if (typeof localStorage !== 'undefined') {
-      const storedUser = localStorage.getItem('currentUser');
+      const storedUser = localStorage.getItem(this.STORAGE_KEYS.CURRENT_USER);
       if (storedUser) {
-        this.currentUserSubject.next(JSON.parse(storedUser));
+        try {
+          const user = JSON.parse(storedUser);
+          if (this.isTokenExpired(user.access_token)) {
+            this.logout();
+          } else {
+            this.currentUserSubject.next(user);
+          }
+        } catch (e) {
+          this.logout();
+        }
       }
     }
   }
+
   get currentUserValue(): AuthenticationResponse | null {
     return this.currentUserSubject.value;
   }
+
   register(request: RegisterRequest): Observable<AuthenticationResponse> {
     return this.http
       .post<AuthenticationResponse>(`${this.baseUrl}/register`, request)
       .pipe(
-        tap((response) => {
-          this.storeUserData(response);
-        }),
+        tap((response) => this.storeUserData(response)),
         catchError(this.handleError)
       );
   }
@@ -46,37 +61,21 @@ export class AuthService {
       .post<AuthenticationResponse>(`${this.baseUrl}/authenticate`, request)
       .pipe(
         tap((response) => {
+          if (response.role === 'ADMIN') {
+            throw new Error('Invalid user role');
+          }
           this.storeUserData(response);
         }),
         catchError(this.handleError)
       );
   }
 
-  authenticateAdmin(
-    request: AuthenticationRequest
-  ): Observable<AuthenticationResponse> {
-    return this.http
-      .post<AuthenticationResponse>(`${this.baseUrl}/authenticate`, request)
-      .pipe(
-        tap((response) => {
-          if (response.role !== 'ADMIN') {
-            throw new Error('Unauthorized: Admin access only');
-          }
-          this.storeUserData(response);
-        }),
-        catchError((error) => {
-          if (error.message === 'Unauthorized: Admin access only') {
-            return throwError(
-              () => 'This login is restricted to administrators only'
-            );
-          }
-          return this.handleError(error);
-        })
-      );
-  }
-  
   refreshToken(): Observable<AuthenticationResponse> {
-    const refreshToken = localStorage.getItem('refresh_token');
+    const refreshToken = localStorage.getItem(this.STORAGE_KEYS.REFRESH_TOKEN);
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token available'));
+    }
+
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${refreshToken}`
@@ -89,29 +88,71 @@ export class AuthService {
         { headers }
       )
       .pipe(
-        tap((response) => {
-          this.storeUserData(response);
-        }),
-        catchError(this.handleError)
+        tap((response) => this.storeUserData(response)),
+        catchError((error) => {
+          if (error.status === 401 || error.status === 403) {
+            this.logout();
+            return throwError(
+              () => new Error('Session expired. Please login again.')
+            );
+          }
+          return this.handleError(error);
+        })
       );
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    localStorage.removeItem(this.STORAGE_KEYS.CURRENT_USER);
+    localStorage.removeItem(this.STORAGE_KEYS.ACCESS_TOKEN);
+    localStorage.removeItem(this.STORAGE_KEYS.REFRESH_TOKEN);
     this.currentUserSubject.next(null);
   }
 
+  getAuthHeader(): HttpHeaders {
+    const token = localStorage.getItem(this.STORAGE_KEYS.ACCESS_TOKEN);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
+  isLoggedIn(): boolean {
+    const user = this.currentUserValue;
+    return !!user && !this.isTokenExpired(user.access_token);
+  }
+
   private storeUserData(response: AuthenticationResponse): void {
-    localStorage.setItem('currentUser', JSON.stringify(response));
-    localStorage.setItem('access_token', response.access_token);
-    localStorage.setItem('refresh_token', response.refresh_token);
+    if (!response.access_token || !response.refresh_token) {
+      throw new Error('Invalid authentication response');
+    }
+    localStorage.setItem(
+      this.STORAGE_KEYS.CURRENT_USER,
+      JSON.stringify(response)
+    );
+    localStorage.setItem(this.STORAGE_KEYS.ACCESS_TOKEN, response.access_token);
+    localStorage.setItem(
+      this.STORAGE_KEYS.REFRESH_TOKEN,
+      response.refresh_token
+    );
     this.currentUserSubject.next(response);
   }
 
+  private isTokenExpired(token: string): boolean {
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000;
+      return Date.now() >= expiry;
+    } catch (e) {
+      return true;
+    }
+  }
+
   private handleError(error: any) {
-    console.error('An error occurred:', error);
-    return throwError(() => error);
+    console.error('Auth service error:', error);
+    let errorMessage = 'An error occurred';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else if (error.status) {
+      errorMessage = `Error: ${error.error.message || error.statusText}`;
+    }
+    return throwError(() => errorMessage);
   }
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'; // Adjust the import paths as needed
 import { environment } from '../../../environments/environment.development'; // Import the correct environment
 import { PaginatedResponseIProduct } from '../../core/models/interface/PaginatedResponseIProduct';
 import { ProductGet, ProductSave, ProductUpdate } from '../../core/models/interface/Product';
+import { AdminAuthService } from '../../admin/auth-admin/auth-admin.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,10 @@ import { ProductGet, ProductSave, ProductUpdate } from '../../core/models/interf
 export class ProductService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private adminAuthService: AdminAuthService
+  ) {}
 
   // Get all products
   getAllProducts(): Observable<ProductGet[]> {
@@ -57,7 +61,10 @@ export class ProductService {
   saveProduct(productSaveRequestDto: ProductSave): Observable<void> {
     return this.http.post<void>(
       `${this.apiUrl}/api/v1/product/save`,
-      productSaveRequestDto
+      productSaveRequestDto,
+      {
+        headers: this.adminAuthService.getAuthHeader(),
+      }
     );
   }
 
@@ -65,7 +72,7 @@ export class ProductService {
     return this.http.delete<{ message: string }>(
       `${this.apiUrl}/api/v1/product/delete/${productId}`,
       {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        headers: this.adminAuthService.getAuthHeader(),
       }
     );
   }

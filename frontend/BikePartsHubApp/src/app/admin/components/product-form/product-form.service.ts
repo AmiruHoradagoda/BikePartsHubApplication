@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ProductGet, ProductSave, ProductUpdate } from '../../../core/models/interface/Product';
 import { BikeService } from '../../../shared/services/bike.service';
 import { Bike } from '../../../core/models/interface/Bike';
+import { AdminAuthService } from '../../auth-admin/auth-admin.service';
 
 
 @Injectable({
@@ -20,10 +21,16 @@ export class ProductFormService {
   private bikeVersion = new Set<string>();
   private bikeManufacture = new Set<string>();
 
-  constructor(private bikeService: BikeService, private http: HttpClient) {}
+  constructor(
+    private bikeService: BikeService,
+    private http: HttpClient,
+    private adminAuthService: AdminAuthService
+  ) {}
 
   getBikes(): Observable<Bike[]> {
-    return this.http.get<Bike[]>(`${this.apiUrl}/api/v1/bikes/getAllBikes`);
+    return this.http.get<Bike[]>(`${this.apiUrl}/api/v1/bikes/getAllBikes`, {
+      headers: this.adminAuthService.getAuthHeader(),
+    });
   }
 
   getBikeId(
@@ -41,7 +48,9 @@ export class ProductFormService {
     )}&manufacture=${encodeURIComponent(manufacture)}`;
 
     // Perform the GET request and return the observable
-    return this.http.get<number | null>(url);
+    return this.http.get<number | null>(url, {
+      headers: this.adminAuthService.getAuthHeader(),
+    });
   }
 
   getProductById(productId: string): Observable<ProductGet> {
@@ -49,13 +58,15 @@ export class ProductFormService {
       `${this.apiUrl}/api/v1/product/getProductById`,
       {
         params: { productId },
+        headers: this.adminAuthService.getAuthHeader(),
       }
     );
   }
   saveProduct(productSaveRequestDto: ProductSave): Observable<void> {
     return this.http.post<void>(
       `${this.apiUrl}/api/v1/product/save`,
-      productSaveRequestDto
+      productSaveRequestDto,
+      { headers: this.adminAuthService.getAuthHeader() }
     );
   }
 
@@ -65,7 +76,8 @@ export class ProductFormService {
   ): Observable<string> {
     return this.http.put<string>(
       `${this.apiUrl}/api/v1/product/update?productId=${productId}`, // Append productId to the URL
-      productUpdateRequestDto
+      productUpdateRequestDto,
+      { headers: this.adminAuthService.getAuthHeader() }
     );
   }
 }
