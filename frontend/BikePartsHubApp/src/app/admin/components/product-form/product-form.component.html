@@ -1,313 +1,513 @@
-<div class="container p-5 mx-auto mt-5 text-white bg-gray-900 rounded-md">
+<div class="container max-w-5xl p-6 mx-auto mt-6 text-gray-800 bg-white rounded-lg shadow-lg">
   <form [formGroup]="productFormGroup" (ngSubmit)="onSubmit()">
-     <h2 class="mb-4 text-lg font-semibold">Product Details</h2>
-    <div
-      formGroupName="productform"
-      class="p-4 border border-gray-300 rounded-md"
-    >
-      <div class="mb-4">
-        <label for="productName" class="block text-orange-500"
-          >Product Name:</label
-        >
-        <input
-          id="productName"
-          formControlName="productName"
-          type="text"
-          class="w-full p-2 bg-gray-800 rounded-md"
-        />
+    <div class="pb-4 mb-6 border-b border-gray-200">
+      <h2 class="text-2xl font-bold text-gray-800">Product Details</h2>
+      <p class="mt-1 text-gray-600">Enter information about your product</p>
+    </div>
+    
+    <div formGroupName="productform" class="mb-8 overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-800">Basic Information</h3>
       </div>
-      <div class="mb-4">
-        <label for="itemDescription" class="block text-orange-500"
-          >Item Description:</label
-        >
-        <textarea
-          id="itemDescription"
-          formControlName="itemDescription"
-          class="w-full p-2 bg-gray-800 rounded-md"
-        ></textarea>
-      </div>
-
-
-      <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">
-        <div class="mb-4">
-          <label for="productType" class="block text-orange-500"
-            >Product Type:</label
-          >
-          <select
-            id="productType"
-            formControlName="productType"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          >
-            <option value="PARTS">Part</option>
-            <option value="BODY_PARTS">Body Part</option>
-            <option value="ENGINE_OIL">Engine Oil</option>
-            <option value="BRAKE_OIL">Brake Oil</option>
-            <option value="LUBRICANT">Lubricant</option>
-          </select>
+      
+      <div class="p-6 space-y-6">
+        <!-- Product Name & Description -->
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div>
+            <label for="productName" class="block mb-1 text-sm font-medium text-gray-700">
+              Product Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="productName"
+              formControlName="productName"
+              type="text"
+              placeholder="Enter product name"
+              class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          
+          <div>
+            <label for="partNumber" class="block mb-1 text-sm font-medium text-gray-700">
+              Part Number <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="partNumber"
+              formControlName="partNumber"
+              type="text"
+              placeholder="Enter part number"
+              class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <label for="itemDescription" class="block mb-1 text-sm font-medium text-gray-700">
+            Item Description
+          </label>
+          <textarea
+            id="itemDescription"
+            formControlName="itemDescription"
+            placeholder="Describe your product"
+            rows="4"
+            class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          ></textarea>
         </div>
 
-        <div class="mb-4">
-          <label for="quantity" class="block text-orange-500">Quantity:</label>
-          <input
-            id="quantity"
-            formControlName="quantity"
-            type="text"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          />
+        <!-- Classification Row -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div>
+            <label for="productType" class="block mb-1 text-sm font-medium text-gray-700">
+              Product Type <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <select
+                id="productType"
+                formControlName="productType"
+                class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="" disabled selected>Select type</option>
+                <option value="PARTS">Part</option>
+                <option value="BODY_PARTS">Body Part</option>
+                <option value="ENGINE_OIL">Engine Oil</option>
+                <option value="BRAKE_OIL">Brake Oil</option>
+                <option value="LUBRICANT">Lubricant</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="category" class="block mb-1 text-sm font-medium text-gray-700">
+              Category
+            </label>
+            <input
+              id="category"
+              formControlName="category"
+              type="text"
+              placeholder="Product category"
+              class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <div>
+            <label for="material" class="block mb-1 text-sm font-medium text-gray-700">
+              Material
+            </label>
+            <input
+              id="material"
+              formControlName="material"
+              type="text"
+              placeholder="Material composition"
+              class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
         </div>
 
-        <div class="mb-4">
-          <label for="category" class="block text-orange-500">Category:</label>
-          <input
-            id="category"
-            formControlName="category"
-            type="text"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          />
-        </div>
+        <!-- Pricing & Inventory Row -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div>
+            <label for="pricePerUnit" class="block mb-1 text-sm font-medium text-gray-700">
+              Price Per Unit <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <span class="text-gray-500">$</span>
+              </div>
+              <input
+                id="pricePerUnit"
+                formControlName="pricePerUnit"
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="0.00"
+                class="w-full p-3 pl-8 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
 
-        <div class="mb-4">
-          <label for="manufacture" class="block text-orange-500"
-            >Manufacture:</label
-          >
-          <input
-            id="manufacture"
-            formControlName="manufacture"
-            type="text"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          />
-        </div>
-        <div class="mb-4">
-          <label for="pricePerUnit" class="block text-orange-500"
-            >Price Per Unit:</label
-          >
-          <input
-            id="pricePerUnit"
-            formControlName="pricePerUnit"
-            type="number"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          />
-        </div>
-        <div class="mb-4">
-          <label for="discount" class="block text-orange-500">Discount:</label>
-          <input
-            id="discount"
-            formControlName="discount"
-            type="number"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          />
-        </div>
-      </div>
-      <div class="mb-4">
-        <label class="block text-orange-500">Active State:</label>
-        <input type="checkbox" formControlName="activeState" class="mr-2" />
-        Active
-      </div>
+          <div>
+            <label for="discount" class="block mb-1 text-sm font-medium text-gray-700">
+              Discount (%)
+            </label>
+            <div class="relative">
+              <input
+                id="discount"
+                formControlName="discount"
+                type="number"
+                min="0"
+                max="100"
+                placeholder="0"
+                class="w-full p-3 pr-8 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <span class="text-gray-500">%</span>
+              </div>
+            </div>
+          </div>
 
-      <div class="mb-4">
-        <label for="material" class="block text-orange-500">Material:</label>
-        <input
-          id="material"
-          formControlName="material"
-          type="text"
-         class="w-full p-2 bg-gray-800 rounded-md"
-        />
-      </div>
+          <div>
+            <label for="quantity" class="block mb-1 text-sm font-medium text-gray-700">
+              Quantity <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="quantity"
+              formControlName="quantity"
+              type="number"
+              min="0"
+              placeholder="Available stock"
+              class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+        
+        <!-- Manufacture & Rating -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <label for="manufacture" class="block mb-1 text-sm font-medium text-gray-700">
+              Manufacturer
+            </label>
+            <input
+              id="manufacture"
+              formControlName="manufacture"
+              type="text"
+              placeholder="Product manufacturer"
+              class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
 
-      <div class="mb-4">
-        <label for="partNumber" class="block text-orange-500"
-          >Part Number:</label
-        >
-        <input
-          id="partNumber"
-          formControlName="partNumber"
-          type="text"
-         class="w-full p-2 bg-gray-800 rounded-md"
-        />
-      </div>
-      <div class="mb-4">
-        <label for="averageRating" class="block text-orange-500"
-          >Average Rating:</label
-        >
-        <input
-          id="averageRating"
-          formControlName="averageRating"
-          type="number"
-         class="w-full p-2 bg-gray-800 rounded-md"
-        />
-      </div>
-      <div class="flex flex-col items-center space-y-4">
-        <label
-          for="imageUpload"
-          class="block text-sm font-medium text-orange-500"
-        >
-          Image File
-        </label>
-        <input
-          type="file"
-          (change)="upload($event)"
-          accept=".png,.jpg,.jpeg"
-          id="imageUpload"
-          class="block w-full text-sm text-white bg-gray-800 border rounded-lg cursor-pointer focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-        />
-        <button
-          type="button"
-          (click)="uploadImage()"
-          class="w-full px-4 py-2 mt-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
-        >
-          Upload Image
-        </button>
-        <p *ngIf="imageUrl" class="mt-4 text-sm text-green-600">
-          Image uploaded!
-          <a
-            [href]="imageUrl"
-            target="_blank"
-            class="text-blue-600 underline hover:text-blue-800"
-          >
-            View Image
-          </a>
-        </p>
+          <div>
+            <label for="averageRating" class="block mb-1 text-sm font-medium text-gray-700">
+              Average Rating (0-5)
+            </label>
+            <div class="relative">
+              <input
+                id="averageRating"
+                formControlName="averageRating"
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                placeholder="Product rating"
+                class="w-full p-3 transition-all bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Active State -->
+        <div class="flex items-center">
+          <div class="relative inline-block w-12 mr-3 align-middle select-none">
+            <input 
+              type="checkbox" 
+              id="activeState" 
+              formControlName="activeState" 
+              class="absolute block w-6 h-6 bg-white border-4 rounded-full appearance-none cursor-pointer focus:outline-none"
+              [ngClass]="{'right-0 border-green-500': productFormGroup.get('productform.activeState')?.value, 'left-0 border-gray-300': !productFormGroup.get('productform.activeState')?.value}"
+            />
+            <label for="activeState" class="block h-6 overflow-hidden rounded-full cursor-pointer"
+                  [ngClass]="{'bg-green-500': productFormGroup.get('productform.activeState')?.value, 'bg-gray-300': !productFormGroup.get('productform.activeState')?.value}">
+            </label>
+          </div>
+          <span class="text-sm font-medium text-gray-700">Active Product</span>
+        </div>
+        
+        <!-- Image Upload -->
+        <div class="p-6 mt-6 border border-gray-200 rounded-lg bg-gray-50">
+          <label for="imageUpload" class="block mb-3 text-sm font-medium text-gray-700">
+            Product Image
+          </label>
+          <div class="flex flex-col items-center gap-4 md:flex-row">
+            <div class="w-full md:w-3/4">
+              <div class="relative">
+                <input
+                  type="file"
+                  (change)="upload($event)"
+                  accept=".png,.jpg,.jpeg"
+                  id="imageUpload"
+                  class="w-full p-3 pr-10 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              (click)="uploadImage()"
+              class="w-full p-3 font-semibold text-white transition-colors bg-blue-600 rounded-lg shadow-md md:w-1/4 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+            >
+              Upload
+            </button>
+          </div>
+          <p *ngIf="imageUrl" class="flex items-center mt-4 text-sm text-green-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            Image uploaded!
+            <a
+              [href]="imageUrl"
+              target="_blank"
+              class="ml-1 text-blue-600 underline hover:text-blue-800"
+            >
+              View Image
+            </a>
+          </p>
+        </div>
       </div>
     </div>
 
-    <div
-      formGroupName="productAttributeForm"
-      class="p-4 mt-5 border border-gray-300 rounded-md"
-    >
-      <h2 class="mb-4 text-lg font-semibold">Product Color</h2>
-
-      <div class="mb-4">
-        <label class="block mb-2 text-orange-500">Color:</label>
-        <div class="grid grid-cols-3 gap-2">
-          <div *ngFor="let color of ['Red', 'Blue', 'Green', 'Black', 'White']">
-            <input
-              type="checkbox"
-              [checked]="colorArray.includes(color)"
-              (change)="onColorChange($event, color)"
-              [value]="color"
-            />
-            {{ color }}
+    <!-- Product Colors -->
+    <div formGroupName="productAttributeForm" class="mb-8 overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-800">Product Colors</h3>
+      </div>
+      
+      <div class="p-6">
+        <label class="block mb-3 text-sm font-medium text-gray-700">Available Colors:</label>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+          <div *ngFor="let color of ['Red', 'Blue', 'Green', 'Black', 'White']" class="flex items-center space-x-3">
+            <div class="relative">
+              <input
+                type="checkbox"
+                [id]="'color-' + color.toLowerCase()"
+                [checked]="colorArray.includes(color)"
+                (change)="onColorChange($event, color)"
+                [value]="color"
+                class="absolute w-6 h-6 opacity-0"
+              />
+              <div class="flex items-center justify-center flex-shrink-0 w-6 h-6 mr-2 bg-white border-2 border-gray-300 rounded-full focus-within:border-blue-500">
+                <svg class="hidden w-3 h-3 text-blue-600 pointer-events-none fill-current" viewBox="0 0 20 20">
+                  <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
+                </svg>
+              </div>
+            </div>
+            <label [for]="'color-' + color.toLowerCase()" class="flex items-center cursor-pointer">
+              <span
+                class="inline-block w-5 h-5 mr-2 border border-gray-300 rounded-full"
+                [ngStyle]="{
+                  'background-color': color.toLowerCase() === 'red' ? '#f56565' :
+                                     color.toLowerCase() === 'blue' ? '#4299e1' :
+                                     color.toLowerCase() === 'green' ? '#48bb78' :
+                                     color.toLowerCase() === 'black' ? '#2d3748' :
+                                     color.toLowerCase() === 'white' ? '#ffffff' : ''
+                }"
+              ></span>
+              <span class="select-none">{{ color }}</span>
+            </label>
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      formGroupName="bikeForm"
-      class="p-4 mt-5 border border-gray-300 rounded-md"
-    >
-      <h2 class="mb-4 text-lg font-semibold">Bike Details</h2>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div class="mb-4">
-          <label for="type" class="block text-orange-500">Type:</label>
-          <select
-            id="type"
-            formControlName="type"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          >
-            <option *ngFor="let type of bikeTypes" [value]="type">
-              {{ type }}
-            </option>
-          </select>
-        </div>
+    <!-- Bike Details -->
+    <div formGroupName="bikeForm" class="mb-8 overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-800">Compatible Bikes</h3>
+        <p class="mt-1 text-sm text-gray-600">Specify which bikes this product is compatible with</p>
+      </div>
+      
+      <div class="p-6">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <label for="type" class="block mb-1 text-sm font-medium text-gray-700">
+              Bike Type
+            </label>
+            <div class="relative">
+              <select
+                id="type"
+                formControlName="type"
+                class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="" disabled selected>Select bike type</option>
+                <option *ngFor="let type of bikeTypes" [value]="type">
+                  {{ type }}
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
 
-        <div class="mb-4">
-          <label for="model" class="block text-orange-500">Model:</label>
-          <select
-            id="model"
-            formControlName="model"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          >
-            <option *ngFor="let model of bikeModels" [value]="model">
-              {{ model }}
-            </option>
-          </select>
-        </div>
+          <div>
+            <label for="model" class="block mb-1 text-sm font-medium text-gray-700">
+              Bike Model
+            </label>
+            <div class="relative">
+              <select
+                id="model"
+                formControlName="model"
+                class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="" disabled selected>Select bike model</option>
+                <option *ngFor="let model of bikeModels" [value]="model">
+                  {{ model }}
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
 
-        <div class="mb-4">
-          <label for="version" class="block text-orange-500">Version:</label>
-          <select
-            id="version"
-            formControlName="version"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          >
-            <option *ngFor="let version of bikeVersions" [value]="version">
-              {{ version }}
-            </option>
-          </select>
-        </div>
+          <div>
+            <label for="version" class="block mb-1 text-sm font-medium text-gray-700">
+              Bike Version
+            </label>
+            <div class="relative">
+              <select
+                id="version"
+                formControlName="version"
+                class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="" disabled selected>Select version</option>
+                <option *ngFor="let version of bikeVersions" [value]="version">
+                  {{ version }}
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
 
-        <div class="mb-4">
-          <label for="bikeManufacture" class="block text-orange-500"
-            >Manufacture:</label
-          >
-          <select
-            id="bikeManufacture"
-            formControlName="manufacture"
-           class="w-full p-2 bg-gray-800 rounded-md"
-          >
-            <option
-              *ngFor="let manufacture of bikeManufactures"
-              [value]="manufacture"
-            >
-              {{ manufacture }}
-            </option>
-          </select>
+          <div>
+            <label for="bikeManufacture" class="block mb-1 text-sm font-medium text-gray-700">
+              Bike Manufacturer
+            </label>
+            <div class="relative">
+              <select
+                id="bikeManufacture"
+                formControlName="manufacture"
+                class="w-full p-3 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="" disabled selected>Select manufacturer</option>
+                <option
+                  *ngFor="let manufacture of bikeManufactures"
+                  [value]="manufacture"
+                >
+                  {{ manufacture }}
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
-        <div *ngIf="bikeIdNotFoundMessage" class="mb-4 text-red-600">
-          {{ bikeIdNotFoundMessage }}
+        
+        <div *ngIf="bikeIdNotFoundMessage" class="p-3 mt-2 text-red-700 border border-red-200 rounded-md bg-red-50">
+          <div class="flex">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{ bikeIdNotFoundMessage }}
+          </div>
+        </div>
+        
+        <div class="mt-6">
+          <button
+            type="button"
+            (click)="addBike()"
+            class="inline-flex items-center px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add Bike
+          </button>
         </div>
       </div>
-      <button
-        type="button"
-        (click)="addBike()"
-        class="px-4 py-2 text-white bg-blue-500 rounded-md"
-      >
-        Add Bike
-      </button>
     </div>
 
     <!-- Added Bikes Table -->
-    <div class="mt-5">
-      <h2 class="mb-4 text-lg font-semibold">Added Bikes</h2>
-      <table class="w-full border border-collapse border-gray-300">
-        <thead>
-          <tr class="bg-gray-800">
-            <th class="p-2 border border-gray-300">Type</th>
-            <th class="p-2 border border-gray-300">Model</th>
-            <th class="p-2 border border-gray-300">Version</th>
-            <th class="p-2 border border-gray-300">Manufacture</th>
-            <th class="p-2 border border-gray-300">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let bike of bikeArray; let i = index">
-            <td class="p-2 border border-gray-300">{{ bike.type }}</td>
-            <td class="p-2 border border-gray-300">{{ bike.model }}</td>
-            <td class="p-2 border border-gray-300">{{ bike.version }}</td>
-            <td class="p-2 border border-gray-300">{{ bike.manufacture }}</td>
-            <td class="p-2 border border-gray-300">
-              <button
-                type="button"
-                (click)="removeBike(i)"
-                class="px-2 py-1 text-white bg-red-500 rounded-md"
-              >
-                Remove
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="mb-8 overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-800">Added Compatible Bikes</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full whitespace-nowrap">
+          <thead>
+            <tr class="text-left bg-gray-50">
+              <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">Type</th>
+              <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">Model</th>
+              <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">Version</th>
+              <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">Manufacturer</th>
+              <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr *ngFor="let bike of bikeArray; let i = index" class="transition-colors hover:bg-gray-50">
+              <td class="px-6 py-4 text-sm text-gray-700">{{ bike.type }}</td>
+              <td class="px-6 py-4 text-sm text-gray-700">{{ bike.model }}</td>
+              <td class="px-6 py-4 text-sm text-gray-700">{{ bike.version }}</td>
+              <td class="px-6 py-4 text-sm text-gray-700">{{ bike.manufacture }}</td>
+              <td class="px-6 py-4 text-sm text-center">
+                <button
+                  type="button"
+                  (click)="removeBike(i)"
+                  class="inline-flex items-center px-3 py-1 text-sm text-white transition-colors bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  </svg>
+                  Remove
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="!bikeArray || bikeArray.length === 0">
+              <td colspan="5" class="px-6 py-8 text-center text-gray-500 bg-gray-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="mt-2 text-sm font-medium">No bikes added yet</p>
+                <p class="mt-1 text-xs">Select bike details above and click "Add Bike"</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="mt-5">
-  <button
-    type="submit"
-    class="px-4 py-2 text-white bg-green-500 rounded-md"
-  >
-    {{ productId ? 'Update Product' : 'Save Product' }}
-  </button>
-</div>
-
+    <!-- Form Actions -->
+    <div class="flex justify-end mt-8 space-x-4">
+      <button
+        type="button"
+        class="px-6 py-3 font-medium text-gray-700 transition-colors bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="flex items-center px-6 py-3 font-semibold text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+      >
+        <svg *ngIf="!productId" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        <svg *ngIf="productId" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+        {{ productId ? 'Update Product' : 'Save Product' }}
+      </button>
+    </div>
   </form>
 </div>
