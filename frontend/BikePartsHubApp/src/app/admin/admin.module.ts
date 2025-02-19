@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { AdminOverviewComponent } from './components/admin-overview/admin-overview.component';
 import { AdminSideNavbarComponent } from './components/admin-side-navbar/admin-side-navbar.component';
 import { AdminProductCardComponent } from './components/admin-products/admin-product-card/admin-product-card.component';
@@ -18,9 +17,10 @@ import { AdminCustomerViewComponent } from './components/admin-users/admin-custo
 import { ProfileComponent } from './components/admin-users/components/profile/profile.component';
 import { OrdersComponent } from './components/admin-users/components/orders/orders.component';
 import { SchedulesComponent } from './components/admin-users/components/schedules/schedules.component';
-import { OffersComponent } from './components/admin-users/components/offers/offers.component';
 import { OrderViewComponent } from './components/admin-users/components/orders/order-view/order-view.component';
 import { SchedulesViewComponent } from './components/admin-users/components/schedules/schedules-view/schedules-view.component';
+import { AdminSchedulesComponent } from './components/admin-schedules/admin-schedules.component';
+import { AdminMessagesComponent } from './components/admin-messages/admin-messages.component';
 
 @NgModule({
   declarations: [
@@ -38,9 +38,10 @@ import { SchedulesViewComponent } from './components/admin-users/components/sche
     ProfileComponent,
     OrdersComponent,
     SchedulesComponent,
-    OffersComponent,
     OrderViewComponent,
     SchedulesViewComponent,
+    AdminSchedulesComponent,
+    AdminMessagesComponent,
   ],
   imports: [
     CommonModule,
