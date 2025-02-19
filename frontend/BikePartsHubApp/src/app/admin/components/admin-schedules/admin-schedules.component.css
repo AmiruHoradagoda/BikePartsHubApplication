@@ -1,0 +1,19 @@
+@media (max-width: 768px) {
+  .grid-cols-5 {
+    grid-template-columns: 40px 1fr 1fr 1fr 80px;
+  }
+  
+  .service-column {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-5 {
+    grid-template-columns: 40px 1fr 1fr 80px;
+  }
+  
+  .time-column {
+    display: none;
+  }
+}

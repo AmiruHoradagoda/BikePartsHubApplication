@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AdminCustomerViewComponent implements OnInit {
   activeTab = 'Profile';
-  tabs = ['Profile', 'Orders', 'Schedules', 'Offers'];
+  tabs = ['Profile', 'Orders', 'Schedules'];
   userId!: string;
   profile: any; // Replace with proper interface
 
