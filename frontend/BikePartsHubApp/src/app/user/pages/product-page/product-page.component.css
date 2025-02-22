@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+    .flex {
+      flex-direction: column;
+    }
+  
+    aside {
+      width: 100%;
+      padding-right: 0;
+    }
+  
+    .pl-8 {
+      padding-left: 0;
+    }
+  }

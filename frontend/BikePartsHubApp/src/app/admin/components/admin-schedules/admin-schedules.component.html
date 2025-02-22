@@ -1,0 +1,167 @@
+<div class="min-h-screen p-6 bg-gray-100">
+  <!-- Page Header -->
+  <h1 class="mb-6 text-2xl font-bold text-gray-800">Schedules</h1>
+  
+  <!-- Filter Tabs -->
+  <div class="mb-6 bg-white rounded-lg shadow">
+    <div class="flex flex-wrap items-center px-4 py-2">
+      <button 
+        (click)="filterAppointments('all')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'all', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'all'}"
+      >
+        All
+      </button>
+      <button 
+        (click)="filterAppointments('completed')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'completed', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'completed'}"
+      >
+        Completed
+      </button>
+      <button 
+        (click)="filterAppointments('upcoming')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'upcoming', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'upcoming'}"
+      >
+        Upcoming
+      </button>
+      <button 
+        (click)="filterAppointments('missed')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'missed', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'missed'}"
+      >
+        Missed
+      </button>
+      <button 
+        (click)="filterAppointments('attended')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'attended', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'attended'}"
+      >
+        Attended
+      </button>
+      
+      <!-- Sort Dropdown -->
+      <div class="relative ml-auto">
+        <button 
+          (click)="toggleSortDropdown()" 
+          class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+          </svg>
+          Sort by
+        </button>
+        <div *ngIf="showSortDropdown" class="absolute right-0 z-10 w-48 mt-2 bg-white rounded-md shadow-lg">
+          <div class="py-1">
+            <button (click)="sortAppointments('date', 'asc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Date (Ascending)
+            </button>
+            <button (click)="sortAppointments('date', 'desc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Date (Descending)
+            </button>
+            <button (click)="sortAppointments('time', 'asc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Time (Ascending)
+            </button>
+            <button (click)="sortAppointments('time', 'desc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Time (Descending)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Appointments Table -->
+<div class="overflow-x-auto bg-white rounded-lg shadow">
+  <table class="min-w-full divide-y divide-gray-200">
+    <!-- Table Header -->
+    <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="w-12 px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase whitespace-nowrap">#</th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase whitespace-nowrap">Appointment ID</th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase whitespace-nowrap">Time slot</th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase whitespace-nowrap">Date</th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase whitespace-nowrap">Service</th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase whitespace-nowrap">Status</th>
+      </tr>
+    </thead>
+    
+    <!-- Table Body -->
+    <tbody class="bg-white divide-y divide-gray-200">
+      <ng-container *ngIf="filteredAppointments.length > 0; else noAppointments">
+        <tr *ngFor="let appointment of filteredAppointments | slice: (currentPage-1) * pageSize : currentPage * pageSize; let i = index" 
+            class="transition-colors hover:bg-gray-50">
+          <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">{{ (currentPage-1) * pageSize + i + 1 }}</td>
+          <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">{{ appointment.id }}</td>
+          <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">{{ appointment.timeSlot }}</td>
+          <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">{{ appointment.date }}</td>
+          <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">{{ appointment.service }}</td>
+          <td class="px-6 py-4 text-right whitespace-nowrap">
+            <span class="px-3 py-1 text-sm font-medium rounded-full" 
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': appointment.status === 'completed',
+                    'bg-orange-100 text-orange-800': appointment.status === 'attended',
+                    'bg-red-100 text-red-800': appointment.status === 'missed',
+                    'bg-blue-100 text-blue-800': appointment.status === 'upcoming'
+                  }">
+              {{ appointment.status | titlecase }}
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+    
+    <!-- Empty State -->
+    <ng-template #noAppointments>
+      <tr>
+        <td colspan="6" class="py-8 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <p class="text-gray-500">No appointments found.</p>
+        </td>
+      </tr>
+    </ng-template>
+  </table>
+</div>
+  
+  <!-- Pagination -->
+  <div class="flex justify-center mt-6">
+    <nav class="inline-flex rounded-md shadow">
+      <button 
+        (click)="goToPage(1)" 
+        [disabled]="currentPage === 1"
+        class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        1
+      </button>
+      <button 
+        *ngFor="let page of getPageNumbers()"
+        (click)="goToPage(page)"
+        [ngClass]="{'bg-purple-50 text-purple-600 border-purple-500': currentPage === page,
+                   'bg-white text-gray-700 hover:bg-gray-50': currentPage !== page}"
+        class="px-3 py-1 text-sm font-medium border border-gray-300"
+      >
+        {{ page }}
+      </button>
+      <button 
+        *ngIf="totalPages > 5"
+        class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300"
+      >
+        ...
+      </button>
+      <button 
+        (click)="goToPage(totalPages)" 
+        [disabled]="currentPage === totalPages"
+        class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ totalPages }}
+      </button>
+    </nav>
+  </div>
+</div>

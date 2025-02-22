@@ -1,0 +1,20 @@
+@media (max-width: 768px) {
+  .message-content {
+    max-width: 200px;
+  }
+  
+  .time-column {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .message-content {
+    max-width: 120px;
+  }
+  
+  .sender-column,
+  .date-column {
+    display: none;
+  }
+}

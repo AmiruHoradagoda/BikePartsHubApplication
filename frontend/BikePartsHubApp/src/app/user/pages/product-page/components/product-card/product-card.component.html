@@ -1,0 +1,32 @@
+<div
+  class="overflow-hidden text-black bg-white rounded-lg shadow-xl shadow-bl-950/40 contrast-120"
+>
+  <img
+    src="{{ product.imageUrl }}"
+    alt="{{ product.productName }}"
+    class="object-center h-72 w-96"
+    (click)="openProductDetails(product)"
+  />
+  <div class="flex flex-col">
+    <div class="flex justify-between mx-4">
+      <div>
+        <h3 class="mb-1 font-bold">{{ product.productName }}</h3>
+        <p class="mb-1 font-bold">
+          {{ product.pricePerUnit | currency : "RS: " }}
+        </p>
+      </div>
+      <span *ngIf="product.quantity > 0" class="font-bold text-green-900">
+        In Stock <br />
+        <hr class="border-2 border-green-500" />
+      </span>
+      <span *ngIf="product.quantity <= 0" class="font-bold text-red-900">
+        Out of Stock <br />
+        <hr class="border-2 border-red-500" />
+      </span>
+    </div>
+    <button class="px-4 py-2 text-black bg-[#FF6600]" (click)="onAddToCart()">
+      <span><i class="mx-2 fas fa-shopping-cart"></i></span>
+      Add to Cart
+    </button>
+  </div>
+</div>

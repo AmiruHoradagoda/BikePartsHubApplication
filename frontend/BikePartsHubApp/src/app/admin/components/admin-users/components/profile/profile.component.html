@@ -1,0 +1,79 @@
+<!-- profile.component.html -->
+<div *ngIf="loading" class="flex items-center justify-center h-64">
+  <span class="text-gray-500">Loading profile...</span>
+</div>
+
+<div *ngIf="error" class="p-4 text-center text-red-500">
+  {{ error }}
+</div>
+
+<div *ngIf="!loading && !error && profile">
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <!-- Left Side - User Details -->
+    <div class="lg:col-span-1">
+      <div class="p-6 bg-white rounded-lg shadow-sm">
+        <!-- Profile Header -->
+        <div class="mb-6 text-center">
+          <div class="flex items-center">
+            <div class="flex items-center justify-center w-10 h-10 text-xl font-semibold text-white bg-orange-500 rounded-full">
+              {{ profile.customerResponse.firstName.charAt(0) }}{{ profile.customerResponse.lastName.charAt(0) }}
+            </div>
+            <span class="ml-4">
+              {{ profile.customerResponse.firstName }} {{ profile.customerResponse.lastName }}
+            </span>
+          </div>
+          <h2 class="mb-1 text-xl font-semibold">{{ profile.customerResponse.firstName }}</h2>
+          <div class="flex justify-center gap-2 mb-4">
+            <span class="px-3 py-1 text-sm text-gray-600 rounded-full bg-gray-50">
+              {{ profile.customerResponse.role }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Contact Details -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <i class="w-5 h-5 text-gray-400 fas fa-envelope"></i>
+            <span>{{ profile.customerResponse.email }}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="w-5 h-5 text-gray-400 fas fa-phone"></i>
+            <span>{{ profile.customerResponse.phone }}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="w-5 h-5 text-gray-400 fas fa-shopping-bag"></i>
+            <span>{{ profile.totalOrder }} orders</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="w-5 h-5 text-gray-400 fas fa-coins"></i>
+            <span>Rs. {{ profile.totalSpend }}+ spent</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="w-5 h-5 text-gray-400 fas fa-calendar"></i>
+            <span>{{ profile.totalSchedule }} schedules</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Charts -->
+    <div class="space-y-6 lg:col-span-2">
+      <!-- Order Summary Chart -->
+      <div class="p-6 bg-white rounded-lg shadow-sm">
+        <h3 class="mb-2 text-lg font-semibold">Order Summary</h3>
+        <div class="relative h-64">
+          <canvas #orderChart></canvas>
+        </div>
+      </div>
+
+      <!-- Appointment Summary Chart -->
+      <div class="p-6 bg-white rounded-lg shadow-sm">
+        <h3 class="mb-2 text-lg font-semibold">Appointment Summary</h3>
+        <div class="relative h-64">
+          <canvas #appointmentChart></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

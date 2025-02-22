@@ -1,0 +1,189 @@
+<aside
+  class=" min-w-72 px-4 py-4 bg-[#1A242E] flex flex-col justify-between sticky top-16 border-transparent rounded-lg shadow-lg shadow-indigo-900-700-500/40 contrast-125"
+>
+  <!--Manufacturer  -->
+  @if(productType == 'PARTS' || productType == 'BODY_PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Bike Manufacturer</h3>
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="bikeManufacture"
+    >
+      <option value="" disabled selected>Select a Bike Manufacturer</option>
+      @for (manufactur of bikeManufactures; track $index) {
+      <option>{{ manufactur }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <!-- Type -->
+  @if(productType == 'PARTS' || productType == 'BODY_PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Bike Type</h3>
+    <select class="w-full px-2 py-1 bg-gray-700 rounded" [(ngModel)]="bikeType">
+      <option value="" disabled selected>Select a Bike Type</option>
+      @for (bikeType of bikeTypes; track $index) {
+      <option>{{ bikeType }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <!-- Model -->
+  @if(productType == 'BODY_PARTS' || productType == 'PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Bike Model</h3>
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="bikeModel"
+    >
+      <option value="" disabled selected>Select a Bike Model</option>
+      @for (bikeModel of bikeModels; track $index) {
+      <option>{{ bikeModel }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <!-- Version -->
+  @if(productType == 'BODY_PARTS' || productType == 'PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Version</h3>
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="bikeVersion"
+    >
+      <option value="" disabled selected>Select a Bike Version</option>
+      @for (bikeVersion of bikeVersions; track $index) {
+      <option>{{ bikeVersion }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <!-- Category -->
+  @if(productType == 'BODY_PARTS' || productType == 'ENGINE_OIL' || productType
+  == 'BRAKE_OIL' || productType == 'PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Category</h3>
+    @if(productType == 'BODY_PARTS'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="bodyPartsCategorie"
+    >
+      <option value="" disabled selected>Select a Category</option>
+      @for (bodyPartsCategory of bodyPartsCategories; track $index) {
+      <option>{{ bodyPartsCategory }}</option>
+      }
+    </select>
+    } @if(productType == 'ENGINE_OIL'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="engineOilCategorie"
+    >
+      <option value="" disabled selected>Select a Category</option>
+      @for (engineOilCategory of engineOilCategories; track $index) {
+      <option>{{ engineOilCategory }}</option>
+      }
+    </select>
+    } @if(productType == 'BRAKE_OIL'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="brakeOilCategorie"
+    >
+      <option value="" disabled selected>Select a Category</option>
+      @for (brakeOilCategory of brakeOilCategories; track $index) {
+      <option>{{ brakeOilCategory }}</option>
+      }
+    </select>
+    } @if(productType == 'PARTS'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="partCategorie"
+    >
+      <option value="" disabled selected>Select a Category</option>
+      @for (partCategory of partCategories; track $index) {
+      <option>{{ partCategory }}</option>
+      }
+    </select>
+    }
+  </div>
+  }
+
+  <!-- Brand -->
+  @if(productType == 'ENGINE_OIL' || productType == 'BRAKE_OIL' || productType
+  == 'LUBRICANT' || productType == 'PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Brand</h3>
+    @if(productType == 'ENGINE_OIL'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="engineOilBrand"
+    >
+      <option value="" disabled selected>Select a Brand</option>
+      @for (engineOilBrand of engineOilBrands; track $index) {
+      <option>{{ engineOilBrand }}</option>
+      }
+    </select>
+    } @if(productType == 'BRAKE_OIL'){
+    <select class="w-full px-2 py-1 bg-gray-700 rounded">
+      <option value="" disabled selected>Select a Brand</option>
+      @for (brakeOilBrand of brakeOilBrands; track $index) {
+      <option>{{ brakeOilBrand }}</option>
+      }
+    </select>
+    } @if(productType == 'LUBRICANT'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="lubricantBrand"
+    >
+      <option value="" disabled selected>Select a Brand</option>
+      @for (lubricantBrand of lubricantBrands; track $index) {
+      <option>{{ lubricantBrand }}</option>
+      }
+    </select>
+    } @if(productType == 'PARTS'){
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="partBrand"
+    >
+      <option value="" disabled selected>Select a Brand</option>
+      @for (partBrand of partBrands; track $index) {
+      <option>{{ partBrand }}</option>
+      }
+    </select>
+    }
+  </div>
+  }
+
+  <!-- Color -->
+  @if(productType == 'BODY_PARTS'){
+
+  <div class="mb-6">
+    <h3 class="mb-2 text-lg font-bold">Color</h3>
+    <select
+      class="w-full px-2 py-1 bg-gray-700 rounded"
+      [(ngModel)]="bodyPartsColor"
+    >
+      <option value="" disabled selected>Select a Color</option>
+      @for (bodyPartsColor of bodyPartsColors; track $index) {
+      <option>{{ bodyPartsColor }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <button
+    (click)="applyFilters()"
+    class="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+  >
+    Filter Apply
+  </button>
+</aside>

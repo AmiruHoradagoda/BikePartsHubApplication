@@ -1,0 +1,116 @@
+<!-- schedules.component.html -->
+<div class="w-full min-h-screen p-6">
+ <div class="max-w-6xl mx-auto">
+   <!-- Loading State -->
+   <div *ngIf="loading" class="flex justify-center py-8">
+     <div class="w-8 h-8 border-b-2 rounded-full animate-spin border-violet-600"></div>
+   </div>
+
+   <!-- Error Message -->
+   <div *ngIf="error" class="px-4 py-3 mb-4 text-red-700 bg-red-100 border border-red-400 rounded">
+     {{ error }}
+   </div>
+
+   <!-- Main Content -->
+   <div *ngIf="!loading && !error">
+     <!-- Status Filters -->
+     <div class="flex flex-wrap gap-4 mb-6">
+  <button
+    (click)="filterByStatus(AppointmentStatus.ALL)"
+    [ngClass]="{ 
+      'text-violet-600 font-medium border-violet-600': currentStatus === AppointmentStatus.ALL,
+      'border-transparent': currentStatus !== AppointmentStatus.ALL
+    }"
+    class="px-4 py-2 text-gray-600 transition-all border rounded-full hover:border-violet-600"
+  >
+    All Appointments ({{ appointments.length }})
+  </button>
+  <button
+    *ngFor="let status of STATUSES"
+    (click)="filterByStatus(status.value)"
+    [ngClass]="{ 
+      'text-violet-600 font-medium border-violet-600': currentStatus === status.value,
+      'border-transparent': currentStatus !== status.value
+    }"
+    [class]="getStatusColor(status.value)"
+    class="flex items-center gap-2 px-4 py-2 transition-all border rounded-full hover:border-violet-600"
+  >
+    <span>{{ status.label }}</span>
+    <span class="bg-gray-100 px-2 py-0.5 rounded-full text-sm">
+      {{ getStatusCount(status.value) }}
+    </span>
+  </button>
+</div>
+
+     <!-- No Appointments Message -->
+     <div *ngIf="filteredAppointments.length === 0" class="py-8 text-center bg-white rounded-lg shadow">
+       <div class="text-gray-500">No appointments found</div>
+     </div>
+
+     <!-- Appointments Table -->
+     <div *ngIf="filteredAppointments.length > 0" class="overflow-x-auto bg-white rounded-lg shadow">
+       <table class="w-full">
+         <thead>
+           <tr class="border-b bg-gray-50">
+             <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">#</th>
+             <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Appointment ID</th>
+             <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Time slot</th>
+             <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Date</th>
+             <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Service</th>
+             <th class="px-6 py-4 text-sm font-medium text-left text-gray-600">Status</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr
+             *ngFor="let appointment of filteredAppointments; let i = index"
+             class="transition-colors border-b cursor-pointer hover:bg-gray-50"
+             (click)="onAppointmentClick(appointment)"
+           >
+             <td class="px-6 py-4">{{ i + 1 }}</td>
+             <td class="px-6 py-4">#{{  i + 1}}</td>
+             <td class="px-6 py-4">{{ appointment.startTime }}</td>
+             <td class="px-6 py-4">{{ appointment.date | date:'MMM dd, yyyy' }}</td>
+             <td class="px-6 py-4">Full Service</td>
+             <td class="px-6 py-4">
+               <span
+                 [ngClass]="{
+                   'px-3 py-1 text-sm rounded-full': true,
+                   'text-green-600 bg-green-100': appointment.appointmentStatus === 'COMPLETED',
+                   'text-orange-600 bg-orange-100': appointment.appointmentStatus === 'ATTENDED',
+                   'text-blue-600 bg-blue-100': appointment.appointmentStatus === 'UPCOMING',
+                   'text-red-600 bg-red-100': appointment.appointmentStatus === 'MISSED'
+                 }"
+               >
+                 {{ appointment.appointmentStatus }}
+               </span>
+             </td>
+           </tr>
+         </tbody>
+       </table>
+     </div>
+
+     <!-- Action Buttons -->
+     <div class="flex justify-between mt-6">
+       <button class="px-6 py-2 text-white rounded-lg bg-violet-600 hover:bg-violet-700">
+         Back
+       </button>
+       <button class="px-6 py-2 text-white rounded-lg bg-violet-600 hover:bg-violet-700">
+         Schedule report
+       </button>
+     </div>
+   </div>
+ </div>
+
+ <!-- Appointment Detail Modal -->
+ <div
+   *ngIf="selectedAppointment"
+   class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+ >
+   <div class="w-full max-w-2xl p-6 mx-auto bg-white rounded-lg">
+     <app-schedules-view 
+       [appointment]="selectedAppointment" 
+       (close)="closeAppointmentView()"
+     ></app-schedules-view>
+   </div>
+ </div>
+</div>

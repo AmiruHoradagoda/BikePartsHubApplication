@@ -1,0 +1,176 @@
+<main class="w-full min-h-screen">
+  <div class="w-full p-6">
+    <div class="w-full bg-white rounded-lg shadow">
+      <!-- Tabs -->
+      <div class="flex items-center w-full gap-4 p-4 border-b border-gray-200">
+        <button
+          (click)="setRole(undefined)"
+          [class.text-purple-600]="!currentRole"
+          [class.font-medium]="!currentRole"
+          class="text-gray-600"
+        >
+          All Customers
+        </button>
+        <button
+          (click)="setRole('LOYAL_CUSTOMER')"
+          [class.text-purple-600]="currentRole === 'LOYAL_CUSTOMER'"
+          [class.font-medium]="currentRole === 'LOYAL_CUSTOMER'"
+          class="text-gray-600"
+        >
+          Loyal Customers
+        </button>
+        <div class="flex gap-2 ml-auto">
+          <button
+            class="flex items-center gap-2 px-4 py-2 text-gray-600 border border-gray-200 rounded-lg"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Export
+          </button>
+          <button
+            class="flex items-center gap-2 px-4 py-2 text-white bg-purple-600 rounded-lg"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add Customers
+          </button>
+        </div>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="flex flex-col w-full gap-4 p-4 lg:flex-row">
+        <button
+          class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg"
+        >
+          <i data-lucide="filter" class="w-4 h-4"></i>
+          Filter
+        </button>
+        <div class="relative flex-1">
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch(searchTerm)"
+            placeholder="Search Customer..."
+            class="w-full py-2 pl-10 pr-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+          <i
+            data-lucide="search"
+            class="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex justify-center p-8">
+        <i data-lucide="loader" class="w-8 h-8 animate-spin"></i>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="p-4 text-center text-red-600">
+        {{ error }}
+      </div>
+
+      <!-- Table -->
+      <div *ngIf="!isLoading && !error" class="w-full overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="w-8 p-4">
+                <input type="checkbox" class="rounded" />
+              </th>
+              <th class="p-4 text-left">Customer</th>
+              <th class="p-4 text-left">Orders</th>
+              <th class="p-4 text-left">Spent</th>
+              <th class="p-4 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let customer of customers"
+              class="border-t border-gray-200"
+              (click)="customer?.userId && navigateToCustomer(customer.userId.toString())"
+            >
+              <td class="p-4">
+                <input type="checkbox" class="rounded" />
+              </td>
+              <td class="p-4">
+                <div class="flex items-center">
+                  <div
+                    class="flex items-center justify-center w-10 h-10 text-xl font-semibold text-white bg-orange-500 rounded-full"
+                  >
+                    {{ customer?.firstName?.charAt(0)
+                    }}{{ customer?.lastName?.charAt(0) }}
+                  </div>
+                  <span class="ml-4">
+                    {{ customer.firstName }} {{ customer.lastName }}</span
+                  >
+                </div>
+              </td>
+
+              <td class="p-4">{{ customer.orders.length || 0 }}</td>
+              <td class="p-4">
+                Rs
+                {{ calculateTotalSpent(customer) }}
+              </td>
+              <td class="p-4">
+                <span
+                  class="px-3 py-1 text-sm text-green-600 bg-green-100 rounded-full"
+                  *ngIf="customer.orders.length > 0"
+                >
+                  {{ customer.orders[0].status }}
+                </span>
+                <span
+                  class="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full"
+                  *ngIf="customer.orders.length === 0"
+                >
+                  No Orders
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div
+        *ngIf="!isLoading && !error && totalItems > 0"
+        class="flex items-center justify-between w-full gap-2 p-4"
+      >
+        <!-- Items per page info -->
+        <div class="text-sm text-gray-600">
+          Showing {{ currentPage * pageSize + 1 }} to
+          {{ Math.min((currentPage + 1) * pageSize, totalItems) }} of
+          {{ totalItems }} entries
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex items-center gap-2">
+          <button
+            (click)="onPageChange(currentPage - 1)"
+            [disabled]="isFirstPage()"
+            class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+
+          <button
+            *ngFor="let page of getPages()"
+            (click)="onPageChange(page)"
+            [class.text-purple-600]="currentPage === page"
+            [class.bg-purple-100]="currentPage === page"
+            [class.font-medium]="currentPage === page"
+            class="w-8 h-8 rounded-lg hover:bg-gray-100"
+          >
+            {{ page + 1 }}
+          </button>
+
+          <button
+            (click)="onPageChange(currentPage + 1)"
+            [disabled]="isLastPage()"
+            class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

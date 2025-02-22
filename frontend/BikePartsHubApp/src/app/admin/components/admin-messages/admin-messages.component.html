@@ -1,0 +1,182 @@
+<div class="min-h-screen p-6 bg-gray-100">
+  <!-- Page Header -->
+  <h1 class="mb-6 text-2xl font-bold text-gray-800">Messages</h1>
+  
+  <!-- Filter Tabs -->
+  <div class="mb-6 bg-white rounded-lg shadow">
+    <div class="flex flex-wrap items-center px-4 py-2">
+      <button 
+        (click)="filterMessages('all')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'all', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'all'}"
+      >
+        All
+      </button>
+      <button 
+        (click)="filterMessages('read')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'read', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'read'}"
+      >
+        Read
+      </button>
+      <button 
+        (click)="filterMessages('new')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'new', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'new'}"
+      >
+        New
+      </button>
+      <button 
+        (click)="filterMessages('starred')" 
+        class="px-4 py-2 mb-2 mr-2 rounded-lg md:mb-0"
+        [ngClass]="{'bg-purple-100 text-purple-600 font-medium': currentFilter === 'starred', 
+                   'text-gray-700 hover:bg-gray-100': currentFilter !== 'starred'}"
+      >
+        Starred
+      </button>
+      
+      <!-- Sort Dropdown -->
+      <div class="relative ml-auto">
+        <button 
+          (click)="toggleSortDropdown()" 
+          class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+          </svg>
+          Sort by
+        </button>
+        <div *ngIf="showSortDropdown" class="absolute right-0 z-10 w-48 mt-2 bg-white rounded-md shadow-lg">
+          <div class="py-1">
+            <button (click)="sortMessages('date', 'asc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Date (Ascending)
+            </button>
+            <button (click)="sortMessages('date', 'desc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Date (Descending)
+            </button>
+            <button (click)="sortMessages('sender', 'asc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Sender (A-Z)
+            </button>
+            <button (click)="sortMessages('sender', 'desc')" class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100">
+              Sender (Z-A)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Messages Table -->
+  <div class="overflow-x-auto bg-white rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200">
+      <!-- Table Header -->
+      <thead>
+        <tr class="bg-white border-b border-gray-200">
+          <th scope="col" class="w-12 px-4 py-3 text-left">
+            <!-- Intentionally empty column for star icon -->
+          </th>
+          <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-800">
+            Sender
+          </th>
+          <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-800">
+            Time
+          </th>
+          <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-800">
+            Date
+          </th>
+          <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-800">
+            Content
+          </th>
+          <th scope="col" class="w-12 px-4 py-3 text-right">
+            <!-- Action column -->
+          </th>
+        </tr>
+      </thead>
+      
+      <!-- Table Body -->
+      <tbody class="bg-white divide-y divide-gray-200">
+        <ng-container *ngIf="filteredMessages.length > 0; else noMessages">
+          <tr *ngFor="let message of filteredMessages | slice: (currentPage-1) * pageSize : currentPage * pageSize" 
+              class="transition-colors hover:bg-gray-50">
+            <td class="px-4 py-4 text-center">
+              <button (click)="toggleStarMessage(message)" class="text-gray-400 hover:text-yellow-500 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" [ngClass]="{'text-yellow-400 fill-current': message.isStarred, 'text-gray-400': !message.isStarred}" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </button>
+            </td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+              {{ message.sender }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+              {{ message.time }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+              {{ message.date }}
+            </td>
+            <td class="max-w-md px-6 py-4 text-sm text-gray-500 truncate">
+              {{ message.content }}
+            </td>
+            <td class="px-4 py-4 text-sm text-right whitespace-nowrap">
+              <button (click)="deleteMessage(message)" class="text-gray-400 hover:text-red-600 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+      
+      <!-- Empty State -->
+      <ng-template #noMessages>
+        <tr>
+          <td colspan="6" class="py-8 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+            <p class="text-gray-500">No messages found.</p>
+          </td>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
+  
+  <!-- Pagination -->
+  <div class="flex justify-center mt-6">
+    <nav class="inline-flex rounded-md shadow">
+      <button 
+        (click)="goToPage(1)" 
+        [disabled]="currentPage === 1"
+        class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        1
+      </button>
+      <button 
+        *ngFor="let page of getPageNumbers()"
+        (click)="goToPage(page)"
+        [ngClass]="{'bg-purple-50 text-purple-600 border-purple-500': currentPage === page,
+                   'bg-white text-gray-700 hover:bg-gray-50': currentPage !== page}"
+        class="px-3 py-1 text-sm font-medium border border-gray-300"
+      >
+        {{ page }}
+      </button>
+      <button 
+        *ngIf="totalPages > 5"
+        class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300"
+      >
+        ...
+      </button>
+      <button 
+        (click)="goToPage(totalPages)" 
+        [disabled]="currentPage === totalPages"
+        class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ totalPages }}
+      </button>
+    </nav>
+  </div>
+</div>

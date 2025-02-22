@@ -1,0 +1,109 @@
+<div class="w-full max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-sm">
+ <!-- Order ID Header -->
+ <div class="flex items-center justify-between mb-6">
+   <div class="flex items-center space-x-2">
+     <span class="text-gray-600">Order ID:</span>
+     <span class="font-medium">#{{ order.orderId }}</span>
+     <span class="text-xs text-gray-500">(Order Placed: {{ order.date | date : "mediumDate" }})</span>
+   </div>
+   <span
+     class="px-4 py-1 text-sm text-white rounded-full"
+     [ngClass]="{
+       'bg-green-600': order.status === 'SHIPPED',
+       'bg-yellow-600': order.status === 'PROCESSING',
+       'bg-blue-600': order.status === 'PENDING',
+       'bg-red-600': order.status === 'CANCELED'
+     }"
+   >
+     {{ order.status }}
+   </span>
+ </div>
+
+ <!-- Order Items -->
+ <div class="mb-6 overflow-hidden border rounded-lg">
+   <table class="w-full">
+     <thead class="bg-gray-50">
+       <tr>
+         <th class="px-4 py-2 text-sm text-left text-gray-600">Product Name</th>
+         <th class="px-4 py-2 text-sm text-left text-gray-600">Quantity</th>
+         <th class="px-4 py-2 text-sm text-right text-gray-600">Price (Rs.)</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let detail of order.orderDetails" class="border-t">
+         <td class="flex items-center px-4 py-3 space-x-3">
+           <img
+             [src]="detail.imageUrl"
+             [alt]="detail.productName"
+             class="object-cover w-12 h-12 rounded-md"
+           />
+           <span>{{ detail.productName }}</span>
+         </td>
+         <td class="px-4 py-3">{{ detail.qty }}</td>
+         <td class="px-4 py-3 text-right">{{ detail.amount | number:'1.2-2' }}</td>
+       </tr>
+     </tbody>
+     <tfoot class="bg-gray-50">
+       <tr>
+         <td colspan="2" class="px-4 py-3 font-medium text-right">Total:</td>
+         <td class="px-4 py-3 font-medium text-right">Rs. {{ order.total | number:'1.2-2' }}</td>
+       </tr>
+     </tfoot>
+   </table>
+ </div>
+
+ <!-- Customer Details and Shipping -->
+ <div class="flex flex-col justify-between space-y-6 md:flex-row md:space-y-0">
+   <!-- Customer Info -->
+   <div class="space-y-4">
+     <div class="flex items-center space-x-3">
+       <div class="flex items-center justify-center w-12 h-12 text-xl font-semibold text-white bg-orange-500 rounded-full">
+         {{ order.firstName.charAt(0) }}{{ order.lastName.charAt(0) }}
+       </div>
+       <div>
+         <div class="font-medium">{{ order.firstName }} {{ order.lastName }}</div>
+         <div class="text-sm text-gray-500">{{ order.email }}</div>
+       </div>
+     </div>
+
+     <!-- Shipping Address -->
+     <div class="mt-4">
+       <div class="mb-1 font-medium text-violet-600">Delivery Address:</div>
+       <div class="text-gray-600">
+         {{ order.shippingAddress.address }},<br />
+         {{ order.shippingAddress.city }},<br />
+         {{ order.shippingAddress.state }} - {{ order.shippingAddress.postalCode }}
+       </div>
+     </div>
+   </div>
+
+   <!-- Total Amount -->
+   <div class="text-right">
+     <div class="mb-1 font-medium text-violet-600">Total Amount:</div>
+     <div class="text-2xl font-medium">Rs. {{ order.total | number:'1.2-2' }}</div>
+   </div>
+ </div>
+
+ <!-- Action Button -->
+ <div class="flex justify-end mt-6">
+   <button
+     (click)="onClose()"
+     class="flex items-center px-4 py-2 text-white transition-colors rounded-lg bg-violet-600 hover:bg-violet-700"
+   >
+     <svg
+       class="w-5 h-5 mr-2"
+       fill="none"
+       stroke="currentColor"
+       viewBox="0 0 24 24"
+     >
+       <path
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-width="2"
+         d="M6 18L18 6M6 6l12 12"
+       ></path>
+     </svg>
+     Close
+   </button>
+ </div>
+</div>
