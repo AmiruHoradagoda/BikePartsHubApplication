@@ -1,126 +1,202 @@
-import { Component } from '@angular/core';
+// home-page.component.ts
 import {
-  trigger,
-  transition,
-  style,
-  animate,
-  state,
-} from '@angular/animations';
+  Component,
+  OnInit,
+  OnDestroy,
+  PLATFORM_ID,
+  Inject,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+interface Product {
+  id: number;
+  name: string;
+  imageUrl: string;
+  originalPrice: number;
+  discountedPrice: number;
+  discount: number;
+  rating: number;
+  reviewCount: number;
+}
+
+interface Testimonial {
+  id: number;
+  name: string;
+  initials: string;
+  bike: string;
+  comment: string;
+  rating: number;
+}
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css',
-  styles: [`
-    :host {
-      display: block;
-    }
-  `],
-  animations: [
-    trigger('fadeIn', [
-      state('void', style({ opacity: 0, transform: 'translateY(20px)' })),
-      transition(':enter', [
-        animate(
-          '0.6s ease-out',
-          style({ opacity: 1, transform: 'translateY(0)' })
-        ),
-      ]),
-    ]),
-    trigger('slideIn', [
-      state('void', style({ transform: 'translateX(-100%)' })),
-      transition(':enter', [
-        animate('0.5s ease-out', style({ transform: 'translateX(0)' })),
-      ]),
-    ]),
-    trigger('scaleIn', [
-      state('void', style({ transform: 'scale(0.8)', opacity: 0 })),
-      transition(':enter', [
-        animate('0.4s ease-out', style({ transform: 'scale(1)', opacity: 1 })),
-      ]),
-    ]),
-    trigger('countUp', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate(
-          '1s ease-out',
-          style({ opacity: 1, transform: 'translateY(0)' })
-        ),
-      ]),
-    ]),
-  ],
+  styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent {
-  testimonials = [
+export class HomePageComponent implements OnInit, OnDestroy {
+  newsletterEmail: string = '';
+  private intersectionObserver: IntersectionObserver | null = null;
+
+  brands: string[] = [
+    'Honda',
+    'Kawasaki',
+    'Yamaha',
+    'Suzuki',
+    'Ducati',
+    'Harley-Davidson',
+    'BMW',
+    'Triumph',
+    'KTM',
+    'Aprilia',
+    'MV Agusta',
+    'Indian',
+  ];
+
+  testimonials: Testimonial[] = [
     {
-      name: 'Natalie',
-      quote: 'I love it! No more endless searching for bike parts.',
-      image: '/assets/propic.png',
+      id: 1,
+      name: 'James Mitchell',
+      initials: 'JM',
+      bike: 'Honda CBR1000RR owner',
+      comment:
+        'The performance exhaust I purchased from CycleTech completely transformed my ride. Not only does it sound incredible, but I noticed a real improvement in power delivery. Installation service was top-notch and the staff was incredibly knowledgeable.',
       rating: 5,
     },
     {
-      name: 'George',
-      quote: 'If you are a biker, You need this service in your life!',
-      image: '/assets/propic.png',
+      id: 2,
+      name: 'Sarah Delgado',
+      initials: 'SD',
+      bike: 'Ducati Monster owner',
+      comment:
+        "I've been bringing my Ducati to CycleTech for service for over 3 years. Their mechanics understand these bikes inside and out. The maintenance packages are reasonably priced and I always leave confident that my bike is in perfect condition.",
       rating: 5,
     },
     {
-      name: 'Raven',
-      quote: 'Best deals I have ever seen. Highly recommended!',
-      image: '/assets/propic.png',
+      id: 3,
+      name: 'Robert Kim',
+      initials: 'RK',
+      bike: 'Kawasaki Ninja owner',
+      comment:
+        'The premium brake kit I ordered arrived faster than expected, and the quality exceeded my expectations. Installation was straightforward thanks to the included instructions. Stopping power has improved dramatically - worth every penny!',
       rating: 5,
     },
   ];
 
-  stats = [
-    { value: '1000', label: 'Products' },
-    { value: '500', label: 'Happy Customers' },
-    { value: '50', label: 'Expert Mechanics' },
-    { value: '24', label: 'Service Hours' },
+  hotDeals: Product[] = [
+    {
+      id: 1,
+      name: 'Premium Billet Handlebar',
+      imageUrl: '/api/placeholder/800/600',
+      originalPrice: 199.99,
+      discountedPrice: 159.99,
+      discount: 20,
+      rating: 4.8,
+      reviewCount: 120,
+    },
+    {
+      id: 2,
+      name: 'Sport Bike Tire Set',
+      imageUrl: '/api/placeholder/800/600',
+      originalPrice: 289.99,
+      discountedPrice: 246.49,
+      discount: 15,
+      rating: 4.6,
+      reviewCount: 85,
+    },
+    {
+      id: 3,
+      name: 'Performance Brake Kit',
+      imageUrl: '/api/placeholder/800/600',
+      originalPrice: 399.99,
+      discountedPrice: 299.99,
+      discount: 25,
+      rating: 4.9,
+      reviewCount: 150,
+    },
+    {
+      id: 4,
+      name: 'Premium Exhaust System',
+      imageUrl: '/api/placeholder/800/600',
+      originalPrice: 829.99,
+      discountedPrice: 579.99,
+      discount: 30,
+      rating: 4.7,
+      reviewCount: 95,
+    },
   ];
 
-  featuredProducts = [
-    {
-      name: 'Premium Engine Oil',
-      description:
-        'High-performance synthetic oil for optimal engine protection',
-      price: 2500,
-      category: 'Engine Oil',
-      image: 'assets/product_img/product1.jpg',
-    },
-    // Add more products...
-  ];
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  features = [
-    {
-      icon: 'fas fa-tools',
-      title: 'Expert Technicians',
-      description:
-        'Our certified mechanics have years of experience with all bike brands',
-    },
-    {
-      icon: 'fas fa-clock',
-      title: 'Quick Service',
-      description: 'Get your bike serviced and back on the road in no time',
-    },
-    {
-      icon: 'fas fa-shield-alt',
-      title: 'Genuine Parts',
-      description: 'We only use authentic parts from authorized manufacturers',
-    },
-  ];
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initializeIntersectionObserver();
+      this.setupScrollAnimations();
+    }
+  }
 
-  blogPosts = [
-    {
-      title: 'Essential Motorcycle Maintenance Tips',
-      excerpt:
-        'Learn how to keep your bike in top condition with these maintenance tips.',
-      category: 'Maintenance',
-      image: '/assets/blog-1.jpg',
-      author: {
-        name: 'John Doe',
-        avatar: '/assets/author-1.jpg',
-      },
-      date: 'Oct 15, 2024',
-    },
-    // Add more blog posts...
-  ];
+  ngOnDestroy(): void {
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = null;
+    }
+  }
+
+  private initializeIntersectionObserver(): void {
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+      this.intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              this.intersectionObserver?.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '50px',
+        }
+      );
+    }
+  }
+
+  private setupScrollAnimations(): void {
+    if (this.intersectionObserver) {
+      setTimeout(() => {
+        const animatedElements =
+          document.querySelectorAll('.animate-on-scroll');
+        animatedElements.forEach((element) => {
+          this.intersectionObserver?.observe(element);
+        });
+      }, 0);
+    }
+  }
+
+  getStarRating(rating: number): number[] {
+    return Array(Math.round(rating)).fill(0);
+  }
+
+  formatPrice(price: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price);
+  }
+
+  async subscribeToNewsletter(): Promise<void> {
+    try {
+      console.log('Subscribing email:', this.newsletterEmail);
+      alert('Thank you for subscribing!');
+      this.newsletterEmail = '';
+    } catch (error) {
+      console.error('Subscription error:', error);
+      alert(
+        'There was an error processing your subscription. Please try again.'
+      );
+    }
+  }
+
+  calculateDiscount(original: number, discounted: number): number {
+    return Math.round(((original - discounted) / original) * 100);
+  }
 }
