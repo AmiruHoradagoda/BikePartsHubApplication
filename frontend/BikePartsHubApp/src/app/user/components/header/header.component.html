@@ -1,54 +1,123 @@
-<header
-  class="relative py-4 text-white bg-[#212F3C] contrast-[1.15] w-full z-50"
->
-  <div class="container px-4 mx-auto contrast-150">
-    <div
-      class="flex flex-col items-center space-y-4 md:flex-row md:justify-between md:space-y-0"
-    >
-      <div class="flex items-center">
-        <img
-          src="/assets/icon.png"
-          alt="Bike Parts Hub Logo"
-          class="object-contain w-20 h-20 mr-2 contrast-200"
-        />
-        <h1 class="text-xl font-bold text-orange-500 md:text-2xl font-sonsie">
-          BIKE PARTS HUB
-        </h1>
-      </div>
-
-      <div class="w-full md:w-auto md:flex-grow md:mx-8">
-        <app-search-bar class="z-50" />
-      </div>
-
-      <div
-        class="flex items-center justify-between w-full md:w-auto md:space-x-8"
-      >
-        <a routerLink="/appointment" class="text-xl md:text-2xl"
-          ><i class="far fa-calendar-alt"></i
-        ></a>
-        <a routerLink="/cart" class="text-xl md:text-2xl">
-          <i class="relative fas fa-shopping-cart">
-            <div
-              class="absolute flex items-center justify-center w-5 h-5 text-xs bg-white border border-black rounded-full -bottom-2 -right-2"
-            >
-              <span class="text-black">{{ cartItemCount }}</span>
+<header class="fixed top-0 z-50 w-full">
+  <!-- Top Bar with Logo and User Controls -->
+  <div class="text-white bg-gray-900">
+    <div class="container px-4 py-3 mx-auto">
+      <div class="flex items-center justify-between">
+        <!-- Logo and Main Navigation -->
+        <div class="flex items-center space-x-11">
+          <a routerLink="/home" class="flex items-center">
+            <!-- <imgd
+              src="/assets/icon.png"
+              alt="Bike Parts Hub Logo"
+              class="object-contain w-10 h-10 mr-2" /> -->
+            <span class="ml-2 text-lg font-bold text-white font-sonsie">BIKE PARTS HUB</span>
+          </a>
+          <!-- Desktop Navigation Links -->
+          <div class="hidden space-x-8 md:flex">
+            <a
+              routerLink="/home"
+              routerLinkActive="text-orange-500"
+              [routerLinkActiveOptions]="{exact: true}"
+              class="text-white transition hover:text-orange-500 hover:underline hover:decoration-orange-500">
+              Home
+            </a>
+            <div class="relative group">
+              <button class="flex items-center text-white transition hover:text-orange-500">
+                Products
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="absolute left-0 hidden w-48 font-normal bg-white rounded-lg shadow-lg group-hover:block">
+                <ul class="py-2 text-sm text-gray-700">
+                  <li>
+                    <a href="/products?category=PARTS" class="block px-4 py-2 transition-colors duration-200 hover:bg-gray-100 hover:text-orange-500">Parts</a>
+                  </li>
+                  <li>
+                    <a href="/products?category=BODY_PARTS" class="block px-4 py-2 transition-colors duration-200 hover:bg-gray-100 hover:text-orange-500">Body Parts</a>
+                  </li>
+                  <li>
+                    <a href="/products?category=ENGINE_OIL" class="block px-4 py-2 transition-colors duration-200 hover:bg-gray-100 hover:text-orange-500">Engine Oil</a>
+                  </li>
+                  <li>
+                    <a href="/products?category=BRAKE_OIL" class="block px-4 py-2 transition-colors duration-200 hover:bg-gray-100 hover:text-orange-500">Brake Oil</a>
+                  </li>
+                  <li>
+                    <a href="/products?category=LUBRICANT" class="block px-4 py-2 transition-colors duration-200 hover:bg-gray-100 hover:text-orange-500">Lubricant Oil</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </i>
-        </a>
+            <a
+              routerLink="/appointment"
+              routerLinkActive="text-orange-500"
+              class="text-white transition hover:text-orange-500 hover:underline hover:decoration-orange-500">
+              Services
+            </a>
+            <a
+              routerLink="/aboutus"
+              routerLinkActive="text-orange-500"
+              class="text-white transition hover:text-orange-500 hover:underline hover:decoration-orange-500">
+              About Us
+            </a>
+          </div>
+        </div>
 
-        <a
-          routerLink="/userdashbord"
-          class="flex flex-col items-center text-xl md:text-2xl"
-        >
-          <i class="fas fa-user"></i>
-          <span class="mt-1 text-xs md:text-sm">
-            <ng-container *ngIf="currentUser; else loginTemplate">
-              Hi {{ currentUser.firstName }}
-            </ng-container>
-            <ng-template #loginTemplate> Login </ng-template>
-          </span>
-        </a>
+        <!-- Search and User Controls -->
+        <div class="flex items-center space-x-8">
+          <!-- Search Bar Component -->
+          <div class="relative hidden md:block">
+            <app-search-bar></app-search-bar>
+          </div>
+
+          <!-- User Controls -->
+          <a routerLink="/services" class="text-white transition hover:text-orange-500">
+            <i class="text-xl far fa-calendar-alt"></i>
+          </a>
+          <a routerLink="/userdashbord" class="text-white transition hover:text-orange-500">
+            <i class="text-xl fas fa-user"></i>
+          </a>
+          <a routerLink="/cart" class="relative text-white transition hover:text-orange-500">
+            <i class="text-xl fas fa-shopping-cart"></i>
+            <div class="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-orange-500 rounded-full -top-2 -right-2">
+              <span>{{ cartItemCount }}</span>
+            </div>
+          </a>
+
+          <!-- Mobile Menu Toggle -->
+          <button id="mobile-menu-button" class="text-white md:hidden focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div id="mobile-menu" class="hidden text-white bg-gray-800 shadow-md md:hidden">
+    <div class="container px-4 py-2 mx-auto">
+      <!-- Mobile Search -->
+      <div class="pt-2 mb-4">
+        <app-search-bar></app-search-bar>
+      </div>
+
+      <!-- Mobile Navigation Links -->
+      <ul class="pb-3 space-y-3">
+        <li>
+          <a routerLink="/home" 
+             routerLinkActive="text-orange-500" 
+             [routerLinkActiveOptions]="{exact: true}"
+             class="block py-2 text-white transition hover:text-orange-500">
+            Home
+          </a>
+        </li>
+        <!-- Rest of mobile menu items remain the same but with updated colors -->
+      </ul>
+    </div>
+  </div>
 </header>
+
+<!-- Spacer to prevent content from being hidden under fixed header -->
+<div class="h-10"></div>

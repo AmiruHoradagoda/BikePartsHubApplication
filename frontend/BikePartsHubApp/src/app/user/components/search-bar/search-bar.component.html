@@ -1,39 +1,58 @@
-<!-- search.component.html -->
-<div class="static w-full max-w-lg"> <!-- Changed to static positioning -->
-  <form (ngSubmit)="hideDropdown()">
-    <div class="flex justify-between overflow-hidden bg-gray-800 rounded-lg shadow-lg">
+<!-- search-bar.component.html -->
+<div class="relative w-72">
+  <form (ngSubmit)="hideDropdown()" class="relative">
+    <div class="flex">
       <input
         type="text"
         [(ngModel)]="searchTerm"
         (input)="onSearchChange()"
-        placeholder="What are you looking for?"
-        class="flex-1 block w-full px-4 py-2 text-white placeholder-gray-400 bg-gray-700 rounded-l-lg focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+        placeholder="Search parts..."
+        class="w-full pl-10 pr-4 py-1.5 text-gray-300 placeholder-gray-400 bg-gray-800 rounded-lg border border-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
         name="search"
       />
-      <button class="top-0 right-0 px-4 py-2 text-white bg-orange-500 rounded-r">
-        <i class="text-white fas fa-search"></i>
-      </button>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5 text-gray-400 absolute left-3 top-1.5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
+      </svg>
     </div>
   </form>
 
-  <!-- Updated dropdown with Tailwind classes -->
-  <div *ngIf="isDropdownVisible && searchResults.length"
-       class="fixed left-0 right-0 w-full mt-2 overflow-y-auto bg-white border border-gray-500 divide-y divide-gray-300 rounded-lg shadow-lg max-h-60 z-[9999]">
-    <div *ngFor="let result of searchResults; let i = index"
-         [ngClass]="{
-           'bg-gray-800': i % 2 === 0,
-           'bg-gray-900': i % 2 !== 0
-         }"
-         class="flex items-center p-3 transition-all duration-200 cursor-pointer hover:bg-gray-600">
-      <img [src]="result.imageUrl"
-           [alt]="result.productName"
-           class="object-cover w-16 h-16 mr-3 rounded-md" />
+  <!-- Search Results Dropdown -->
+  <div
+    *ngIf="isDropdownVisible && searchResults.length > 0"
+    class="absolute right-0 z-50 mt-2 overflow-hidden bg-gray-800 border border-gray-700 rounded-lg shadow-lg w-96"
+  >
+    <div
+      *ngFor="let result of searchResults; let i = index"
+      class="flex items-center p-3 transition-colors cursor-pointer"
+      [ngClass]="{
+        'bg-gray-900': i % 2 === 0,
+        'bg-gray-800': i % 2 !== 0,
+        'hover:bg-gray-700': true
+      }"
+      (click)="onResultClick(result)"
+    >
+      <img
+        [src]="result.imageUrl"
+        [alt]="result.productName"
+        class="object-cover w-16 h-16 mr-3 border border-gray-600 rounded-md"
+      />
       <div class="flex items-center justify-between flex-1">
-        <p class="pl-6 text-sm font-semibold text-white">
-          {{ result.productName }}<br />
-          {{ result.manufacture }}
-        </p>
-        <span class="text-sm text-green-500">In stock</span>
+        <div class="text-sm">
+          <p class="font-medium text-gray-200">{{ result.productName }}</p>
+          <p class="text-gray-400">{{ result.manufacture }}</p>
+        </div>
+        <span class="text-sm text-green-400 bg-green-900/30 px-2 py-0.5 rounded">In stock</span>
       </div>
     </div>
   </div>
