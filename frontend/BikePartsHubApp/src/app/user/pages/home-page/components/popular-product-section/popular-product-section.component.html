@@ -1,0 +1,78 @@
+<!-- popular-product-section.component.html -->
+<section class="py-16 bg-white" id="deals">
+  <div class="container px-4 mx-auto">
+    <h2 class="mb-4 text-3xl font-bold text-center fade-in">Hot Deals</h2>
+    <p class="max-w-3xl mx-auto mb-12 text-center text-gray-600 delay-100 fade-in">
+      Limited-time offers on premium motorcycle components and accessories.
+    </p>
+
+    <p-carousel 
+      [value]="hotDeals" 
+      [numVisible]="3" 
+      [numScroll]="1" 
+      [circular]="true"
+      [autoplayInterval]="5000"
+      [responsiveOptions]="responsiveOptions"
+      [showNavigators]="true"
+      [showIndicators]="true"
+    >
+      <ng-template let-product pTemplate="item">
+        <div class="p-4 m-2 transition-all duration-300 bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl">
+          <div class="mb-4">
+            <div class="relative">
+              <img 
+                [src]="product.imageUrl" 
+                [alt]="product.name" 
+                class="object-cover w-full h-64 rounded-lg"
+              />
+              <div class="absolute px-3 py-1 text-sm font-semibold text-white bg-red-600 rounded-full top-4 right-4">
+                {{product.discount}}% OFF
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <h3 class="mb-2 text-lg font-semibold">{{product.name}}</h3>
+            
+            <!-- Rating -->
+            <div class="flex items-center mb-2">
+              <div class="flex">
+                <i *ngFor="let star of generateStarArray(product.rating)"
+                   class="pi" 
+                   [ngClass]="star ? 'pi-star-fill text-yellow-400' : 'pi-star text-gray-300'">
+                </i>
+              </div>
+              <span class="ml-2 text-gray-600">
+                {{product.rating}} ({{product.reviewCount}} reviews)
+              </span>
+            </div>
+
+            <!-- Price and Add to Cart -->
+            <div class="flex items-center justify-between mt-4">
+              <div class="flex flex-col">
+                <span class="text-gray-400 line-through">${{product.originalPrice.toFixed(2)}}</span>
+                <span class="text-2xl font-bold text-blue-600">${{product.discountedPrice.toFixed(2)}}</span>
+              </div>
+              <div class="flex gap-2">
+                <p-button 
+                  icon="pi pi-heart" 
+                  severity="secondary" 
+                  [outlined]="true"
+                ></p-button>
+                <p-button 
+                  icon="pi pi-shopping-cart"
+                ></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+
+    <div class="mt-12 text-center">
+      <a href="#" class="inline-block px-8 py-3 font-semibold text-white transition transform bg-blue-600 rounded-lg hover:bg-blue-700 hover:-translate-y-1 fade-in delay-400">
+        View All Deals
+      </a>
+    </div>
+  </div>
+</section>

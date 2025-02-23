@@ -1,0 +1,98 @@
+<section class="py-24 bg-gradient-to-b from-blue-50 to-white">
+  <div class="container px-6 mx-auto">
+    <!-- Header Section -->
+    <div class="max-w-4xl mx-auto mb-20 text-center">
+      <h2 class="mb-6 text-4xl font-bold tracking-tight text-gray-900">
+        Shop By Category
+      </h2>
+      <p class="text-lg text-gray-600">
+        Browse our selection of high-quality motorcycle components and accessories
+      </p>
+    </div>
+
+    <!-- First row - 3 items -->
+    <div class="grid grid-cols-1 gap-8 mb-16 md:grid-cols-3">
+      <div *ngFor="let category of categories" class="group">
+        <div class="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md rounded-xl hover:shadow-xl hover:border-blue-100">
+          <div class="relative h-64 overflow-hidden">
+            <img
+              [src]="category.imageUrl"
+              [alt]="category.title"
+              class="object-cover w-full h-full transition-transform duration-300 transform group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-b from-black/10 to-black/30 group-hover:from-black/20 group-hover:to-black/40"></div>
+          </div>
+          <div class="p-8 bg-gradient-to-br from-white to-gray-50">
+            <h3 class="mb-3 text-2xl font-semibold text-gray-900">{{category.title}}</h3>
+            <p class="mb-6 leading-relaxed text-gray-600">
+              {{category.description}}
+            </p>
+            <a
+              href="#"
+              class="inline-flex items-center font-medium text-blue-600 transition group-hover:text-blue-700">
+              Browse Components
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 ml-2 transition-transform transform group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second row - 2 items centered -->
+    <div class="grid max-w-5xl grid-cols-1 gap-8 mx-auto md:grid-cols-2">
+      <div *ngFor="let category of bottomCategories" class="group">
+        <div class="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md rounded-xl hover:shadow-xl hover:border-blue-100">
+          <div class="relative h-64 overflow-hidden">
+            <img
+              [src]="category.imageUrl"
+              [alt]="category.title"
+              class="object-cover w-full h-full transition-transform duration-300 transform group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-b from-black/10 to-black/30 group-hover:from-black/20 group-hover:to-black/40"></div>
+          </div>
+          <div class="p-8 bg-gradient-to-br from-white to-gray-50">
+            <h3 class="mb-3 text-2xl font-semibold text-gray-900">{{category.title}}</h3>
+            <p class="mb-6 leading-relaxed text-gray-600">
+              {{category.description}}
+            </p>
+            <a
+              href="#"
+              class="inline-flex items-center font-medium text-blue-600 transition group-hover:text-blue-700">
+              Browse Components
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 ml-2 transition-transform transform group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="mt-20 text-center">
+      <a
+        href="#"
+        class="inline-block px-8 py-4 text-lg font-semibold text-white transition transform bg-blue-600 rounded-xl hover:bg-blue-700 hover:-translate-y-1 hover:shadow-lg">
+        View All Categories
+      </a>
+    </div>
+  </div>
+</section>

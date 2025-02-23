@@ -1,0 +1,79 @@
+// services-section.component.scss
+
+// Base styles
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Parallax and background effects
+.parallax {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background-position 0.5s ease-out;
+}
+
+#services-parallax {
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+}
+
+// Animation classes
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Card styles
+.service-card {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-8px) !important;
+  }
+
+  &.highlighted {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+// Animation delays
+@for $i from 1 through 7 {
+  .delay-#{$i}00 {
+    transition-delay: #{$i * 0.1}s;
+  }
+}
+
+// Hover effects
+.zoom-on-hover {
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Text effects
+.shadow-text {
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
