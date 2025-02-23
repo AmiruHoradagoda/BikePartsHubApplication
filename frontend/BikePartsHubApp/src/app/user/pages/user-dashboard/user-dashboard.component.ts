@@ -17,6 +17,12 @@ import { of, Subject } from 'rxjs';
   styleUrls: ['./user-dashboard.component.css'],
 })
 export class UserDashboardComponent implements OnInit, OnDestroy {
+  tabs: ('profile' | 'orders' | 'settings')[] = [
+    'profile',
+    'orders',
+    'settings',
+  ];
+
   currentUser: AuthenticationResponse | null = null;
   activeTab: 'profile' | 'orders' | 'settings' = 'profile';
   recentOrders: OrderResponseDto[] = [];
