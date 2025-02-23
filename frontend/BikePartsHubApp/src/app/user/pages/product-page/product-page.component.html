@@ -1,14 +1,24 @@
-<main class="w-screen px-2 py-8 mx-auto text-white bg-[#34495E] contrast-100 h-fit">
-  <div class="flex">
-    <app-product-filter-sidebar [productType]="productType"   (partsFilterInfo)="receivePartsFilterInfo($event)"/>
-    <div class="w-3/4 pl-8 h-max">
-      <div class="flex items-center justify-between w-full mb-6">
-        <h2 class="text-2xl font-bold">{{ productType }}</h2>
-        <select class="px-2 py-1 bg-gray-700 rounded">
-          <option>Default Sorting</option>
-        </select>
+<main class="min-h-screen bg-gray-50">
+  <div class="container px-4 py-8 mx-auto">
+    <div class="flex gap-6">
+      <!-- Sidebar with improved styling -->
+      <aside class="w-1/4">
+        <app-product-filter-sidebar 
+          [productType]="productType"   
+          (partsFilterInfo)="receivePartsFilterInfo($event)"
+        />
+      </aside>
+
+      <!-- Main content area -->
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">{{ productType }}</h2>
+          <select class="px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option>Default Sorting</option>
+          </select>
+        </div>
+        <app-product-list [partsFilterInfo]="partsFilterInfo"/>
       </div>
-      <app-product-list [partsFilterInfo]="partsFilterInfo"/>
     </div>
   </div>
 </main>

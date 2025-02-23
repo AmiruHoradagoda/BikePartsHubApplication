@@ -1,31 +1,35 @@
-<div
-  class="overflow-hidden text-black bg-white rounded-lg shadow-xl shadow-bl-950/40 contrast-120"
->
-  <img
-    src="{{ product.imageUrl }}"
-    alt="{{ product.productName }}"
-    class="object-center h-72 w-96"
-    (click)="openProductDetails(product)"
-  />
-  <div class="flex flex-col">
-    <div class="flex justify-between mx-4">
-      <div>
-        <h3 class="mb-1 font-bold">{{ product.productName }}</h3>
-        <p class="mb-1 font-bold">
-          {{ product.pricePerUnit | currency : "RS: " }}
-        </p>
-      </div>
-      <span *ngIf="product.quantity > 0" class="font-bold text-green-900">
-        In Stock <br />
-        <hr class="border-2 border-green-500" />
+<div class="overflow-hidden transition-all duration-300 bg-white shadow-lg rounded-xl hover:shadow-xl">
+  <div class="relative">
+    <img
+      src="{{ product.imageUrl }}"
+      alt="{{ product.productName }}"
+      class="object-cover w-full h-64 cursor-pointer"
+      (click)="openProductDetails(product)"
+    />
+    <div class="absolute top-4 right-4">
+      <span *ngIf="product.quantity > 0" 
+            class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+        In Stock
       </span>
-      <span *ngIf="product.quantity <= 0" class="font-bold text-red-900">
-        Out of Stock <br />
-        <hr class="border-2 border-red-500" />
+      <span *ngIf="product.quantity <= 0" 
+            class="px-3 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded-full">
+        Out of Stock
       </span>
     </div>
-    <button class="px-4 py-2 text-black bg-[#FF6600]" (click)="onAddToCart()">
-      <span><i class="mx-2 fas fa-shopping-cart"></i></span>
+  </div>
+  
+  <div class="p-6">
+    <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ product.productName }}</h3>
+    <div class="flex items-center justify-between mb-4">
+      <p class="text-2xl font-bold text-blue-600">
+        {{ product.pricePerUnit | currency : "RS: " }}
+      </p>
+    </div>
+    <button 
+      class="flex items-center justify-center w-full gap-2 px-6 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
+      (click)="onAddToCart()"
+    >
+      <i class="fas fa-shopping-cart"></i>
       Add to Cart
     </button>
   </div>

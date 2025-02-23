@@ -7,34 +7,100 @@
     ></app-product-card>
     }
   </div>
-  <div class="absolute left-0 right-0 flex justify-center mt-8 -bottom-5">
-    <button
-      class="px-3 py-1 mx-1 bg-gray-700 rounded"
-      (click)="goToFirstPage()"
-      [disabled]="currentPage === 1"
-    >
-      First Page
-    </button>
-    <button
-      *ngFor="let page of [].constructor(totalPages); let i = index"
-      class="px-3 py-1 mx-1"
-      [ngClass]="{
-        'bg-orange-500': currentPage === i + 1,
-        'bg-gray-700': currentPage !== i + 1
-      }"
-      (click)="changePage(i + 1)"
-    >
-      {{ i + 1 }}
-    </button>
-    <button
-      class="px-3 py-1 mx-1 bg-gray-700 rounded"
-      (click)="goToLastPage()"
-      [disabled]="currentPage === totalPages"
-    >
-      Last Page
-    </button>
+<!-- Pagination Component -->
+<div class="flex items-center justify-center mt-8 space-x-2">
+  <!-- First Page Button -->
+  <button
+    class="flex items-center px-3 py-2 text-sm font-medium transition-colors border rounded-lg hover:bg-blue-50"
+    [class.text-gray-400]="currentPage === 1"
+    [class.border-gray-200]="currentPage === 1"
+    [class.text-blue-600]="currentPage !== 1"
+    [class.border-blue-200]="currentPage !== 1"
+    [class.hover:bg-blue-50]="currentPage !== 1"
+    (click)="goToFirstPage()"
+    [disabled]="currentPage === 1"
+  >
+    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+    </svg>
+    First
+  </button>
+
+  <!-- Previous Page Button -->
+  <button
+    class="flex items-center px-3 py-2 text-sm font-medium transition-colors border rounded-lg hover:bg-blue-50"
+    [class.text-gray-400]="currentPage === 1"
+    [class.border-gray-200]="currentPage === 1"
+    [class.text-blue-600]="currentPage !== 1"
+    [class.border-blue-200]="currentPage !== 1"
+    [class.hover:bg-blue-50]="currentPage !== 1"
+    (click)="changePage(currentPage - 1)"
+    [disabled]="currentPage === 1"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <!-- Page Numbers -->
+  <div class="flex items-center space-x-1">
+    <ng-container *ngFor="let page of getPageRange(); let i = index">
+      <button
+        *ngIf="page !== '...'"
+        class="flex items-center justify-center w-10 h-10 text-sm font-medium transition-colors border rounded-lg"
+        [class.bg-blue-600]="currentPage === page"
+        [class.text-white]="currentPage === page"
+        [class.border-blue-600]="currentPage === page"
+        [class.text-gray-700]="currentPage !== page"
+        [class.border-gray-200]="currentPage !== page"
+        [class.hover:bg-blue-50]="currentPage !== page"
+        (click)="changePage(page)"
+      >
+        {{ page }}
+      </button>
+      
+      <span
+        *ngIf="page === '...'"
+        class="flex items-center justify-center w-10 h-10 text-sm text-gray-500"
+      >
+        ...
+      </span>
+    </ng-container>
   </div>
 
+  <!-- Next Page Button -->
+  <button
+    class="flex items-center px-3 py-2 text-sm font-medium transition-colors border rounded-lg hover:bg-blue-50"
+    [class.text-gray-400]="currentPage === totalPages"
+    [class.border-gray-200]="currentPage === totalPages"
+    [class.text-blue-600]="currentPage !== totalPages"
+    [class.border-blue-200]="currentPage !== totalPages"
+    [class.hover:bg-blue-50]="currentPage !== totalPages"
+    (click)="changePage(currentPage + 1)"
+    [disabled]="currentPage === totalPages"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+
+  <!-- Last Page Button -->
+  <button
+    class="flex items-center px-3 py-2 text-sm font-medium transition-colors border rounded-lg hover:bg-blue-50"
+    [class.text-gray-400]="currentPage === totalPages"
+    [class.border-gray-200]="currentPage === totalPages"
+    [class.text-blue-600]="currentPage !== totalPages"
+    [class.border-blue-200]="currentPage !== totalPages"
+    [class.hover:bg-blue-50]="currentPage !== totalPages"
+    (click)="goToLastPage()"
+    [disabled]="currentPage === totalPages"
+  >
+    Last
+    <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>
   <!-- Product Details Modal -->
   <div
     *ngIf="selectedProduct"

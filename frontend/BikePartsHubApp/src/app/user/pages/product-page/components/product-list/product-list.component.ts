@@ -17,7 +17,7 @@ import { ProductGet } from '../../../../../core/models/interface/Product';
 export class ProductListComponent implements OnInit, OnChanges {
   products: ProductGet[] = [];
   filteredProducts: ProductGet[] = [];
-  selectedProduct: ProductGet | null = null; 
+  selectedProduct: ProductGet | null = null;
 
   currentPage: number = 1;
   totalPages: number = 1;
@@ -202,13 +202,57 @@ export class ProductListComponent implements OnInit, OnChanges {
     console.log('Filtered Products:', this.filteredProducts);
   }
 
-  changePage(page: number): void {
-    if (page > 0 && page <= this.totalPages) {
-      this.currentPage = page;
+  changePage(page: number | string): void {
+    // If page is ellipsis ('...'), do nothing
+    if (page === '...') return;
+
+    // Convert to number if needed and validate
+    const pageNumber = Number(page);
+    if (!isNaN(pageNumber) && pageNumber > 0 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
       this.loadProducts();
     }
   }
+  getPageRange(): (number | string)[] {
+    const range: (number | string)[] = [];
+    const maxVisiblePages = 5; // Adjust this number to show more or fewer page numbers
 
+    if (this.totalPages <= maxVisiblePages) {
+      // If total pages is less than max visible, show all pages
+      for (let i = 1; i <= this.totalPages; i++) {
+        range.push(i);
+      }
+    } else {
+      // Always show first page
+      range.push(1);
+
+      if (this.currentPage <= 3) {
+        // If current page is near the start
+        range.push(2, 3, 4, '...', this.totalPages);
+      } else if (this.currentPage >= this.totalPages - 2) {
+        // If current page is near the end
+        range.push(
+          '...',
+          this.totalPages - 3,
+          this.totalPages - 2,
+          this.totalPages - 1,
+          this.totalPages
+        );
+      } else {
+        // If current page is in the middle
+        range.push(
+          '...',
+          this.currentPage - 1,
+          this.currentPage,
+          this.currentPage + 1,
+          '...',
+          this.totalPages
+        );
+      }
+    }
+
+    return range;
+  }
   goToFirstPage(): void {
     this.changePage(1);
   }
