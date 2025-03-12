@@ -11,6 +11,7 @@ import { ProductDetailsComponent } from './pages/product-page/components/product
 import { ProductPageComponent } from './pages/product-page/product-page.component';
 import { UserComponent } from './user.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
+import { AboutusPageComponent } from './pages/aboutus-page/aboutus-page.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomePageComponent,
+      },
+      {
+        path: 'aboutus',
+        component: AboutusPageComponent,
       },
       {
         path: 'products',

@@ -1,0 +1,67 @@
+/* Add these styles to your search-bar.component.css */
+.search-container {
+  position: relative;
+}
+
+input {
+  transition: all 0.2s ease;
+}
+
+input:focus + svg {
+  color: #f97316; /* orange-500 when focused */
+}
+
+/* Animation for dropdown */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+div[class*="absolute left-0 right-0"] {
+  animation: fadeIn 0.2s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust top position for search icon */
+.absolute.left-3.top-2\.5 {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Custom scrollbar for dropdown */
+.max-h-60 {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f3f4f6;
+}
+
+.max-h-60::-webkit-scrollbar {
+  width: 6px;
+}
+
+.max-h-60::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.max-h-60::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 6px;
+}
+
+/* Button hover effect */
+button.bg-orange-500 {
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button.bg-orange-500:hover {
+  background-color: #ea580c; /* orange-600 */
+}
+
+button.bg-orange-500:active {
+  transform: scale(0.98);
+}

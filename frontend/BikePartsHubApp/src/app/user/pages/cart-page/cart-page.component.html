@@ -1,119 +1,160 @@
-<!-- cart-page.component.html -->
-<div class="p-4 mx-auto md:flex md:justify-between bg-[#34495E] w-full">
-  <!-- Cart Items -->
-  <div class="mr-4 md:w-3/4">
-    <div class="p-4 bg-gray-800 rounded-md shadow-md">
-      <table
-        class="min-w-full text-sm text-left text-gray-200 border-separate border-spacing-y-2"
-      >
-        <thead>
-          <tr class="text-gray-300 bg-gray-700">
-            <th class="p-4"></th>
-            <th class="p-4">Product</th>
-            <th class="p-4">Description</th>
-            <th class="p-4">Quantity</th>
-            <th class="p-4">Unit Price</th>
-            <th class="p-4">Total Price</th>
-            <th class="p-4">Remove</th>
-          </tr>
-        </thead>
-        <tbody class="mb-4">
-          <tr
-            *ngFor="let item of cartItems"
-            class="bg-gray-600 rounded-md shadow-sm hover:bg-gray-700"
-          >
-            <td class="p-4">
-              <img
-                [src]="item.imageUrl"
-                [alt]="item.name"
-                class="inline-block w-20 h-20 rounded-md"
-              />
-            </td>
-            <td class="p-4">{{ item.name }}</td>
-            <td class="p-4">{{ item.description }}</td>
-            <td class="p-4">
-              <div class="flex items-center">
-                <button
-                  (click)="onChangeQuantity(item, -1)"
-                  class="px-2 py-1 text-white bg-gray-500 rounded"
-                >
-                  -
-                </button>
-                <span class="px-4">{{ item.quantity }}</span>
-                <button
-                  (click)="onChangeQuantity(item, 1)"
-                  class="px-2 py-1 text-white bg-gray-500 rounded"
-                >
-                  +
-                </button>
-              </div>
-            </td>
-            <td class="p-4 text-xl font-bold">
-              {{ item.unitPrice | currency : "RS: "  }}
-            </td>
-            <td class="p-4 text-xl font-bold">
-              {{ item.unitPrice * item.quantity | currency : "RS: "  }}
-            </td>
-            <td class="p-4 text-center">
-              <button
-                (click)="onRemoveItem(item.productId)"
-                class="text-xl text-red-600"
-              >
-                🗑
-              </button>
-            </td>
-          </tr>
-          <tr class="bg-gray-600 rounded-md shadow-sm hover:bg-gray-700">
-            <td class="p-4" colspan="4"></td>
-            <td class="p-4">Total</td>
-            <td class="p-4 text-xl font-bold">{{ totalPrice | currency : "RS: "  }}</td>
-            <td class="p-4 text-center"></td>
-          </tr>
-        </tbody>
-      </table>
+<!-- Modern Cart Page Design -->
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Banner -->
+  <div class="text-white bg-blue-600">
+    <div class="px-4 py-12 mx-auto max-w-7xl">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold">Shopping Cart</h1>
+          <p class="mt-2 text-blue-100">{{ cartItems.length }} items in your cart</p>
+        </div>
+        <button (click)="onEmptyCart()" 
+                class="px-6 py-2 text-sm font-medium transition-colors bg-blue-700 rounded-full hover:bg-blue-800">
+          Empty Cart
+        </button>
+      </div>
     </div>
-
-    <!-- Empty Cart Button -->
-    <button
-      (click)="onEmptyCart()"
-      class="px-4 py-2 mt-6 text-gray-900 bg-gray-200 rounded"
-    >
-      Empty Cart
-    </button>
   </div>
 
-  <!-- Order Summary -->
-  <div
-    class="p-4 mt-8 text-white bg-gray-800 rounded-md shadow-md md:mt-0 md:w-1/4"
-  >
-    <h2 class="mb-4 text-2xl font-bold text-orange-500">Order Summary</h2>
-    <div class="space-y-2">
-      <div class="flex justify-between">
-        <p>Total</p>
-        <p>{{ totalPrice | currency : "RS: "  }}</p>
+  <!-- Main Content -->
+  <div class="px-4 mx-auto -mt-8 max-w-7xl">
+    <div class="flex flex-col gap-8 lg:flex-row">
+      <!-- Cart Items -->
+      <div class="flex-grow space-y-4">
+        <!-- Individual Cart Items -->
+        <div *ngFor="let item of cartItems" 
+             class="overflow-hidden transition-shadow bg-white shadow-sm rounded-xl hover:shadow-md">
+          <div class="flex items-center p-6">
+            <!-- Product Image -->
+            <div class="flex-shrink-0 w-24 h-24">
+              <img [src]="item.imageUrl" 
+                   [alt]="item.name"
+                   class="object-cover w-full h-full rounded-lg" />
+            </div>
+
+            <!-- Product Details -->
+            <div class="flex-grow ml-6">
+              <div class="flex justify-between">
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900">{{ item.name }}</h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ item.description }}</p>
+                </div>
+                <button (click)="onRemoveItem(item.productId)" 
+                        class="text-gray-400 transition-colors hover:text-red-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Price and Quantity Controls -->
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-8">
+                  <!-- Quantity Controls -->
+                  <div class="flex items-center">
+                    <button (click)="onChangeQuantity(item, -1)"
+                            class="flex items-center justify-center w-8 h-8 transition-colors bg-gray-100 rounded-full hover:bg-gray-200">
+                      <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                      </svg>
+                    </button>
+                    <span class="w-8 mx-4 font-medium text-center">{{ item.quantity }}</span>
+                    <button (click)="onChangeQuantity(item, 1)"
+                            class="flex items-center justify-center w-8 h-8 transition-colors bg-gray-100 rounded-full hover:bg-gray-200">
+                      <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  <!-- Unit Price -->
+                  <div class="text-sm text-gray-500">
+                    {{ item.unitPrice | currency:'RS:' }} each
+                  </div>
+                </div>
+
+                <!-- Total Price -->
+                <div class="text-lg font-semibold text-blue-600">
+                  {{ item.unitPrice * item.quantity | currency:'RS:' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="flex justify-between">
-        <p>Courier Charges</p>
-        <p>60,00</p>
-      </div>
-      <div class="flex justify-between">
-        <p>Order Tax</p>
-        <p>60,00</p>
-      </div>
-      <hr class="my-2 border-gray-600" />
-      <div class="flex justify-between text-xl font-bold">
-        <p>Grand Total</p>
-        <p>{{ totalPrice +120 | currency : "RS: "  }}</p>
-        <!-- Update to reflect courier and tax -->
+
+      <!-- Order Summary Card -->
+      <div class="lg:w-96">
+        <div class="sticky p-8 bg-white shadow-sm rounded-xl top-8">
+          <h2 class="text-2xl font-bold text-gray-900">Summary</h2>
+          
+          <!-- Cost Breakdown -->
+          <div class="mt-8 space-y-4">
+            <div class="flex justify-between text-gray-600">
+              <span>Subtotal</span>
+              <span class="font-medium">{{ totalPrice | currency:'RS:' }}</span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>Shipping</span>
+              <span class="font-medium">Rs. 60.00</span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>Tax</span>
+              <span class="font-medium">Rs. 60.00</span>
+            </div>
+            
+            <!-- Total -->
+            <div class="pt-4 mt-4 border-t border-gray-100">
+              <div class="flex justify-between">
+                <span class="text-lg font-bold text-gray-900">Total</span>
+                <span class="text-2xl font-bold text-blue-600">
+                  {{ totalPrice + 120 | currency:'RS:' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Checkout Button -->
+          <button (click)="onCheckout()" 
+                  class="w-full py-4 mt-8 font-medium text-white transition-colors bg-blue-600 rounded-full hover:bg-blue-700">
+            Proceed to Checkout
+          </button>
+          
+          <!-- Additional Information -->
+          <div class="mt-8 space-y-4">
+            <!-- Secure Checkout Badge -->
+            <div class="flex items-center justify-center gap-2 text-sm text-gray-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              Secure checkout
+            </div>
+            
+            <!-- Shipping Notice -->
+            <p class="text-sm text-center text-gray-500">
+              Free shipping on orders over Rs. 5000
+            </p>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Checkout Button -->
-    <button
-      (click)="onCheckout()"
-      class="w-full py-2 mt-4 text-lg text-white bg-orange-500 rounded hover:bg-orange-600"
-    >
-      Checkout
-    </button>
+  <!-- Empty Cart State -->
+  <div *ngIf="cartItems.length === 0" class="py-16 text-center">
+    <div class="max-w-md mx-auto">
+      <svg class="w-24 h-24 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+      </svg>
+      <h2 class="mt-6 text-2xl font-bold text-gray-900">Your cart is empty</h2>
+      <p class="mt-2 text-gray-500">Add items to your cart to begin checkout</p>
+      <button routerLink="/products" 
+              class="px-8 py-3 mt-6 text-white transition-colors bg-blue-600 rounded-full hover:bg-blue-700">
+        Continue Shopping
+      </button>
+    </div>
   </div>
 </div>

@@ -29,7 +29,26 @@ export class ProductPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
-      this.productType = params.get('category');
+      const category = params.get('category');
+      switch (category?.toUpperCase()) {
+        case 'PARTS':
+          this.productType = 'Parts';
+          break;
+        case 'BODY_PARTS':
+          this.productType = 'Body Parts';
+          break;
+        case 'ENGINE_OIL':
+          this.productType = 'Engine Oil';
+          break;
+        case 'BRAKE_OIL':
+          this.productType = 'Brake Oil';
+          break;
+        case 'LUBRICANTS':
+          this.productType = 'Lubricants';
+          break;
+        default:
+          this.productType = category;
+      }
     });
   }
 

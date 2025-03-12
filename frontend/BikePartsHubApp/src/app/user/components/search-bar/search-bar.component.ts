@@ -11,6 +11,7 @@ export class SearchBarComponent {
   searchResults: ProductSearchDetail[] = [];
   searchTerm: string = '';
   isDropdownVisible: boolean = false;
+cartItemCount: any;
 
   constructor(private searchBarService: SearchBarService) {}
 
@@ -33,5 +34,8 @@ export class SearchBarComponent {
 
   hideDropdown() {
     this.isDropdownVisible = false;
+  }
+  onResultClick(result: ProductSearchDetail): void {
+    this.hideDropdown();
   }
 }

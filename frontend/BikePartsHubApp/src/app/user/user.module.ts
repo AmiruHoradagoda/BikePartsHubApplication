@@ -13,7 +13,6 @@ import { ToastModule } from 'primeng/toast';
 // Component imports
 import { AppointmentPageComponent } from './pages/appintment-page/appintment-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProductDetailsComponent } from './pages/product-page/components/product-details/product-details.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -27,6 +26,8 @@ import { AuthModule } from './auth/auth.module';
 import { ProductPageModule } from './pages/product-page/product-page.module';
 import { CheckoutModule } from './pages/checkout-page/checkout.module';
 import { UserRoutingModule } from './user-routing.module';
+import { HomePageModule } from './pages/home-page/home-page.module';
+import { AboutusPageComponent } from './pages/aboutus-page/aboutus-page.component';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,9 @@ import { UserRoutingModule } from './user-routing.module';
     SearchBarComponent,
     AppointmentPageComponent,
     CartPageComponent,
-    HomePageComponent,
     ProductDetailsComponent,
     UserDashboardComponent,
+    AboutusPageComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +51,7 @@ import { UserRoutingModule } from './user-routing.module';
     AuthModule,
     ProductPageModule,
     CheckoutModule,
+    HomePageModule,
     // PrimeNG Modules
     CalendarModule,
     ButtonModule,

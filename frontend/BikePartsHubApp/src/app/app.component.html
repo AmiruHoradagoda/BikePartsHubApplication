@@ -1,10 +1,10 @@
 <div class="app-container">
   <div *ngIf="!isAdminPage">
     <app-header></app-header>
-    <app-nav></app-nav>
   </div>
-  
+
   <router-outlet></router-outlet>
-  
-  <app-footer *ngIf="!isAdminPage"></app-footer>
+  <div *ngIf="!isAdminPage">
+    <app-footer></app-footer>
+  </div>
 </div>
