@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.controller;
 
+import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedAppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
@@ -42,15 +43,21 @@ public class AdminController {
         return new ResponseEntity<PaginatedUserResponseDto>(customerDetails, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllOrderDetails")
-    private ResponseEntity<PaginatedOrderResponseWithDetailsDto> getAllOrderDetails(
-            @RequestParam(required = false) OrderStatus orderStatus,
+    @GetMapping("/getAllAppointmentDetails")
+    private ResponseEntity<PaginatedAppointmentResponseDto> getAllAppointmentDetails(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size
     ) {
-        PaginatedOrderResponseWithDetailsDto orderDetails = orderService.getAllOrderDetails(orderStatus, page, size);
-        return new ResponseEntity<PaginatedOrderResponseWithDetailsDto>(orderDetails, HttpStatus.OK);
+        PaginatedAppointmentResponseDto appointmentDetails = appointmentService.getAllAppointmentDetails(page, size);
+        return new ResponseEntity<PaginatedAppointmentResponseDto>(appointmentDetails, HttpStatus.OK);
     }
+
+    @GetMapping("/getCustomerProfile/{id}")
+    private ResponseEntity<CustomerProfileDto> getCustomerProfile(@PathVariable Integer id) {
+        CustomerProfileDto customerProfile = userService.getAllCustomerProfile(id);
+        return ResponseEntity.ok(customerProfile);
+    }
+
 
     @GetMapping("/getCustomerOrders/{id}")
     private ResponseEntity<PaginatedOrderResponseWithDetailsDto> getCustomerOrders(@PathVariable Integer id, @RequestParam(required = false) OrderStatus orderStatus,
@@ -66,10 +73,14 @@ public class AdminController {
         return ResponseEntity.ok(appointmentResponseDtos);
     }
 
-    @GetMapping("/getCustomerProfile/{id}")
-    private ResponseEntity<CustomerProfileDto> getCustomerProfile(@PathVariable Integer id) {
-        CustomerProfileDto customerProfile = userService.getAllCustomerProfile(id);
-        return ResponseEntity.ok(customerProfile);
+    @GetMapping("/getAllOrderDetails")
+    private ResponseEntity<PaginatedOrderResponseWithDetailsDto> getAllOrderDetails(
+            @RequestParam(required = false) OrderStatus orderStatus,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size
+    ) {
+        PaginatedOrderResponseWithDetailsDto orderDetails = orderService.getAllOrderDetails(orderStatus, page, size);
+        return new ResponseEntity<PaginatedOrderResponseWithDetailsDto>(orderDetails, HttpStatus.OK);
     }
 
     @PutMapping("/changeOrderStatus")

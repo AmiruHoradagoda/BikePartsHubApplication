@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  AdminSchedulesService,
+  AppointmentStatus,
+  AppointmentResponseDto,
+} from './admin-shedules.service';
 
-interface Appointment {
-  id: string;
-  timeSlot: string;
-  date: string;
-  service: string;
-  status: 'completed' | 'upcoming' | 'missed' | 'attended';
-}
 
 @Component({
   selector: 'app-admin-schedules',
@@ -14,13 +12,13 @@ interface Appointment {
   styleUrls: ['./admin-schedules.component.css'],
 })
 export class AdminSchedulesComponent implements OnInit {
+  readonly AppointmentStatus = AppointmentStatus;
   // Appointments data
-  allAppointments: Appointment[] = [];
-  filteredAppointments: Appointment[] = [];
+  appointments: AppointmentResponseDto[] = [];
+  filteredAppointments: AppointmentResponseDto[] = [];
 
   // Filters and sorting
-  currentFilter: 'all' | 'completed' | 'upcoming' | 'missed' | 'attended' =
-    'all';
+  currentFilter: AppointmentStatus = AppointmentStatus.ALL;
   showSortDropdown: boolean = false;
   currentSortField: 'date' | 'time' = 'date';
   currentSortDirection: 'asc' | 'desc' = 'asc';
@@ -28,13 +26,13 @@ export class AdminSchedulesComponent implements OnInit {
   // Pagination
   currentPage: number = 1;
   pageSize: number = 10;
+  totalItems: number = 0;
   totalPages: number = 1;
 
-  constructor() {}
+  constructor(private adminSchedulesService: AdminSchedulesService) {}
 
   ngOnInit(): void {
     this.loadAppointments();
-    this.filterAppointments('all');
     document.addEventListener(
       'click',
       this.closeDropdownOnOutsideClick.bind(this)
@@ -56,175 +54,34 @@ export class AdminSchedulesComponent implements OnInit {
   }
 
   loadAppointments(): void {
-    // In a real application, this would be an API call
-    this.allAppointments = [
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'completed',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'attended',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'attended',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'completed',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'missed',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'missed',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '20/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '21/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '21/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '21/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '22/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '10.30 - 12.30',
-        date: '22/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '10.30 - 12.30',
-        date: '22/01/2025',
-        service: 'Full service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '12.30 - 14.30',
-        date: '23/01/2025',
-        service: 'Oil change',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '14.30 - 16.30',
-        date: '23/01/2025',
-        service: 'Oil change',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '16.30 - 18.30',
-        date: '24/01/2025',
-        service: 'Tire change',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '8.30 - 10.30',
-        date: '24/01/2025',
-        service: 'Tire change',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '10.30 - 12.30',
-        date: '25/01/2025',
-        service: 'Brake service',
-        status: 'upcoming',
-      },
-      {
-        id: '#01470523',
-        timeSlot: '12.30 - 14.30',
-        date: '25/01/2025',
-        service: 'Brake service',
-        status: 'upcoming',
-      },
-    ];
-
-    this.calculateTotalPages();
+    this.adminSchedulesService
+      .getAllAppointmentDetails(this.currentPage - 1, this.pageSize)
+      .subscribe({
+        next: (response) => {
+          this.appointments = Array.from(response.appointmentResponseDto);
+          this.totalItems = response.dataCount;
+          this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+          this.filterAppointments(this.currentFilter);
+        },
+        error: (error) => {
+          console.error('Error loading appointments:', error);
+        },
+      });
   }
 
-  calculateTotalPages(): void {
-    this.totalPages = Math.ceil(
-      this.filteredAppointments.length / this.pageSize
-    );
-  }
-
-  filterAppointments(
-    filter: 'all' | 'completed' | 'upcoming' | 'missed' | 'attended'
-  ): void {
+  filterAppointments(filter: AppointmentStatus): void {
     this.currentFilter = filter;
     this.currentPage = 1;
 
-    if (filter === 'all') {
-      this.filteredAppointments = [...this.allAppointments];
+    if (filter === AppointmentStatus.ALL) {
+      this.filteredAppointments = [...this.appointments];
     } else {
-      this.filteredAppointments = this.allAppointments.filter(
-        (appointment) => appointment.status === filter
+      this.filteredAppointments = this.appointments.filter(
+        (appointment) => appointment.appointmentStatus === filter
       );
     }
 
     this.applySorting();
-    this.calculateTotalPages();
   }
 
   toggleSortDropdown(): void {
@@ -244,50 +101,33 @@ export class AdminSchedulesComponent implements OnInit {
       let comparison = 0;
 
       if (this.currentSortField === 'date') {
-        // Convert DD/MM/YYYY to sortable format
-        const dateA = this.convertDateStringToComparable(a.date);
-        const dateB = this.convertDateStringToComparable(b.date);
-        comparison = dateA - dateB;
+        comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
       } else if (this.currentSortField === 'time') {
-        // Extract the start time for comparison
-        const timeA = this.extractStartTime(a.timeSlot);
-        const timeB = this.extractStartTime(b.timeSlot);
-        comparison = timeA - timeB;
+        comparison = this.compareTime(a.startTime, b.startTime);
       }
 
-      // Apply sort direction
       return this.currentSortDirection === 'asc' ? comparison : -comparison;
     });
   }
 
-  convertDateStringToComparable(dateString: string): number {
-    // Convert DD/MM/YYYY to YYYY-MM-DD for proper comparison
-    const [day, month, year] = dateString.split('/');
-    return new Date(`${year}-${month}-${day}`).getTime();
-  }
-
-  extractStartTime(timeSlot: string): number {
-    // Extract the start time (e.g., from "8.30 - 10.30" get 8.30)
-    const startTimeString = timeSlot.split('-')[0].trim();
-    // Convert "8.30" to minutes (8*60 + 30 = 510 minutes)
-    const [hours, minutes] = startTimeString.split('.');
-    return parseInt(hours) * 60 + parseInt(minutes || '0');
+  compareTime(timeA: string, timeB: string): number {
+    const [hoursA, minutesA] = timeA.split(':').map(Number);
+    const [hoursB, minutesB] = timeB.split(':').map(Number);
+    return hoursA * 60 + minutesA - (hoursB * 60 + minutesB);
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+      this.loadAppointments();
     }
   }
 
   getPageNumbers(): number[] {
     const pages: number[] = [];
-
-    // Show up to 5 page numbers centered around current page
     let startPage = Math.max(2, this.currentPage - 2);
     let endPage = Math.min(this.totalPages - 1, this.currentPage + 2);
 
-    // Adjust if we're near the beginning or end
     if (startPage <= 2) {
       endPage = Math.min(this.totalPages - 1, 5);
     }

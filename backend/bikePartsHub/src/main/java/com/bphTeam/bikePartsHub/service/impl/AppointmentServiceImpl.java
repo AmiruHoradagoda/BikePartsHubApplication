@@ -1,6 +1,7 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
 import com.bphTeam.bikePartsHub.dto.ServiceTypeDto;
+import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedAppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
@@ -11,12 +12,16 @@ import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
 import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -140,5 +145,31 @@ public class AppointmentServiceImpl implements AppointmentService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PaginatedAppointmentResponseDto getAllAppointmentDetails(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Appointment> appointmentsPage = appointmentRepository.findAll(pageable);
+
+        Set<AppointmentResponseDto> appointmentDtos = appointmentsPage.getContent().stream()
+                .map(appointment -> {
+                    AppointmentResponseDto dto = appointmentMapper.toAppointmentResponseDto(appointment);
+
+                    // Ensure serviceTypeDto is properly set
+                    if (appointment.getServiceType() != null) {
+                        ServiceTypeDto serviceTypeDto = appointmentMapper.toServiceTypeDto(appointment.getServiceType());
+                        dto.setServiceTypeDto(serviceTypeDto);
+                    }
+
+                    return dto;
+                })
+                .collect(Collectors.toSet());
+
+        PaginatedAppointmentResponseDto response = new PaginatedAppointmentResponseDto();
+        response.setAppointmentResponseDto(appointmentDtos);
+        response.setDataCount(appointmentsPage.getTotalElements());
+
+        return response;
     }
 }

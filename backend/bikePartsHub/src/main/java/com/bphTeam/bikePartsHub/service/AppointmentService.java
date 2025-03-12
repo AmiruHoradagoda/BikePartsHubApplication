@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.service;
 
+import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedAppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
@@ -17,4 +18,6 @@ public interface AppointmentService {
     List<String> getAvailableTimeSlots(LocalDate date, int duration);
 
     List<AppointmentResponseDto> getCustomerAppointments(Integer id);
+
+    PaginatedAppointmentResponseDto getAllAppointmentDetails(int page, int size);
 }
