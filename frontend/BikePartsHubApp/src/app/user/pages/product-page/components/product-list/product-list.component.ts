@@ -42,6 +42,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   } = {};
 
   productType: string = '';
+  role: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,9 @@ export class ProductListComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.role = localStorage.getItem('currentUser')
+      ? JSON.parse(localStorage.getItem('currentUser')!).role
+      : null;
     this.route.queryParamMap.subscribe((params) => {
       this.productType = params.get('category') || '';
     });

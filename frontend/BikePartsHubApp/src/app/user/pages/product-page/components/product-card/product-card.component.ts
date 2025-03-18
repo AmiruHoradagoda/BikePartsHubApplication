@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { CartService } from '../../../cart-page/cart.service';
 import { ProductGet } from '../../../../../core/models/interface/Product';
 
@@ -11,9 +9,9 @@ import { ProductGet } from '../../../../../core/models/interface/Product';
 })
 export class ProductCardComponent {
   @Input({ required: true }) product!: ProductGet;
+  @Input({ required: true }) role: string | undefined;
 
   @Output() productClicked = new EventEmitter<ProductGet>();
-
   @Output() addToCart = new EventEmitter<ProductGet>();
 
   constructor(private cartService: CartService) {}
@@ -23,14 +21,26 @@ export class ProductCardComponent {
   }
 
   onAddToCart() {
+    const price =
+      this.role === 'LOYAL_CUSTOMER' && this.product.discount > 0
+        ? this.calculateDiscountedPrice(
+            this.product.pricePerUnit,
+            this.product.discount
+          )
+        : this.product.pricePerUnit;
+
     const cartItem = {
       productId: this.product.productId,
       name: this.product.productName,
       description: this.product.itemDescription,
       quantity: 1, // default to 1 for each click
-      unitPrice: this.product.pricePerUnit,
+      unitPrice: price,
       imageUrl: this.product.imageUrl,
     };
     this.cartService.addToCart(cartItem);
+  }
+
+  calculateDiscountedPrice(price: number, discountPercentage: number): number {
+    return price - price * (discountPercentage / 100);
   }
 }

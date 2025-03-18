@@ -3,6 +3,7 @@
     @for ( product of filteredProducts; track product.productId) {
     <app-product-card
       [product]="product"
+      [role]="role"
       (productClicked)="selectProduct($event)"
     ></app-product-card>
     }
