@@ -56,19 +56,19 @@ export class AboutusPageComponent {
     {
       name: 'John Smith',
       position: 'CEO & Founder',
-      image: '/api/placeholder/400/400',
+      image: 'https://img.freepik.com/free-photo/experienced-businessman-standing-office-room-indian-content-office-employee-eyeglasses-smiling-posing-with-folded-hands-business-management-corporation-concept_74855-11681.jpg?t=st=1742222615~exp=1742226215~hmac=d1c52ca5d2f29fec1efe10d820ef6ca2aa99e710fafc37b5d20e20179400ef51&w=996',
       description: '20+ years of industry experience',
     },
     {
       name: 'Sarah Johnson',
       position: 'Technical Director',
-      image: '/api/placeholder/400/400',
+      image: 'https://img.freepik.com/free-photo/experienced-businessman-standing-office-room-indian-content-office-employee-eyeglasses-smiling-posing-with-folded-hands-business-management-corporation-concept_74855-11681.jpg?t=st=1742222615~exp=1742226215~hmac=d1c52ca5d2f29fec1efe10d820ef6ca2aa99e710fafc37b5d20e20179400ef51&w=996',
       description: 'Master technician with multiple certifications',
     },
     {
       name: 'Michael Chen',
       position: 'Operations Manager',
-      image: '/api/placeholder/400/400',
+      image: 'https://img.freepik.com/free-photo/experienced-businessman-standing-office-room-indian-content-office-employee-eyeglasses-smiling-posing-with-folded-hands-business-management-corporation-concept_74855-11681.jpg?t=st=1742222615~exp=1742226215~hmac=d1c52ca5d2f29fec1efe10d820ef6ca2aa99e710fafc37b5d20e20179400ef51&w=996',
       description: 'Expert in supply chain and logistics',
     },
   ];
