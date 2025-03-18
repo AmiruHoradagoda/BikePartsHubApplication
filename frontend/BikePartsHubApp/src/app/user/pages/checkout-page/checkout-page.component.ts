@@ -87,7 +87,7 @@ export class CheckoutPageComponent implements OnInit {
 
       try {
         const result = await this.checkoutService.saveOrder(orderData);
-        await this.cartService.clearCart();
+        this.cartService.clearCart();
         this.router.navigate(['/order-confirmation'], {
           state: { orderId: result.id },
         });
