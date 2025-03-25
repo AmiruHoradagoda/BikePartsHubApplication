@@ -11,6 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -33,4 +36,6 @@ public interface OrderRepo extends JpaRepository<Order, Long> {
     Page<Order> findAll(Pageable pageable);
 
     Page<Order> findByUser_UserId(Integer id, Pageable pageable);
+
+    List<Order> findByDateBetween(LocalDateTime startDateAsDate, LocalDateTime endDateAsDate);
 }

@@ -24,8 +24,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -198,6 +202,89 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
+    @Override
+    public OrderResponseWithDetailsDto getOrderById(Long id) {
+        // Retrieve the order by ID
+        Order order = orderRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Order with ID " + id + " not found."));
+
+        // Initialize a set to store the OrderDetailsDto
+        Set<OrderDetailsDto> orderDetailsDtos = new HashSet<>();
+
+        // Iterate through the order details
+        if (order.getOrderDetails() != null) {
+            for (OrderDetails orderDetail : order.getOrderDetails()) {
+                OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
+                        orderDetail.getOrderDetailId(),
+                        orderDetail.getProductName(),
+                        orderDetail.getQty(),
+                        orderDetail.getProduct().getImageUrl(),
+                        orderDetail.getAmount()
+                );
+                orderDetailsDtos.add(orderDetailsDto);
+            }
+        }
+
+        // Create and return the OrderResponseWithDetailsDto
+        return new OrderResponseWithDetailsDto(
+                order.getOrderId(),
+                order.getUser().getFirstName(),
+                order.getUser().getLastName(),
+                order.getUser().getEmail(),
+                shippingMapper.toShippingAddressDto(order.getShippingAddress()),
+                order.getDate(),
+                order.getStatus(),
+                order.getTotal(),
+                orderDetailsDtos
+        );
+    }
+
+    @Override
+    public List<OrderResponseWithDetailsDto> getMonthlyOrderReport(int year, int month) {
+        // Create start and end date for the month
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+        // Convert to LocalDateTime objects
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+
+        // Find orders within the date range
+        List<Order> orders = orderRepo.findByDateBetween(startDateTime, endDateTime);
+
+        // Rest of your code remains the same
+        return orders.stream().map(order -> {
+            // Initialize a set to store the OrderDetailsDto
+            Set<OrderDetailsDto> orderDetailsDtos = new HashSet<>();
+
+            // Iterate through the order details
+            if (order.getOrderDetails() != null) {
+                for (OrderDetails orderDetail : order.getOrderDetails()) {
+                    OrderDetailsDto orderDetailsDto = new OrderDetailsDto(
+                            orderDetail.getOrderDetailId(),
+                            orderDetail.getProductName(),
+                            orderDetail.getQty(),
+                            orderDetail.getProduct().getImageUrl(),
+                            orderDetail.getAmount()
+                    );
+                    orderDetailsDtos.add(orderDetailsDto);
+                }
+            }
+
+            // Create and return the OrderResponseWithDetailsDto
+            return new OrderResponseWithDetailsDto(
+                    order.getOrderId(),
+                    order.getUser().getFirstName(),
+                    order.getUser().getLastName(),
+                    order.getUser().getEmail(),
+                    shippingMapper.toShippingAddressDto(order.getShippingAddress()),
+                    order.getDate(),
+                    order.getStatus(),
+                    order.getTotal(),
+                    orderDetailsDtos
+            );
+        }).collect(Collectors.toList());
+    }
 }
 
 
