@@ -10,6 +10,8 @@ import { AdminOrderComponent } from './components/admin-order/admin-order.compon
 import { AdminCustomerViewComponent } from './components/admin-users/admin-customer-view/admin-customer-view.component';
 import { AdminSchedulesComponent } from './components/admin-schedules/admin-schedules.component';
 import { AdminMessagesComponent } from './components/admin-messages/admin-messages.component';
+import { AdminServicesComponent } from './components/admin-services/admin-services.component';
+import { ServiceFormComponent } from './components/admin-services/service-form/service-form.component';
 
 const routes: Routes = [
   {
@@ -60,6 +62,14 @@ const routes: Routes = [
       {
         path: 'messages',
         component: AdminMessagesComponent,
+      },
+      {
+        path: 'service',
+        component: AdminServicesComponent,
+      },
+      {
+        path: 'add-service',
+        component: ServiceFormComponent,
       },
     ],
   },

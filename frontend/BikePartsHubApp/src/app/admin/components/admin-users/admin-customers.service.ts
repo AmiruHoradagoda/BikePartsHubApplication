@@ -174,4 +174,14 @@ export class AdminCustomersService {
       }
     );
   }
+
+  changeCustomerRole(id: number, role: string): Observable<string> {
+    return this.http.put<string>(
+      `${this.apiUrl}/changeUserRole/${id}/${role}`,
+      {},
+      {
+        headers: this.adminAuthService.getAuthHeader(),
+      }
+    );
+  }
 }
