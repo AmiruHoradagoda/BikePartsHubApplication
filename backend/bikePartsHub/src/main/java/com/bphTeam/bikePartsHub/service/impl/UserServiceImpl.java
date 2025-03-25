@@ -6,6 +6,7 @@ import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfile
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponse;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.entity.Order;
+import com.bphTeam.bikePartsHub.exception.ResourceNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.OrderMapper;
 import com.bphTeam.bikePartsHub.mapper.UserMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
@@ -139,6 +140,19 @@ public class UserServiceImpl implements UserService {
         profileDto.setCompleted(completed);
 
         return profileDto;
+    }
+
+    @Override
+    public String changeUserRole(int userId,Role userRole) {
+        // Find user by ID
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+
+        // Change role
+        user.setRole(userRole);
+        userRepo.save(user);
+
+        return "User role updated successfully to " + userRole;
     }
 
 

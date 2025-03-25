@@ -13,4 +13,6 @@ public interface UserService {
     PaginatedUserResponseDto getAllCustomerDetails(String customerName, Role role, int page, int size);
 
     CustomerProfileDto getAllCustomerProfile(Integer id);
+
+    String changeUserRole(int userId,Role userRole);
 }
