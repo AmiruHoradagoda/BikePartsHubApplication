@@ -5,6 +5,8 @@ import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsD
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
+import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseDto;
+import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
 import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.service.UserService;
@@ -90,6 +92,31 @@ public class AdminController {
     ) {
         String message = orderService.changeOrderStatus(orderId, status);
         return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getOrderById/{id}")
+    public ResponseEntity<OrderResponseWithDetailsDto> getOrderById(@PathVariable Long id) {
+        OrderResponseWithDetailsDto orderResponse = orderService.getOrderById(id);
+        return ResponseEntity.ok(orderResponse);
+    }
+
+    @GetMapping("/getMonthlyOrderReport")
+    public ResponseEntity<List<OrderResponseWithDetailsDto>> getMonthlyOrderReport(
+            @RequestParam("year") int year,
+            @RequestParam("month") int month) {
+
+        List<OrderResponseWithDetailsDto> monthlyReport = orderService.getMonthlyOrderReport(year, month);
+        return ResponseEntity.ok(monthlyReport);
+    }
+
+    @PutMapping("/changeUserRole/{userId}/{role}")
+    public ResponseEntity<String> changeUserRole(
+            @PathVariable("userId") int userId,
+            @PathVariable("role") Role userRole) {
+
+        String message = userService.changeUserRole(userId, userRole);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 }
