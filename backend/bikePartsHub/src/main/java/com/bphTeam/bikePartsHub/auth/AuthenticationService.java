@@ -4,6 +4,7 @@ import com.bphTeam.bikePartsHub.config.security.JwtService;
 import com.bphTeam.bikePartsHub.token.Token;
 import com.bphTeam.bikePartsHub.token.TokenRepository;
 import com.bphTeam.bikePartsHub.token.TokenType;
+import com.bphTeam.bikePartsHub.user.Role;
 import com.bphTeam.bikePartsHub.user.User;
 import com.bphTeam.bikePartsHub.user.UserRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -127,6 +128,31 @@ public class AuthenticationService {
                         .build();
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
+        }
+    }
+
+    public void initializeUser() {
+        String adminEmail = "admin@example.com";
+        // Check if admin already exists
+        if (!repository.existsByEmail(adminEmail)) {
+            // Create admin user
+            var adminUser = User.builder()
+                    .firstName("Admin")
+                    .lastName("User")
+                    .email(adminEmail)
+                    .password(passwordEncoder.encode("admin@123"))
+                    .address("Admin Address")
+                    .phone("1234567890")
+                    .role(Role.ADMIN)
+                    .build();
+
+            // Save the admin user
+            repository.save(adminUser);
+
+            // Log admin creation
+            System.out.println("Admin user initialized with email: " + adminEmail);
+        } else {
+            System.out.println("Admin user already exists");
         }
     }
 }
