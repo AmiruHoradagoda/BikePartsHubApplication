@@ -1,0 +1,142 @@
+<!-- src/app/order-confirmation/order-confirmation.component.html -->
+
+<div class="min-h-screen py-12 bg-gray-50">
+  <div class="max-w-3xl px-4 mx-auto">
+    <!-- Success Icon -->
+    <div class="flex justify-center">
+      <div class="p-3 bg-green-100 rounded-full">
+        <svg
+          class="w-16 h-16 text-green-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          ></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="mt-6 text-center">
+      <h1 class="text-3xl font-bold text-gray-900">Order Confirmed!</h1>
+      <p class="mt-2 text-lg text-gray-600">
+        Thank you for your purchase. Your order has been received and is being
+        processed.
+      </p>
+    </div>
+
+    <!-- Order Details Card -->
+    <div class="mt-10 overflow-hidden bg-white rounded-lg shadow-lg">
+      <!-- Order Header -->
+      <div class="px-6 py-4 border-b border-gray-200 bg-blue-50">
+        <h2 class="text-xl font-semibold text-gray-800">Order Summary</h2>
+      </div>
+
+      <!-- Order Information -->
+      <div class="px-6 py-4">
+        <div class="space-y-4">
+          <!-- Order Number -->
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Order Number:</span>
+            <span class="font-semibold">{{ orderNumber }}</span>
+          </div>
+
+          <!-- Order Date -->
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Order Date:</span>
+            <span>{{ orderDate | date : "medium" }}</span>
+          </div>
+
+          <!-- Total Amount -->
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Total Amount:</span>
+            <span class="font-semibold text-blue-600">{{
+              orderTotal | currency : "RS:"
+            }}</span>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Payment Method:</span>
+            <span>Credit Card</span>
+          </div>
+
+          <!-- Estimated Delivery -->
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Estimated Delivery:</span>
+            <span>{{ estimatedDelivery | date : "mediumDate" }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-200"></div>
+
+      <!-- Shipping Notice -->
+      <div class="px-6 py-4 bg-yellow-50">
+        <div class="flex items-center">
+          <svg
+            class="w-5 h-5 mr-2 text-yellow-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <p class="text-sm text-yellow-700">
+            You will receive an email confirmation shortly with tracking
+            information.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col justify-center gap-4 mt-8 sm:flex-row">
+      <button
+        disabled
+        (click)="trackOrder()"
+        class="px-6 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        Track Order
+      </button>
+      <button
+        (click)="continueShopping()"
+        class="px-6 py-3 text-gray-800 transition-colors bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+      >
+        Continue Shopping
+      </button>
+    </div>
+
+    <!-- Support Information -->
+    <div class="mt-12 text-center">
+      <h3 class="text-lg font-semibold text-gray-900">Need Help?</h3>
+      <p class="mt-2 text-gray-600">
+        If you have any questions about your order, please contact our customer
+        support.
+      </p>
+      <p class="mt-1">
+        <a
+          href="mailto:support@yourbikeshop.com"
+          class="text-blue-600 hover:underline"
+        >
+          support&#64;yourbikeshop.com
+        </a>
+        <span class="mx-2">|</span>
+        <a href="tel:+94123456789" class="text-blue-600 hover:underline">
+          +94 12 345 6789
+        </a>
+      </p>
+    </div>
+  </div>
+</div>

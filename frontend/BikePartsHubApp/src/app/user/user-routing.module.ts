@@ -12,6 +12,7 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
 import { UserComponent } from './user.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { AboutusPageComponent } from './pages/aboutus-page/aboutus-page.component';
+import { OrderConfirmationComponent } from './pages/order-confirmation/order-confirmation.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
       {
         path: 'product-name/:id',
         component: ProductDetailsComponent,
+      },
+      {
+        path: 'order-confirmation',
+        component: OrderConfirmationComponent,
       },
     ],
   },

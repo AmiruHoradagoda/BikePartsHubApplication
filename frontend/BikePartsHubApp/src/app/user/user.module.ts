@@ -13,11 +13,9 @@ import { ToastModule } from 'primeng/toast';
 // Component imports
 import { AppointmentPageComponent } from './pages/appintment-page/appintment-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
-import { ProductDetailsComponent } from './pages/product-page/components/product-details/product-details.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { NavComponent } from './components/nav/nav.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { UserComponent } from './user.component';
 
@@ -28,19 +26,21 @@ import { CheckoutModule } from './pages/checkout-page/checkout.module';
 import { UserRoutingModule } from './user-routing.module';
 import { HomePageModule } from './pages/home-page/home-page.module';
 import { AboutusPageComponent } from './pages/aboutus-page/aboutus-page.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { OrderConfirmationComponent } from './pages/order-confirmation/order-confirmation.component';
 
 @NgModule({
   declarations: [
     UserComponent,
     FooterComponent,
     HeaderComponent,
-    NavComponent,
     SearchBarComponent,
     AppointmentPageComponent,
     CartPageComponent,
-    ProductDetailsComponent,
     UserDashboardComponent,
     AboutusPageComponent,
+    NotificationComponent,
+    OrderConfirmationComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +59,6 @@ import { AboutusPageComponent } from './pages/aboutus-page/aboutus-page.componen
     ToastModule,
   ],
   providers: [MessageService],
-  exports: [HeaderComponent, NavComponent, FooterComponent, UserComponent],
+  exports: [HeaderComponent, FooterComponent, UserComponent],
 })
 export class UserModule {}
