@@ -27,7 +27,7 @@
               {{category.description}}
             </p>
             <a
-              href="#"
+              [href]="category.navLink"
               class="inline-flex items-center font-medium text-blue-600 transition group-hover:text-blue-700">
               Browse Components
               <svg
@@ -89,7 +89,7 @@
     <!-- CTA Section -->
     <div class="mt-20 text-center">
       <a
-        href="#"
+        href="/products?category=PARTS"
         class="inline-block px-8 py-4 text-lg font-semibold text-white transition transform bg-blue-600 rounded-xl hover:bg-blue-700 hover:-translate-y-1 hover:shadow-lg">
         View All Categories
       </a>

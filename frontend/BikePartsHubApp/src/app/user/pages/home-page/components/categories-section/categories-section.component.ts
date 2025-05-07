@@ -5,6 +5,7 @@ interface Category {
   description: string;
   imageUrl: string;
   delay?: string;
+  navLink: string;
 }
 
 @Component({
@@ -20,6 +21,8 @@ export class CategoriesSectionComponent {
         'Chains, sprockets, drive belts, and transmission components',
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/bikepartshubapp.appspot.com/o/coil%20pack.jpeg?alt=media&token=f4613d61-64cf-4b23-ac25-02f22dbea17f',
+      delay: 'delay-100',
+      navLink: '/products?category=PARTS',
     },
     {
       title: 'Body Parts',
@@ -27,6 +30,7 @@ export class CategoriesSectionComponent {
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/bikepartshubapp.appspot.com/o/V3-left%20tank%20cover-black.jpg?alt=media&token=888c751c-2e1c-47ec-828a-00c83c7b8511',
       delay: 'delay-100',
+      navLink: '/products?category=BODY_PARTS',
     },
     {
       title: 'Engine Oil',
@@ -34,6 +38,7 @@ export class CategoriesSectionComponent {
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/bikepartshubapp.appspot.com/o/20w%2040%20castrol.jpeg?alt=media&token=3031c4a2-7ead-4951-9188-6edbee01e56a',
       delay: 'delay-200',
+      navLink: '/products?category=ENGINE_OIL',
     },
   ];
 
@@ -44,6 +49,7 @@ export class CategoriesSectionComponent {
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/bikepartshubapp.appspot.com/o/20w%2049%20motul.jpeg?alt=media&token=f2a8f155-8d1c-48f6-8d6f-2872a50714ee',
       delay: 'delay-300',
+      navLink: '/products?category=BRAKE_OIL',
     },
     {
       title: 'Lubricant Oil',
@@ -52,6 +58,7 @@ export class CategoriesSectionComponent {
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/bikepartshubapp.appspot.com/o/20w%2050%20servo.jpeg?alt=media&token=4d80efda-55df-47f8-96f7-377e1a2b1768',
       delay: 'delay-400',
+      navLink: '/products?category=LUBRICANT',
     },
   ];
 }

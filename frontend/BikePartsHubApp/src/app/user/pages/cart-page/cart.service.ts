@@ -1,67 +1,122 @@
+// src/app/cart/cart.service.ts
+
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CartItem } from '../../../core/models/interface/CartItem';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private cartItems: CartItem[] = [];
-  private cartItemsSubject = new BehaviorSubject<CartItem[]>(this.loadCartItemsFromStorage());
-
-  cartItems$ = this.cartItemsSubject.asObservable();
+  private cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
+  public cartItems$: Observable<CartItem[]> =
+    this.cartItemsSubject.asObservable();
 
   constructor() {
-    this.cartItems = this.loadCartItemsFromStorage();
+    // Load cart items from storage on service initialization
+    this.loadCartFromStorage();
+  }
+
+  // Check if localStorage is available
+  private isLocalStorageAvailable(): boolean {
+    try {
+      const testKey = '__test__';
+      window.localStorage.setItem(testKey, testKey);
+      window.localStorage.removeItem(testKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private loadCartFromStorage(): void {
+    if (!this.isLocalStorageAvailable()) {
+      console.warn('localStorage is not available in this environment');
+      return;
+    }
+
+    try {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        this.cartItemsSubject.next(JSON.parse(savedCart));
+      }
+    } catch (error) {
+      console.error('Error loading cart from storage:', error);
+    }
+  }
+
+  private saveCartToStorage(cart: CartItem[]): void {
+    if (!this.isLocalStorageAvailable()) {
+      return;
+    }
+
+    try {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('Error saving cart to storage:', error);
+    }
+  }
+
+  private updateCart(cart: CartItem[]): void {
+    this.cartItemsSubject.next(cart);
+    this.saveCartToStorage(cart);
+  }
+
+  getCartItems(): CartItem[] {
+    return this.cartItemsSubject.value;
   }
 
   addToCart(item: CartItem): void {
-    const existingItem = this.cartItems.find((i) => i.productId === item.productId);
-    if (existingItem) {
-      existingItem.quantity += item.quantity; // Update quantity if item already exists
+    const currentCart = this.getCartItems();
+    const existingItemIndex = currentCart.findIndex(
+      (cartItem) => cartItem.productId === item.productId
+    );
+
+    if (existingItemIndex !== -1) {
+      // Item already exists in cart, update quantity
+      const updatedCart = [...currentCart];
+      const newQuantity =
+        updatedCart[existingItemIndex].quantity + item.quantity;
+      updatedCart[existingItemIndex].quantity = newQuantity;
+      this.updateCart(updatedCart);
     } else {
-      this.cartItems.push(item); // Add new item to cart
+      // Add new item to cart
+      this.updateCart([...currentCart, item]);
     }
-    this.cartItemsSubject.next(this.cartItems);
-    this.saveCartItemsToStorage(); // Save to localStorage
   }
 
-  updateCartItemQuantity(item: CartItem): void {
-    const existingItem = this.cartItems.find((i) => i.productId === item.productId);
-    if (existingItem) {
-      existingItem.quantity = item.quantity; // Update the quantity
-    }
-    this.cartItemsSubject.next(this.cartItems);
-    this.saveCartItemsToStorage(); // Persist changes to localStorage
+  updateCartItemQuantity(updatedItem: CartItem): void {
+    const currentCart = this.getCartItems();
+    const updatedCart = currentCart.map((item) =>
+      item.productId === updatedItem.productId
+        ? { ...item, quantity: updatedItem.quantity }
+        : item
+    );
+    this.updateCart(updatedCart);
   }
 
   removeFromCart(productId: number): void {
-    this.cartItems = this.cartItems.filter((item) => item.productId !== productId);
-    this.cartItemsSubject.next(this.cartItems);
-    this.saveCartItemsToStorage(); // Save to localStorage
+    const updatedCart = this.getCartItems().filter(
+      (item) => item.productId !== productId
+    );
+    this.updateCart(updatedCart);
   }
 
   clearCart(): void {
-    this.cartItems = [];
-    this.cartItemsSubject.next(this.cartItems);
-    this.saveCartItemsToStorage(); // Save to localStorage
+    this.updateCart([]);
   }
 
   getTotalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + item.unitPrice * item.quantity, 0);
+    return this.getCartItems().reduce(
+      (total, item) => total + item.unitPrice * item.quantity,
+      0
+    );
   }
 
-  private saveCartItemsToStorage(): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
-    }
-  }
-
-  private loadCartItemsFromStorage(): CartItem[] {
-    if (typeof localStorage !== 'undefined') {
-      const storedItems = localStorage.getItem('cartItems');
-      return storedItems ? JSON.parse(storedItems) : [];
-    }
-    return [];
+  getCartItemCount(): number {
+    return this.getCartItems().reduce(
+      (count, item) => count + item.quantity,
+      0
+    );
   }
 }

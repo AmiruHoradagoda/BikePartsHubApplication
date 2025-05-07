@@ -1,13 +1,21 @@
+// src/app/user/pages/product-page/components/product-list/product-list.component.ts
+
 import {
   Component,
   Input,
   OnInit,
   OnChanges,
   SimpleChanges,
+  PLATFORM_ID,
+  Inject,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import { ProductListService } from './product-list.service';
 import { ProductGet } from '../../../../../core/models/interface/Product';
+import { CartItem } from '../../../../../core/models/interface/CartItem';
+import { NotificationService } from '../../../../components/notification/notification.service';
+import { CartService } from '../../../cart-page/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -42,17 +50,33 @@ export class ProductListComponent implements OnInit, OnChanges {
   } = {};
 
   productType: string = '';
-  role: string | undefined;
+  role: string | undefined | null = null;
+  isBrowser: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private productListService: ProductListService
-  ) {}
+    private router: Router,
+    private productListService: ProductListService,
+    private cartService: CartService,
+    private notificationService: NotificationService,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
-    this.role = localStorage.getItem('currentUser')
-      ? JSON.parse(localStorage.getItem('currentUser')!).role
-      : null;
+    // Only attempt to access localStorage in browser environment
+    if (this.isBrowser) {
+      try {
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+          this.role = JSON.parse(currentUser).role;
+        }
+      } catch (error) {
+        console.warn('Error accessing localStorage:', error);
+      }
+    }
+
     this.route.queryParamMap.subscribe((params) => {
       this.productType = params.get('category') || '';
     });
@@ -217,6 +241,7 @@ export class ProductListComponent implements OnInit, OnChanges {
       this.loadProducts();
     }
   }
+
   getPageRange(): (number | string)[] {
     const range: (number | string)[] = [];
     const maxVisiblePages = 5; // Adjust this number to show more or fewer page numbers
@@ -257,6 +282,7 @@ export class ProductListComponent implements OnInit, OnChanges {
 
     return range;
   }
+
   goToFirstPage(): void {
     this.changePage(1);
   }
@@ -269,12 +295,45 @@ export class ProductListComponent implements OnInit, OnChanges {
     return product.productId;
   }
 
-  // New methods for handling product selection and modal
+  // Methods for handling product selection and modal
   selectProduct(product: ProductGet): void {
     this.selectedProduct = product;
   }
 
   closeProductDetails(): void {
     this.selectedProduct = null;
+  }
+
+  // Handle Add to Cart event from ProductDetailsComponent
+  handleAddToCart(event: { product: ProductGet; quantity: number }): void {
+    const { product, quantity } = event;
+
+    const cartItem: CartItem = {
+      productId: product.productId,
+      name: product.productName,
+      description: product.itemDescription || '',
+      imageUrl: product.imageUrl,
+      unitPrice: product.pricePerUnit,
+      quantity: quantity,
+    };
+
+    this.cartService.addToCart(cartItem);
+
+    // Show success message
+    this.notificationService.showSuccess(
+      `${quantity} ${product.productName} added to cart`
+    );
+
+    // Close the product details modal
+    this.closeProductDetails();
+  }
+
+  // Handle Buy Now event from ProductDetailsComponent
+  handleBuyNow(event: { product: ProductGet; quantity: number }): void {
+    // First add to cart
+    this.handleAddToCart(event);
+
+    // Then navigate to checkout
+    this.router.navigate(['/cart']);
   }
 }

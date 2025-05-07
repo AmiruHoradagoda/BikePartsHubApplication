@@ -5,6 +5,7 @@ import { ProductPageComponent } from './product-page.component';
 import { FormsModule } from '@angular/forms';
 import { ProductFilterSidebarComponent } from './components/product-filter-sidebar/product-filter-sidebar.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 
 
@@ -14,6 +15,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
     ProductPageComponent,
     ProductFilterSidebarComponent,
     ProductCardComponent,
+    ProductDetailsComponent,
   ],
   imports: [FormsModule, CommonModule],
 })

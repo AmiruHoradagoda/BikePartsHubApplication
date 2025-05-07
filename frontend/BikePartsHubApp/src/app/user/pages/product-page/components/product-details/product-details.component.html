@@ -1,173 +1,183 @@
-<!-- Product Details Component -->
-<div class="min-h-screen py-8 bg-gray-50">
-  <div class="container px-4 mx-auto">
-    <!-- Breadcrumb -->
-    <div class="mb-6">
-      <nav class="flex" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-2">
-          <li><a href="#" class="text-blue-600 hover:text-blue-800">Home</a></li>
-          <li>
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-              </svg>
-              <a href="#" class="ml-2 text-blue-600 hover:text-blue-800">Engine Oil</a>
-            </div>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-              </svg>
-              <span class="ml-2 text-gray-500">MOTUL 10W40</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
-    </div>
+<!-- Improved Product Details Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto modal-backdrop" *ngIf="visible">
+  <!-- Blurred Background -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" (click)="close()"></div>
 
-    <div class="p-8 bg-white border border-gray-200 shadow-lg rounded-xl">
-      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
-        <!-- Product Image Section -->
-        <div class="relative overflow-hidden bg-gray-100 rounded-xl aspect-square">
-          <!-- Loading Skeleton -->
-          <div class="absolute inset-0 bg-gray-200 animate-pulse" [class.hidden]="!isLoading"></div>
-          
-          <!-- Main Image -->
-          <img
-            [src]="product.imageUrl"
-            [alt]="product.name"
-            class="object-contain w-full h-full transition duration-300 hover:scale-105"
-            (load)="isLoading = false"
-            [class.hidden]="isLoading"
-          />
+  <!-- Product Details Content -->
+  <div class="relative z-10 w-11/12 max-w-5xl my-8 bg-white shadow-2xl rounded-xl">
+    <!-- Close Button -->
+    <button
+      (click)="close()"
+      class="absolute p-2 text-gray-500 transition-colors rounded-full hover:text-gray-700 hover:bg-gray-100 top-4 right-4"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
 
-          <!-- Thumbnail Navigation -->
-          <div class="absolute transform -translate-x-1/2 bottom-4 left-1/2">
-            <div class="flex space-x-2">
-              <button 
-                *ngFor="let image of product.images; let i = index"
-                class="w-3 h-3 rounded-full"
-                [class.bg-blue-600]="currentImageIndex === i"
-                [class.bg-gray-300]="currentImageIndex !== i"
-                (click)="changeImage(i)">
-              </button>
+    <!-- Main Content with Scroll for Overflow -->
+    <div class="max-h-[85vh] overflow-y-auto">
+      <div class="p-6">
+        <!-- Product Content Grid -->
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <!-- Product Image (Left Column) -->
+          <div class="md:col-span-1">
+            <div class="overflow-hidden rounded-lg">
+              <img
+                [src]="product.imageUrl"
+                [alt]="product.productName"
+                class="object-cover w-full h-auto transition-transform duration-300 hover:scale-105"
+              />
             </div>
           </div>
-        </div>
 
-        <!-- Product Info Section -->
-        <div class="flex flex-col">
-          <!-- Title and Rating -->
-          <div class="pb-6 border-b border-gray-200">
-            <h1 class="mb-4 text-3xl font-bold text-gray-800">
-              MOTUL 10W40 Engine Oil - 1200 Litre
+          <!-- Product Details (Middle Column) -->
+          <div class="md:col-span-1">
+            <!-- Title -->
+            <h1 class="text-2xl font-bold text-gray-900 md:text-3xl">
+              {{ product.productName }}
             </h1>
 
-            <div class="flex items-center gap-6">
+            <!-- Rating and Reviews -->
+            <div class="flex items-center mt-3">
+              <!-- Star Ratings -->
+              <div class="flex">
+                <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                  <span *ngIf="product.averageRating >= star" class="text-yellow-500">★</span>
+                  <span *ngIf="product.averageRating >= star - 0.5 && product.averageRating < star" class="text-yellow-500">☆</span>
+                  <span *ngIf="product.averageRating < star - 0.5" class="text-gray-300">★</span>
+                </ng-container>
+              </div>
+              
+              <!-- Rating Number -->
+              <span class="ml-2 text-sm font-medium text-gray-700">
+                {{ product.averageRating.toFixed(1) }}
+              </span>
+              
+              <span class="mx-2 text-gray-300">|</span>
+              
+              <!-- Reviews Count -->
+              <span class="text-sm text-gray-500">
+                167909 reviews
+              </span>
+              
+              <span class="mx-2 text-gray-300">|</span>
+              
+              <!-- Sold Count -->
+              <span class="text-sm text-gray-500">
+                167909 sold
+              </span>
+            </div>
+
+            <!-- Product Details -->
+            <div class="mt-6 space-y-4">
+              <!-- Stock Status -->
               <div class="flex items-center">
-                <div class="flex text-yellow-400">
-                  <i class="text-lg fas fa-star"></i>
-                  <i class="text-lg fas fa-star"></i>
-                  <i class="text-lg fas fa-star"></i>
-                  <i class="text-lg fas fa-star"></i>
-                  <i class="text-lg fas fa-star-half-alt"></i>
-                </div>
-                <span class="ml-2 text-gray-600">(167,909)</span>
+                <span class="text-sm text-gray-500">Availability:</span>
+                <span *ngIf="product.quantity > 0" class="ml-2 px-2 py-0.5 text-sm font-medium text-green-700 bg-green-100 rounded-full">
+                  In Stock ({{ product.quantity }})
+                </span>
+                <span *ngIf="product.quantity <= 0" class="ml-2 px-2 py-0.5 text-sm font-medium text-red-700 bg-red-100 rounded-full">
+                  Out of Stock
+                </span>
               </div>
-              <div class="flex items-center text-gray-600">
-                <i class="mr-2 text-green-500 fas fa-check-circle"></i>
-                167,909 sold
+              
+              <!-- Manufacturer -->
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500">Manufacturer:</span>
+                <span class="ml-2 text-sm font-medium text-gray-900">{{ product.manufacture }}</span>
+              </div>
+              
+              <!-- Material -->
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500">Material:</span>
+                <span class="ml-2 text-sm font-medium text-gray-900">{{ product.material }}</span>
+              </div>
+              
+              <!-- Category -->
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500">Category:</span>
+                <span class="ml-2 text-sm font-medium text-gray-900">{{ product.category }}</span>
               </div>
             </div>
           </div>
 
-          <!-- Price Section -->
-          <div class="py-6 border-b border-gray-200">
-            <div class="flex items-baseline">
-              <span class="text-sm text-gray-500">Price:</span>
-              <span class="ml-4 text-3xl font-bold text-blue-600">Rs.450,000/=</span>
-            </div>
-            <p class="mt-2 text-sm text-gray-500">Price per Can includes VAT.</p>
-          </div>
-
-          <!-- Quantity Section -->
-          <div class="py-6 border-b border-gray-200">
-            <div class="flex items-center">
-              <span class="text-sm text-gray-500">Quantity:</span>
-              <div class="flex items-center ml-4 space-x-2">
-                <button class="px-3 py-1 text-lg border rounded-lg hover:bg-gray-100">-</button>
-                <input type="number" class="w-16 px-2 py-1 text-center border rounded-lg" value="1" min="1">
-                <button class="px-3 py-1 text-lg border rounded-lg hover:bg-gray-100">+</button>
+          <!-- Purchase Section (Right Column) -->
+          <div class="md:col-span-1">
+            <div class="p-6 border rounded-xl bg-gray-50">
+              <!-- Price -->
+              <div class="text-3xl font-bold text-blue-600">
+                {{ product.pricePerUnit | currency : "RS: " }}
               </div>
-              <span class="ml-4 text-sm text-gray-500">178 items available</span>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex gap-4 mt-6">
-            <button class="flex-1 px-6 py-3 text-white transition-all bg-blue-600 rounded-lg hover:bg-blue-700 hover:shadow-lg">
-              <i class="mr-2 fas fa-shopping-cart"></i>
-              Add to Cart
-            </button>
-            <button class="flex-1 px-6 py-3 text-white transition-all bg-orange-500 rounded-lg hover:bg-orange-600 hover:shadow-lg">
-              Buy Now
-            </button>
-          </div>
-
-          <!-- Product Details -->
-          <div class="p-6 mt-6 bg-gray-50 rounded-xl">
-            <h2 class="mb-4 text-lg font-semibold text-gray-800">Product Details</h2>
-            <div class="grid grid-cols-2 gap-4 text-sm">
-              <div class="flex flex-col space-y-2">
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Manufacturer</span>
-                  <span class="font-medium">MOTUL</span>
+              
+              <!-- Divider -->
+              <div class="my-4 border-t border-gray-200"></div>
+              
+              <!-- Quantity Selector -->
+              <div class="mt-4">
+                <label class="block mb-2 text-sm font-medium text-gray-700">Quantity</label>
+                <div class="flex items-center">
+                  <button 
+                    (click)="decreaseQuantity()" 
+                    class="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors border rounded-l-lg hover:bg-gray-100"
+                    [disabled]="selectedQuantity <= 1"
+                    [class.opacity-50]="selectedQuantity <= 1"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                    </svg>
+                  </button>
+                  
+                  <div class="flex items-center justify-center w-16 h-10 text-center border-t border-b">
+                    {{ selectedQuantity }}
+                  </div>
+                  
+                  <button 
+                    (click)="increaseQuantity()" 
+                    class="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors border rounded-r-lg hover:bg-gray-100"
+                    [disabled]="product.quantity <= selectedQuantity"
+                    [class.opacity-50]="product.quantity <= selectedQuantity"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </button>
                 </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Material</span>
-                  <span class="font-medium">Synthetic</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Category</span>
-                  <span class="font-medium">10W40</span>
-                </div>
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="grid grid-cols-1 gap-3 mt-6">
+                <button
+                  (click)="addToCart()"
+                  [disabled]="product.quantity <= 0"
+                  class="flex items-center justify-center w-full px-4 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  Add to Cart
+                </button>
+                
+                <button
+                  (click)="buyNow()"
+                  [disabled]="product.quantity <= 0"
+                  class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-orange-500 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Buy Now
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Description Section -->
-      <div class="mt-12 border-t border-gray-200">
-        <div class="grid grid-cols-1 gap-8 pt-8 lg:grid-cols-3">
-          <div class="lg:col-span-2">
-            <h2 class="mb-6 text-2xl font-bold text-gray-800">Product Description</h2>
-            <div class="prose max-w-none">
-              <p class="text-gray-600">
-                Motor oil, engine oil, or engine lubricant is any one of various substances used for the lubrication of internal combustion engines. They typically consist of base oils enhanced with various additives, particularly antiwear additives, detergents, dispersants, and, for multi-grade oils, viscosity index improvers.
-              </p>
-              <!-- Add more description content here -->
-            </div>
-          </div>
-          
-          <!-- Specifications/Features -->
-          <div class="p-6 bg-gray-50 rounded-xl">
-            <h3 class="mb-4 text-lg font-semibold text-gray-800">Key Features</h3>
-            <ul class="space-y-3">
-              <li class="flex items-start">
-                <i class="mt-1 mr-3 text-blue-600 fas fa-check"></i>
-                <span class="text-gray-600">Superior engine protection</span>
-              </li>
-              <li class="flex items-start">
-                <i class="mt-1 mr-3 text-blue-600 fas fa-check"></i>
-                <span class="text-gray-600">Extended oil change intervals</span>
-              </li>
-              <li class="flex items-start">
-                <i class="mt-1 mr-3 text-blue-600 fas fa-check"></i>
-                <span class="text-gray-600">Excellent high temperature stability</span>
-              </li>
-            </ul>
+        <!-- Product Description Section -->
+        <div class="pt-6 mt-10 border-t border-gray-200">
+          <h2 class="text-xl font-bold text-gray-900">Product Description</h2>
+          <div class="mt-4 prose text-gray-700 max-w-none">
+            <p>{{ product.itemDescription }}</p>
           </div>
         </div>
       </div>
