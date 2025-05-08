@@ -1,0 +1,61 @@
+<!-- hero-section.component.html -->
+<section 
+  class="relative flex items-center min-h-screen overflow-hidden"
+  [style.background-image]="'url(https://4kwallpapers.com/images/walls/thumbs_3t/3289.jpg)'"
+  style="background-size: cover; background-position: center;"
+>
+  <!-- Dark Overlay -->
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+  
+  <!-- Animated Motorcycle Parts -->
+  <div 
+    [@slideIn]="'in'"
+    class="absolute right-0 transform -translate-y-1/2 top-1/2 opacity-20"
+  >
+    <img 
+      src="assets/images/motorcycle-parts.png" 
+      alt="Motorcycle Parts" 
+      class="object-contain h-auto w-96 rotate-12"
+    />
+  </div>
+
+  <!-- Content Container -->
+  <div class="container relative z-10 px-4 mx-auto">
+    <div class="max-w-xl space-y-6">
+      <h1 
+        [@fadeInUp]="'in'"
+        class="mb-4 text-5xl font-bold tracking-tight text-white"
+      >
+        Premium Motorcycle Parts & Expert Service
+      </h1>
+      
+      <p 
+        [@fadeInUp]="'in'"
+        class="mb-8 text-xl leading-relaxed text-gray-200"
+      >
+        Upgrade your ride with top-quality components and professional 
+        maintenance for all major motorcycle brands.
+      </p>
+      
+      <div 
+        [@fadeInUp]="'in'"
+        class="flex space-x-4"
+      >
+        <a 
+          href="#parts"
+          class="flex items-center gap-2 px-6 py-3 font-semibold text-white transition transform bg-blue-600 rounded-lg hover:bg-blue-700 hover:-translate-y-1 group"
+        >
+          <i class="fas fa-shopping-cart group-hover:animate-bounce"></i>
+          Shop Parts
+        </a>
+        <a 
+          href="#services"
+          class="flex items-center gap-2 px-6 py-3 font-semibold text-blue-600 transition transform bg-white rounded-lg hover:bg-gray-100 hover:-translate-y-1 group"
+        >
+          <i class="transition-transform fas fa-wrench group-hover:rotate-45"></i>
+          Book Service
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,259 @@
+<!-- product-filter-sidebar.component.html -->
+<div class="shadow-xl bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl">
+  <!-- Header -->
+  <div class="p-4 border-b border-blue-500/30 rounded-t-xl bg-blue-700/50">
+    <h2 class="text-xl font-bold text-white">Filters</h2>
+  </div>
+
+  <div class="p-6">
+    <!-- Active Filters Display -->
+    <div class="mb-6" *ngIf="hasActiveFilters()">
+      <h3 class="mb-2 text-sm font-medium text-blue-100">Active Filters:</h3>
+      <div class="flex flex-wrap gap-2">
+        <div 
+          *ngFor="let filter of getActiveFilters()"
+          class="inline-flex items-center px-3 py-1 text-sm text-white rounded-full bg-white/10 backdrop-blur-sm"
+        >
+          <span>{{filter.name}}: {{filter.value}}</span>
+          <button 
+            (click)="removeFilter(filter.key)"
+            class="ml-2 hover:text-blue-200"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manufacturer -->
+    @if(productType == 'Parts' || productType == 'Body Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Bike Manufacturer</h3>
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="bikeManufacture"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Bike Manufacturer</option>
+        @for (manufactur of bikeManufactures; track $index) {
+          <option class="text-gray-800">{{ manufactur }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Type -->
+    @if(productType == 'Parts' || productType == 'Body Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Bike Type</h3>
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="bikeType"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Bike Type</option>
+        @for (bikeType of bikeTypes; track $index) {
+          <option class="text-gray-800">{{ bikeType }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Model -->
+    @if(productType == 'Body Parts' || productType == 'Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Bike Model</h3>
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="bikeModel"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Bike Model</option>
+        @for (bikeModel of bikeModels; track $index) {
+          <option class="text-gray-800">{{ bikeModel }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Version -->
+    @if(productType == 'Body Parts' || productType == 'Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Version</h3>
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="bikeVersion"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Bike Version</option>
+        @for (bikeVersion of bikeVersions; track $index) {
+          <option class="text-gray-800">{{ bikeVersion }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Category -->
+    @if(productType == 'Body Parts' || productType == 'Engine Oil' || productType == 'Brake Oil' || productType == 'Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Category</h3>
+      @if(productType == 'Body Parts'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="bodyPartsCategorie"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Category</option>
+        @for (bodyPartsCategory of bodyPartsCategories; track $index) {
+          <option class="text-gray-800">{{ bodyPartsCategory }}</option>
+        }
+      </select>
+      }
+      @if(productType == 'Engine Oil'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="engineOilCategorie"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Category</option>
+        @for (engineOilCategory of engineOilCategories; track $index) {
+          <option class="text-gray-800">{{ engineOilCategory }}</option>
+        }
+      </select>
+      }
+      @if(productType == 'Brake Oil'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="brakeOilCategorie"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Category</option>
+        @for (brakeOilCategory of brakeOilCategories; track $index) {
+          <option class="text-gray-800">{{ brakeOilCategory }}</option>
+        }
+      </select>
+      }
+      @if(productType == 'Parts'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="partCategorie"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Category</option>
+        @for (partCategory of partCategories; track $index) {
+          <option class="text-gray-800">{{ partCategory }}</option>
+        }
+      </select>
+      }
+    </div>
+    }
+
+    <!-- Brand -->
+    @if(productType == 'Engine Oil' || productType == 'Brake Oil' || productType == 'Lubricants' || productType == 'Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Brand</h3>
+      @if(productType == 'Engine Oil'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="engineOilBrand"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Brand</option>
+        @for (engineOilBrand of engineOilBrands; track $index) {
+          <option class="text-gray-800">{{ engineOilBrand }}</option>
+        }
+      </select>
+      }
+      @if(productType == 'Brake Oil'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="brakeOilBrand"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Brand</option>
+        @for (brakeOilBrand of brakeOilBrands; track $index) {
+          <option class="text-gray-800">{{ brakeOilBrand }}</option>
+        }
+      </select>
+      }
+      @if(productType == 'Lubricants'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="lubricantBrand"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Brand</option>
+        @for (lubricantBrand of lubricantBrands; track $index) {
+          <option class="text-gray-800">{{ lubricantBrand }}</option>
+        }
+      </select>
+      }
+      @if(productType == 'Parts'){
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="partBrand"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Brand</option>
+        @for (partBrand of partBrands; track $index) {
+          <option class="text-gray-800">{{ partBrand }}</option>
+        }
+      </select>
+      }
+    </div>
+    }
+
+    <!-- Color -->
+    @if(productType == 'Body Parts'){
+    <div class="mb-6 filter-group">
+      <h3 class="mb-3 text-lg font-semibold text-white">Color</h3>
+      <select 
+       class="w-full px-3 py-2.5 bg-white/10 border border-blue-400/30 rounded-lg text-white 
+       appearance-none focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent
+       backdrop-blur-sm transition-all custom-select"
+        [(ngModel)]="bodyPartsColor"
+      >
+        <option value="" disabled selected class="text-gray-800">Select a Color</option>
+        @for (bodyPartsColor of bodyPartsColors; track $index) {
+          <option class="text-gray-800">{{ bodyPartsColor }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Action Buttons -->
+    <div class="mt-8 space-y-3">
+      <button
+        (click)="applyFilters()"
+        class="flex items-center justify-center w-full gap-2 px-6 py-3 font-semibold text-blue-600 transition-all bg-white rounded-lg shadow hover:bg-blue-50 hover:shadow-lg"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+        </svg>
+        Apply Filters
+      </button>
+
+      <button
+        (click)="clearFilters()"
+        class="flex items-center justify-center w-full gap-2 px-6 py-3 font-semibold text-white transition-all rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-sm"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        Clear Filters
+      </button>
+    </div>
+  </div>
+</div>

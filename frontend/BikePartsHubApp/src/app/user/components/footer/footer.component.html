@@ -1,0 +1,111 @@
+<footer class="w-full py-12 mt-auto text-white bg-gradient-to-b from-zinc-800 to-zinc-900">
+  <div class="container px-4 mx-auto">
+    <!-- Main Footer Content -->
+    <div class="grid grid-cols-1 gap-12 mb-12 sm:grid-cols-2 md:grid-cols-4">
+      <!-- Brand Section -->
+      <div class="text-center sm:text-left">
+        <div class="flex flex-col items-center sm:items-start">
+          <div class="w-24 h-24 mb-4">
+            <img
+              src="/assets/icon.png"
+              alt="CycleTech Logo"
+              class="object-contain w-full h-full transition-transform hover:scale-105"
+            />
+          </div>
+          <p class="mb-4 text-zinc-400">Your one-stop shop for premium motorcycle parts</p>
+          <!-- Social Media Icons -->
+          <div class="flex gap-4 mt-4">
+            <a *ngFor="let social of socialLinks"
+               [href]="social.link"
+               [attr.aria-label]="social.label"
+               class="p-2 transition-colors rounded-full hover:bg-blue-600 bg-zinc-700">
+              <i [class]="social.icon"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Discovery Section -->
+      <div class="text-center sm:text-left">
+        <h3 class="mb-6 text-lg font-bold text-blue-400 uppercase">Discovery</h3>
+        <ul class="space-y-3">
+          <li *ngFor="let item of discoveryLinks">
+            <a [routerLink]="item.link" 
+               class="flex items-center justify-center gap-2 transition-colors sm:justify-start group">
+              <i class="text-blue-400 transition-transform fas fa-chevron-right group-hover:translate-x-2"></i>
+              <span class="text-zinc-400 group-hover:text-white">{{item.label}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- About Section -->
+      <div class="text-center sm:text-left">
+        <h3 class="mb-6 text-lg font-bold text-blue-400 uppercase">About</h3>
+        <ul class="space-y-3">
+          <li *ngFor="let item of aboutLinks">
+            <a [routerLink]="item.link" 
+               class="flex items-center justify-center gap-2 transition-colors sm:justify-start group">
+              <i class="text-blue-400 transition-transform fas fa-chevron-right group-hover:translate-x-2"></i>
+              <span class="text-zinc-400 group-hover:text-white">{{item.label}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="text-center sm:text-left">
+        <h3 class="mb-6 text-lg font-bold text-blue-400 uppercase">Contact</h3>
+        <ul class="space-y-3">
+          <li class="flex items-center justify-center gap-3 sm:justify-start">
+            <i class="text-blue-400 fas fa-map-marker-alt"></i>
+            <span class="text-zinc-400">Yamaha Chandima Enterprises, Puttalam Road, Nikaweratiya</span>
+          </li>
+          <li class="flex items-center justify-center gap-3 sm:justify-start">
+            <i class="text-blue-400 fas fa-phone"></i>
+            <span class="text-zinc-400">+94 71 102 5555</span>
+          </li>
+          <li class="flex items-center justify-center gap-3 sm:justify-start">
+            <i class="text-blue-400 fas fa-envelope"></i>
+            <span class="text-zinc-400">Sandamal01&#64;gmail.com</span>
+          </li>
+          <li class="flex items-center justify-center gap-3 sm:justify-start">
+            <i class="text-blue-400 fas fa-clock"></i>
+            <span class="text-zinc-400">
+              Mon - Fri: 9:00 AM - 6:00 PM<br>
+              Sat: 10:00 AM - 5:00 PM<br>
+              Sun: Closed
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 mt-8 text-center border-t border-zinc-700/50">
+      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <p class="text-zinc-400">
+          &copy; {{currentYear}} CycleTech. All Rights Reserved
+        </p>
+        <div class="flex items-center gap-6">
+          <a routerLink="/privacy" class="text-zinc-400 hover:text-white">Privacy Policy</a>
+          <span class="text-zinc-600">|</span>
+          <a routerLink="/terms" class="text-zinc-400 hover:text-white">Terms & Conditions</a>
+          <span class="text-zinc-600">|</span>
+          <a routerLink="/sitemap" class="text-zinc-400 hover:text-white">Sitemap</a>
+        </div>
+        <p class="flex items-center gap-2 text-zinc-400">
+          Designed with <i class="text-red-500 animate-pulse fas fa-heart"></i> by CycleTech team
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button 
+    (click)="scrollToTop()"
+    class="fixed p-3 text-white transition-all bg-blue-600 rounded-full bottom-8 right-8 hover:bg-blue-700 hover:shadow-lg group"
+  >
+    <i class="transition-transform fas fa-arrow-up group-hover:-translate-y-1"></i>
+  </button>
+</footer>

@@ -1,0 +1,74 @@
+.product-card {
+  position: relative;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.sliding-left {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  
+  &.sliding-right {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  
+  &.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.product-grid {
+  position: relative;
+  min-height: 500px; /* Adjust based on your card height */
+}
+
+// Navigation buttons
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  &.prev {
+    left: -1rem;
+  }
+  
+  &.next {
+    right: -1rem;
+  }
+}
+
+// Fade in animation
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation delays
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }

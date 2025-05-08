@@ -1,0 +1,360 @@
+<!-- src/app/user/pages/checkout-page/checkout-page.component.html -->
+
+<div class="min-h-screen py-8 bg-gray-50">
+  <div class="px-4 mx-auto max-w-7xl">
+    <h1 class="mb-8 text-3xl font-bold text-gray-900">Checkout</h1>
+
+    <!-- Main Content -->
+    <div class="flex flex-col gap-8 lg:flex-row">
+      <!-- Checkout Form -->
+      <div class="lg:w-2/3">
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="space-y-8">
+          <!-- Personal Information -->
+          <div class="p-6 bg-white rounded-lg shadow-sm">
+            <h2 class="mb-4 text-xl font-semibold text-gray-900">Personal Information</h2>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div>
+                <label for="firstName" class="block mb-1 text-sm font-medium text-gray-700">First Name</label>
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  formControlName="firstName"
+                  [class.border-red-500]="isFieldInvalid('firstName')"
+                  class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                  placeholder="John">
+                <p *ngIf="isFieldInvalid('firstName')" class="mt-1 text-sm text-red-600">
+                  {{ getFieldError('firstName') }}
+                </p>
+              </div>
+              <div>
+                <label for="lastName" class="block mb-1 text-sm font-medium text-gray-700">Last Name</label>
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  formControlName="lastName"
+                  [class.border-red-500]="isFieldInvalid('lastName')"
+                  class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                  placeholder="Doe">
+                <p *ngIf="isFieldInvalid('lastName')" class="mt-1 text-sm text-red-600">
+                  {{ getFieldError('lastName') }}
+                </p>
+              </div>
+              <div>
+                <label for="email" class="block mb-1 text-sm font-medium text-gray-700">Email Address</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email"
+                  [class.border-red-500]="isFieldInvalid('email')"
+                  class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                  placeholder="john.doe@example.com">
+                <p *ngIf="isFieldInvalid('email')" class="mt-1 text-sm text-red-600">
+                  {{ getFieldError('email') }}
+                </p>
+              </div>
+              <div>
+                <label for="phone" class="block mb-1 text-sm font-medium text-gray-700">Phone Number</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  formControlName="phone"
+                  [class.border-red-500]="isFieldInvalid('phone')"
+                  class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                  placeholder="1234567890">
+                <p *ngIf="isFieldInvalid('phone')" class="mt-1 text-sm text-red-600">
+                  {{ getFieldError('phone') }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="p-6 bg-white rounded-lg shadow-sm">
+            <h2 class="mb-4 text-xl font-semibold text-gray-900">Shipping Address</h2>
+            <div class="grid grid-cols-1 gap-6">
+              <div>
+                <label for="address" class="block mb-1 text-sm font-medium text-gray-700">Address</label>
+                <input 
+                  type="text" 
+                  id="address" 
+                  formControlName="address"
+                  [class.border-red-500]="isFieldInvalid('address')"
+                  class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                  placeholder="123 Main St">
+                <p *ngIf="isFieldInvalid('address')" class="mt-1 text-sm text-red-600">
+                  {{ getFieldError('address') }}
+                </p>
+              </div>
+              <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div>
+                  <label for="city" class="block mb-1 text-sm font-medium text-gray-700">City</label>
+                  <input 
+                    type="text" 
+                    id="city" 
+                    formControlName="city"
+                    [class.border-red-500]="isFieldInvalid('city')"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                    placeholder="Colombo">
+                  <p *ngIf="isFieldInvalid('city')" class="mt-1 text-sm text-red-600">
+                    {{ getFieldError('city') }}
+                  </p>
+                </div>
+                <div>
+                  <label for="state" class="block mb-1 text-sm font-medium text-gray-700">Province</label>
+                  <input 
+                    type="text" 
+                    id="state" 
+                    formControlName="state"
+                    [class.border-red-500]="isFieldInvalid('state')"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                    placeholder="Western">
+                  <p *ngIf="isFieldInvalid('state')" class="mt-1 text-sm text-red-600">
+                    {{ getFieldError('state') }}
+                  </p>
+                </div>
+                <div>
+                  <label for="postalCode" class="block mb-1 text-sm font-medium text-gray-700">Postal Code</label>
+                  <input 
+                    type="text" 
+                    id="postalCode" 
+                    formControlName="postalCode"
+                    [class.border-red-500]="isFieldInvalid('postalCode')"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                    placeholder="10000">
+                  <p *ngIf="isFieldInvalid('postalCode')" class="mt-1 text-sm text-red-600">
+                    {{ getFieldError('postalCode') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="p-6 bg-white rounded-lg shadow-sm">
+            <h2 class="mb-4 text-xl font-semibold text-gray-900">Payment Method</h2>
+            <div class="space-y-4">
+              <!-- Payment Method Selection -->
+              <div class="flex flex-col space-y-2">
+                <div class="relative flex items-start">
+                  <div class="flex items-center h-5">
+                    <input 
+                      id="credit_card" 
+                      name="paymentMethod" 
+                      type="radio" 
+                      [checked]="paymentMethod === 'credit_card'"
+                      (change)="onPaymentMethodChange('credit_card')"
+                      class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                  </div>
+                  <div class="ml-3">
+                    <label for="credit_card" class="font-medium text-gray-700">Credit Card</label>
+                  </div>
+                </div>
+                <div class="relative flex items-start">
+                  <div class="flex items-center h-5">
+                    <input 
+                      id="paypal" 
+                      name="paymentMethod" 
+                      type="radio" 
+                      [checked]="paymentMethod === 'paypal'"
+                      (change)="onPaymentMethodChange('paypal')"
+                      class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                  </div>
+                  <div class="ml-3">
+                    <label for="paypal" class="font-medium text-gray-700">PayPal</label>
+                  </div>
+                </div>
+                <div class="relative flex items-start">
+                  <div class="flex items-center h-5">
+                    <input 
+                      id="cash_on_delivery" 
+                      name="paymentMethod" 
+                      type="radio" 
+                      [checked]="paymentMethod === 'cash_on_delivery'"
+                      (change)="onPaymentMethodChange('cash_on_delivery')"
+                      class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                  </div>
+                  <div class="ml-3">
+                    <label for="cash_on_delivery" class="font-medium text-gray-700">Cash on Delivery</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Credit Card Details (Conditionally Shown) -->
+              <div *ngIf="paymentMethod === 'credit_card'" class="mt-4 space-y-4">
+                <div>
+                  <label for="cardNumber" class="block mb-1 text-sm font-medium text-gray-700">Card Number</label>
+                  <input 
+                    type="text" 
+                    id="cardNumber" 
+                    formControlName="cardNumber"
+                    [class.border-red-500]="isFieldInvalid('cardNumber')"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                    placeholder="1234 5678 9012 3456">
+                  <p *ngIf="isFieldInvalid('cardNumber')" class="mt-1 text-sm text-red-600">
+                    {{ getFieldError('cardNumber') }}
+                  </p>
+                </div>
+                <div>
+                  <label for="cardName" class="block mb-1 text-sm font-medium text-gray-700">Name on Card</label>
+                  <input 
+                    type="text" 
+                    id="cardName" 
+                    formControlName="cardName"
+                    [class.border-red-500]="isFieldInvalid('cardName')"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                    placeholder="John Doe">
+                  <p *ngIf="isFieldInvalid('cardName')" class="mt-1 text-sm text-red-600">
+                    {{ getFieldError('cardName') }}
+                  </p>
+                </div>
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div>
+                    <label for="expiryDate" class="block mb-1 text-sm font-medium text-gray-700">Expiry Date</label>
+                    <input 
+                      type="text" 
+                      id="expiryDate" 
+                      formControlName="expiryDate"
+                      [class.border-red-500]="isFieldInvalid('expiryDate')"
+                      class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                      placeholder="MM/YY">
+                    <p *ngIf="isFieldInvalid('expiryDate')" class="mt-1 text-sm text-red-600">
+                      {{ getFieldError('expiryDate') }}
+                    </p>
+                  </div>
+                  <div>
+                    <label for="cvv" class="block mb-1 text-sm font-medium text-gray-700">CVV</label>
+                    <input 
+                      type="text" 
+                      id="cvv" 
+                      formControlName="cvv"
+                      [class.border-red-500]="isFieldInvalid('cvv')"
+                      class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                      placeholder="123">
+                    <p *ngIf="isFieldInvalid('cvv')" class="mt-1 text-sm text-red-600">
+                      {{ getFieldError('cvv') }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Notes -->
+          <div class="p-6 bg-white rounded-lg shadow-sm">
+            <h2 class="mb-4 text-xl font-semibold text-gray-900">Additional Information</h2>
+            <div>
+              <label for="notes" class="block mb-1 text-sm font-medium text-gray-700">Order Notes (Optional)</label>
+              <textarea 
+                id="notes" 
+                formControlName="notes"
+                rows="3"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                placeholder="Special instructions for delivery"></textarea>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-center">
+                <input 
+                  type="checkbox" 
+                  id="saveInfo" 
+                  formControlName="saveInfo"
+                  class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="saveInfo" class="ml-2 text-sm text-gray-700">
+                  Save this information for next time
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button 
+              type="submit" 
+              [disabled]="isSubmitting"
+              class="w-full py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              <span *ngIf="!isSubmitting">Place Order</span>
+              <span *ngIf="isSubmitting" class="flex items-center justify-center">
+                <svg class="w-5 h-5 mr-3 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="lg:w-1/3">
+        <div class="sticky p-6 bg-white rounded-lg shadow-sm top-6">
+          <h2 class="mb-4 text-xl font-semibold text-gray-900">Order Summary</h2>
+          
+          <!-- Product List -->
+          <div class="mt-4 divide-y divide-gray-200">
+            <div *ngFor="let item of cartItems" class="flex py-4">
+              <div class="flex-shrink-0 w-16 h-16 overflow-hidden border border-gray-200 rounded-md">
+                <img [src]="item.imageUrl" [alt]="item.name" class="object-cover w-full h-full">
+              </div>
+              <div class="flex flex-col flex-1 ml-4">
+                <div>
+                  <div class="flex justify-between text-base font-medium text-gray-900">
+                    <h3>{{ item.name }}</h3>
+                    <p class="ml-4">{{ item.unitPrice * item.quantity | currency:'RS:' }}</p>
+                  </div>
+                  <p class="mt-1 text-sm text-gray-500">
+                    item.category 
+                  </p>
+                </div>
+                <div class="flex items-end justify-between flex-1 text-sm">
+                  <p class="text-gray-500">Qty {{ item.quantity }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Empty Cart Message -->
+          <div *ngIf="cartItems.length === 0" class="py-4 text-center">
+            <p class="text-gray-500">Your cart is empty</p>
+            <button 
+              routerLink="/products" 
+              class="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              Continue Shopping
+            </button>
+          </div>
+          
+          <!-- Cost Breakdown -->
+          <div class="pt-4 mt-4 border-t border-gray-200">
+            <div class="flex justify-between mb-2 text-sm text-gray-600">
+              <p>Subtotal</p>
+              <p>{{ subtotal | currency:'RS:' }}</p>
+            </div>
+            <div class="flex justify-between mb-2 text-sm text-gray-600">
+              <p>Shipping</p>
+              <p>{{ shipping | currency:'RS:' }}</p>
+            </div>
+            <div class="flex justify-between mb-2 text-sm text-gray-600">
+              <p>Tax</p>
+              <p>{{ tax | currency:'RS:' }}</p>
+            </div>
+            <div class="flex justify-between pt-4 mt-4 text-base font-medium text-gray-900 border-t border-gray-200">
+              <p>Total</p>
+              <p>{{ total | currency:'RS:' }}</p>
+            </div>
+          </div>
+          
+          <!-- Back to Cart Button -->
+          <div class="mt-6">
+            <button 
+              routerLink="/cart" 
+              class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,176 @@
+/* Calendar Container */
+:host ::ng-deep .p-calendar {
+  width: 100%;
+}
+
+:host ::ng-deep .p-datepicker {
+  width: 100%;
+  min-width: 320px;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  color: #1f2937;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+:host ::ng-deep .p-datepicker table {
+  width: 100%;
+  margin: 0.5rem 0;
+  border-collapse: separate;
+  border-spacing: 0.25rem;
+}
+
+:host ::ng-deep .p-datepicker table th {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+:host ::ng-deep .p-datepicker table td {
+  padding: 0.25rem;
+}
+
+/* Date Cell Styles */
+:host ::ng-deep .p-datepicker table td > span {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+/* Hover State */
+:host ::ng-deep .p-datepicker table td > span:not(.p-disabled):hover {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+/* Selected Date */
+:host ::ng-deep .p-datepicker table td.p-datepicker-selected > span {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* Today's Date */
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Today's Date When Selected */
+:host ::ng-deep .p-datepicker table td.p-datepicker-today.p-datepicker-selected > span {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border: none;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #2563eb;
+}
+
+/* Header Styles */
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 0.75rem;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-title {
+  margin: 0 2.5rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Navigation Buttons */
+:host ::ng-deep .p-datepicker .p-datepicker-prev,
+:host ::ng-deep .p-datepicker .p-datepicker-next {
+  width: 2rem;
+  height: 2rem;
+  color: #6b7280;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-prev:hover,
+:host ::ng-deep .p-datepicker .p-datepicker-next:hover {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+/* Other Month Dates */
+:host ::ng-deep .p-datepicker table td.p-datepicker-other-month > span {
+  color: #d1d5db;
+}
+
+/* Disabled Dates */
+:host ::ng-deep .p-datepicker table td.p-datepicker-unselectable > span {
+  color: #e5e7eb;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Month/Year Dropdown */
+:host ::ng-deep .p-datepicker .p-datepicker-header select {
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header select:hover {
+  border-color: #2563eb;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Disabled State */
+:host ::ng-deep .p-datepicker .p-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Calendar Footer */
+:host ::ng-deep .p-datepicker-footer {
+  padding: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Today Button */
+:host ::ng-deep .p-datepicker-footer .p-button {
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .p-datepicker-footer .p-button:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+}

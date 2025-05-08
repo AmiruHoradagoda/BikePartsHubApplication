@@ -1,0 +1,69 @@
+<div
+  class="overflow-hidden transition-all duration-300 bg-white shadow-lg rounded-xl hover:shadow-xl"
+>
+  <div class="relative">
+    <img
+      src="{{ product.imageUrl }}"
+      alt="{{ product.productName }}"
+      class="object-cover w-full h-64 cursor-pointer"
+      (click)="openProductDetails(product)"
+    />
+    <div class="absolute top-4 right-4">
+      <span
+        *ngIf="product.quantity > 0"
+        class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full"
+      >
+        In Stock 
+      </span>
+      <span
+        *ngIf="product.quantity <= 0"
+        class="px-3 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded-full"
+      >
+        Out of Stock
+      </span>
+    </div>
+    <!-- Discount badge for loyal customers -->
+    <div *ngIf="role === 'LOYAL_CUSTOMER' && product.discount > 0" class="absolute top-4 left-4">
+      <span class="px-3 py-1 text-sm font-bold text-white bg-red-600 rounded-full">
+        {{ product.discount }}% OFF
+      </span>
+    </div>
+  </div>
+
+  <div class="p-6">
+    <h3 class="mb-2 text-lg font-semibold text-gray-800">
+      {{ product.productName }}
+    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <!-- Regular price display -->
+      <div *ngIf="role !== 'LOYAL_CUSTOMER' || product.discount <= 0">
+        <p class="text-2xl font-bold text-blue-600">
+          {{ product.pricePerUnit | currency : "RS: " }}
+        </p>
+      </div>
+      
+      <!-- Discounted price display for loyal customers -->
+      <div *ngIf="role === 'LOYAL_CUSTOMER' && product.discount > 0" class="flex flex-col">
+        <p class="text-sm font-medium text-gray-500 line-through">
+          {{ product.pricePerUnit | currency : "RS: " }}
+        </p>
+        <p class="text-2xl font-bold text-red-600">
+          {{ calculateDiscountedPrice(product.pricePerUnit, product.discount) | currency : "RS: " }}
+        </p>
+      </div>
+      
+      <!-- Product rating -->
+      <div class="flex items-center">
+        <span class="text-yellow-500">★</span>
+        <span class="ml-1 text-sm text-gray-600">{{ product.averageRating }}</span>
+      </div>
+    </div>
+    <button
+      class="flex items-center justify-center w-full gap-2 px-6 py-3 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
+      (click)="onAddToCart()"
+    >
+      <i class="fas fa-shopping-cart"></i>
+      Add to Cart
+    </button>
+  </div>
+</div>

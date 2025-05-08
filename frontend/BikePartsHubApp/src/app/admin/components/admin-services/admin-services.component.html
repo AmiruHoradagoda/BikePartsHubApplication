@@ -1,0 +1,79 @@
+<!-- services.component.html -->
+<div class="max-w-full p-5 rounded-lg shadow-sm bg-gray-50">
+  <!-- Header section -->
+  <div
+    class="flex items-center justify-between p-4 mb-5 bg-white border border-gray-200 rounded-lg"
+  >
+    <div class="text-lg font-bold text-gray-800">Services</div>
+    <button
+      class="px-5 py-2 text-sm text-white transition-colors duration-300 bg-purple-500 rounded-full hover:bg-purple-600"
+      (click)="addService()"
+      [routerLink]="['/admin/add-service']"
+    >
+      Add a service
+    </button>
+  </div>
+
+  <!-- Table section -->
+  <div class="overflow-hidden bg-white rounded-lg shadow-sm">
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="border-b border-gray-200">
+          <th class="p-4 text-sm font-semibold text-left text-gray-600">#</th>
+          <th class="p-4 text-sm font-semibold text-left text-gray-600">
+            Service ID
+          </th>
+          <th class="p-4 text-sm font-semibold text-left text-gray-600">
+            Name
+          </th>
+          <th class="p-4 text-sm font-semibold text-left text-gray-600">
+            Duration
+          </th>
+          <th class="p-4 text-sm font-semibold text-left text-gray-600">
+            Estimated Price
+          </th>
+          <th class="p-4 text-sm font-semibold text-left text-gray-600"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let service of services; let i = index"
+          class="border-b border-gray-100"
+        >
+          <td class="p-4 text-sm text-gray-700">
+            {{ (i + 1).toString().padStart(2, "0") }}
+          </td>
+          <td class="p-4 text-sm text-gray-700">{{ service.serviceId }}</td>
+          <td class="p-4 text-sm text-gray-700">{{ service.name }}</td>
+          <td class="p-4 text-sm text-gray-700">{{ service.duration }}</td>
+          <td class="p-4 text-sm text-gray-700">
+            {{ service.estimatedPrice }}
+          </td>
+          <td class="p-4">
+            <button
+              class="p-1.5 rounded-md text-teal-500 hover:bg-teal-50 transition-colors duration-200"
+              (click)="deleteService(service.id)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-trash"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                />
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
