@@ -8,7 +8,7 @@ import { AuthenticationRequest, AuthenticationResponse } from './auth.models';
   providedIn: 'root',
 })
 export class AdminAuthService {
-  private baseUrl = 'https://bikepartshub.altero.dev/api/v1';
+  private baseUrl = 'https://bikepartshub.altero.dev/api/v1/auth';
   private currentAdminSubject =
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentAdmin$ = this.currentAdminSubject.asObservable();
