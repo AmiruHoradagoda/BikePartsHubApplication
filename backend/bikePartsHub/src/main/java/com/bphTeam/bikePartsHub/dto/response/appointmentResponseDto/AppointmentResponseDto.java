@@ -7,9 +7,9 @@ import lombok.Data;
 import java.time.LocalDate;
 @Data
 public class AppointmentResponseDto {
-    private String name;
+    private String customerName;
     private String mobile;
-    private LocalDate date;
+    private LocalDate startDate;
     private String startTime;
     private int serviceDuration;
     private String plateNumber;
