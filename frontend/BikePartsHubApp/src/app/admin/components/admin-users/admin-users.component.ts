@@ -20,18 +20,22 @@ export class AdminUsersComponent implements OnInit {
   currentRole?: string;
   isLoading = false;
   error: string | null = null;
+  appointmentCounts: Map<number, number> = new Map(); // To store appointment counts by user ID
 
   Math = Math;
   constructor(
     private customerService: AdminCustomersService,
     private router: Router
   ) {}
+
   ngOnInit() {
     this.loadCustomers();
   }
+
   navigateToCustomer(customerId: string) {
     this.router.navigate(['/admin/customer-view', customerId]);
   }
+
   loadCustomers() {
     this.isLoading = true;
     this.error = null;
@@ -48,6 +52,7 @@ export class AdminUsersComponent implements OnInit {
           this.customers = response.userResponseDtos;
           this.totalItems = response.dataCount;
           this.calculateTotalPages();
+          this.loadAppointmentCounts();
           this.isLoading = false;
         },
         error: (err) => {
@@ -56,6 +61,38 @@ export class AdminUsersComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+
+  // Load appointment counts for users
+  loadAppointmentCounts() {
+    // Reset the map
+    this.appointmentCounts = new Map();
+
+    // For each customer, get their appointment count
+    this.customers.forEach((customer) => {
+      if (customer.userId) {
+        this.customerService
+          .getCustomerAppointments(customer.userId)
+          .subscribe({
+            next: (appointments) => {
+              this.appointmentCounts.set(customer.userId, appointments.length);
+            },
+            error: (err) => {
+              console.error(
+                `Error loading appointments for user ${customer.userId}:`,
+                err
+              );
+              this.appointmentCounts.set(customer.userId, 0);
+            },
+          });
+      }
+    });
+  }
+
+  // Get appointment count for a specific customer
+  getAppointmentCount(customer: UserResponseDto): number {
+    if (!customer.userId) return 0;
+    return this.appointmentCounts.get(customer.userId) || 0;
   }
 
   calculateTotalPages() {

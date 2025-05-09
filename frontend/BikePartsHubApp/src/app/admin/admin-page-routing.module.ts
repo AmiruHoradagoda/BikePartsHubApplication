@@ -71,6 +71,7 @@ const routes: Routes = [
         path: 'add-service',
         component: ServiceFormComponent,
       },
+      { path: 'admin/edit-service/:id', component: ServiceFormComponent },
     ],
   },
 ];

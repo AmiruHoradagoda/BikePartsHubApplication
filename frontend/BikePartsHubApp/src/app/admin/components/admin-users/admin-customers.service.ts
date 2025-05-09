@@ -29,10 +29,15 @@ export interface PaginatedUserResponseDto {
 
 export interface CustomerProfileDto {
   customerResponse: UserResponseDto;
-  pending: number;
-  cancelled: number;
-  onTheWay: number;
-  completed: number;
+  o_pending: number;
+  o_cancelled: number;
+  o_onTheWay: number;
+  o_completed: number;
+  a_missed: number;
+  a_attended: number;
+  a_upcoming: number;
+  a_completed: number;
+  role: string;
   totalOrder: number;
   totalSpend: number;
   totalSchedule: number;
@@ -87,6 +92,7 @@ export interface ServiceTypeDto {
 }
 
 export interface AppointmentResponseDto {
+  id: number;
   name: string;
   mobile: string;
   date: string;

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ServiceType } from '../../../user/pages/appintment-page/appointment.service';
+import { AdminServicesService } from './admin-services.service';
 interface Service {
   id: number;
   serviceId: string;
@@ -11,34 +13,46 @@ interface Service {
   templateUrl: './admin-services.component.html',
   styleUrl: './admin-services.component.sass',
 })
-export class AdminServicesComponent {
-  services: Service[] = [];
+export class AdminServicesComponent implements OnInit {
+  services: ServiceType[] = [];
+  loading = false;
+  error: string | null = null;
 
-  constructor() {}
+  constructor(private serviceTypeService: AdminServicesService) {}
 
   ngOnInit(): void {
-    // Populate with dummy data
-    this.services = this.getDummyServices();
+    this.loadServices();
   }
 
-  getDummyServices(): Service[] {
-    const dummyServices: Service[] = [];
+  loadServices(): void {
+    this.loading = true;
+    this.error = null;
 
-    for (let i = 1; i <= 7; i++) {
-      dummyServices.push({
-        id: i,
-        serviceId: '#01470523',
-        name: '4/45, Spring Vally Rd, Hindagoda, Badulla 90000',
-        duration: '20/01/2025',
-        estimatedPrice: 'Rs 47200',
-      });
-    }
-
-    return dummyServices;
+    this.serviceTypeService.getAllServices().subscribe({
+      next: (data) => {
+        this.services = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading services:', err);
+        this.error = 'Failed to load services. Please try again.';
+        this.loading = false;
+      },
+    });
   }
 
   deleteService(id: number): void {
-    this.services = this.services.filter((service) => service.id !== id);
+    if (confirm('Are you sure you want to delete this service?')) {
+      this.serviceTypeService.deleteService(id).subscribe({
+        next: () => {
+          this.services = this.services.filter((service) => service.id !== id);
+        },
+        error: (err) => {
+          console.error('Error deleting service:', err);
+          this.error = 'Failed to delete service. Please try again.';
+        },
+      });
+    }
   }
 
   addService(): void {

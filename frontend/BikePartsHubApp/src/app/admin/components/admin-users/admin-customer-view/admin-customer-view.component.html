@@ -1,6 +1,6 @@
-<div class="p-6">
-  <!-- Header with Navigation and Role Toggle -->
-  <div class="flex items-center justify-between mb-6">
+<div class="p-6 max-h-[90vh] overflow-hidden flex flex-col">
+  <!-- Header with Navigation and Role Toggle - Fixed at the top -->
+  <div class="sticky top-0 z-10 flex items-center justify-between pb-2 mb-6 bg-white">
     <nav class="flex gap-6 mb-8 border-b border-gray-200">
       <a 
         *ngFor="let tab of tabs" 
@@ -27,16 +27,18 @@
     </div>
   </div>
 
-  <!-- Dynamic Content Based on Tab -->
-  <ng-container [ngSwitch]="activeTab">
-    <app-profile *ngSwitchCase="'Profile'" [userId]="userId"></app-profile>
-    <app-orders *ngSwitchCase="'Orders'" [userId]="userId"></app-orders>
-    <app-schedules *ngSwitchCase="'Schedules'" [userId]="userId"></app-schedules>
-  </ng-container>
+  <!-- Dynamic Content Based on Tab - Scrollable area -->
+  <div class="flex-1 pr-1 overflow-y-auto">
+    <ng-container [ngSwitch]="activeTab">
+      <app-profile *ngSwitchCase="'Profile'" [userId]="userId"></app-profile>
+      <app-orders *ngSwitchCase="'Orders'" [userId]="userId"></app-orders>
+      <app-schedules *ngSwitchCase="'Schedules'" [userId]="userId"></app-schedules>
+    </ng-container>
+  </div>
   
   <!-- Confirmation Modal -->
   <div *ngIf="showConfirmDialog" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
-    <div class="p-6 mx-auto bg-white rounded-lg shadow-xl w-96">
+    <div class="p-6 mx-auto bg-white rounded-lg shadow-xl w-96 max-h-[80vh] overflow-y-auto">
       <h3 class="mb-4 text-lg font-semibold text-gray-900">Confirm Role Change</h3>
       <p class="mb-6 text-gray-600">
         Are you sure you want to change this user's role from 

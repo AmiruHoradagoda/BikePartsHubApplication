@@ -5,6 +5,7 @@ import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponse;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
+import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.exception.ResourceNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.OrderMapper;
@@ -15,6 +16,7 @@ import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.user.Role;
 import com.bphTeam.bikePartsHub.user.User;
 import com.bphTeam.bikePartsHub.user.UserRepo;
+import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
 import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +24,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -109,24 +113,42 @@ public class UserServiceImpl implements UserService {
                 .sum();
 
         // Calculate order counts by status
-        int pending = (int) userOrders.stream()
+        int o_pending = (int) userOrders.stream()
                 .filter(order -> order.getStatus() == OrderStatus.PENDING)
                 .count();
 
-        int cancelled = (int) userOrders.stream()
+        int o_cancelled = (int) userOrders.stream()
                 .filter(order -> order.getStatus() == OrderStatus.CANCELED)
                 .count();
 
-        int onTheWay = (int) userOrders.stream()
+        int o_onTheWay = (int) userOrders.stream()
                 .filter(order -> order.getStatus() == OrderStatus.PROCESSING)
                 .count();
 
-        int completed = (int) userOrders.stream()
+        int o_completed = (int) userOrders.stream()
                 .filter(order -> order.getStatus() == OrderStatus.SHIPPED)
                 .count();
 
         // Get all appointments for the user
-        int totalSchedule = appointmentRepository.findByUser(user).size();
+        List<Appointment> userAppointments = appointmentRepository.findByUser(user);
+        int totalSchedule = userAppointments.size();
+
+        // Calculate appointment counts by status using the actual enum values
+        int a_missed = (int) userAppointments.stream()
+                .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.MISSED)
+                .count();
+
+        int a_attended = (int) userAppointments.stream()
+                .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.ATTENDED)
+                .count();
+
+        int a_upcoming = (int) userAppointments.stream()
+                .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.UPCOMING)
+                .count();
+
+        int a_completed = (int) userAppointments.stream()
+                .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.COMPLETED)
+                .count();
 
         // Create and return the DTO with all calculated values
         CustomerProfileDto profileDto = new CustomerProfileDto();
@@ -134,14 +156,24 @@ public class UserServiceImpl implements UserService {
         profileDto.setTotalOrder(totalOrder);
         profileDto.setTotalSpend(totalSpend);
         profileDto.setTotalSchedule(totalSchedule);
-        profileDto.setPending(pending);
-        profileDto.setCancelled(cancelled);
-        profileDto.setOnTheWay(onTheWay);
-        profileDto.setCompleted(completed);
+
+        // Set order status counts with "o_" prefix to match DTO field names
+        profileDto.setO_pending(o_pending);
+        profileDto.setO_cancelled(o_cancelled);
+        profileDto.setO_onTheWay(o_onTheWay);
+        profileDto.setO_completed(o_completed);
+
+        // Set appointment status counts
+        profileDto.setA_missed(a_missed);
+        profileDto.setA_attended(a_attended);
+        profileDto.setA_upcoming(a_upcoming);
+        profileDto.setA_completed(a_completed);
+
+        // Set user role if needed
+        profileDto.setRole(user.getRole());
 
         return profileDto;
     }
-
     @Override
     public String changeUserRole(int userId,Role userRole) {
         // Find user by ID
