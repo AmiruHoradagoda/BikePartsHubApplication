@@ -187,6 +187,11 @@ public class UserServiceImpl implements UserService {
 
         return "User role updated successfully to " + userRole;
     }
+
+    @Override
+    public User updateUserProfile(Integer id, User user) {
+        return null;
+    }
 //    @Override
 //    public User updateUserProfile(Integer id, UserUpdateRequestDto profileUpdateDto) {
 //        User existingUser = userRepo.findById(id)
