@@ -11,6 +11,7 @@ import com.bphTeam.bikePartsHub.service.AppointmentService;
 import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.user.Role;
+import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
 import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,6 +93,14 @@ public class AdminController {
     ) {
         String message = orderService.changeOrderStatus(orderId, status);
         return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
+    @PutMapping("/changeAppointmentStatus")
+    public ResponseEntity<String> changeAppointmentStatus(
+            @RequestParam long appointmentId,
+            @RequestParam AppointmentStatus status
+    ) {
+        String message = appointmentService.changeAppointmentStatus(appointmentId, status);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 

@@ -1,0 +1,203 @@
+<!-- admin-schedule-view.component.html -->
+<div class="w-full max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-sm max-h-[90vh] flex flex-col">
+    <!-- Header with status indicator - Fixed at the top -->
+    <div class="sticky top-0 z-10 pb-4 mb-6 bg-white border-b">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800">Appointment Details</h2>
+          <div class="flex items-center mt-1 space-x-2">
+            <span class="text-gray-600">ID:</span>
+            <span class="font-medium">#{{ appointment.id || '-' }}</span>
+            <span class="text-xs text-gray-500">(Booked: {{ appointment.startDate | date : "mediumDate" }})</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="px-4 py-2 rounded-full" 
+               [ngClass]="{
+                 'bg-blue-100 text-blue-700': appointment.appointmentStatus === AppointmentStatus.UPCOMING,
+                 'bg-yellow-100 text-yellow-700': appointment.appointmentStatus === AppointmentStatus.ATTENDED,
+                 'bg-green-100 text-green-700': appointment.appointmentStatus === AppointmentStatus.COMPLETED,
+                 'bg-red-100 text-red-700': appointment.appointmentStatus === AppointmentStatus.MISSED
+               }">
+            {{ appointment.appointmentStatus }}
+          </div>
+          <button 
+            (click)="onClose()"
+            class="flex items-center justify-center w-8 h-8 text-gray-500 transition-colors rounded-full hover:bg-gray-100"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Scrollable Content Area -->
+    <div class="flex-1 pr-2 overflow-y-auto">
+      <!-- Customer and Vehicle Info Card -->
+      <div class="p-6 mb-6 rounded-lg bg-gray-50">
+        <h3 class="mb-4 text-lg font-semibold text-gray-700">Customer & Vehicle Information</h3>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <div class="flex items-center mb-3">
+              <i class="w-6 text-violet-600 fas fa-user"></i>
+              <span class="ml-2 font-medium">Customer Name:</span>
+              <span class="ml-2">{{ appointment.customerName }}</span>
+            </div>
+            <div class="flex items-center mb-3">
+              <i class="w-6 text-violet-600 fas fa-phone"></i>
+              <span class="ml-2 font-medium">Mobile:</span>
+              <span class="ml-2">{{ appointment.mobile }}</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center mb-3">
+              <i class="w-6 text-violet-600 fas fa-motorcycle"></i>
+              <span class="ml-2 font-medium">Vehicle:</span>
+              <span class="ml-2">{{ appointment.plateNumber }}</span>
+            </div>
+            <div class="flex items-center">
+              <i class="w-6 text-violet-600 fas fa-oil-can"></i>
+              <span class="ml-2 font-medium">Engine Oil:</span>
+              <span class="ml-2">{{ appointment.engineOil }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Service Details Card -->
+      <div class="p-6 mb-6 rounded-lg bg-gray-50">
+        <h3 class="mb-4 text-lg font-semibold text-gray-700">Service Information</h3>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <div class="flex items-center mb-3">
+              <i class="w-6 text-violet-600 fas fa-tools"></i>
+              <span class="ml-2 font-medium">Service Type:</span>
+              <span class="ml-2">{{ appointment.serviceTypeDto.serviceName }}</span>
+            </div>
+            <div class="flex items-center mb-3">
+              <i class="w-6 text-violet-600 far fa-clock"></i>
+              <span class="ml-2 font-medium">Duration:</span>
+              <span class="ml-2">{{ appointment.serviceTypeDto.serviceDuration }} hours</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center mb-3">
+              <i class="w-6 text-violet-600 far fa-calendar-alt"></i>
+              <span class="ml-2 font-medium">Date:</span>
+              <span class="ml-2">{{ appointment.startDate }}</span>
+            </div>
+            <div class="flex items-center">
+              <i class="w-6 text-violet-600 far fa-clock"></i>
+              <span class="ml-2 font-medium">Time:</span>
+              <span class="ml-2">{{ appointment.startTime }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Service Description -->
+        <div *ngIf="appointment.serviceTypeDto.description" class="p-4 mt-4 bg-white border border-gray-200 rounded-lg">
+          <div class="flex items-start">
+            <i class="mt-1 mr-2 text-violet-600 fas fa-info-circle"></i>
+            <p class="text-gray-700">{{ appointment.serviceTypeDto.description }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Pricing Card -->
+      <div class="p-6 mb-6 rounded-lg bg-gray-50">
+        <h3 class="mb-4 text-lg font-semibold text-gray-700">Pricing Details</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between py-2">
+            <span class="text-gray-600">Service charge:</span>
+            <span class="font-medium">Rs. {{ appointment.serviceTypeDto.serviceCost.toFixed(2) }}</span>
+          </div>
+          <div class="flex items-center justify-between py-2">
+            <span class="text-gray-600">Engine Oil:</span>
+            <span class="font-medium">Rs. {{ appointment.engineOilCost.toFixed(2) }}</span>
+          </div>
+          <div class="my-2 border-t border-gray-200"></div>
+          <div class="flex items-center justify-between py-2">
+            <span class="text-lg font-semibold text-gray-800">Total</span>
+            <span class="text-lg font-bold text-violet-700">Rs. {{ appointment.totalCharge.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Progress Tracker -->
+      <div class="p-6 mb-6 rounded-lg bg-gray-50">
+        <h3 class="mb-4 text-lg font-semibold text-gray-700">Appointment Status</h3>
+        <div class="w-full max-w-full">
+          <div class="relative flex items-center justify-between">
+            <!-- Progress Line -->
+            <div class="absolute left-0 w-full top-3">
+              <div class="relative w-full h-2 overflow-hidden rounded-full shadow-lg bg-gradient-to-b from-gray-200 to-gray-300">
+                <!-- Gloss effect -->
+                <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"></div>
+  
+                <!-- Active progress -->
+                <div class="absolute h-full transition-all duration-300 ease-out rounded-full bg-gradient-to-r from-violet-400 to-violet-600"
+                     [style.width.%]="getProgressPercentage(currentStatus)">
+                  <div class="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent"></div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Status Buttons -->
+            <div *ngFor="let status of [AppointmentStatus.UPCOMING, AppointmentStatus.ATTENDED, AppointmentStatus.COMPLETED]"
+                 class="relative z-10">
+              <button (click)="onStatusChange(status)"
+                      class="flex flex-col items-center transition-transform duration-150 transform group focus:outline-none hover:scale-105"
+                      [disabled]="isUpdating">
+                <!-- 3D Circle -->
+                <div class="relative">
+                  <div class="w-8 h-8 transition-all duration-300 transform rounded-full shadow-lg"
+                       [ngClass]="{
+                         'bg-gradient-to-b from-violet-400 to-violet-600 border-violet-700': getProgressPercentage(currentStatus) >= getProgressPercentage(status),
+                         'bg-gradient-to-b from-gray-100 to-gray-300 border-gray-400': getProgressPercentage(currentStatus) < getProgressPercentage(status)
+                       }">
+                    <div class="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-transparent"></div>
+  
+                    <!-- Completion indicator -->
+                    <div *ngIf="getProgressPercentage(currentStatus) >= getProgressPercentage(status)"
+                         class="absolute inset-0 flex items-center justify-center">
+                      <div class="w-3 h-3 rounded-full shadow-inner bg-violet-700"></div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Label -->
+                <span class="mt-3 text-sm font-semibold transition-all duration-300"
+                      [ngClass]="{
+                        'text-violet-600': getProgressPercentage(currentStatus) >= getProgressPercentage(status),
+                        'text-gray-500': getProgressPercentage(currentStatus) < getProgressPercentage(status)
+                      }">
+                  {{ getStatusLabel(status) }}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Action Buttons - Fixed at the bottom -->
+    <div class="sticky bottom-0 z-10 p-4 bg-white border-t">
+      <div class="flex justify-between">
+        <div class="flex space-x-4">
+          <button (click)="applyChanges()"
+                  class="px-4 py-2 text-white rounded-lg bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  [disabled]="isUpdating || currentStatus === appointment.appointmentStatus">
+            {{ isUpdating ? "Updating..." : "Apply Changes" }}
+          </button>
+  
+          <button (click)="onStatusChange(AppointmentStatus.MISSED)"
+                  class="px-4 py-2 text-white bg-red-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  [disabled]="isUpdating || appointment.appointmentStatus === AppointmentStatus.MISSED">
+            Mark as Missed
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

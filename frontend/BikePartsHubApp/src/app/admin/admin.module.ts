@@ -23,6 +23,7 @@ import { AdminSchedulesComponent } from './components/admin-schedules/admin-sche
 import { AdminMessagesComponent } from './components/admin-messages/admin-messages.component';
 import { AdminServicesComponent } from './components/admin-services/admin-services.component';
 import { ServiceFormComponent } from './components/admin-services/service-form/service-form.component';
+import { AdminScheduleViewComponent } from './components/admin-schedules/admin-schedule-view/admin-schedule-view.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ServiceFormComponent } from './components/admin-services/service-form/s
     AdminMessagesComponent,
     AdminServicesComponent,
     ServiceFormComponent,
+    AdminScheduleViewComponent,
   ],
   imports: [
     CommonModule,
