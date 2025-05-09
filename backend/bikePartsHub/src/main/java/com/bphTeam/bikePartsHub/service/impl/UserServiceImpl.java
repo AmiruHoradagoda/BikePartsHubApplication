@@ -1,6 +1,7 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
+import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponse;
@@ -186,7 +187,19 @@ public class UserServiceImpl implements UserService {
 
         return "User role updated successfully to " + userRole;
     }
-
+//    @Override
+//    public User updateUserProfile(Integer id, UserUpdateRequestDto profileUpdateDto) {
+//        User existingUser = userRepo.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+//
+//        // Update fields
+//        if (profileUpdateDto.getFirstName() != null) {
+//            existingUser.setFirstName(profileUpdateDto.getFirstName());
+//        }
+//        // ... update other fields
+//
+//        return userRepo.save(existingUser);
+//    }
 
 
 }

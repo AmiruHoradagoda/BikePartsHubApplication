@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
+import { AdminAuthService } from "../../../admin/auth-admin/auth-admin.service";
+
 
 export interface StandardResponse<T> {
   code: number;
@@ -32,8 +34,8 @@ export interface UserResponseDto {
 })
 export class UserDashboardService {
   private readonly apiUrl = `${environment.apiUrl}/api/v1/user`;
+  constructor(private http: HttpClient, private adminAuthService: AdminAuthService) {}
 
-  constructor(private http: HttpClient) {}
 
   getUserDetails(userId: number): Observable<UserResponseDto> {
     return this.http
@@ -52,7 +54,10 @@ export class UserDashboardService {
     return this.http
       .put<StandardResponse<UserResponseDto>>(
         `${this.apiUrl}/updateProfile/${userId}`,
-        userData
+        userData,
+        {
+          headers: this.adminAuthService.getAuthHeader(),
+        }
       )
       .pipe(
         map((response: StandardResponse<UserResponseDto>) => response.data)

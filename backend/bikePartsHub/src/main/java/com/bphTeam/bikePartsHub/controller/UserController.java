@@ -2,6 +2,7 @@ package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.service.UserService;
+import com.bphTeam.bikePartsHub.user.User;
 import com.bphTeam.bikePartsHub.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,5 +21,14 @@ public class UserController {
         CustomerResponseDto userDetails = userService.getUserDetails(id);
         return new ResponseEntity<StandardResponse>(new StandardResponse(200, "User Details sent", userDetails), HttpStatus.OK);
     }
-
+    @PutMapping("/updateProfile/{id}")
+    private ResponseEntity<StandardResponse> updateUserProfile(
+            @PathVariable Integer id,
+            @RequestBody User user) {
+        // Assuming you'll implement this method in your service
+        User updatedUser = userService.updateUserProfile(id, user);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "User profile updated successfully", updatedUser),
+                HttpStatus.OK);
+    }
 }
