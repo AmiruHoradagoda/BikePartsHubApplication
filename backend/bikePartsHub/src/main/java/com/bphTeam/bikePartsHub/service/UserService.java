@@ -4,6 +4,7 @@ import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.user.Role;
+import com.bphTeam.bikePartsHub.user.User;
 
 
 public interface UserService {
@@ -15,4 +16,6 @@ public interface UserService {
     CustomerProfileDto getAllCustomerProfile(Integer id);
 
     String changeUserRole(int userId,Role userRole);
+
+    User updateUserProfile(Integer id, User user);
 }

@@ -62,17 +62,33 @@
       <!-- Order Summary Chart -->
       <div class="p-6 bg-white rounded-lg shadow-sm">
         <h3 class="mb-2 text-lg font-semibold">Order Summary</h3>
-        <div class="relative h-64">
+        <div *ngIf="profile.totalOrder > 0; else noOrders" class="relative h-64">
           <canvas #orderChart></canvas>
         </div>
+        <ng-template #noOrders>
+          <div class="flex items-center justify-center h-64 text-gray-500">
+            <div class="text-center">
+              <i class="mb-2 text-4xl fas fa-shopping-cart"></i>
+              <p>No orders placed yet</p>
+            </div>
+          </div>
+        </ng-template>
       </div>
 
       <!-- Appointment Summary Chart -->
       <div class="p-6 bg-white rounded-lg shadow-sm">
         <h3 class="mb-2 text-lg font-semibold">Appointment Summary</h3>
-        <div class="relative h-64">
+        <div *ngIf="profile.totalSchedule > 0; else noAppointments" class="relative h-64">
           <canvas #appointmentChart></canvas>
         </div>
+        <ng-template #noAppointments>
+          <div class="flex items-center justify-center h-64 text-gray-500">
+            <div class="text-center">
+              <i class="mb-2 text-4xl fas fa-calendar-alt"></i>
+              <p>No appointments scheduled yet</p>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

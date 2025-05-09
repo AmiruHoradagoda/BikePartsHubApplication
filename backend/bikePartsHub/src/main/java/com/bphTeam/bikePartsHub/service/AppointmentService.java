@@ -5,6 +5,7 @@ import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSav
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
+import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface AppointmentService {
     List<AppointmentResponseDto> getCustomerAppointments(Integer id);
 
     PaginatedAppointmentResponseDto getAllAppointmentDetails(int page, int size);
+
+    String changeAppointmentStatus(long appointmentId, AppointmentStatus status);
 }

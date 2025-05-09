@@ -1,49 +1,61 @@
-<!-- service-form.component.html -->
 <div class="overflow-hidden bg-white rounded-lg shadow-sm">
   <!-- Header -->
   <div class="w-full p-6 border-b border-gray-100 bg-gray-50">
-    <h1 class="text-lg font-medium text-gray-800">Services</h1>
+    <h1 class="text-lg font-medium text-gray-800">
+      {{ isEditMode ? 'Edit' : 'Add' }} Service
+    </h1>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="flex justify-center p-6">
+    <div class="w-8 h-8 border-4 border-t-4 border-gray-200 rounded-full animate-spin border-t-purple-500"></div>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="p-4 mx-6 mt-6 text-center text-red-600 rounded-lg bg-red-50">
+    {{ error }}
   </div>
 
   <!-- Form -->
-  <div class="p-6">
+  <div *ngIf="!loading" class="p-6">
     <form [formGroup]="serviceForm" class="space-y-6">
-      <!-- Service ID -->
-      <div class="flex items-center">
-        <label for="serviceId" class="w-48 text-gray-700">Service ID</label>
-        <input 
-          type="text" 
-          id="serviceId" 
-          formControlName="serviceId"
-          class="flex-1 p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-        >
-      </div>
-      
       <!-- Service Name -->
       <div class="flex items-center">
-        <label for="serviceName" class="w-48 text-gray-700">Service Name</label>
-        <input 
-          type="text" 
-          id="serviceName" 
-          formControlName="serviceName"
-          class="flex-1 p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-        >
+        <label for="serviceName" class="w-48 text-gray-700">Service Name *</label>
+        <div class="flex-1">
+          <input 
+            type="text" 
+            id="serviceName" 
+            formControlName="serviceName"
+            class="w-full p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          >
+          <div *ngIf="serviceForm.get('serviceName')?.invalid && serviceForm.get('serviceName')?.touched" 
+               class="mt-1 text-sm text-red-500">
+            Service name is required
+          </div>
+        </div>
       </div>
       
       <!-- Service Description -->
       <div class="flex items-start">
-        <label for="serviceDescription" class="w-48 pt-3 text-gray-700">Service Description</label>
-        <textarea 
-          id="serviceDescription" 
-          formControlName="serviceDescription"
-          rows="4"
-          class="flex-1 p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-        ></textarea>
+        <label for="description" class="w-48 pt-3 text-gray-700">Description *</label>
+        <div class="flex-1">
+          <textarea 
+            id="description" 
+            formControlName="description"
+            rows="4"
+            class="w-full p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          ></textarea>
+          <div *ngIf="serviceForm.get('description')?.invalid && serviceForm.get('description')?.touched" 
+               class="mt-1 text-sm text-red-500">
+            Description is required
+          </div>
+        </div>
       </div>
       
       <!-- Service Duration -->
       <div class="flex items-center">
-        <label for="serviceDuration" class="w-48 text-gray-700">Service Duration</label>
+        <label for="serviceDuration" class="w-48 text-gray-700">Duration (hours) *</label>
         <div class="relative flex-1">
           <select 
             id="serviceDuration" 
@@ -58,36 +70,79 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </div>
+          <div *ngIf="serviceForm.get('serviceDuration')?.invalid && serviceForm.get('serviceDuration')?.touched" 
+               class="mt-1 text-sm text-red-500">
+            Duration is required
+          </div>
         </div>
       </div>
       
-      <!-- Estimated Cost -->
+      <!-- Service Cost -->
       <div class="flex items-center">
-        <label for="estimatedCost" class="w-48 text-gray-700">Estimated Cost</label>
-        <input 
-          type="text" 
-          id="estimatedCost" 
-          formControlName="estimatedCost"
-          class="flex-1 p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-        >
+        <label for="serviceCost" class="w-48 text-gray-700">Cost (Rs) *</label>
+        <div class="flex-1">
+          <input 
+            type="number" 
+            id="serviceCost" 
+            formControlName="serviceCost"
+            class="w-full p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          >
+          <div *ngIf="serviceForm.get('serviceCost')?.invalid && serviceForm.get('serviceCost')?.touched" 
+               class="mt-1 text-sm text-red-500">
+            Valid cost is required
+          </div>
+        </div>
+      </div>
+      
+      <!-- Features -->
+      <div class="flex items-start">
+        <label class="w-48 pt-3 text-gray-700">Features</label>
+        <div class="flex-1 space-y-3">
+          <div *ngFor="let feature of featuresArray.controls; let i = index" class="flex items-center gap-2">
+            <input 
+              type="text" 
+              [formControl]="$any(featuresArray.controls[i])"
+              placeholder="Enter feature"
+              class="flex-1 p-3 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+            <button 
+              type="button" 
+              (click)="removeFeature(i)"
+              class="p-2 text-red-500 rounded-md hover:bg-red-50"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+              </svg>
+            </button>
+          </div>
+          <button 
+            type="button" 
+            (click)="addFeature()"
+            class="px-4 py-2 text-sm text-purple-600 border border-purple-500 rounded-md hover:bg-purple-50"
+          >
+            + Add Feature
+          </button>
+        </div>
       </div>
     </form>
   </div>
   
   <!-- Footer with buttons -->
-  <div class="flex justify-between w-full p-6">
+  <div class="flex justify-between w-full p-6 border-t border-gray-100">
     <button 
       (click)="backToServices()" 
-      class="px-6 py-3 text-white transition-colors bg-purple-500 rounded-full hover:bg-purple-600"
+      class="px-6 py-3 text-gray-700 transition-colors bg-gray-100 rounded-md hover:bg-gray-200"
     >
-      Back to Services
+      Cancel
     </button>
     
     <button 
-      (click)="addService()" 
-      class="px-6 py-3 text-white transition-colors bg-purple-500 rounded-full hover:bg-purple-600"
+      (click)="saveService()" 
+      [disabled]="loading || serviceForm.invalid"
+      class="px-6 py-3 text-white transition-colors bg-purple-600 rounded-md hover:bg-purple-700 disabled:bg-purple-300"
     >
-      Add
+      {{ isEditMode ? 'Update' : 'Add' }} Service
     </button>
   </div>
 </div>

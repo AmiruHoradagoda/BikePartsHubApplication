@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { AdminAuthService } from '../../auth-admin/auth-admin.service';
 
@@ -21,6 +21,7 @@ export interface ServiceTypeDto {
 }
 
 export interface AppointmentResponseDto {
+  id: number;
   customerName: string;
   mobile: string;
   startDate: string;
@@ -62,5 +63,42 @@ export class AdminSchedulesService {
       `${this.baseUrl}/getAllAppointmentDetails`,
       { params, headers: this.adminAuthService.getAuthHeader() }
     );
+  }
+  updateAppointmentStatus(
+    id: number,
+    status: AppointmentStatus
+  ): Observable<string> {
+    // Exclude the 'ALL' status as it's not a valid status for an appointment
+    if (status === AppointmentStatus.ALL) {
+      return throwError(
+        () => new Error('Cannot set appointment status to ALL')
+      );
+    }
+
+    // Create query parameters matching the backend endpoint
+    const params = new HttpParams()
+      .set('appointmentId', id.toString())
+      .set('status', status);
+
+    // Make the PUT request to update the appointment status with query parameters
+    return this.http
+      .put<string>(
+        `${this.baseUrl}/changeAppointmentStatus`,
+        null, // No request body needed as we're using query parameters
+        {
+          params,
+          headers: this.adminAuthService.getAuthHeader(),
+          responseType: 'text' as 'json', // The backend returns a string message
+        }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error updating appointment status:', error);
+          return throwError(
+            () =>
+              new Error(`Failed to update appointment status: ${error.message}`)
+          );
+        })
+      );
   }
 }

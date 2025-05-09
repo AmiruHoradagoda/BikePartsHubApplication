@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                                 //Appointment
                                 .requestMatchers(GET, "/api/v1/appointment/**").permitAll()
                                 .requestMatchers(POST, "/api/v1/appointment/**").hasAnyRole(ADMIN.name(), CUSTOMER.name(), LOYAL_CUSTOMER.name())
+
                                 //Bike
                                 .requestMatchers(GET, "/api/v1/bikes/**").permitAll()
                                 .requestMatchers(POST, "/api/v1/bikes/**").hasRole(ADMIN.name())
@@ -61,13 +62,11 @@ public class SecurityConfiguration {
                                 .requestMatchers(POST, "/api/v1/product/**").hasRole(ADMIN.name())
                                 .requestMatchers(PUT, "/api/v1/product/**").hasRole(ADMIN.name())
                                 .requestMatchers(DELETE, "/api/v1/product/**").hasRole(ADMIN.name())
-
-
-
-
-
-
-
+                                //Services
+                                .requestMatchers(GET, "/api/v1/services/**").permitAll()
+                                .requestMatchers(POST, "/api/v1/services/**").hasRole(ADMIN.name())
+                                .requestMatchers(PUT, "/api/v1/services/**").hasRole(ADMIN.name())
+                                .requestMatchers(DELETE, "/api/v1/services/**").hasRole(ADMIN.name())
 
                                 // Public appointment endpoints
                                 .requestMatchers(GET, "/api/v1/appointment/services/**").permitAll()

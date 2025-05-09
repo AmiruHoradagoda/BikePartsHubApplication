@@ -1,8 +1,8 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
-import com.bphTeam.bikePartsHub.dto.ServiceTypeDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedAppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.ServiceTypeDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
@@ -171,5 +171,50 @@ public class AppointmentServiceImpl implements AppointmentService {
         response.setDataCount(appointmentsPage.getTotalElements());
 
         return response;
+    }
+
+    @Override
+    public String changeAppointmentStatus(long appointmentId, AppointmentStatus status) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + appointmentId));
+
+        // Validate status transition
+        AppointmentStatus currentStatus = appointment.getAppointmentStatus();
+
+        // Check valid transitions (optional but recommended):
+        // Define valid status transitions based on your business logic
+        boolean isValidTransition = validateStatusTransition(currentStatus, status);
+
+        if (!isValidTransition) {
+            return "Invalid status transition from " + currentStatus + " to " + status;
+        }
+
+        // Update the status
+        appointment.setAppointmentStatus(status);
+        appointmentRepository.save(appointment);
+
+        return "Appointment status changed successfully from " + currentStatus + " to " + status;
+    }
+
+    /**
+     * Validates status transitions to maintain appointment flow integrity
+     */
+    private boolean validateStatusTransition(AppointmentStatus current, AppointmentStatus next) {
+        switch (current) {
+            case UPCOMING:
+                // From UPCOMING, we can go to ATTENDED, MISSED, or COMPLETED
+                return true;
+            case ATTENDED:
+                // From ATTENDED, we can only go to COMPLETED
+                return next == AppointmentStatus.COMPLETED;
+            case COMPLETED:
+                // COMPLETED is a terminal state
+                return false; // Can't change from COMPLETED
+            case MISSED:
+                // MISSED is a terminal state
+                return false; // Can't change from MISSED
+            default:
+                return false;
+        }
     }
 }

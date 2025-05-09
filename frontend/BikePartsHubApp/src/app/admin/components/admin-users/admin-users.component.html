@@ -78,8 +78,8 @@
               </th>
               <th class="p-4 text-left">Customer</th>
               <th class="p-4 text-left">Orders</th>
-              <th class="p-4 text-left">Spent</th>
-              <th class="p-4 text-left">Status</th>
+              <th class="p-4 text-left">Appointments</th>
+              <th class="p-4 text-left">Role</th>
             </tr>
           </thead>
           <tbody>
@@ -96,32 +96,30 @@
                   <div
                     class="flex items-center justify-center w-10 h-10 text-xl font-semibold text-white bg-orange-500 rounded-full"
                   >
-                    {{ customer?.firstName?.charAt(0)
-                    }}{{ customer?.lastName?.charAt(0) }}
+                    {{ customer?.firstName?.charAt(0) }}{{ customer?.lastName?.charAt(0) }}
                   </div>
                   <span class="ml-4">
                     {{ customer.firstName }} {{ customer.lastName }}</span
                   >
                 </div>
               </td>
-
+          
               <td class="p-4">{{ customer.orders.length || 0 }}</td>
               <td class="p-4">
-                Rs
-                {{ calculateTotalSpent(customer) }}
+                <!-- This should be appointment count, not total spent -->
+                <span>{{ getAppointmentCount(customer) }}</span>
               </td>
               <td class="p-4">
+                <!-- This should be user role, not order status -->
                 <span
-                  class="px-3 py-1 text-sm text-green-600 bg-green-100 rounded-full"
-                  *ngIf="customer.orders.length > 0"
+                  class="px-3 py-1 text-sm rounded-full"
+                  [ngClass]="{
+                    'text-purple-600 bg-purple-100': customer.role === 'LOYAL_CUSTOMER',
+                    'text-blue-600 bg-blue-100': customer.role === 'CUSTOMER',
+                    'text-orange-600 bg-orange-100': customer.role === 'ADMIN'
+                  }"
                 >
-                  {{ customer.orders[0].status }}
-                </span>
-                <span
-                  class="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full"
-                  *ngIf="customer.orders.length === 0"
-                >
-                  No Orders
+                  {{ customer.role }}
                 </span>
               </td>
             </tr>

@@ -5,7 +5,6 @@ import {
   AppointmentResponseDto,
 } from './admin-shedules.service';
 
-
 @Component({
   selector: 'app-admin-schedules',
   templateUrl: './admin-schedules.component.html',
@@ -13,9 +12,12 @@ import {
 })
 export class AdminSchedulesComponent implements OnInit {
   readonly AppointmentStatus = AppointmentStatus;
+  readonly Math = Math; // To use Math in the template
+
   // Appointments data
   appointments: AppointmentResponseDto[] = [];
   filteredAppointments: AppointmentResponseDto[] = [];
+  selectedAppointment: AppointmentResponseDto | null = null;
 
   // Filters and sorting
   currentFilter: AppointmentStatus = AppointmentStatus.ALL;
@@ -141,5 +143,56 @@ export class AdminSchedulesComponent implements OnInit {
     }
 
     return pages;
+  }
+
+  // New methods for appointment details view
+  viewAppointmentDetails(appointment: AppointmentResponseDto): void {
+    this.selectedAppointment = appointment;
+  }
+
+  closeAppointmentDetails(): void {
+    this.selectedAppointment = null;
+  }
+
+  updateAppointmentStatus(event: {
+    id: number;
+    status: AppointmentStatus;
+  }): void {
+    this.adminSchedulesService
+      .updateAppointmentStatus(event.id, event.status)
+      .subscribe({
+        next: (response) => {
+          // Update the appointment in the list
+          const index = this.appointments.findIndex((a) => a.id === event.id);
+          if (index !== -1) {
+            this.appointments[index].appointmentStatus = event.status;
+          }
+
+          // Update the filtered list
+          const filteredIndex = this.filteredAppointments.findIndex(
+            (a) => a.id === event.id
+          );
+          if (filteredIndex !== -1) {
+            this.filteredAppointments[filteredIndex].appointmentStatus =
+              event.status;
+          }
+
+          // If we're filtering by status, we may need to remove the item from the filtered list
+          if (
+            this.currentFilter !== AppointmentStatus.ALL &&
+            this.currentFilter !== event.status
+          ) {
+            this.filteredAppointments = this.filteredAppointments.filter(
+              (a) => a.id !== event.id
+            );
+          }
+
+          // Close the details view
+          this.closeAppointmentDetails();
+        },
+        error: (error) => {
+          console.error('Error updating appointment status:', error);
+        },
+      });
   }
 }

@@ -75,8 +75,15 @@ export class ProfileComponent implements OnInit, OnChanges, AfterViewInit {
 
   private createCharts() {
     try {
-      this.createOrderChart();
-      this.createAppointmentChart();
+      // Only create order chart if there are orders
+      if (this.profile && this.profile.totalOrder > 0) {
+        this.createOrderChart();
+      }
+
+      // Only create appointment chart if there are appointments
+      if (this.profile && this.profile.totalSchedule > 0) {
+        this.createAppointmentChart();
+      }
     } catch (error) {
       console.error('Error creating charts:', error);
     }
@@ -84,7 +91,7 @@ export class ProfileComponent implements OnInit, OnChanges, AfterViewInit {
 
   private createOrderChart() {
     const ctx = this.orderChartRef?.nativeElement?.getContext('2d');
-    if (!ctx) return;
+    if (!ctx || !this.profile) return;
 
     const chart = new Chart(ctx, {
       type: 'pie',
@@ -93,12 +100,48 @@ export class ProfileComponent implements OnInit, OnChanges, AfterViewInit {
         datasets: [
           {
             data: [
-              this.profile!.pending,
-              this.profile!.cancelled,
-              this.profile!.onTheWay,
-              this.profile!.completed,
+              this.profile.o_pending,
+              this.profile.o_cancelled,
+              this.profile.o_onTheWay,
+              this.profile.o_completed,
             ],
             backgroundColor: ['#8B4513', '#90EE90', '#FFA500', '#B0C4DE'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right' as const,
+            labels: {
+              boxWidth: 12,
+            },
+          },
+        },
+      },
+    });
+    this.charts.push(chart);
+  }
+
+  private createAppointmentChart() {
+    const ctx = this.appointmentChartRef?.nativeElement?.getContext('2d');
+    if (!ctx || !this.profile) return;
+
+    const chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Missed', 'Attended', 'Upcoming', 'Completed'],
+        datasets: [
+          {
+            data: [
+              this.profile.a_missed,
+              this.profile.a_attended,
+              this.profile.a_upcoming,
+              this.profile.a_completed,
+            ],
+            backgroundColor: ['#8B4513', '#FFA500', '#B0C4DE', '#90EE90'],
           },
         ],
       },
@@ -126,36 +169,5 @@ export class ProfileComponent implements OnInit, OnChanges, AfterViewInit {
       onTheWay: orders.filter((order) => order.status === 'ON_THE_WAY').length,
       completed: orders.filter((order) => order.status === 'COMPLETED').length,
     };
-  }
-
-  private createAppointmentChart() {
-    const ctx = this.appointmentChartRef?.nativeElement?.getContext('2d');
-    if (!ctx) return;
-
-    const chart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Missed', 'Attended', 'Upcoming', 'Completed'],
-        datasets: [
-          {
-            data: [65, 65, 116, 30], // You'll need to update this with actual appointment stats
-            backgroundColor: ['#8B4513', '#FFA500', '#B0C4DE', '#90EE90'],
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'right' as const,
-            labels: {
-              boxWidth: 12,
-            },
-          },
-        },
-      },
-    });
-    this.charts.push(chart);
   }
 }
