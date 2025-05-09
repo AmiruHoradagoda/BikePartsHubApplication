@@ -7,7 +7,7 @@ import { ProductSearchDetail } from '../../../core/models/interface/ProductSearc
   providedIn: 'root',
 })
 export class SearchBarService {
-  private apiUrl = 'http://localhost:8080/api/v1/product/getProductsByName';
+  private apiUrl = 'https://bikepartshub.altero.dev/api/v1/product/getProductsByName';
 
   constructor(private http: HttpClient) {}
 
