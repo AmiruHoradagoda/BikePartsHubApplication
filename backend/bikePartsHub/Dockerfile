@@ -1,24 +1,13 @@
-# Step 1: Use an official OpenJDK base image from Docker Hub
-FROM openjdk:17-jdk-alpine
-
-# Step 2: Set the working directory inside the container
+# Stage 1: Build the application
+FROM maven:3.8-openjdk-17 AS build
 WORKDIR /app
-
-# Step 3: Copy Maven wrapper and project files
-COPY mvnw .
-COPY .mvn .mvn
 COPY pom.xml .
-COPY src src
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Step 4: Build the application
-RUN ./mvnw clean package -DskipTests
-
-# Step 5: Copy the Spring Boot JAR file to a different location (if needed)
-# This step might be redundant since we're building in the container
-# COPY target/bikePartsHub-0.0.1-SNAPSHOT.jar /app/bikePartsHub.jar
-
-# Step 6: Expose the port your application runs on
+# Stage 2: Run the application
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/bikePartsHub-0.0.1-SNAPSHOT.jar /app/bikePartsHub.jar
 EXPOSE 8080
-
-# Step 7: Define the command to run your Spring Boot application
-CMD ["java", "-jar", "target/bikePartsHub-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/bikePartsHub.jar"]
