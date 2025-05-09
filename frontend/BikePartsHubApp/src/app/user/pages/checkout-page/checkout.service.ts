@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class CheckoutService {
-  private API_URL = `http://localhost:8080/api/v1/order`;
+  private API_URL = `https://bikepartshub.altero.dev/api/v1/order`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
