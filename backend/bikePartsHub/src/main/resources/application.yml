@@ -5,7 +5,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # Use the container name for the MySQL container
-    url: jdbc:mysql://root:3306/bikepartshub_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://bikepartshub-mysql:3306/bikepartshub_db?createDatabaseIfNotExist=true
     username: root
     password: 1234
 
