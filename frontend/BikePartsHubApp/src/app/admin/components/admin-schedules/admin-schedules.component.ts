@@ -101,7 +101,8 @@ export class AdminSchedulesComponent implements OnInit {
       let comparison = 0;
 
       if (this.currentSortField === 'date') {
-        comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
+        comparison =
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
       } else if (this.currentSortField === 'time') {
         comparison = this.compareTime(a.startTime, b.startTime);
       }

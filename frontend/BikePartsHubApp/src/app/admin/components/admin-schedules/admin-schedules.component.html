@@ -97,10 +97,10 @@
           <tr *ngFor="let appointment of filteredAppointments | slice: (currentPage-1) * pageSize : currentPage * pageSize; let i = index" 
               class="transition-colors hover:bg-gray-50">
             <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ (currentPage-1) * pageSize + i + 1 }}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.name }}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.customerName }}</td>
             <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.startTime }}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.date | date:'dd/MM/yyyy' }}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.serviceTypeDto?.name }}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.startDate | date:'dd/MM/yyyy' }}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.serviceTypeDto.serviceName }}</td>
             <td class="px-6 py-4 text-sm text-gray-800">{{ appointment.plateNumber }}</td>
             <td class="px-6 py-4 text-right">
               <span class="px-3 py-1 text-sm font-medium rounded-full" 

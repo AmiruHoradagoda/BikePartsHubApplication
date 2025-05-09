@@ -12,17 +12,25 @@ export enum AppointmentStatus {
   ALL = 'ALL',
 }
 
+export interface ServiceTypeDto {
+  serviceName: string;
+  serviceDuration: number;
+  serviceCost: number;
+  description: string;
+  features: string[];
+}
+
 export interface AppointmentResponseDto {
-  name: string;
+  customerName: string;
   mobile: string;
-  date: string;
+  startDate: string;
   startTime: string;
   serviceDuration: number;
   plateNumber: string;
   engineOil: string;
   engineOilCost: number;
   totalCharge: number;
-  serviceTypeDto: any;
+  serviceTypeDto: ServiceTypeDto;
   appointmentStatus: AppointmentStatus;
 }
 
