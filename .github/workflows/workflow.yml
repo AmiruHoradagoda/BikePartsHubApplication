@@ -51,19 +51,46 @@ jobs:
           username: ${{ secrets.DIGITALOCEAN_USERNAME }}
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
+            # Create a docker network if it doesn't exist
+            docker network create bikepartshub-network || true
+            
             # Pull latest images
+            docker pull mysql:8.0
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bikepartshub-backend:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bikepartshub-frontend:latest
 
             # Stop and remove old containers
+            docker rm -f bikepartshub-mysql || true
             docker rm -f bikepartshub-backend || true
             docker rm -f bikepartshub-frontend || true
 
-            # Run new containers
-            docker run -d --name bikepartshub-backend -p 8080:8080 --restart always \
+            # Run MySQL container
+            docker run -d --name bikepartshub-mysql \
+              --network bikepartshub-network \
+              -p 3306:3306 \
+              -e MYSQL_ROOT_PASSWORD=1234 \
+              -e MYSQL_DATABASE=bikepartshub_db \
+              --restart always \
+              mysql:8.0
+
+            # Wait for MySQL to initialize
+            sleep 15
+
+            # Run backend container
+            docker run -d --name bikepartshub-backend \
+              --network bikepartshub-network \
+              -p 8080:8080 \
+              -e SPRING_DATASOURCE_URL=jdbc:mysql://bikepartshub-mysql:3306/bikepartshub_db?createDatabaseIfNotExist=true \
+              -e SPRING_DATASOURCE_USERNAME=root \
+              -e SPRING_DATASOURCE_PASSWORD=1234 \
+              --restart always \
               ${{ secrets.DOCKERHUB_USERNAME }}/bikepartshub-backend:latest
 
-            docker run -d --name bikepartshub-frontend -p 4200:4200 --restart always \
+            # Run frontend container
+            docker run -d --name bikepartshub-frontend \
+              --network bikepartshub-network \
+              -p 4200:4200 \
+              --restart always \
               ${{ secrets.DOCKERHUB_USERNAME }}/bikepartshub-frontend:latest
 
             # Clean up unused images
