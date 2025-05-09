@@ -4,6 +4,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # Use the container name for the MySQL container
     url: jdbc:mysql://mysql:3306/bikepartshub_db?createDatabaseIfNotExist=true
     username: root
     password: 1234
@@ -23,7 +24,6 @@ spring:
 server:
   port: 8080
 
-
 application:
   security:
     jwt:
@@ -31,5 +31,3 @@ application:
       expiration: 86400000 # a minute
       refresh-token:
         expiration: 166400000 # 7 days
-
-
