@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://bikepartshub.altero.dev/api/v1';
+  private baseUrl = 'https://bikepartshub.altero.dev/api/v1/auth';
   private currentUserSubject =
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
