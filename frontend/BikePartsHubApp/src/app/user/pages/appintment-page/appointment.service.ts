@@ -55,7 +55,7 @@ export interface AppointmentSaveRequest {
   providedIn: 'root',
 })
 export class AppointmentService {
-  private readonly API_URL = 'http://localhost:8080/api/v1/appointment';
+  private readonly API_URL = 'https://bikepartshub.altero.dev/api/v1/appointment';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
