@@ -23,4 +23,13 @@ class BikeServiceTest {
         bikeService = Mockito.mock(BikeService.class);
     }
 
+    @Test
+    void testGetAllBikeDetails() {
+        List<BikeGetResponse> mockList = Arrays.asList(new BikeGetResponse(), new BikeGetResponse());
+        when(bikeService.getAllBikeDetails()).thenReturn(mockList);
+
+        List<BikeGetResponse> result = bikeService.getAllBikeDetails();
+        assertEquals(2, result.size());
+    }
+
 }
