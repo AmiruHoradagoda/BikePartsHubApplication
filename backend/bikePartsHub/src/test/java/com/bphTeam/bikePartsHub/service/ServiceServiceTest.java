@@ -19,5 +19,15 @@ class ServiceServiceTest {
     void setUp() {
         serviceService = Mockito.mock(ServiceService.class);
     }
+    @Test
+    void testGetAllServices() {
+        List<ServiceTypeDto> mockList = Arrays.asList(new ServiceTypeDto(), new ServiceTypeDto());
+        when(serviceService.getAllServices()).thenReturn(mockList);
+
+        List<ServiceTypeDto> result = serviceService.getAllServices();
+        assertEquals(2, result.size());
+    }
+
+
 
 }
