@@ -35,5 +35,16 @@ class AppointmentServiceTest {
         assertEquals(2, result.size());
     }
 
+    
+    @Test
+    void testGetServiceById() {
+        ServiceType serviceType = new ServiceType();
+        when(appointmentService.getServiceById(1L)).thenReturn(serviceType);
+
+        ServiceType result = appointmentService.getServiceById(1L);
+        assertNotNull(result);
+    }
+
+
 
 }
