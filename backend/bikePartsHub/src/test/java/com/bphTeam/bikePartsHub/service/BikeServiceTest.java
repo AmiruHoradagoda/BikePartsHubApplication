@@ -49,7 +49,7 @@ class BikeServiceTest {
         assertEquals("Deleted", result);
     }
 
-      @Test
+    @Test
     void testUpdateBikeDetails() {
         BikeUpdateRequestDto dto = new BikeUpdateRequestDto();
         when(bikeService.updateBikeDetails(1L, dto)).thenReturn("Updated");
@@ -58,7 +58,7 @@ class BikeServiceTest {
         assertEquals("Updated", result);
     }
 
-      @Test
+    @Test
     void testGetBikeId() {
         when(bikeService.getBikeId("type", "model", "version", "manufacture")).thenReturn(10L);
 
@@ -66,4 +66,12 @@ class BikeServiceTest {
         assertEquals(10L, result);
     }
 
+    @Test
+    void testGetBikeById() {
+        BikeGetResponse response = new BikeGetResponse();
+        when(bikeService.getBikeById(1L)).thenReturn(response);
+
+        BikeGetResponse result = bikeService.getBikeById(1L);
+        assertNotNull(result);
+    }
 }
