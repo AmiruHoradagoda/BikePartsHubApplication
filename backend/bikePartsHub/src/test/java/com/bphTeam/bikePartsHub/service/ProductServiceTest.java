@@ -47,7 +47,12 @@ class ProductServiceTest {
         assertNotNull(result);
     }
 
-
+    @Test
+    void testUpdateProductService() {
+        when(productService.updateProductService(anyLong(), any(ProductUpdateRequestDto.class))).thenReturn("Updated");
+        String result = productService.updateProductService(1L, new ProductUpdateRequestDto());
+        assertEquals("Updated", result);
+    }
 
 
 
