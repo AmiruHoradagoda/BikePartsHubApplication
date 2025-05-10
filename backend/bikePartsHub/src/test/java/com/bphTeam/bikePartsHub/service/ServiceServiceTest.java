@@ -35,6 +35,15 @@ class ServiceServiceTest {
         ServiceTypeDto result = serviceService.getServiceById(1L);
         assertNotNull(result);
     }
+    @Test
+    void testCreateService() {
+        ServiceTypeDto dto = new ServiceTypeDto();
+        when(serviceService.createService(dto)).thenReturn(dto);
+
+        ServiceTypeDto result = serviceService.createService(dto);
+        assertEquals(dto, result);
+    }
+
 
 
 
