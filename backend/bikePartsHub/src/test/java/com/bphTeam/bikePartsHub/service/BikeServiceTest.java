@@ -49,4 +49,13 @@ class BikeServiceTest {
         assertEquals("Deleted", result);
     }
 
+      @Test
+    void testUpdateBikeDetails() {
+        BikeUpdateRequestDto dto = new BikeUpdateRequestDto();
+        when(bikeService.updateBikeDetails(1L, dto)).thenReturn("Updated");
+
+        String result = bikeService.updateBikeDetails(1L, dto);
+        assertEquals("Updated", result);
+    }
+
 }
