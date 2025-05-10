@@ -14,7 +14,7 @@ export class ProductFormService {
   updateProduct(productId: string, product: ProductSave) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl: string = 'http://localhost:8080';
+  private apiUrl: string = 'https://bikepartshub.altero.dev';
 
   private bikeType = new Set<string>();
   private bikeModel = new Set<string>();
