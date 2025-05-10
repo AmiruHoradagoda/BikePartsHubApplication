@@ -75,6 +75,15 @@ class ProductServiceTest {
         assertEquals(1, result.size());
     }
 
+    @Test
+    void testGetProductById() {
+        ProductGetResponseDTO dto = new ProductGetResponseDTO();
+        when(productService.getProductById(anyLong())).thenReturn(dto);
+        ProductGetResponseDTO result = productService.getProductById(1L);
+        assertNotNull(result);
+    }
+
+
 
 
 
