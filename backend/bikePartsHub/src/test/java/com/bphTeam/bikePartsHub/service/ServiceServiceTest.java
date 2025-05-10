@@ -27,6 +27,16 @@ class ServiceServiceTest {
         List<ServiceTypeDto> result = serviceService.getAllServices();
         assertEquals(2, result.size());
     }
+    @Test
+    void testGetServiceById() {
+        ServiceTypeDto dto = new ServiceTypeDto();
+        when(serviceService.getServiceById(1L)).thenReturn(dto);
+
+        ServiceTypeDto result = serviceService.getServiceById(1L);
+        assertNotNull(result);
+    }
+
+
 
 
 
