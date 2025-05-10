@@ -59,6 +59,14 @@ class ProductServiceTest {
         String result = productService.deleteProduct(1L);
         assertEquals("Deleted", result);
     }
+    
+    @Test
+    void testSaveProduct() {
+        doNothing().when(productService).saveProduct(any(ProductSaveRequestDto.class));
+        assertDoesNotThrow(() -> productService.saveProduct(new ProductSaveRequestDto()));
+    }
+
+
 
 
 
