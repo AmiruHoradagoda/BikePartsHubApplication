@@ -29,7 +29,7 @@ class ProductServiceTest {
     void setUp() {
         productService = Mockito.mock(ProductService.class);
     }
-    
+
     @Test
     void testGetAllProducts() {
         ProductGetResponseDTO product = new ProductGetResponseDTO();
@@ -37,7 +37,7 @@ class ProductServiceTest {
         List<ProductGetResponseDTO> result = productService.getAllProducts();
         assertEquals(1, result.size());
     }
-    
+
     @Test
     void testGetProducts() {
         PaginatedResponseItemDTO paginated = new PaginatedResponseItemDTO();
@@ -53,13 +53,14 @@ class ProductServiceTest {
         String result = productService.updateProductService(1L, new ProductUpdateRequestDto());
         assertEquals("Updated", result);
     }
+
     @Test
     void testDeleteProduct() {
         when(productService.deleteProduct(anyLong())).thenReturn("Deleted");
         String result = productService.deleteProduct(1L);
         assertEquals("Deleted", result);
     }
-    
+
     @Test
     void testSaveProduct() {
         doNothing().when(productService).saveProduct(any(ProductSaveRequestDto.class));
@@ -82,11 +83,4 @@ class ProductServiceTest {
         ProductGetResponseDTO result = productService.getProductById(1L);
         assertNotNull(result);
     }
-
-
-
-
-
-
-
 }
