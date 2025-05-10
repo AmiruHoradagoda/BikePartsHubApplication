@@ -44,6 +44,17 @@ class AppointmentServiceTest {
         ServiceType result = appointmentService.getServiceById(1L);
         assertNotNull(result);
     }
+    
+    @Test
+    void testGetAppointmentsByDate() {
+        List<Appointment> mockList = Arrays.asList(new Appointment(), new Appointment());
+        LocalDate date = LocalDate.now();
+        when(appointmentService.getAppointmentsByDate(date)).thenReturn(mockList);
+
+        List<Appointment> result = appointmentService.getAppointmentsByDate(date);
+        assertEquals(2, result.size());
+    }
+
 
 
 
