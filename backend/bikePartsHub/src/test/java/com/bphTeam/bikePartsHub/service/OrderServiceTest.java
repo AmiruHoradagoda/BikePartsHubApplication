@@ -61,4 +61,14 @@ class OrderServiceTest {
         OrderResponseWithDetailsDto result = orderService.getOrderById(1L);
         assertNotNull(result);
     }
+
+     @Test
+    void testGetMonthlyOrderReport() {
+        OrderResponseWithDetailsDto order1 = new OrderResponseWithDetailsDto();
+        OrderResponseWithDetailsDto order2 = new OrderResponseWithDetailsDto();
+        List<OrderResponseWithDetailsDto> orders = Arrays.asList(order1, order2);
+        when(orderService.getMonthlyOrderReport(anyInt(), anyInt())).thenReturn(orders);
+        List<OrderResponseWithDetailsDto> result = orderService.getMonthlyOrderReport(2024, 6);
+        assertEquals(2, result.size());
+    }
 }
