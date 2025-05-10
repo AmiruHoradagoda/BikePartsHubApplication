@@ -45,4 +45,12 @@ class OrderServiceTest {
         String result = orderService.changeOrderStatus(1L, OrderStatus.COMPLETED);
         assertEquals("Status changed", result);
     }
+
+     @Test
+    void testGetCustomerOrders() {
+        PaginatedOrderResponseWithDetailsDto paginatedDto = new PaginatedOrderResponseWithDetailsDto();
+        when(orderService.getCustomerOrders(anyInt(), anyInt(), anyInt())).thenReturn(paginatedDto);
+        PaginatedOrderResponseWithDetailsDto result = orderService.getCustomerOrders(1, 0, 10);
+        assertNotNull(result);
+    }
 }
