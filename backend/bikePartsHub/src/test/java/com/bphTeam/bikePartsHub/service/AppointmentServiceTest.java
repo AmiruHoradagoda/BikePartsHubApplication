@@ -55,6 +55,16 @@ class AppointmentServiceTest {
         assertEquals(2, result.size());
     }
 
+    
+    @Test
+    void testCreateAppointment() {
+        AppointmentSaveRequestDto dto = new AppointmentSaveRequestDto();
+        doNothing().when(appointmentService).createAppointment(dto);
+
+        assertDoesNotThrow(() -> appointmentService.createAppointment(dto));
+        verify(appointmentService, times(1)).createAppointment(dto);
+    }
+
 
 
 
