@@ -30,4 +30,14 @@ class OrderServiceTest {
         String result = orderService.addOrder(dto);
         assertEquals("Order added", result);
     }
+
+      @Test
+    void testGetAllOrderDetails() {
+        PaginatedOrderResponseWithDetailsDto paginatedDto = new PaginatedOrderResponseWithDetailsDto();
+        when(orderService.getAllOrderDetails(any(OrderStatus.class), anyInt(), anyInt())).thenReturn(paginatedDto);
+        PaginatedOrderResponseWithDetailsDto result = orderService.getAllOrderDetails(OrderStatus.PENDING, 0, 10);
+        assertNotNull(result);
+    }
+
+    
 }
