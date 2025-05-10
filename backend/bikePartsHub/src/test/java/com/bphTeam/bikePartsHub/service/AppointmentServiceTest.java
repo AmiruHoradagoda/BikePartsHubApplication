@@ -73,6 +73,16 @@ class AppointmentServiceTest {
         boolean available = appointmentService.isTimeSlotAvailable(date, "10:00", 30);
         assertTrue(available);
     }
+
+    @Test
+    void testGetAvailableTimeSlots() {
+        LocalDate date = LocalDate.now();
+        List<String> slots = Arrays.asList("09:00", "10:00");
+        when(appointmentService.getAvailableTimeSlots(date, 30)).thenReturn(slots);
+
+        List<String> result = appointmentService.getAvailableTimeSlots(date, 30);
+        assertEquals(2, result.size());
+    }
    
 
 
