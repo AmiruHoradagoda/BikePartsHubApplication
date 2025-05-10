@@ -94,6 +94,15 @@ class AppointmentServiceTest {
         assertEquals(2, result.size());
     }
 
+    @Test
+    void testGetAllAppointmentDetails() {
+        PaginatedAppointmentResponseDto dto = new PaginatedAppointmentResponseDto();
+        when(appointmentService.getAllAppointmentDetails(0, 10)).thenReturn(dto);
+
+        PaginatedAppointmentResponseDto result = appointmentService.getAllAppointmentDetails(0, 10);
+        assertNotNull(result);
+    }
+
    
 
 
