@@ -64,6 +64,16 @@ class AppointmentServiceTest {
         assertDoesNotThrow(() -> appointmentService.createAppointment(dto));
         verify(appointmentService, times(1)).createAppointment(dto);
     }
+    
+    @Test
+    void testIsTimeSlotAvailable() {
+        LocalDate date = LocalDate.now();
+        when(appointmentService.isTimeSlotAvailable(date, "10:00", 30)).thenReturn(true);
+
+        boolean available = appointmentService.isTimeSlotAvailable(date, "10:00", 30);
+        assertTrue(available);
+    }
+   
 
 
 
