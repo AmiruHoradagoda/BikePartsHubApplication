@@ -39,5 +39,10 @@ class OrderServiceTest {
         assertNotNull(result);
     }
 
-    
+    @Test
+    void testChangeOrderStatus() {
+        when(orderService.changeOrderStatus(anyLong(), any(OrderStatus.class))).thenReturn("Status changed");
+        String result = orderService.changeOrderStatus(1L, OrderStatus.COMPLETED);
+        assertEquals("Status changed", result);
+    }
 }
