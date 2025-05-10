@@ -43,13 +43,22 @@ class ServiceServiceTest {
         ServiceTypeDto result = serviceService.createService(dto);
         assertEquals(dto, result);
     }
-        @Test
+
+    @Test
     void testUpdateService() {
         ServiceTypeDto dto = new ServiceTypeDto();
         when(serviceService.updateService(1L, dto)).thenReturn(dto);
 
         ServiceTypeDto result = serviceService.updateService(1L, dto);
         assertEquals(dto, result);
+    }
+
+    @Test
+    void testDeleteService() {
+        doNothing().when(serviceService).deleteService(1L);
+
+        assertDoesNotThrow(() -> serviceService.deleteService(1L));
+        verify(serviceService, times(1)).deleteService(1L);
     }
 
 
