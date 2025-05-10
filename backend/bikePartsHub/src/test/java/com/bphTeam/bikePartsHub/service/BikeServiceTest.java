@@ -58,4 +58,12 @@ class BikeServiceTest {
         assertEquals("Updated", result);
     }
 
+      @Test
+    void testGetBikeId() {
+        when(bikeService.getBikeId("type", "model", "version", "manufacture")).thenReturn(10L);
+
+        Long result = bikeService.getBikeId("type", "model", "version", "manufacture");
+        assertEquals(10L, result);
+    }
+
 }
