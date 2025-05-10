@@ -53,4 +53,12 @@ class OrderServiceTest {
         PaginatedOrderResponseWithDetailsDto result = orderService.getCustomerOrders(1, 0, 10);
         assertNotNull(result);
     }
+
+     @Test
+    void testGetOrderById() {
+        OrderResponseWithDetailsDto orderDto = new OrderResponseWithDetailsDto();
+        when(orderService.getOrderById(anyLong())).thenReturn(orderDto);
+        OrderResponseWithDetailsDto result = orderService.getOrderById(1L);
+        assertNotNull(result);
+    }
 }
