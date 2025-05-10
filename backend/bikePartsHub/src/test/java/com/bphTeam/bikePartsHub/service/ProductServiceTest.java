@@ -29,6 +29,15 @@ class ProductServiceTest {
     void setUp() {
         productService = Mockito.mock(ProductService.class);
     }
+    
+    @Test
+    void testGetAllProducts() {
+        ProductGetResponseDTO product = new ProductGetResponseDTO();
+        when(productService.getAllProducts()).thenReturn(Collections.singletonList(product));
+        List<ProductGetResponseDTO> result = productService.getAllProducts();
+        assertEquals(1, result.size());
+    }
+
 
 
 }
