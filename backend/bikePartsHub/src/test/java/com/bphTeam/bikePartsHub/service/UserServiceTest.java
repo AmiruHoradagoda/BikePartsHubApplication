@@ -38,5 +38,11 @@ public class UserServiceTest {
         assertEquals(mockResponse, userService.getAllCustomerDetails("John", Role.CUSTOMER, 0, 10));
     }
 
+    @Test
+    void testGetAllCustomerProfile() {
+        CustomerProfileDto mockProfile = mock(CustomerProfileDto.class);
+        when(userService.getAllCustomerProfile(1)).thenReturn(mockProfile);
+        assertEquals(mockProfile, userService.getAllCustomerProfile(1));
+    }
  
 }
