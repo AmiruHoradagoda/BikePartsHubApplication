@@ -53,6 +53,12 @@ class ProductServiceTest {
         String result = productService.updateProductService(1L, new ProductUpdateRequestDto());
         assertEquals("Updated", result);
     }
+    @Test
+    void testDeleteProduct() {
+        when(productService.deleteProduct(anyLong())).thenReturn("Deleted");
+        String result = productService.deleteProduct(1L);
+        assertEquals("Deleted", result);
+    }
 
 
 
