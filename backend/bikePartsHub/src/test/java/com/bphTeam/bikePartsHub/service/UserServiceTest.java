@@ -1,5 +1,6 @@
 package com.bphTeam.bikePartsHub.service;
 
+
 import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
@@ -24,14 +25,14 @@ public class UserServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-     @Test
+    @Test
     void testGetUserDetails() {
         CustomerResponseDto mockResponse = mock(CustomerResponseDto.class);
         when(userService.getUserDetails(1)).thenReturn(mockResponse);
         assertEquals(mockResponse, userService.getUserDetails(1));
     }
 
-      @Test
+    @Test
     void testGetAllCustomerDetails() {
         PaginatedUserResponseDto mockResponse = mock(PaginatedUserResponseDto.class);
         when(userService.getAllCustomerDetails("John", Role.CUSTOMER, 0, 10)).thenReturn(mockResponse);
@@ -44,5 +45,10 @@ public class UserServiceTest {
         when(userService.getAllCustomerProfile(1)).thenReturn(mockProfile);
         assertEquals(mockProfile, userService.getAllCustomerProfile(1));
     }
- 
+
+    @Test
+    void testChangeUserRole() {
+        when(userService.changeUserRole(1, Role.ADMIN)).thenReturn("Role changed");
+        assertEquals("Role changed", userService.changeUserRole(1, Role.ADMIN));
+    }
 }
