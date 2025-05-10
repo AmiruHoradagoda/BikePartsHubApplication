@@ -23,5 +23,11 @@ class OrderServiceTest {
         orderService = Mockito.mock(OrderService.class);
     }
 
- 
+    @Test
+    void testAddOrder() {
+        OrderSaveRequestDto dto = new OrderSaveRequestDto();
+        when(orderService.addOrder(any(OrderSaveRequestDto.class))).thenReturn("Order added");
+        String result = orderService.addOrder(dto);
+        assertEquals("Order added", result);
+    }
 }
