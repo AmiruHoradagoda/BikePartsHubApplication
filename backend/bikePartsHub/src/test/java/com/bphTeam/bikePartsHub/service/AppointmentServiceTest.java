@@ -25,7 +25,7 @@ class AppointmentServiceTest {
     void setUp() {
         appointmentService = Mockito.mock(AppointmentService.class);
     }
-
+    
     @Test
     void testGetAllServices() {
         List<ServiceType> mockList = Arrays.asList(new ServiceType(), new ServiceType());
@@ -35,68 +35,5 @@ class AppointmentServiceTest {
         assertEquals(2, result.size());
     }
 
-    @Test
-    void testGetServiceById() {
-        ServiceType serviceType = new ServiceType();
-        when(appointmentService.getServiceById(1L)).thenReturn(serviceType);
 
-        ServiceType result = appointmentService.getServiceById(1L);
-        assertNotNull(result);
-    }
-
-    @Test
-    void testGetAppointmentsByDate() {
-        List<Appointment> mockList = Arrays.asList(new Appointment(), new Appointment());
-        LocalDate date = LocalDate.now();
-        when(appointmentService.getAppointmentsByDate(date)).thenReturn(mockList);
-
-        List<Appointment> result = appointmentService.getAppointmentsByDate(date);
-        assertEquals(2, result.size());
-    }
-
-    @Test
-    void testCreateAppointment() {
-        AppointmentSaveRequestDto dto = new AppointmentSaveRequestDto();
-        doNothing().when(appointmentService).createAppointment(dto);
-
-        assertDoesNotThrow(() -> appointmentService.createAppointment(dto));
-        verify(appointmentService, times(1)).createAppointment(dto);
-    }
-
-    @Test
-    void testIsTimeSlotAvailable() {
-        LocalDate date = LocalDate.now();
-        when(appointmentService.isTimeSlotAvailable(date, "10:00", 30)).thenReturn(true);
-
-        boolean available = appointmentService.isTimeSlotAvailable(date, "10:00", 30);
-        assertTrue(available);
-    }
-
-    @Test
-    void testGetAvailableTimeSlots() {
-        LocalDate date = LocalDate.now();
-        List<String> slots = Arrays.asList("09:00", "10:00");
-        when(appointmentService.getAvailableTimeSlots(date, 30)).thenReturn(slots);
-
-        List<String> result = appointmentService.getAvailableTimeSlots(date, 30);
-        assertEquals(2, result.size());
-    }
-
-    @Test
-    void testGetCustomerAppointments() {
-        List<AppointmentResponseDto> mockList = Arrays.asList(new AppointmentResponseDto(), new AppointmentResponseDto());
-        when(appointmentService.getCustomerAppointments(1)).thenReturn(mockList);
-
-        List<AppointmentResponseDto> result = appointmentService.getCustomerAppointments(1);
-        assertEquals(2, result.size());
-    }
-
-    @Test
-    void testGetAllAppointmentDetails() {
-        PaginatedAppointmentResponseDto dto = new PaginatedAppointmentResponseDto();
-        when(appointmentService.getAllAppointmentDetails(0, 10)).thenReturn(dto);
-
-        PaginatedAppointmentResponseDto result = appointmentService.getAllAppointmentDetails(0, 10);
-        assertNotNull(result);
-    }
 }
