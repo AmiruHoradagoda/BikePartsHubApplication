@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+// Java
+
+
+
 
 class OrderServiceTest {
 
@@ -31,7 +35,7 @@ class OrderServiceTest {
         assertEquals("Order added", result);
     }
 
-      @Test
+    @Test
     void testGetAllOrderDetails() {
         PaginatedOrderResponseWithDetailsDto paginatedDto = new PaginatedOrderResponseWithDetailsDto();
         when(orderService.getAllOrderDetails(any(OrderStatus.class), anyInt(), anyInt())).thenReturn(paginatedDto);
@@ -46,7 +50,7 @@ class OrderServiceTest {
         assertEquals("Status changed", result);
     }
 
-     @Test
+    @Test
     void testGetCustomerOrders() {
         PaginatedOrderResponseWithDetailsDto paginatedDto = new PaginatedOrderResponseWithDetailsDto();
         when(orderService.getCustomerOrders(anyInt(), anyInt(), anyInt())).thenReturn(paginatedDto);
@@ -54,7 +58,7 @@ class OrderServiceTest {
         assertNotNull(result);
     }
 
-     @Test
+    @Test
     void testGetOrderById() {
         OrderResponseWithDetailsDto orderDto = new OrderResponseWithDetailsDto();
         when(orderService.getOrderById(anyLong())).thenReturn(orderDto);
@@ -62,7 +66,7 @@ class OrderServiceTest {
         assertNotNull(result);
     }
 
-     @Test
+    @Test
     void testGetMonthlyOrderReport() {
         OrderResponseWithDetailsDto order1 = new OrderResponseWithDetailsDto();
         OrderResponseWithDetailsDto order2 = new OrderResponseWithDetailsDto();
