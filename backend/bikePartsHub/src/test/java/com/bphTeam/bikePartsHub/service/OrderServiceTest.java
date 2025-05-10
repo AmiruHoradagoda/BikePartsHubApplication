@@ -46,7 +46,7 @@ class OrderServiceTest {
     @Test
     void testChangeOrderStatus() {
         when(orderService.changeOrderStatus(anyLong(), any(OrderStatus.class))).thenReturn("Status changed");
-        String result = orderService.changeOrderStatus(1L, OrderStatus.COMPLETED);
+        String result = orderService.changeOrderStatus(1L, OrderStatus.SHIPPED);
         assertEquals("Status changed", result);
     }
 
