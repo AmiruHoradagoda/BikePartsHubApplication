@@ -1,9 +1,8 @@
-import { Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
-import { environment } from "../../../../environments/environment.development";
-import { HttpClient } from "@angular/common/http";
-import { AdminAuthService } from "../../../admin/auth-admin/auth-admin.service";
-
+import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../auth/auth.service';
 
 export interface StandardResponse<T> {
   code: number;
@@ -29,13 +28,20 @@ export interface UserResponseDto {
   orders: OrderResponseDto[];
 }
 
+export interface UserUpdateDto {
+  firstName?: string;
+  lastName?: string;
+  address?: string;
+  phone?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserDashboardService {
   private readonly apiUrl = `${environment.apiUrl}/api/v1/user`;
-  constructor(private http: HttpClient, private adminAuthService: AdminAuthService) {}
 
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getUserDetails(userId: number): Observable<UserResponseDto> {
     return this.http
@@ -49,14 +55,14 @@ export class UserDashboardService {
 
   updateUserProfile(
     userId: number,
-    userData: Partial<UserResponseDto>
+    userData: UserUpdateDto
   ): Observable<UserResponseDto> {
     return this.http
       .put<StandardResponse<UserResponseDto>>(
         `${this.apiUrl}/updateProfile/${userId}`,
         userData,
         {
-          headers: this.adminAuthService.getAuthHeader(),
+          headers: this.authService.getAuthHeader(),
         }
       )
       .pipe(

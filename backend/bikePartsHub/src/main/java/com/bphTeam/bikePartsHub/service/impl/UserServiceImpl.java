@@ -2,6 +2,7 @@ package com.bphTeam.bikePartsHub.service.impl;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponse;
@@ -188,23 +189,30 @@ public class UserServiceImpl implements UserService {
         return "User role updated successfully to " + userRole;
     }
 
-    @Override
-    public User updateUserProfile(Integer id, User user) {
-        return null;
-    }
-//    @Override
-//    public User updateUserProfile(Integer id, UserUpdateRequestDto profileUpdateDto) {
-//        User existingUser = userRepo.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-//
-//        // Update fields
-//        if (profileUpdateDto.getFirstName() != null) {
-//            existingUser.setFirstName(profileUpdateDto.getFirstName());
-//        }
-//        // ... update other fields
-//
-//        return userRepo.save(existingUser);
-//    }
+    public UserResponseDto updateUserProfile(Integer id, UserUpdateRequestDto profileUpdateDto) {
+        User existingUser = userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
+        // Update fields
+        if (profileUpdateDto.getFirstName() != null && !profileUpdateDto.getFirstName().isEmpty()) {
+            existingUser.setFirstName(profileUpdateDto.getFirstName());
+        }
+
+        if (profileUpdateDto.getLastName() != null && !profileUpdateDto.getLastName().isEmpty()) {
+            existingUser.setLastName(profileUpdateDto.getLastName());
+        }
+
+        if (profileUpdateDto.getPhone() != null && !profileUpdateDto.getPhone().isEmpty()) {
+            existingUser.setPhone(profileUpdateDto.getPhone());
+        }
+
+        if (profileUpdateDto.getAddress() != null && !profileUpdateDto.getAddress().isEmpty()) {
+            existingUser.setAddress(profileUpdateDto.getAddress());
+        }
+
+        // Email is typically not updated through profile updates
+        userRepo.save(existingUser);
+        return userMapper.toUserResponseDto(existingUser) ;
+    }
 
 }
