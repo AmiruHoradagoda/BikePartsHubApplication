@@ -31,5 +31,12 @@ public class UserServiceTest {
         assertEquals(mockResponse, userService.getUserDetails(1));
     }
 
+      @Test
+    void testGetAllCustomerDetails() {
+        PaginatedUserResponseDto mockResponse = mock(PaginatedUserResponseDto.class);
+        when(userService.getAllCustomerDetails("John", Role.CUSTOMER, 0, 10)).thenReturn(mockResponse);
+        assertEquals(mockResponse, userService.getAllCustomerDetails("John", Role.CUSTOMER, 0, 10));
+    }
+
  
 }
