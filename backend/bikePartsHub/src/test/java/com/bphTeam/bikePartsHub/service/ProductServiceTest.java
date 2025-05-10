@@ -66,6 +66,16 @@ class ProductServiceTest {
         assertDoesNotThrow(() -> productService.saveProduct(new ProductSaveRequestDto()));
     }
 
+    @Test
+    void testGetProductsByName() {
+        ProductSearchResponseDto dto = new ProductSearchResponseDto();
+        when(productService.getProductsByName(anyString(), anyBoolean(), anyInt()))
+                .thenReturn(Arrays.asList(dto));
+        List<ProductSearchResponseDto> result = productService.getProductsByName("name", true, 5);
+        assertEquals(1, result.size());
+    }
+
+
 
 
 
