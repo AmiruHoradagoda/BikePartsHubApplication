@@ -19,6 +19,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
           
+      - name: Make Maven wrapper executable
+        working-directory: ./backend/bikePartsHub
+        run: chmod +x mvnw
+          
       - name: Run Backend Tests
         working-directory: ./backend/bikePartsHub
         run: ./mvnw test
