@@ -83,6 +83,17 @@ class AppointmentServiceTest {
         List<String> result = appointmentService.getAvailableTimeSlots(date, 30);
         assertEquals(2, result.size());
     }
+
+    
+    @Test
+    void testGetCustomerAppointments() {
+        List<AppointmentResponseDto> mockList = Arrays.asList(new AppointmentResponseDto(), new AppointmentResponseDto());
+        when(appointmentService.getCustomerAppointments(1)).thenReturn(mockList);
+
+        List<AppointmentResponseDto> result = appointmentService.getCustomerAppointments(1);
+        assertEquals(2, result.size());
+    }
+
    
 
 
