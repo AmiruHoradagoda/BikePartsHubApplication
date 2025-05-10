@@ -41,4 +41,12 @@ class BikeServiceTest {
         verify(bikeService, times(1)).saveBikeDetails(dto);
     }
 
+    @Test
+    void testDeleteBikeDetails() {
+        when(bikeService.deleteBikeDetails(1L)).thenReturn("Deleted");
+
+        String result = bikeService.deleteBikeDetails(1L);
+        assertEquals("Deleted", result);
+    }
+
 }
