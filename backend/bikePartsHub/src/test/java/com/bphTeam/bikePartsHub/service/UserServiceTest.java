@@ -23,5 +23,13 @@ public class UserServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+     @Test
+    void testGetUserDetails() {
+        CustomerResponseDto mockResponse = mock(CustomerResponseDto.class);
+        when(userService.getUserDetails(1)).thenReturn(mockResponse);
+        assertEquals(mockResponse, userService.getUserDetails(1));
+    }
+
  
 }
