@@ -32,4 +32,13 @@ class BikeServiceTest {
         assertEquals(2, result.size());
     }
 
+    @Test
+    void testSaveBikeDetails() {
+        BikeSaveRequestDto dto = new BikeSaveRequestDto();
+        doNothing().when(bikeService).saveBikeDetails(dto);
+
+        assertDoesNotThrow(() -> bikeService.saveBikeDetails(dto));
+        verify(bikeService, times(1)).saveBikeDetails(dto);
+    }
+
 }
