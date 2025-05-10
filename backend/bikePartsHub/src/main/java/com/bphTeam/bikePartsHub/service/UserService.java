@@ -1,6 +1,8 @@
 package com.bphTeam.bikePartsHub.service;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
+import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.user.Role;
@@ -17,5 +19,5 @@ public interface UserService {
 
     String changeUserRole(int userId,Role userRole);
 
-    User updateUserProfile(Integer id, User user);
+    UserResponseDto updateUserProfile(Integer id, UserUpdateRequestDto user);
 }

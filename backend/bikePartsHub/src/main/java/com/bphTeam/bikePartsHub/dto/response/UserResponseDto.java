@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.dto.request.userRequestDto;
+package com.bphTeam.bikePartsHub.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateRequestDto {
+public class UserResponseDto {
     private String firstName;
     private String lastName;
     private String email;

@@ -1,5 +1,7 @@
 package com.bphTeam.bikePartsHub.controller;
 
+import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.user.User;
@@ -24,10 +26,9 @@ public class UserController {
     @PutMapping("/updateProfile/{id}")
     private ResponseEntity<StandardResponse> updateUserProfile(
             @PathVariable Integer id,
-            @RequestBody User user) {
-        // Assuming you'll implement this method in your service
-        User updatedUser = userService.updateUserProfile(id, user);
-        return new ResponseEntity<StandardResponse>(
+            @RequestBody UserUpdateRequestDto updateRequestDto) {
+        UserResponseDto updatedUser = userService.updateUserProfile(id, updateRequestDto);
+        return new ResponseEntity<>(
                 new StandardResponse(200, "User profile updated successfully", updatedUser),
                 HttpStatus.OK);
     }
