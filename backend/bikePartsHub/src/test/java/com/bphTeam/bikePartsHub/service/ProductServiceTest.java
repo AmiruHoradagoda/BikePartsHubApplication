@@ -37,6 +37,17 @@ class ProductServiceTest {
         List<ProductGetResponseDTO> result = productService.getAllProducts();
         assertEquals(1, result.size());
     }
+    
+    @Test
+    void testGetProducts() {
+        PaginatedResponseItemDTO paginated = new PaginatedResponseItemDTO();
+        when(productService.getProducts(anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt()))
+                .thenReturn(paginated);
+        PaginatedResponseItemDTO result = productService.getProducts("cat", "type", "manu", true, "bikeType", "bikeModel", "bikeManu", "color", 0, 10);
+        assertNotNull(result);
+    }
+
+
 
 
 
