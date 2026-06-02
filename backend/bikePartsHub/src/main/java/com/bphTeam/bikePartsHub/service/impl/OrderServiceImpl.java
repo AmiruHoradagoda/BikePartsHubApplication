@@ -20,6 +20,7 @@ import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.entity.User;
 import com.bphTeam.bikePartsHub.repository.UserRepo;
 import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
+import com.bphTeam.bikePartsHub.service.order.OrderStatusTransitionValidator;
 import com.bphTeam.bikePartsHub.service.payment.PaymentStrategyFactory;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class OrderServiceImpl implements OrderService {
     private PaymentRepository paymentRepository;
     @Autowired
     private PaymentStrategyFactory paymentStrategyFactory;
+    @Autowired
+    private OrderStatusTransitionValidator orderStatusTransitionValidator;
 
     @Transactional
     public String addOrder(OrderSaveRequestDto requestOrderSaveDTO) {
@@ -162,6 +165,8 @@ public class OrderServiceImpl implements OrderService {
         // Retrieve the order by ID
         Order order = orderRepo.findById(orderId)
                 .orElseThrow(() -> new EntryNotFoundException("Order not found with id: " + orderId));
+
+        orderStatusTransitionValidator.validate(order.getStatus(), status);
 
         // Update the order's status
         order.setStatus(status);
