@@ -9,7 +9,7 @@ import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerRespons
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.Order;
-import com.bphTeam.bikePartsHub.exception.ResourceNotFoundException;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.OrderMapper;
 import com.bphTeam.bikePartsHub.mapper.UserMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
@@ -46,7 +46,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CustomerResponseDto getUserDetails(int userId) {
-        User user = userRepo.getById(userId);
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new EntryNotFoundException("User not found with id: " + userId));
         Set<Order> orders = orderRepo.findOrderByUser(user);
         Set<OrderResponseDto>orderResponseDtos = orderMapper.toOrder(orders);
         CustomerResponseDto userResponseDto = CustomerResponseDto.builder()
@@ -179,7 +180,7 @@ public class UserServiceImpl implements UserService {
     public String changeUserRole(int userId,Role userRole) {
         // Find user by ID
         User user = userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+                .orElseThrow(() -> new EntryNotFoundException("User not found with id: " + userId));
 
         // Change role
         user.setRole(userRole);
@@ -190,7 +191,7 @@ public class UserServiceImpl implements UserService {
 
     public UserResponseDto updateUserProfile(Integer id, UserUpdateRequestDto profileUpdateDto) {
         User existingUser = userRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new EntryNotFoundException("User not found with id: " + id));
 
         // Update fields
         if (profileUpdateDto.getFirstName() != null && !profileUpdateDto.getFirstName().isEmpty()) {

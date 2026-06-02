@@ -8,6 +8,7 @@ import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithD
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
 import com.bphTeam.bikePartsHub.entity.ShippingAddress;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ShippingMapper;
 import com.bphTeam.bikePartsHub.repository.OrderDetailRepo;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
@@ -50,7 +51,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public String addOrder(OrderSaveRequestDto requestOrderSaveDTO) {
         // Retrieve the user by ID
-        User user = userRepo.getById(requestOrderSaveDTO.getUserId());
+        User user = userRepo.findById(requestOrderSaveDTO.getUserId())
+                .orElseThrow(() -> new EntryNotFoundException("User not found with id: " + requestOrderSaveDTO.getUserId()));
         ShippingAddress shippingAddress = shippingMapper.toShippingEntity(requestOrderSaveDTO.getShippingAddress());
         shippingRepo.save(shippingAddress);
         // Create the Order entity
@@ -73,7 +75,8 @@ public class OrderServiceImpl implements OrderService {
                 orderDetail.setProductName(detailDTO.getProductName());
                 orderDetail.setQty(detailDTO.getQty());
                 orderDetail.setAmount(detailDTO.getAmount());
-                orderDetail.setProduct(productRepo.getById(detailDTO.getProductId())); // Fetch item by productId
+                orderDetail.setProduct(productRepo.findById(detailDTO.getProductId())
+                        .orElseThrow(() -> new EntryNotFoundException("Product not found with id: " + detailDTO.getProductId())));
 
                 // Save the order detail
                 orderDetailRepo.save(orderDetail);
@@ -144,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
     public String changeOrderStatus(long orderId, OrderStatus status) {
         // Retrieve the order by ID
         Order order = orderRepo.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order with ID " + orderId + " not found."));
+                .orElseThrow(() -> new EntryNotFoundException("Order not found with id: " + orderId));
 
         // Update the order's status
         order.setStatus(status);
@@ -206,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponseWithDetailsDto getOrderById(Long id) {
         // Retrieve the order by ID
         Order order = orderRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order with ID " + id + " not found."));
+                .orElseThrow(() -> new EntryNotFoundException("Order not found with id: " + id));
 
         // Initialize a set to store the OrderDetailsDto
         Set<OrderDetailsDto> orderDetailsDtos = new HashSet<>();

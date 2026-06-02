@@ -4,6 +4,8 @@ import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
 import com.bphTeam.bikePartsHub.entity.Bike;
+import com.bphTeam.bikePartsHub.exception.BadRequestException;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.BikeMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
 import com.bphTeam.bikePartsHub.service.BikeService;
@@ -36,7 +38,7 @@ public class BikeServiceImpl implements BikeService {
     @Override
     public String deleteBikeDetails(Long bike_id) {
         if(!bikeRepo.existsById(bike_id)){
-            throw new RuntimeException("Bike is already deleted");
+            throw new EntryNotFoundException("Bike not found with id: " + bike_id);
         }
         bikeRepo.deleteById(bike_id);
         return "Bike details successfully deleted";
@@ -45,7 +47,7 @@ public class BikeServiceImpl implements BikeService {
     @Override
     public String updateBikeDetails(Long id,BikeUpdateRequestDto bikeUpdateRequestDto) {
         if(!bikeRepo.existsById(id)){
-            throw new RuntimeException("There no such a bike");
+            throw new EntryNotFoundException("Bike not found with id: " + id);
         }
         bikeRepo.save(bikeMapper.bikeUpdateRequestDtoToBikeEntity(bikeUpdateRequestDto));
         return "Bike details successfully updated";
@@ -59,7 +61,8 @@ public class BikeServiceImpl implements BikeService {
 
     @Override
     public BikeGetResponse getBikeById(Long bikeId) {
-        Bike bike   = bikeRepo.getReferenceById(bikeId);
+        Bike bike = bikeRepo.findById(bikeId)
+                .orElseThrow(() -> new EntryNotFoundException("Bike not found with id: " + bikeId));
         BikeGetResponse bikeGetResponse = bikeMapper.bikeEntityToBikeGetDto(bike);
         return bikeGetResponse;
     }

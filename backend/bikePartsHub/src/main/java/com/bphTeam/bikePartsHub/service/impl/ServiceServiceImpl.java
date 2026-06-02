@@ -3,7 +3,7 @@ package com.bphTeam.bikePartsHub.service.impl;
 import com.bphTeam.bikePartsHub.service.ServiceService;
 import com.bphTeam.bikePartsHub.dto.response.ServiceTypeDto;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
-import com.bphTeam.bikePartsHub.exception.ResourceNotFoundException;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class ServiceServiceImpl implements ServiceService {
     public ServiceTypeDto getServiceById(Long id) {
         return serviceTypeRepository.findById(id)
                 .map(this::mapToDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Service not found with id: " + id));
+                .orElseThrow(() -> new EntryNotFoundException("Service not found with id: " + id));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public ServiceTypeDto updateService(Long id, ServiceTypeDto serviceTypeDto) {
         ServiceType existingService = serviceTypeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service not found with id: " + id));
+                .orElseThrow(() -> new EntryNotFoundException("Service not found with id: " + id));
 
         existingService.setServiceName(serviceTypeDto.getServiceName());
         existingService.setServiceDuration(serviceTypeDto.getServiceDuration());
@@ -56,7 +56,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public void deleteService(Long id) {
         ServiceType serviceType = serviceTypeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service not found with id: " + id));
+                .orElseThrow(() -> new EntryNotFoundException("Service not found with id: " + id));
         serviceTypeRepository.delete(serviceType);
     }
 

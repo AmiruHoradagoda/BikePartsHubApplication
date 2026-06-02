@@ -2,7 +2,7 @@ package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.service.OrderService;
-import com.bphTeam.bikePartsHub.utils.StandardResponse;
+import com.bphTeam.bikePartsHub.utils.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ public class OrderController {
             path = {"/save"}
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'LOYAL_CUSTOMER')")
-    public ResponseEntity<StandardResponse> saveItem(@RequestBody OrderSaveRequestDto requestOderSaveDTO){
+    public ResponseEntity<StandardResponseDto> saveItem(@RequestBody OrderSaveRequestDto requestOderSaveDTO){
         String message  = orderService.addOrder(requestOderSaveDTO);
 
-        return new ResponseEntity<StandardResponse>(new StandardResponse(201,"Order is Saved",message), HttpStatus.CREATED);
+        return new ResponseEntity<StandardResponseDto>(new StandardResponseDto(201,"Order is Saved",message), HttpStatus.CREATED);
     }
 
 }

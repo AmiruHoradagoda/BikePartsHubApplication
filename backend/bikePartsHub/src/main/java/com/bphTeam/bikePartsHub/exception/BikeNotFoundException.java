@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.exception;
 
-public class BikeNotFoundException extends RuntimeException {
+public class BikeNotFoundException extends EntryNotFoundException {
 
     private static final long serialVersionUID = 1L;
 

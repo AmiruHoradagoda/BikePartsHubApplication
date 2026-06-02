@@ -11,8 +11,7 @@ import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductSearchRes
 import com.bphTeam.bikePartsHub.entity.Bike;
 import com.bphTeam.bikePartsHub.entity.Product;
 import com.bphTeam.bikePartsHub.entity.ProductAttribute;
-import com.bphTeam.bikePartsHub.exception.BikeNotFoundException;
-import com.bphTeam.bikePartsHub.exception.ProductNotFoundException;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ProductMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
@@ -92,7 +91,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public ProductGetResponseDTO getProductById(Long productId) {
-        Product product = productRepo.getReferenceById(productId);
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new EntryNotFoundException("Product not found with id: " + productId));
 
         ProductGetResponseDTO productGetResponseDTO = new ProductGetResponseDTO();
         productGetResponseDTO.setProductId(product.getProductId());
@@ -148,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
             for (Long bikeId : attributeDto.getBike_id()) {
                 // Retrieve the Bike entity by ID
                 Bike bike = bikeRepo.findById(bikeId)
-                        .orElseThrow(() -> new RuntimeException("Bike not found with ID: " + bikeId));
+                        .orElseThrow(() -> new EntryNotFoundException("Bike not found with id: " + bikeId));
 
                 // Create a new ProductAttribute entity
                 ProductAttribute productAttribute = new ProductAttribute();
@@ -181,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
     public String updateProductService(Long productId, ProductUpdateRequestDto updateRequest) {
         // Retrieve the existing product by ID
         Product existingProduct = productRepo.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + productId));
+                .orElseThrow(() -> new EntryNotFoundException("Product not found with id: " + productId));
 
         // Update the product fields
         existingProduct.setProductName(updateRequest.getProductName());
@@ -208,7 +208,7 @@ public class ProductServiceImpl implements ProductService {
                     for (Long bikeId : attributeDto.getBike_id()) {
                         // Retrieve the Bike entity by ID
                         Bike bike = bikeRepo.findById(bikeId)
-                                .orElseThrow(() -> new BikeNotFoundException("Bike not found with ID: " + bikeId));
+                                .orElseThrow(() -> new EntryNotFoundException("Bike not found with id: " + bikeId));
 
                         // Create a new ProductAttribute entity
                         ProductAttribute productAttribute = new ProductAttribute();
@@ -233,7 +233,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String deleteProduct(Long product_id) {
         if (!productRepo.existsById(product_id)) {
-            throw new RuntimeException("Product already removed");
+            throw new EntryNotFoundException("Product not found with id: " + product_id);
         }
         productRepo.deleteById(product_id);
         return "Product delete Successfully";

@@ -3,6 +3,8 @@ package com.bphTeam.bikePartsHub.service.impl;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.AuthenticationRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.RegisterRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.authResponseDto.AuthenticationResponseDto;
+import com.bphTeam.bikePartsHub.exception.DuplicateEntryException;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.service.AuthenticationService;
 import com.bphTeam.bikePartsHub.service.JwtService;
 import com.bphTeam.bikePartsHub.entity.Token;
@@ -35,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponseDto register(RegisterRequestDto request) {
         if (repository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("User email already taken");
+            throw new DuplicateEntryException("User email already taken");
         }
 
         var user = User.builder()
@@ -71,7 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new EntryNotFoundException("User not found with email: " + request.getEmail()));
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -124,7 +126,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userEmail = jwtService.extractUserName(refreshToken);
         if (userEmail != null) {
             var user = this.repository.findByEmail(userEmail)
-                    .orElseThrow();
+                    .orElseThrow(() -> new EntryNotFoundException("User not found with email: " + userEmail));
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);

@@ -6,6 +6,8 @@ import com.bphTeam.bikePartsHub.dto.response.ServiceTypeDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
+import com.bphTeam.bikePartsHub.exception.BadRequestException;
+import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.AppointmentMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
 import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
@@ -43,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public ServiceType getServiceById(Long id) {
         return serviceTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Service not found"));
+                .orElseThrow(() -> new EntryNotFoundException("Service not found with id: " + id));
     }
 
     @Override
@@ -55,13 +57,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void createAppointment(AppointmentSaveRequestDto appointmentDto) {
         // Get service type to check duration
         ServiceType serviceType = serviceTypeRepository.findById((long) appointmentDto.getServiceTypeId())
-                .orElseThrow(() -> new RuntimeException("Service type not found"));
+                .orElseThrow(() -> new EntryNotFoundException("Service type not found with id: " + appointmentDto.getServiceTypeId()));
 
         // Check if time slot is available
         if (!isTimeSlotAvailable(appointmentDto.getStartDate(),
                 appointmentDto.getStartTime(),
                 (int) serviceType.getServiceDuration())) {
-            throw new RuntimeException("Time slot not available");
+            throw new BadRequestException("Time slot not available");
         }
 
         // Calculate total charge if not set
@@ -176,7 +178,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public String changeAppointmentStatus(long appointmentId, AppointmentStatus status) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + appointmentId));
+                .orElseThrow(() -> new EntryNotFoundException("Appointment not found with id: " + appointmentId));
 
         // Validate status transition
         AppointmentStatus currentStatus = appointment.getAppointmentStatus();

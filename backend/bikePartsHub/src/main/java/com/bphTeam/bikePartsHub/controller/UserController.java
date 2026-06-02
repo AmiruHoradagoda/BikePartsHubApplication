@@ -4,7 +4,7 @@ import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
 import com.bphTeam.bikePartsHub.service.UserService;
-import com.bphTeam.bikePartsHub.utils.StandardResponse;
+import com.bphTeam.bikePartsHub.utils.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +20,18 @@ public class UserController {
 
     @GetMapping("/getUserDetails/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<StandardResponse> getUserDetails(@PathVariable Integer id) {
+    public ResponseEntity<StandardResponseDto> getUserDetails(@PathVariable Integer id) {
         CustomerResponseDto userDetails = userService.getUserDetails(id);
-        return new ResponseEntity<StandardResponse>(new StandardResponse(200, "User Details sent", userDetails), HttpStatus.OK);
+        return new ResponseEntity<StandardResponseDto>(new StandardResponseDto(200, "User Details sent", userDetails), HttpStatus.OK);
     }
     @PutMapping("/updateProfile/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<StandardResponse> updateUserProfile(
+    public ResponseEntity<StandardResponseDto> updateUserProfile(
             @PathVariable Integer id,
             @RequestBody UserUpdateRequestDto updateRequestDto) {
         UserResponseDto updatedUser = userService.updateUserProfile(id, updateRequestDto);
         return new ResponseEntity<>(
-                new StandardResponse(200, "User profile updated successfully", updatedUser),
+                new StandardResponseDto(200, "User profile updated successfully", updatedUser),
                 HttpStatus.OK);
     }
 }
