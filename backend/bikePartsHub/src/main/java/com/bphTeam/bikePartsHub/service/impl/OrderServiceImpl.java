@@ -3,15 +3,12 @@ package com.bphTeam.bikePartsHub.service.impl;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
-import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.PaymentSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderDetailsDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
-import com.bphTeam.bikePartsHub.entity.Payment;
 import com.bphTeam.bikePartsHub.entity.ShippingAddress;
 import com.bphTeam.bikePartsHub.entity.enums.PaymentMethod;
-import com.bphTeam.bikePartsHub.entity.enums.PaymentStatus;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ShippingMapper;
 import com.bphTeam.bikePartsHub.repository.OrderDetailRepo;
@@ -23,6 +20,7 @@ import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.entity.User;
 import com.bphTeam.bikePartsHub.repository.UserRepo;
 import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
+import com.bphTeam.bikePartsHub.service.payment.PaymentStrategyFactory;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,13 +28,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +52,8 @@ public class OrderServiceImpl implements OrderService {
     private ShippingRepo shippingRepo;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private PaymentStrategyFactory paymentStrategyFactory;
 
     @Transactional
     public String addOrder(OrderSaveRequestDto requestOrderSaveDTO) {
@@ -90,48 +88,16 @@ public class OrderServiceImpl implements OrderService {
                 // Save the order detail
                 orderDetailRepo.save(orderDetail);
             }
-            paymentRepository.save(buildPayment(order, requestOrderSaveDTO));
+            PaymentMethod paymentMethod = requestOrderSaveDTO.getPayment() != null
+                    && requestOrderSaveDTO.getPayment().getMethod() != null
+                    ? requestOrderSaveDTO.getPayment().getMethod()
+                    : PaymentMethod.CASH_ON_DELIVERY;
+            paymentRepository.save(paymentStrategyFactory
+                    .getStrategy(paymentMethod)
+                    .createPayment(order, requestOrderSaveDTO));
             return "Order saved";
         }
         return "Order save failed";
-    }
-
-    private Payment buildPayment(Order order, OrderSaveRequestDto requestOrderSaveDTO) {
-        PaymentSaveRequestDto paymentRequest = requestOrderSaveDTO.getPayment();
-        PaymentMethod method = paymentRequest != null && paymentRequest.getMethod() != null
-                ? paymentRequest.getMethod()
-                : PaymentMethod.CASH_ON_DELIVERY;
-        PaymentStatus status = paymentRequest != null && paymentRequest.getStatus() != null
-                ? paymentRequest.getStatus()
-                : defaultStatusFor(method);
-        String transactionReference = paymentRequest != null && paymentRequest.getTransactionReference() != null
-                ? paymentRequest.getTransactionReference()
-                : generateTransactionReference(method);
-        LocalDateTime paidAt = paymentRequest != null
-                ? paymentRequest.getPaidAt()
-                : null;
-
-        if (status == PaymentStatus.PAID && paidAt == null) {
-            paidAt = LocalDateTime.now();
-        }
-
-        return Payment.builder()
-                .order(order)
-                .method(method)
-                .amount(BigDecimal.valueOf(requestOrderSaveDTO.getTotal()))
-                .status(status)
-                .transactionReference(transactionReference)
-                .paidAt(paidAt)
-                .build();
-    }
-
-    private PaymentStatus defaultStatusFor(PaymentMethod method) {
-        return method == PaymentMethod.PAYPAL ? PaymentStatus.PAID : PaymentStatus.PENDING;
-    }
-
-    private String generateTransactionReference(PaymentMethod method) {
-        String prefix = method == PaymentMethod.PAYPAL ? "PAYPAL" : "COD";
-        return prefix + "-" + UUID.randomUUID();
     }
 
     @Transactional
