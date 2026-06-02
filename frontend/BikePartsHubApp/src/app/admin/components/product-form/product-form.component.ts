@@ -6,8 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs/operators';
 import { ProductFormService } from './product-form.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -43,7 +41,6 @@ export class ProductFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private af: AngularFireStorage,
     private productService: ProductService,
     private productFormService: ProductFormService,
     private bikeService: BikeService,
@@ -187,23 +184,18 @@ export class ProductFormComponent implements OnInit {
       return;
     }
 
-    const filePath = `files/${Math.random()}_${this.file.name}`;
-    const fileRef = this.af.ref(filePath);
-    const task = this.af.upload(filePath, this.file);
-
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe((url) => {
-            this.imageUrl = url;
-            this.productFormGroup.get('productform.imageUrl')?.setValue(url); // Set imageUrl in the form
-            this.toastr.success('Image uploaded successfully');
-            console.log('Download URL:', this.imageUrl);
-          });
-        })
-      )
-      .subscribe();
+    this.productFormService.uploadProductImage(this.file).subscribe(
+      (response) => {
+        this.imageUrl = response.url;
+        this.productFormGroup.get('productform.imageUrl')?.setValue(response.url);
+        this.toastr.success('Image uploaded successfully');
+        console.log('S3 image URL:', this.imageUrl);
+      },
+      (error) => {
+        console.error('Image upload failed:', error);
+        this.toastr.error('Image upload failed');
+      }
+    );
   }
 
   addBike(): void {

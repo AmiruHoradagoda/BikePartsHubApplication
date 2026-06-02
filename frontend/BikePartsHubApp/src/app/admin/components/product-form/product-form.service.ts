@@ -7,6 +7,11 @@ import { Bike } from '../../../core/models/interface/Bike';
 import { AdminAuthService } from '../../auth-admin/auth-admin.service';
 import { environment } from '../../../../environments/environment';
 
+export interface FileUploadResponse {
+  fileName: string;
+  objectKey: string;
+  url: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +83,17 @@ export class ProductFormService {
     return this.http.put<string>(
       `${this.apiUrl}/api/v1/product/update?productId=${productId}`, // Append productId to the URL
       productUpdateRequestDto,
+      { headers: this.adminAuthService.getAuthHeader() }
+    );
+  }
+
+  uploadProductImage(file: File): Observable<FileUploadResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<FileUploadResponse>(
+      `${this.apiUrl}/api/v1/files/product-image`,
+      formData,
       { headers: this.adminAuthService.getAuthHeader() }
     );
   }

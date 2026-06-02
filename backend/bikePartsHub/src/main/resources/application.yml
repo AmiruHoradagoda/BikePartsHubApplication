@@ -9,14 +9,20 @@ server:
   port: 8080
 
 paypal:
-  client-id: ASyy-OLYx_5FmDKPsFaQ3EcCf_b1kvvWuG452_IqMLx8Jebd_1OquqQlLpIZu-jvoCB3lpeCMD80ZGQ9
-  client-secret: EKQDxNGo5q3ver2Rryd6zWUYXjQ7emRIy0iAqnOIIqkPywpyI2OKk9M5fCU2PFKkfRDps-avdDLxJ7HR
-  mode: sandbox # use 'sandbox' for testing and 'live' for production
+  client-id: ${PAYPAL_CLIENT_ID}
+  client-secret: ${PAYPAL_CLIENT_SECRET}
+  mode: ${PAYPAL_MODE:sandbox} # use 'sandbox' for testing and 'live' for production
+
+s3bucket:
+  access-key: ${AWS_ACCESS_KEY_ID}
+  secret: ${AWS_SECRET_ACCESS_KEY}
+  bucket-name: ${AWS_S3_BUCKET_NAME}
+  region: ${AWS_REGION:us-east-1}
 
 application:
   security:
     jwt:
-      secret-key: 0NM991l/3c4spEXh21eRsP6VE4Yb/IQce44KVbhuLbn/aPfsFFidiCbZVYC6XMhy
-      expiration: 86400000 # a minute
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: 86400000 # 1 day
       refresh-token:
         expiration: 166400000 # 7 days
