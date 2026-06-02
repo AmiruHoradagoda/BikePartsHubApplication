@@ -5,8 +5,7 @@ import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
-import com.bphTeam.bikePartsHub.user.Role;
-import com.bphTeam.bikePartsHub.user.User;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
 
 
 public interface UserService {

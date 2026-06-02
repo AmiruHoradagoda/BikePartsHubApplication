@@ -3,7 +3,7 @@ package com.bphTeam.bikePartsHub.service;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
-import com.bphTeam.bikePartsHub.utils.OrderStatus;
+import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

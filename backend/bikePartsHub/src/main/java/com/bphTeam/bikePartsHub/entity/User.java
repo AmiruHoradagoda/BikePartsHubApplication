@@ -1,8 +1,6 @@
-package com.bphTeam.bikePartsHub.user;
+package com.bphTeam.bikePartsHub.entity;
 
-import com.bphTeam.bikePartsHub.entity.Appointment;
-import com.bphTeam.bikePartsHub.entity.Order;
-import com.bphTeam.bikePartsHub.token.Token;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

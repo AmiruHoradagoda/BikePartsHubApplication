@@ -5,14 +5,13 @@ import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsD
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
-import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.service.AppointmentService;
 import com.bphTeam.bikePartsHub.service.OrderService;
 import com.bphTeam.bikePartsHub.service.UserService;
-import com.bphTeam.bikePartsHub.user.Role;
-import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
-import com.bphTeam.bikePartsHub.utils.OrderStatus;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
+import com.bphTeam.bikePartsHub.entity.enums.AppointmentStatus;
+import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

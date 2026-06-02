@@ -1,5 +1,6 @@
-package com.bphTeam.bikePartsHub.token;
+package com.bphTeam.bikePartsHub.repository;
 
+import com.bphTeam.bikePartsHub.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

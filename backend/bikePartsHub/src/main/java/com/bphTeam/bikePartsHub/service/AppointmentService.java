@@ -5,7 +5,7 @@ import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSav
 import com.bphTeam.bikePartsHub.dto.response.appointmentResponseDto.AppointmentResponseDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
-import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
+import com.bphTeam.bikePartsHub.entity.enums.AppointmentStatus;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.user;
+package com.bphTeam.bikePartsHub.entity.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

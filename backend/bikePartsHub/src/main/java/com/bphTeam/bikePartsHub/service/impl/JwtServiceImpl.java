@@ -1,5 +1,6 @@
-package com.bphTeam.bikePartsHub.config.security;
+package com.bphTeam.bikePartsHub.service.impl;
 
+import com.bphTeam.bikePartsHub.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtServiceImpl implements JwtService {
 
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
@@ -25,19 +26,23 @@ public class JwtService {
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
+    @Override
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    @Override
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    @Override
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    @Override
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
@@ -45,6 +50,7 @@ public class JwtService {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
+    @Override
     public String generateRefreshToken(
             UserDetails userDetails
     ) {
@@ -66,6 +72,7 @@ public class JwtService {
                 .compact();
     }
 
+    @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUserName(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);

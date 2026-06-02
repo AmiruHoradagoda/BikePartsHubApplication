@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.response.customerResponseDto;
 
-import com.bphTeam.bikePartsHub.user.Role;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

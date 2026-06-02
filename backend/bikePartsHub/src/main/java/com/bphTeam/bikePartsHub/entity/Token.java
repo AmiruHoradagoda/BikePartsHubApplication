@@ -1,7 +1,7 @@
-package com.bphTeam.bikePartsHub.token;
+package com.bphTeam.bikePartsHub.entity;
 
 
-import com.bphTeam.bikePartsHub.user.User;
+import com.bphTeam.bikePartsHub.entity.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

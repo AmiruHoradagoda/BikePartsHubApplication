@@ -1,7 +1,6 @@
 package com.bphTeam.bikePartsHub.entity;
 
-import com.bphTeam.bikePartsHub.user.User;
-import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
+import com.bphTeam.bikePartsHub.entity.enums.AppointmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 

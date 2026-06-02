@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto;
 
-import com.bphTeam.bikePartsHub.utils.AppointmentStatus;
+import com.bphTeam.bikePartsHub.entity.enums.AppointmentStatus;
 import lombok.Data;
 
 import java.time.LocalDate;

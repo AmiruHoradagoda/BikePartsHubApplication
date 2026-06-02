@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.response.orderResponseDto;
 
-import com.bphTeam.bikePartsHub.utils.OrderStatus;
+import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

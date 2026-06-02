@@ -1,16 +1,16 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
-import com.bphTeam.bikePartsHub.config.security.JwtService;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.AuthenticationRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.RegisterRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.authResponseDto.AuthenticationResponseDto;
 import com.bphTeam.bikePartsHub.service.AuthenticationService;
-import com.bphTeam.bikePartsHub.token.Token;
-import com.bphTeam.bikePartsHub.token.TokenRepository;
-import com.bphTeam.bikePartsHub.token.TokenType;
-import com.bphTeam.bikePartsHub.user.Role;
-import com.bphTeam.bikePartsHub.user.User;
-import com.bphTeam.bikePartsHub.user.UserRepo;
+import com.bphTeam.bikePartsHub.service.JwtService;
+import com.bphTeam.bikePartsHub.entity.Token;
+import com.bphTeam.bikePartsHub.repository.TokenRepository;
+import com.bphTeam.bikePartsHub.entity.enums.TokenType;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
+import com.bphTeam.bikePartsHub.entity.User;
+import com.bphTeam.bikePartsHub.repository.UserRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

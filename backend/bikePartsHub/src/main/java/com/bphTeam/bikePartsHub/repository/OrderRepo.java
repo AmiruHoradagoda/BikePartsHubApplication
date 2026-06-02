@@ -1,8 +1,8 @@
 package com.bphTeam.bikePartsHub.repository;
 
 import com.bphTeam.bikePartsHub.entity.Order;
-import com.bphTeam.bikePartsHub.user.User;
-import com.bphTeam.bikePartsHub.utils.OrderStatus;
+import com.bphTeam.bikePartsHub.entity.User;
+import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +12,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 

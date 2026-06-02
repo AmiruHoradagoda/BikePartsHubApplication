@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub.dto.response.authResponseDto;
 
-import com.bphTeam.bikePartsHub.user.Role;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

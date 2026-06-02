@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.config.security;
 
 
-import com.bphTeam.bikePartsHub.token.TokenRepository;
+import com.bphTeam.bikePartsHub.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
+    private final com.bphTeam.bikePartsHub.service.JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
 

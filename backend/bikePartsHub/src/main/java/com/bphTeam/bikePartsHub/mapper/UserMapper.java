@@ -2,7 +2,7 @@ package com.bphTeam.bikePartsHub.mapper;
 
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponse;
-import com.bphTeam.bikePartsHub.user.User;
+import com.bphTeam.bikePartsHub.entity.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

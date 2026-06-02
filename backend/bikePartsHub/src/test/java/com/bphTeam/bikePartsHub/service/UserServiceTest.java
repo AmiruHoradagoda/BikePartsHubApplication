@@ -1,14 +1,12 @@
 package com.bphTeam.bikePartsHub.service;
 
 
-import com.bphTeam.bikePartsHub.service.UserService;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerProfileDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
-import com.bphTeam.bikePartsHub.user.Role;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 

@@ -1,5 +1,7 @@
-package com.bphTeam.bikePartsHub.user;
+package com.bphTeam.bikePartsHub.repository;
 
+import com.bphTeam.bikePartsHub.entity.User;
+import com.bphTeam.bikePartsHub.entity.enums.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

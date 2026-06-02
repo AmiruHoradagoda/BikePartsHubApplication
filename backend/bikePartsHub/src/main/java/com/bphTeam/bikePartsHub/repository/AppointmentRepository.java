@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.repository;
 
 import com.bphTeam.bikePartsHub.entity.Appointment;
-import com.bphTeam.bikePartsHub.user.User;
+import com.bphTeam.bikePartsHub.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

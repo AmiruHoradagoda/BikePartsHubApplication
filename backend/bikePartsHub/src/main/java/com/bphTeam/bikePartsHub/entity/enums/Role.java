@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.user;
+package com.bphTeam.bikePartsHub.entity.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.bphTeam.bikePartsHub.user.Permission.*;
+import static com.bphTeam.bikePartsHub.entity.enums.Permission.*;
 
 @RequiredArgsConstructor
 public enum Role {

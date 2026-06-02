@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.utils;
+package com.bphTeam.bikePartsHub.entity.enums;
 
 public enum AppointmentStatus {
     UPCOMING,
