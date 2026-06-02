@@ -1,3 +1,4 @@
 export const environment = {
-  apiUrl: 'https://bikepartshub.altero.dev/api/v1',
+  production: true,
+  apiUrl: 'https://bikepartshub.altero.dev',
 };

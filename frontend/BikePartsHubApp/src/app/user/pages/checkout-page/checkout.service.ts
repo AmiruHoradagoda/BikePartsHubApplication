@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutService {
-  private API_URL = `https://bikepartshub.altero.dev/api/v1/order`;
+  private API_URL = `${environment.apiUrl}/api/v1/order`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

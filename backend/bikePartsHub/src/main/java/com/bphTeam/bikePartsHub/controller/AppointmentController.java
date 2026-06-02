@@ -7,6 +7,7 @@ import com.bphTeam.bikePartsHub.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,22 +22,26 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @GetMapping("/services")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<ServiceType>> getAllServices() {
         return ResponseEntity.ok(appointmentService.getAllServices());
     }
 
     @GetMapping("/services/{id}")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<ServiceType> getServiceById(@PathVariable Long id) {
         return ResponseEntity.ok(appointmentService.getServiceById(id));
     }
 
     @GetMapping("/appointments")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'LOYAL_CUSTOMER')")
     public ResponseEntity<List<Appointment>> getAppointmentsByDate(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByDate(date));
     }
 
     @GetMapping("/time-slots")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<String>> getAvailableTimeSlots(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam int duration) {
@@ -44,6 +49,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointments")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'LOYAL_CUSTOMER')")
     public ResponseEntity<Void> createAppointment(@RequestBody AppointmentSaveRequestDto appointmentDto) {
         appointmentService.createAppointment(appointmentDto);
         return ResponseEntity.ok().build();

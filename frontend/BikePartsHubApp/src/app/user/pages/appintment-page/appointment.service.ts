@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../../../environments/environment';
 
 
 
@@ -55,7 +56,7 @@ export interface AppointmentSaveRequest {
   providedIn: 'root',
 })
 export class AppointmentService {
-  private readonly API_URL = 'https://bikepartshub.altero.dev/api/v1/appointment';
+  private readonly API_URL = `${environment.apiUrl}/api/v1/appointment`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

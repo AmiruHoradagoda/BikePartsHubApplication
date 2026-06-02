@@ -6,25 +6,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/customer")
-@PreAuthorize("hasRole('CUSTOMER')")
+@PreAuthorize("hasAnyRole('CUSTOMER', 'LOYAL_CUSTOMER')")
 public class CustomerController {
     @GetMapping
-    @PreAuthorize("hasAuthority('customer:read')")
+    @PreAuthorize("hasAnyAuthority('customer:read', 'loyal_customer:read')")
     public String get(){
         return "Get ::customer controller";
     }
     @PostMapping
-    @PreAuthorize("hasAuthority('customer:create')")
+    @PreAuthorize("hasAnyAuthority('customer:create', 'loyal_customer:create')")
     public String post(){
         return "Post ::customer controller";
     }
     @PutMapping
-    @PreAuthorize("hasAuthority('customer:updatee')")
+    @PreAuthorize("hasAnyAuthority('customer:update', 'loyal_customer:update')")
     public String put(){
         return "Put ::customer controller";
     }
     @DeleteMapping
-    @PreAuthorize("hasAuthority('customer:delete')")
+    @PreAuthorize("hasAnyAuthority('customer:delete', 'loyal_customer:delete')")
     public String delete(){
         return "Delete ::customer controller";
     }

@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.auth;
+package com.bphTeam.bikePartsHub.dto.request.authRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationRequest {
+public class AuthenticationRequestDto {
     private String email;
     private String password;
 }

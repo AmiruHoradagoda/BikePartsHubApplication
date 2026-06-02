@@ -12,9 +12,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ServerModule,
     BrowserAnimationsModule, // required for Toastr
     ToastrModule.forRoot({
-      timeOut: 3000, // Customize options like timeout
+      closeButton: true,
+      newestOnTop: true,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
+      progressAnimation: 'decreasing',
+      progressBar: true,
+      tapToDismiss: true,
+      timeOut: 4000,
     }),
   ],
   bootstrap: [AppComponent],

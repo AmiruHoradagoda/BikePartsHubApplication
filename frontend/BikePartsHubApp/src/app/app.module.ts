@@ -10,7 +10,6 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { UserModule } from './user/user.module';
-import { AdminModule } from './admin/admin.module';
 
 
 @NgModule({
@@ -19,7 +18,6 @@ import { AdminModule } from './admin/admin.module';
   ],
   imports: [
     UserModule,
-    AdminModule,
     CommonModule,
     BrowserModule,
     AppRoutingModule,
@@ -34,7 +32,16 @@ import { AdminModule } from './admin/admin.module';
       measurementId: 'G-5FKWWRNX6C',
     }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      closeButton: true,
+      newestOnTop: true,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressAnimation: 'decreasing',
+      progressBar: true,
+      tapToDismiss: true,
+      timeOut: 4000,
+    }),
   ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],

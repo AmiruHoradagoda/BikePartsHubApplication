@@ -16,12 +16,14 @@ import com.bphTeam.bikePartsHub.utils.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/admin")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
@@ -36,7 +38,7 @@ public class AdminController {
     }
 
     @GetMapping("/getAllCustomerDetails")
-    private ResponseEntity<PaginatedUserResponseDto> getAllCustomerDetails(
+    public ResponseEntity<PaginatedUserResponseDto> getAllCustomerDetails(
             @RequestParam(required = false) String customerName,
             @RequestParam(required = false) Role role,
             @RequestParam(defaultValue = "0") int page,
@@ -47,7 +49,7 @@ public class AdminController {
     }
 
     @GetMapping("/getAllAppointmentDetails")
-    private ResponseEntity<PaginatedAppointmentResponseDto> getAllAppointmentDetails(
+    public ResponseEntity<PaginatedAppointmentResponseDto> getAllAppointmentDetails(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size
     ) {
@@ -56,14 +58,14 @@ public class AdminController {
     }
 
     @GetMapping("/getCustomerProfile/{id}")
-    private ResponseEntity<CustomerProfileDto> getCustomerProfile(@PathVariable Integer id) {
+    public ResponseEntity<CustomerProfileDto> getCustomerProfile(@PathVariable Integer id) {
         CustomerProfileDto customerProfile = userService.getAllCustomerProfile(id);
         return ResponseEntity.ok(customerProfile);
     }
 
 
     @GetMapping("/getCustomerOrders/{id}")
-    private ResponseEntity<PaginatedOrderResponseWithDetailsDto> getCustomerOrders(@PathVariable Integer id, @RequestParam(required = false) OrderStatus orderStatus,
+    public ResponseEntity<PaginatedOrderResponseWithDetailsDto> getCustomerOrders(@PathVariable Integer id, @RequestParam(required = false) OrderStatus orderStatus,
                                                                                    @RequestParam(defaultValue = "0") int page,
                                                                                    @RequestParam(defaultValue = "9") int size) {
         PaginatedOrderResponseWithDetailsDto cusOrderDetails = orderService.getCustomerOrders(id, page, size);
@@ -71,13 +73,13 @@ public class AdminController {
     }
 
     @GetMapping("/getCustomerAppointments/{id}")
-    private ResponseEntity<List<AppointmentResponseDto>> getCustomerAppointment(@PathVariable Integer id) {
+    public ResponseEntity<List<AppointmentResponseDto>> getCustomerAppointment(@PathVariable Integer id) {
         List<AppointmentResponseDto> appointmentResponseDtos = appointmentService.getCustomerAppointments(id);
         return ResponseEntity.ok(appointmentResponseDtos);
     }
 
     @GetMapping("/getAllOrderDetails")
-    private ResponseEntity<PaginatedOrderResponseWithDetailsDto> getAllOrderDetails(
+    public ResponseEntity<PaginatedOrderResponseWithDetailsDto> getAllOrderDetails(
             @RequestParam(required = false) OrderStatus orderStatus,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size
@@ -87,7 +89,7 @@ public class AdminController {
     }
 
     @PutMapping("/changeOrderStatus")
-    private ResponseEntity<String> changeOrderStatus(
+    public ResponseEntity<String> changeOrderStatus(
             @RequestParam long orderId,
             @RequestParam OrderStatus status
     ) {

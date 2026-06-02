@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 
@@ -46,7 +46,10 @@ export class UserDashboardService {
   getUserDetails(userId: number): Observable<UserResponseDto> {
     return this.http
       .get<StandardResponse<UserResponseDto>>(
-        `${this.apiUrl}/getUserDetails/${userId}`
+        `${this.apiUrl}/getUserDetails/${userId}`,
+        {
+          headers: this.authService.getAuthHeader(),
+        }
       )
       .pipe(
         map((response: StandardResponse<UserResponseDto>) => response.data)

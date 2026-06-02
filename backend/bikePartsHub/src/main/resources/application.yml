@@ -2,24 +2,8 @@ spring:
   application:
     name: bikePartsHub
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # Use the container name for the MySQL container
-    url: jdbc:mysql://bikepartshub-mysql:3306/bikepartshub_db?createDatabaseIfNotExist=true
-    username: root
-    password: 1234
-
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.MySQLDialect
-    generate-ddl: true
-    show-sql: true
-    defer-datasource-initialization: true
-
-  sql:
-    init:
-      mode: always
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
 server:
   port: 8080

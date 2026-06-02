@@ -8,17 +8,21 @@ import {
   RegisterRequest,
   TokenPayload,
 } from './auth.models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://bikepartshub.altero.dev/api/v1/auth';
+  private baseUrl = `${environment.apiUrl}/api/v1/auth`;
   private currentUserSubject =
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   private readonly STORAGE_KEY = 'currentUser';
+  private readonly TOKEN_EXPIRY_WARNING_MS = 60_000;
+  private tokenExpiryPromptTimer: ReturnType<typeof setTimeout> | null = null;
+  private tokenExpiryPromptActive = false;
 
   constructor(private http: HttpClient) {
     this.initializeUserFromStorage();
@@ -34,6 +38,7 @@ export class AuthService {
             this.logout();
           } else {
             this.currentUserSubject.next(user);
+            this.scheduleTokenExpiryPrompt(user.access_token);
           }
         } catch (e) {
           this.logout();
@@ -108,7 +113,10 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.STORAGE_KEY);
+    this.clearTokenExpiryPrompt();
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
     this.currentUserSubject.next(null);
   }
 
@@ -129,18 +137,91 @@ export class AuthService {
     if (!response.access_token || !response.refresh_token) {
       throw new Error('Invalid authentication response');
     }
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(response));
-    this.currentUserSubject.next(response);
+    const user = {
+      ...this.getCurrentUser(),
+      ...response,
+    };
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
+    }
+    this.currentUserSubject.next(user);
+    this.scheduleTokenExpiryPrompt(user.access_token);
   }
 
   private isTokenExpired(token: string): boolean {
-    if (!token) return true;
+    const expiry = this.getTokenExpiryTime(token);
+    return !expiry || Date.now() >= expiry;
+  }
+
+  private getTokenExpiryTime(token: string): number | null {
+    if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1])) as TokenPayload;
-      return Date.now() >= payload.exp * 1000;
+      return payload.exp * 1000;
     } catch (e) {
-      return true;
+      return null;
     }
+  }
+
+  private scheduleTokenExpiryPrompt(token: string): void {
+    this.clearTokenExpiryPrompt();
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const expiryTime = this.getTokenExpiryTime(token);
+    if (!expiryTime) {
+      this.logout();
+      return;
+    }
+
+    const promptDelay = expiryTime - Date.now() - this.TOKEN_EXPIRY_WARNING_MS;
+    if (promptDelay <= 0) {
+      this.showTokenExpiryPrompt();
+      return;
+    }
+
+    this.tokenExpiryPromptTimer = setTimeout(
+      () => this.showTokenExpiryPrompt(),
+      promptDelay
+    );
+  }
+
+  private clearTokenExpiryPrompt(): void {
+    if (this.tokenExpiryPromptTimer) {
+      clearTimeout(this.tokenExpiryPromptTimer);
+      this.tokenExpiryPromptTimer = null;
+    }
+  }
+
+  private showTokenExpiryPrompt(): void {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser || this.tokenExpiryPromptActive) {
+      return;
+    }
+
+    this.tokenExpiryPromptActive = true;
+    const keepSession = window.confirm(
+      'Your session is about to expire. Do you want to stay signed in?'
+    );
+
+    if (!keepSession) {
+      this.tokenExpiryPromptActive = false;
+      this.logout();
+      return;
+    }
+
+    this.refreshToken().subscribe({
+      next: () => {
+        this.tokenExpiryPromptActive = false;
+      },
+      error: () => {
+        this.tokenExpiryPromptActive = false;
+        window.alert('Your session has expired. Please login again.');
+        this.logout();
+      },
+    });
   }
 
   private handleError(error: any) {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { NotificationService } from '../../components/notification/notification.service';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,10 +35,12 @@ export class LoginComponent {
         })
         .subscribe({
           next: () => {
+            this.notificationService.showSuccess('Login successful.');
             this.router.navigate(['/']);
           },
           error: (err) => {
             this.error = 'Invalid email or password';
+            this.notificationService.showError(this.error);
             console.error('Login error:', err);
           },
         });

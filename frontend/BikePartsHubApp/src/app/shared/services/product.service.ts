@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; // Adjust the import paths as needed
-import { environment } from '../../../environments/environment.development'; // Import the correct environment
+import { environment } from '../../../environments/environment';
 import { PaginatedResponseIProduct } from '../../core/models/interface/PaginatedResponseIProduct';
 import { ProductGet, ProductSave, ProductUpdate } from '../../core/models/interface/Product';
 import { AdminAuthService } from '../../admin/auth-admin/auth-admin.service';

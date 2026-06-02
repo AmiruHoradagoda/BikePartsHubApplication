@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { Bike } from '../../../../../core/models/interface/Bike';
 import { BikeService } from '../../../../../shared/services/bike.service';
 import { ProductService } from '../../../../../shared/services/product.service';
+import { environment } from '../../../../../../environments/environment';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { ProductService } from '../../../../../shared/services/product.service';
 })
 export class ProductFilterSidebarService {
 
-  private apiUrl: string = 'http://localhost:8080';
+  private apiUrl: string = environment.apiUrl;
 
   private partCategory = new Set<string>();
   private partBrand = new Set<string>();

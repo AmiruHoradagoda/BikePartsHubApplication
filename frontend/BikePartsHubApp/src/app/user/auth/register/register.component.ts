@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { NotificationService } from '../../components/notification/notification.service';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -83,10 +85,12 @@ export class RegisterComponent {
 
       this.authService.register(registerData).subscribe({
         next: () => {
+          this.notificationService.showSuccess('Registration completed successfully.');
           this.router.navigate(['/']);
         },
         error: (err) => {
           this.error = 'Registration failed. Please try again.';
+          this.notificationService.showError(this.error);
           console.error('Registration error:', err);
         },
       });

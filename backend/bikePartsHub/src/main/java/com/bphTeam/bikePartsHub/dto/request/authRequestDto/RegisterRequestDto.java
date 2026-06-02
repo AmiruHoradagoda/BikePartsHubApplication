@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.auth;
+package com.bphTeam.bikePartsHub.dto.request.authRequestDto;
 
 import com.bphTeam.bikePartsHub.user.Role;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
+public class RegisterRequestDto {
     private String firstName;
     private String lastName;
     private String email;

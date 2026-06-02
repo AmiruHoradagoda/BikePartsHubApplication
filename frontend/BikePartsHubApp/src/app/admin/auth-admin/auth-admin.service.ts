@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthenticationRequest, AuthenticationResponse } from './auth.models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminAuthService {
-  private baseUrl = 'https://bikepartshub.altero.dev/api/v1/auth';
+  private baseUrl = `${environment.apiUrl}/api/v1/auth`;
   private currentAdminSubject =
     new BehaviorSubject<AuthenticationResponse | null>(null);
   currentAdmin$ = this.currentAdminSubject.asObservable();

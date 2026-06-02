@@ -12,6 +12,6 @@ export class AdminSideNavbarComponent {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login-admin']);
+    this.router.navigate(['/admin/login-admin']);
   }
 }

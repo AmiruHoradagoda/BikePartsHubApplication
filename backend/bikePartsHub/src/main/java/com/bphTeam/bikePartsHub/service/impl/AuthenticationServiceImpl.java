@@ -1,6 +1,10 @@
-package com.bphTeam.bikePartsHub.auth;
+package com.bphTeam.bikePartsHub.service.impl;
 
 import com.bphTeam.bikePartsHub.config.security.JwtService;
+import com.bphTeam.bikePartsHub.dto.request.authRequestDto.AuthenticationRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.authRequestDto.RegisterRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.authResponseDto.AuthenticationResponseDto;
+import com.bphTeam.bikePartsHub.service.AuthenticationService;
 import com.bphTeam.bikePartsHub.token.Token;
 import com.bphTeam.bikePartsHub.token.TokenRepository;
 import com.bphTeam.bikePartsHub.token.TokenType;
@@ -21,14 +25,15 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepo repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    @Override
+    public AuthenticationResponseDto register(RegisterRequestDto request) {
         if (repository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("User email already taken");
         }
@@ -46,7 +51,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDto.builder()
                 .userId(savedUser.getUserId())
                 .firstName(savedUser.getFirstName())
                 .lastName(savedUser.getLastName())
@@ -57,7 +62,8 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    @Override
+    public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -70,7 +76,7 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDto.builder()
                 .userId(user.getUserId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -103,6 +109,7 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
+    @Override
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
@@ -122,7 +129,7 @@ public class AuthenticationService {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
-                var authResponse = AuthenticationResponse.builder()
+                var authResponse = AuthenticationResponseDto.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
@@ -131,20 +138,23 @@ public class AuthenticationService {
         }
     }
 
+    @Override
     public void initializeUser() {
         String adminEmail = "admin@example.com";
+        String customerEmail = "customer@example.com";
         // Check if admin already exists
         if (!repository.existsByEmail(adminEmail)) {
             // Create admin user
             var adminUser = User.builder()
-                    .firstName("Admin")
-                    .lastName("User")
+                    .firstName("Amiru")
+                    .lastName("Horadagoda")
                     .email(adminEmail)
                     .password(passwordEncoder.encode("admin@123"))
                     .address("Admin Address")
                     .phone("1234567890")
                     .role(Role.ADMIN)
                     .build();
+
 
             // Save the admin user
             repository.save(adminUser);
@@ -154,5 +164,30 @@ public class AuthenticationService {
         } else {
             System.out.println("Admin user already exists");
         }
+
+
+        // Check if customer already exists
+        if (!repository.existsByEmail(customerEmail)) {
+            // Create Customer
+            var customerUser = User.builder()
+                    .firstName("Amiru")
+                    .lastName("Horadagoda")
+                    .email(customerEmail)
+                    .password(passwordEncoder.encode("customer@123"))
+                    .address("Badulla,SriLanka")
+                    .phone("0717244872")
+                    .role(Role.CUSTOMER)
+                    .build();
+            // Save the customer user
+            repository.save(customerUser);
+
+            // Log customer creation
+            System.out.println("Customer user initialized with email: " + customerEmail);
+        } else {
+            System.out.println("Customer user already exists");
+        }
+
+
+
     }
 }

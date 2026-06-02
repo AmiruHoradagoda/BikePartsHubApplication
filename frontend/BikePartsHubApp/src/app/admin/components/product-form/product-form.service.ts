@@ -5,6 +5,7 @@ import { ProductGet, ProductSave, ProductUpdate } from '../../../core/models/int
 import { BikeService } from '../../../shared/services/bike.service';
 import { Bike } from '../../../core/models/interface/Bike';
 import { AdminAuthService } from '../../auth-admin/auth-admin.service';
+import { environment } from '../../../../environments/environment';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class ProductFormService {
   updateProduct(productId: string, product: ProductSave) {
     throw new Error('Method not implemented.');
   }
-  private apiUrl: string = 'https://bikepartshub.altero.dev';
+  private apiUrl: string = environment.apiUrl;
 
   private bikeType = new Set<string>();
   private bikeModel = new Set<string>();

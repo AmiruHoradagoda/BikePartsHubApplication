@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bike, BikeGet, BikeSave, BikeUpdate } from '../../core/models/interface/Bike';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { AdminAuthService } from '../../admin/auth-admin/auth-admin.service';
 
 @Injectable({

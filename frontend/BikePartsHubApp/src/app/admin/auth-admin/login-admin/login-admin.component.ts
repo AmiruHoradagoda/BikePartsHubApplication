@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminAuthService } from '../auth-admin.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-login-admin',
@@ -15,7 +16,8 @@ export class LoginAdminComponent {
   constructor(
     private fb: FormBuilder,
     private adminAuthService: AdminAuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,10 +35,12 @@ export class LoginAdminComponent {
         })
         .subscribe({
           next: () => {
+            this.notificationService.showSuccess('Admin login successful.');
             this.router.navigate(['/admin/overview']);
           },
           error: (err) => {
             this.error = 'Invalid email or password';
+            this.notificationService.showError(this.error);
             console.error('Login error:', err);
           },
         });

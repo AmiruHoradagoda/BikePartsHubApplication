@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductSearchDetail } from '../../../core/models/interface/ProductSearchDetail';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchBarService {
-  private apiUrl = 'https://bikepartshub.altero.dev/api/v1/product/getProductsByName';
+  private apiUrl = `${environment.apiUrl}/api/v1/product/getProductsByName`;
 
   constructor(private http: HttpClient) {}
 

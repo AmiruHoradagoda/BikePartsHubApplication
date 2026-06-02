@@ -12,6 +12,7 @@ import { AdminSchedulesComponent } from './components/admin-schedules/admin-sche
 import { AdminMessagesComponent } from './components/admin-messages/admin-messages.component';
 import { AdminServicesComponent } from './components/admin-services/admin-services.component';
 import { ServiceFormComponent } from './components/admin-services/service-form/service-form.component';
+import { AdminGuard } from './auth-admin/admin.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +22,8 @@ const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
+    canActivate: [AdminGuard],
+    canActivateChild: [AdminGuard],
     children: [
       {
         path: '',

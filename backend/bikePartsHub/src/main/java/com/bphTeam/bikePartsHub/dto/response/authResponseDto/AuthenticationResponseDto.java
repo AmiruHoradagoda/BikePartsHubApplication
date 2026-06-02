@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.auth;
+package com.bphTeam.bikePartsHub.dto.response.authResponseDto;
 
 import com.bphTeam.bikePartsHub.user.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationResponseDto {
 
     private int userId;
     private String firstName;

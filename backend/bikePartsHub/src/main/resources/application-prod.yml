@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: false
+    show-sql: false
+    defer-datasource-initialization: false
+
+  sql:
+    init:
+      mode: never
+
+application:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://bikepartshub.altero.dev}

@@ -8,6 +8,7 @@ import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductSearchRes
 import com.bphTeam.bikePartsHub.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,12 +27,14 @@ public class ProductController {
     }
 
     @GetMapping("/getAllProducts")
-    private ResponseEntity<List<ProductGetResponseDTO>> getAllProducts(){
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<ProductGetResponseDTO>> getAllProducts(){
         List<ProductGetResponseDTO> productGetResponseDTO = productService.getAllProducts();
         return ResponseEntity.ok(productGetResponseDTO);
     }
 
     @GetMapping("/getProducts")
+    @PreAuthorize("permitAll()")
     public PaginatedResponseItemDTO getProductWithPaginated(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String productType,
@@ -48,6 +51,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProductsByName")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<ProductSearchResponseDto>> getProductsByName(
 
             @RequestParam(required = false) String productName,
@@ -60,6 +64,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProductById")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<ProductGetResponseDTO> getProductsById(Long productId){
         ProductGetResponseDTO productGetResponseDTO = productService.getProductById(productId);
         return ResponseEntity.ok(productGetResponseDTO);
@@ -67,12 +72,14 @@ public class ProductController {
 
 
     @PostMapping(value = "/save")
+    @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<Void> saveProduct(@RequestBody ProductSaveRequestDto productSaveRequestDto ){
         productService.saveProduct(productSaveRequestDto);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('admin:update')")
     public ResponseEntity<Map<String, String>> updateProductDetails(@RequestParam Long productId, @RequestBody ProductUpdateRequestDto productUpdateRequestDto) {
         String message = productService.updateProductService(productId, productUpdateRequestDto);
 
@@ -85,6 +92,7 @@ public class ProductController {
 
 
     @DeleteMapping("/delete/{productId}")
+    @PreAuthorize("hasAuthority('admin:delete')")
     public ResponseEntity<Map<String, String>> deleteProductDetails(@PathVariable Long productId) {
         String message = productService.deleteProduct(productId);
 
