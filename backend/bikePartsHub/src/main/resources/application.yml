@@ -8,6 +8,11 @@ spring:
 server:
   port: 8080
 
+paypal:
+  client-id: ASyy-OLYx_5FmDKPsFaQ3EcCf_b1kvvWuG452_IqMLx8Jebd_1OquqQlLpIZu-jvoCB3lpeCMD80ZGQ9
+  client-secret: EKQDxNGo5q3ver2Rryd6zWUYXjQ7emRIy0iAqnOIIqkPywpyI2OKk9M5fCU2PFKkfRDps-avdDLxJ7HR
+  mode: sandbox # use 'sandbox' for testing and 'live' for production
+
 application:
   security:
     jwt:
