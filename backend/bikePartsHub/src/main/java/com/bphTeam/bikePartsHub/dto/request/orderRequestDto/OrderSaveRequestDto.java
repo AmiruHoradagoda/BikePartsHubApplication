@@ -16,4 +16,5 @@ public class OrderSaveRequestDto {
     private double total;
     private List<OrderDetailRequestDto> orderDetails;
     private ShippingAddressRequestDto shippingAddress;
+    private PaymentSaveRequestDto payment;
 }

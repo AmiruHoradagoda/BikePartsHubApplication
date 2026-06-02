@@ -3,15 +3,20 @@ package com.bphTeam.bikePartsHub.service.impl;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.PaymentSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderDetailsDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
+import com.bphTeam.bikePartsHub.entity.Payment;
 import com.bphTeam.bikePartsHub.entity.ShippingAddress;
+import com.bphTeam.bikePartsHub.entity.enums.PaymentMethod;
+import com.bphTeam.bikePartsHub.entity.enums.PaymentStatus;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ShippingMapper;
 import com.bphTeam.bikePartsHub.repository.OrderDetailRepo;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
+import com.bphTeam.bikePartsHub.repository.PaymentRepository;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
 import com.bphTeam.bikePartsHub.repository.ShippingRepo;
 import com.bphTeam.bikePartsHub.service.OrderService;
@@ -25,11 +30,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +54,8 @@ public class OrderServiceImpl implements OrderService {
     private ShippingMapper shippingMapper;
     @Autowired
     private ShippingRepo shippingRepo;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Transactional
     public String addOrder(OrderSaveRequestDto requestOrderSaveDTO) {
@@ -81,9 +90,48 @@ public class OrderServiceImpl implements OrderService {
                 // Save the order detail
                 orderDetailRepo.save(orderDetail);
             }
+            paymentRepository.save(buildPayment(order, requestOrderSaveDTO));
             return "Order saved";
         }
         return "Order save failed";
+    }
+
+    private Payment buildPayment(Order order, OrderSaveRequestDto requestOrderSaveDTO) {
+        PaymentSaveRequestDto paymentRequest = requestOrderSaveDTO.getPayment();
+        PaymentMethod method = paymentRequest != null && paymentRequest.getMethod() != null
+                ? paymentRequest.getMethod()
+                : PaymentMethod.CASH_ON_DELIVERY;
+        PaymentStatus status = paymentRequest != null && paymentRequest.getStatus() != null
+                ? paymentRequest.getStatus()
+                : defaultStatusFor(method);
+        String transactionReference = paymentRequest != null && paymentRequest.getTransactionReference() != null
+                ? paymentRequest.getTransactionReference()
+                : generateTransactionReference(method);
+        LocalDateTime paidAt = paymentRequest != null
+                ? paymentRequest.getPaidAt()
+                : null;
+
+        if (status == PaymentStatus.PAID && paidAt == null) {
+            paidAt = LocalDateTime.now();
+        }
+
+        return Payment.builder()
+                .order(order)
+                .method(method)
+                .amount(BigDecimal.valueOf(requestOrderSaveDTO.getTotal()))
+                .status(status)
+                .transactionReference(transactionReference)
+                .paidAt(paidAt)
+                .build();
+    }
+
+    private PaymentStatus defaultStatusFor(PaymentMethod method) {
+        return method == PaymentMethod.PAYPAL ? PaymentStatus.PAID : PaymentStatus.PENDING;
+    }
+
+    private String generateTransactionReference(PaymentMethod method) {
+        String prefix = method == PaymentMethod.PAYPAL ? "PAYPAL" : "COD";
+        return prefix + "-" + UUID.randomUUID();
     }
 
     @Transactional

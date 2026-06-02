@@ -13,6 +13,7 @@ export class OrderConfirmationComponent implements OnInit {
   orderTotal: number = 0;
   orderDate: Date = new Date();
   estimatedDelivery: Date = new Date();
+  paymentMethod: string = 'Credit Card';
 
   constructor(private router: Router) {
     // Get the order data from router state
@@ -20,11 +21,13 @@ export class OrderConfirmationComponent implements OnInit {
     const state = navigation?.extras.state as {
       orderNumber: string;
       total: number;
+      paymentMethod?: string;
     };
 
     if (state) {
       this.orderNumber = state.orderNumber;
       this.orderTotal = state.total;
+      this.paymentMethod = this.formatPaymentMethod(state.paymentMethod);
     } else {
       // Redirect to home if no order data is available
       this.router.navigate(['/']);
@@ -49,5 +52,16 @@ export class OrderConfirmationComponent implements OnInit {
   // Navigate to the shop page
   continueShopping(): void {
     this.router.navigate(['/products?category=PARTS']);
+  }
+
+  private formatPaymentMethod(paymentMethod?: string): string {
+    switch (paymentMethod) {
+      case 'paypal':
+        return 'PayPal';
+      case 'cash_on_delivery':
+        return 'Cash on Delivery';
+      default:
+        return 'PayPal';
+    }
   }
 }

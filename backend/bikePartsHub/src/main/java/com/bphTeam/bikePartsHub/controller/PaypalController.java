@@ -1,25 +1,38 @@
 package com.bphTeam.bikePartsHub.controller;
 
-import ch.qos.logback.core.model.Model;
+import com.bphTeam.bikePartsHub.dto.request.paymentRequestDto.PaypalCreatePaymentRequestDto;
+import com.bphTeam.bikePartsHub.dto.request.paymentRequestDto.PaypalExecutePaymentRequestDto;
+import com.bphTeam.bikePartsHub.dto.response.paymentResponseDto.PaypalCreatePaymentResponseDto;
+import com.bphTeam.bikePartsHub.dto.response.paymentResponseDto.PaypalExecutePaymentResponseDto;
 import com.bphTeam.bikePartsHub.service.PaypalService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/paypal")
 @RequiredArgsConstructor
 public class PaypalController {
 
     private final PaypalService paypalService;
 
-    @GetMapping("/")
-    public String home(Model model) {
-
+    @PostMapping("/create-payment")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'LOYAL_CUSTOMER')")
+    public ResponseEntity<PaypalCreatePaymentResponseDto> createPayment(
+            @RequestBody PaypalCreatePaymentRequestDto request
+    ) {
+        return ResponseEntity.ok(paypalService.createPayment(request));
     }
 
-    @PostMapping("/")
-    public String home(Model model) {
-
+    @PostMapping("/execute-payment")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'LOYAL_CUSTOMER')")
+    public ResponseEntity<PaypalExecutePaymentResponseDto> executePayment(
+            @RequestBody PaypalExecutePaymentRequestDto request
+    ) {
+        return ResponseEntity.ok(paypalService.executePayment(request));
     }
 }

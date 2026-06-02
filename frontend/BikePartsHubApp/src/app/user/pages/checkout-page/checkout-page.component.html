@@ -138,20 +138,6 @@
                 <div class="relative flex items-start">
                   <div class="flex items-center h-5">
                     <input 
-                      id="credit_card" 
-                      name="paymentMethod" 
-                      type="radio" 
-                      [checked]="paymentMethod === 'credit_card'"
-                      (change)="onPaymentMethodChange('credit_card')"
-                      class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                  </div>
-                  <div class="ml-3">
-                    <label for="credit_card" class="font-medium text-gray-700">Credit Card</label>
-                  </div>
-                </div>
-                <div class="relative flex items-start">
-                  <div class="flex items-center h-5">
-                    <input 
                       id="paypal" 
                       name="paymentMethod" 
                       type="radio" 
@@ -161,6 +147,7 @@
                   </div>
                   <div class="ml-3">
                     <label for="paypal" class="font-medium text-gray-700">PayPal</label>
+                    <p class="text-sm text-gray-500">Pay now using PayPal checkout.</p>
                   </div>
                 </div>
                 <div class="relative flex items-start">
@@ -175,92 +162,9 @@
                   </div>
                   <div class="ml-3">
                     <label for="cash_on_delivery" class="font-medium text-gray-700">Cash on Delivery</label>
+                    <p class="text-sm text-gray-500">Pay when your order is delivered.</p>
                   </div>
                 </div>
-              </div>
-
-              <!-- Credit Card Details (Conditionally Shown) -->
-              <div *ngIf="paymentMethod === 'credit_card'" class="mt-4 space-y-4">
-                <div>
-                  <label for="cardNumber" class="block mb-1 text-sm font-medium text-gray-700">Card Number</label>
-                  <input 
-                    type="text" 
-                    id="cardNumber" 
-                    formControlName="cardNumber"
-                    [class.border-red-500]="isFieldInvalid('cardNumber')"
-                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                    placeholder="1234 5678 9012 3456">
-                  <p *ngIf="isFieldInvalid('cardNumber')" class="mt-1 text-sm text-red-600">
-                    {{ getFieldError('cardNumber') }}
-                  </p>
-                </div>
-                <div>
-                  <label for="cardName" class="block mb-1 text-sm font-medium text-gray-700">Name on Card</label>
-                  <input 
-                    type="text" 
-                    id="cardName" 
-                    formControlName="cardName"
-                    [class.border-red-500]="isFieldInvalid('cardName')"
-                    class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                    placeholder="John Doe">
-                  <p *ngIf="isFieldInvalid('cardName')" class="mt-1 text-sm text-red-600">
-                    {{ getFieldError('cardName') }}
-                  </p>
-                </div>
-                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <div>
-                    <label for="expiryDate" class="block mb-1 text-sm font-medium text-gray-700">Expiry Date</label>
-                    <input 
-                      type="text" 
-                      id="expiryDate" 
-                      formControlName="expiryDate"
-                      [class.border-red-500]="isFieldInvalid('expiryDate')"
-                      class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                      placeholder="MM/YY">
-                    <p *ngIf="isFieldInvalid('expiryDate')" class="mt-1 text-sm text-red-600">
-                      {{ getFieldError('expiryDate') }}
-                    </p>
-                  </div>
-                  <div>
-                    <label for="cvv" class="block mb-1 text-sm font-medium text-gray-700">CVV</label>
-                    <input 
-                      type="text" 
-                      id="cvv" 
-                      formControlName="cvv"
-                      [class.border-red-500]="isFieldInvalid('cvv')"
-                      class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                      placeholder="123">
-                    <p *ngIf="isFieldInvalid('cvv')" class="mt-1 text-sm text-red-600">
-                      {{ getFieldError('cvv') }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Additional Notes -->
-          <div class="p-6 bg-white rounded-lg shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-gray-900">Additional Information</h2>
-            <div>
-              <label for="notes" class="block mb-1 text-sm font-medium text-gray-700">Order Notes (Optional)</label>
-              <textarea 
-                id="notes" 
-                formControlName="notes"
-                rows="3"
-                class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                placeholder="Special instructions for delivery"></textarea>
-            </div>
-            <div class="mt-4">
-              <div class="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="saveInfo" 
-                  formControlName="saveInfo"
-                  class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                <label for="saveInfo" class="ml-2 text-sm text-gray-700">
-                  Save this information for next time
-                </label>
               </div>
             </div>
           </div>
