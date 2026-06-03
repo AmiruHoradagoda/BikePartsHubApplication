@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.response.ServiceTypeDto;
-import com.bphTeam.bikePartsHub.service.ServiceService;
+import com.bphTeam.bikePartsHub.service.serviceType.ServiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

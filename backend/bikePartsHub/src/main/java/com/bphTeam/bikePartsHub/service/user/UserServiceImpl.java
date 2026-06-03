@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.user;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedUserResponseDto;
 import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
@@ -14,7 +14,7 @@ import com.bphTeam.bikePartsHub.mapper.OrderMapper;
 import com.bphTeam.bikePartsHub.mapper.UserMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
-import com.bphTeam.bikePartsHub.service.UserService;
+import com.bphTeam.bikePartsHub.service.user.UserService;
 import com.bphTeam.bikePartsHub.entity.enums.Role;
 import com.bphTeam.bikePartsHub.entity.User;
 import com.bphTeam.bikePartsHub.repository.UserRepo;

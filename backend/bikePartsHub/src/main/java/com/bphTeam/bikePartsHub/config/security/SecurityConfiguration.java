@@ -30,7 +30,7 @@ public class SecurityConfiguration {
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final com.bphTeam.bikePartsHub.service.LogoutService logoutService;
+    private final com.bphTeam.bikePartsHub.service.auth.LogoutService logoutService;
     private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean

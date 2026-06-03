@@ -1,12 +1,12 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.auth;
 
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.AuthenticationRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.RegisterRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.authResponseDto.AuthenticationResponseDto;
 import com.bphTeam.bikePartsHub.exception.DuplicateEntryException;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
-import com.bphTeam.bikePartsHub.service.AuthenticationService;
-import com.bphTeam.bikePartsHub.service.JwtService;
+import com.bphTeam.bikePartsHub.service.auth.AuthenticationService;
+import com.bphTeam.bikePartsHub.service.auth.JwtService;
 import com.bphTeam.bikePartsHub.entity.Token;
 import com.bphTeam.bikePartsHub.repository.TokenRepository;
 import com.bphTeam.bikePartsHub.entity.enums.TokenType;

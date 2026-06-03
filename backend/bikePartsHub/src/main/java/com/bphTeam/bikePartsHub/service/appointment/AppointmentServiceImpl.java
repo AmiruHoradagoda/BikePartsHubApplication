@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.appointment;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedAppointmentResponseDto;
 import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
@@ -11,7 +11,7 @@ import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.AppointmentMapper;
 import com.bphTeam.bikePartsHub.repository.AppointmentRepository;
 import com.bphTeam.bikePartsHub.repository.ServiceTypeRepository;
-import com.bphTeam.bikePartsHub.service.AppointmentService;
+import com.bphTeam.bikePartsHub.service.appointment.AppointmentService;
 import com.bphTeam.bikePartsHub.entity.enums.AppointmentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

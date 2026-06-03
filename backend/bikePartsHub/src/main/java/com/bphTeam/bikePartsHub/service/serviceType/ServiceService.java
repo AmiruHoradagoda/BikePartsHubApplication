@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.serviceType;
 
 import com.bphTeam.bikePartsHub.dto.response.ServiceTypeDto;
 

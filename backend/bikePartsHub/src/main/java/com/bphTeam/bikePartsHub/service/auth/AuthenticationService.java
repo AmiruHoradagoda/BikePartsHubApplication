@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.auth;
 
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.AuthenticationRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.RegisterRequestDto;

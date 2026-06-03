@@ -1,6 +1,6 @@
 package com.bphTeam.bikePartsHub;
 
-import com.bphTeam.bikePartsHub.service.AuthenticationService;
+import com.bphTeam.bikePartsHub.service.auth.AuthenticationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

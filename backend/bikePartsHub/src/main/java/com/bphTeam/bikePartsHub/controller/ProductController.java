@@ -5,7 +5,7 @@ import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductGetRespon
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
 import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductSearchResponseDto;
-import com.bphTeam.bikePartsHub.service.ProductService;
+import com.bphTeam.bikePartsHub.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

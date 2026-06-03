@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.auth;
 
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 

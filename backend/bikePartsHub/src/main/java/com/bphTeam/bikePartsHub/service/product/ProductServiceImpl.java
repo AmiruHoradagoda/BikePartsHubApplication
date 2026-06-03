@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.product;
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedResponseItemDTO;
 import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.productAttributeDto.ProductAttributeUpdateRequestDto;
@@ -15,7 +15,7 @@ import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ProductMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
-import com.bphTeam.bikePartsHub.service.ProductService;
+import com.bphTeam.bikePartsHub.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

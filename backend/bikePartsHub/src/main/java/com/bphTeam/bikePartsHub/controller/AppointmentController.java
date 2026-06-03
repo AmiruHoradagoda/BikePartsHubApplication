@@ -3,7 +3,7 @@ package com.bphTeam.bikePartsHub.controller;
 import com.bphTeam.bikePartsHub.dto.request.appointmentRequestDto.AppointmentSaveRequestDto;
 import com.bphTeam.bikePartsHub.entity.Appointment;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
-import com.bphTeam.bikePartsHub.service.AppointmentService;
+import com.bphTeam.bikePartsHub.service.appointment.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

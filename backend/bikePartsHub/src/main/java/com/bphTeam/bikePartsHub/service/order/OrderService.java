@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.order;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;

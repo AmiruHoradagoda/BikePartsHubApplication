@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.auth;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.serviceType;
 
-import com.bphTeam.bikePartsHub.service.ServiceService;
+import com.bphTeam.bikePartsHub.service.serviceType.ServiceService;
 import com.bphTeam.bikePartsHub.dto.response.ServiceTypeDto;
 import com.bphTeam.bikePartsHub.entity.ServiceType;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;

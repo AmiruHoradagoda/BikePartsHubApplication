@@ -3,7 +3,7 @@ package com.bphTeam.bikePartsHub.controller;
 import com.bphTeam.bikePartsHub.dto.request.userRequestDto.UserUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.UserResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.customerResponseDto.CustomerResponseDto;
-import com.bphTeam.bikePartsHub.service.UserService;
+import com.bphTeam.bikePartsHub.service.user.UserService;
 import com.bphTeam.bikePartsHub.utils.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

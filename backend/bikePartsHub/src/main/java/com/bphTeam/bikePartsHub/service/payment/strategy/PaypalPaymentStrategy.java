@@ -7,7 +7,7 @@ import com.bphTeam.bikePartsHub.entity.Payment;
 import com.bphTeam.bikePartsHub.entity.enums.PaymentMethod;
 import com.bphTeam.bikePartsHub.entity.enums.PaymentStatus;
 import com.bphTeam.bikePartsHub.exception.BadRequestException;
-import com.bphTeam.bikePartsHub.service.payment.PaymentStrategy;
+import com.bphTeam.bikePartsHub.service.payment.strategy.PaymentStrategy;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

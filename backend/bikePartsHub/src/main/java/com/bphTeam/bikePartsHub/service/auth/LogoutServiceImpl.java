@@ -1,6 +1,6 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.auth;
 
-import com.bphTeam.bikePartsHub.service.LogoutService;
+import com.bphTeam.bikePartsHub.service.auth.LogoutService;
 import com.bphTeam.bikePartsHub.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

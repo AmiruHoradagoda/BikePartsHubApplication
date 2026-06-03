@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.payment;
+package com.bphTeam.bikePartsHub.service.payment.strategy;
 
 import com.bphTeam.bikePartsHub.entity.enums.PaymentMethod;
 import com.bphTeam.bikePartsHub.exception.BadRequestException;

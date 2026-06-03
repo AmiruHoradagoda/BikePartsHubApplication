@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.product;
 
 import com.bphTeam.bikePartsHub.dto.request.productRequestDto.ProductSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.productResponseDto.ProductGetResponseDTO;

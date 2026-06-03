@@ -3,7 +3,7 @@ package com.bphTeam.bikePartsHub.controller;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.AuthenticationRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.authRequestDto.RegisterRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.authResponseDto.AuthenticationResponseDto;
-import com.bphTeam.bikePartsHub.service.AuthenticationService;
+import com.bphTeam.bikePartsHub.service.auth.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

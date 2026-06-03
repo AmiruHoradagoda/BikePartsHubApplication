@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.checkout;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 

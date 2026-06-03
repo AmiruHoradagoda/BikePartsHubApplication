@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.checkout;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
@@ -16,8 +16,8 @@ import com.bphTeam.bikePartsHub.repository.PaymentRepository;
 import com.bphTeam.bikePartsHub.repository.ProductRepo;
 import com.bphTeam.bikePartsHub.repository.ShippingRepo;
 import com.bphTeam.bikePartsHub.repository.UserRepo;
-import com.bphTeam.bikePartsHub.service.CheckoutFacade;
-import com.bphTeam.bikePartsHub.service.payment.PaymentStrategyFactory;
+import com.bphTeam.bikePartsHub.service.checkout.CheckoutFacade;
+import com.bphTeam.bikePartsHub.service.payment.strategy.PaymentStrategyFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

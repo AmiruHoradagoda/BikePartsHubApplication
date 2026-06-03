@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.order;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderDetailsDto;
@@ -8,7 +8,7 @@ import com.bphTeam.bikePartsHub.entity.OrderDetails;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ShippingMapper;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
-import com.bphTeam.bikePartsHub.service.OrderService;
+import com.bphTeam.bikePartsHub.service.order.OrderService;
 import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
 import com.bphTeam.bikePartsHub.service.order.OrderStatusTransitionValidator;
 import jakarta.transaction.Transactional;

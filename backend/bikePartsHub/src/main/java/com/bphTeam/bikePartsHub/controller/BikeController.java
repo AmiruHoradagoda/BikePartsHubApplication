@@ -3,7 +3,7 @@ package com.bphTeam.bikePartsHub.controller;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.BikeGetResponse;
-import com.bphTeam.bikePartsHub.service.BikeService;
+import com.bphTeam.bikePartsHub.service.bike.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

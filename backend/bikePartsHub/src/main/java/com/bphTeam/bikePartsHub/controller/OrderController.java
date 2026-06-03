@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
-import com.bphTeam.bikePartsHub.service.CheckoutFacade;
+import com.bphTeam.bikePartsHub.service.checkout.CheckoutFacade;
 import com.bphTeam.bikePartsHub.utils.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

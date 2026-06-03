@@ -1,6 +1,6 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.auth;
 
-import com.bphTeam.bikePartsHub.service.JwtService;
+import com.bphTeam.bikePartsHub.service.auth.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

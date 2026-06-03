@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.bike;
 
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.bikeRequestDto.BikeUpdateRequestDto;
@@ -8,7 +8,7 @@ import com.bphTeam.bikePartsHub.exception.BadRequestException;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.BikeMapper;
 import com.bphTeam.bikePartsHub.repository.BikeRepo;
-import com.bphTeam.bikePartsHub.service.BikeService;
+import com.bphTeam.bikePartsHub.service.bike.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

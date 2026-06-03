@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service.payment;
+package com.bphTeam.bikePartsHub.service.payment.strategy;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.entity.Order;
