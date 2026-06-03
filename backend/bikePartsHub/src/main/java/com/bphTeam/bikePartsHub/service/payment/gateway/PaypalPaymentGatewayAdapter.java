@@ -1,25 +1,24 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.payment.gateway;
 
 import com.bphTeam.bikePartsHub.dto.request.paymentRequestDto.PaypalCreatePaymentRequestDto;
 import com.bphTeam.bikePartsHub.dto.request.paymentRequestDto.PaypalExecutePaymentRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.paymentResponseDto.PaypalCreatePaymentResponseDto;
 import com.bphTeam.bikePartsHub.dto.response.paymentResponseDto.PaypalExecutePaymentResponseDto;
 import com.bphTeam.bikePartsHub.exception.BadRequestException;
-import com.bphTeam.bikePartsHub.service.PaypalService;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class PaypalServiceImpl implements PaypalService {
+public class PaypalPaymentGatewayAdapter implements PaymentGateway {
     private static final String PAYPAL_METHOD = "paypal";
     private static final String SALE_INTENT = "sale";
     private static final String APPROVAL_URL_REL = "approval_url";
@@ -142,5 +141,4 @@ public class PaypalServiceImpl implements PaypalService {
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }
-
 }
