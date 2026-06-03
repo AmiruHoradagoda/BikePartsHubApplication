@@ -1,4 +1,4 @@
-package com.bphTeam.bikePartsHub.service;
+package com.bphTeam.bikePartsHub.service.storage;
 
 import com.bphTeam.bikePartsHub.dto.response.fileResponseDto.FileUploadResponseDto;
 import org.springframework.web.multipart.MultipartFile;

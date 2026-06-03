@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.response.fileResponseDto.FileUploadResponseDto;
-import com.bphTeam.bikePartsHub.service.FileStorageService;
+import com.bphTeam.bikePartsHub.service.storage.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,23 +1,22 @@
-package com.bphTeam.bikePartsHub.service.impl;
+package com.bphTeam.bikePartsHub.service.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.bphTeam.bikePartsHub.dto.response.fileResponseDto.FileUploadResponseDto;
 import com.bphTeam.bikePartsHub.exception.BadRequestException;
-import com.bphTeam.bikePartsHub.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class S3FileStorageServiceImpl implements FileStorageService {
+public class S3FileStorageAdapter implements FileStorageService {
     private static final Set<String> ALLOWED_IMAGE_TYPES = Set.of(
             "image/jpeg",
             "image/png",
