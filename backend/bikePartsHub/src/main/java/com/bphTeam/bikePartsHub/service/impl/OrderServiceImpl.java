@@ -1,27 +1,16 @@
 package com.bphTeam.bikePartsHub.service.impl;
 
 import com.bphTeam.bikePartsHub.dto.pagenated.PaginatedOrderResponseWithDetailsDto;
-import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderDetailRequestDto;
-import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderDetailsDto;
 import com.bphTeam.bikePartsHub.dto.response.orderResponseDto.OrderResponseWithDetailsDto;
 import com.bphTeam.bikePartsHub.entity.Order;
 import com.bphTeam.bikePartsHub.entity.OrderDetails;
-import com.bphTeam.bikePartsHub.entity.ShippingAddress;
-import com.bphTeam.bikePartsHub.entity.enums.PaymentMethod;
 import com.bphTeam.bikePartsHub.exception.EntryNotFoundException;
 import com.bphTeam.bikePartsHub.mapper.ShippingMapper;
-import com.bphTeam.bikePartsHub.repository.OrderDetailRepo;
 import com.bphTeam.bikePartsHub.repository.OrderRepo;
-import com.bphTeam.bikePartsHub.repository.PaymentRepository;
-import com.bphTeam.bikePartsHub.repository.ProductRepo;
-import com.bphTeam.bikePartsHub.repository.ShippingRepo;
 import com.bphTeam.bikePartsHub.service.OrderService;
-import com.bphTeam.bikePartsHub.entity.User;
-import com.bphTeam.bikePartsHub.repository.UserRepo;
 import com.bphTeam.bikePartsHub.entity.enums.OrderStatus;
 import com.bphTeam.bikePartsHub.service.order.OrderStatusTransitionValidator;
-import com.bphTeam.bikePartsHub.service.payment.PaymentStrategyFactory;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,68 +29,11 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private UserRepo userRepo;
-    @Autowired
     private OrderRepo orderRepo;
-    @Autowired
-    private OrderDetailRepo orderDetailRepo;
-    @Autowired
-    private ProductRepo productRepo;
     @Autowired
     private ShippingMapper shippingMapper;
     @Autowired
-    private ShippingRepo shippingRepo;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private PaymentStrategyFactory paymentStrategyFactory;
-    @Autowired
     private OrderStatusTransitionValidator orderStatusTransitionValidator;
-
-    @Transactional
-    public String addOrder(OrderSaveRequestDto requestOrderSaveDTO) {
-        // Retrieve the user by ID
-        User user = userRepo.findById(requestOrderSaveDTO.getUserId())
-                .orElseThrow(() -> new EntryNotFoundException("User not found with id: " + requestOrderSaveDTO.getUserId()));
-        ShippingAddress shippingAddress = shippingMapper.toShippingEntity(requestOrderSaveDTO.getShippingAddress());
-        shippingRepo.save(shippingAddress);
-        // Create the Order entity
-        Order order = new Order();
-        order.setUser(user);
-        order.setDate(requestOrderSaveDTO.getOrderDate());
-        order.setTotal(requestOrderSaveDTO.getTotal());
-        order.setShippingAddress(shippingAddress);
-        order.setStatus(OrderStatus.PENDING);
-
-        // Save the Order entity
-        orderRepo.save(order);
-
-        // Check if order was saved
-        if (orderRepo.existsById(order.getOrderId())) {
-            // Map OrderDetails DTOs to entity and set relationships
-            for (OrderDetailRequestDto detailDTO : requestOrderSaveDTO.getOrderDetails()) {
-                OrderDetails orderDetail = new OrderDetails();
-                orderDetail.setOrders(order);
-                orderDetail.setProductName(detailDTO.getProductName());
-                orderDetail.setQty(detailDTO.getQty());
-                orderDetail.setAmount(detailDTO.getAmount());
-                orderDetail.setProduct(productRepo.findById(detailDTO.getProductId())
-                        .orElseThrow(() -> new EntryNotFoundException("Product not found with id: " + detailDTO.getProductId())));
-
-                // Save the order detail
-                orderDetailRepo.save(orderDetail);
-            }
-            PaymentMethod paymentMethod = requestOrderSaveDTO.getPayment() != null
-                    && requestOrderSaveDTO.getPayment().getMethod() != null
-                    ? requestOrderSaveDTO.getPayment().getMethod()
-                    : PaymentMethod.CASH_ON_DELIVERY;
-            paymentRepository.save(paymentStrategyFactory
-                    .getStrategy(paymentMethod)
-                    .createPayment(order, requestOrderSaveDTO));
-            return "Order saved";
-        }
-        return "Order save failed";
-    }
 
     @Transactional
     @Override

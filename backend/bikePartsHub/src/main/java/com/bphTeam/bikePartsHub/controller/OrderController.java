@@ -1,7 +1,7 @@
 package com.bphTeam.bikePartsHub.controller;
 
 import com.bphTeam.bikePartsHub.dto.request.orderRequestDto.OrderSaveRequestDto;
-import com.bphTeam.bikePartsHub.service.OrderService;
+import com.bphTeam.bikePartsHub.service.CheckoutFacade;
 import com.bphTeam.bikePartsHub.utils.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private CheckoutFacade checkoutFacade;
 
     @PostMapping(
             path = {"/save"}
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'LOYAL_CUSTOMER')")
     public ResponseEntity<StandardResponseDto> saveItem(@RequestBody OrderSaveRequestDto requestOderSaveDTO){
-        String message  = orderService.addOrder(requestOderSaveDTO);
+        String message  = checkoutFacade.placeOrder(requestOderSaveDTO);
 
         return new ResponseEntity<StandardResponseDto>(new StandardResponseDto(201,"Order is Saved",message), HttpStatus.CREATED);
     }
