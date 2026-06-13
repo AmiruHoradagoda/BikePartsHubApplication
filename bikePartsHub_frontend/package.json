@@ -1,5 +1,5 @@
 {
-  "name": "bike-parts-hub-app",
+  "name": "bike-parts-hub-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bphTeam</groupId>
-    <artifactId>bikePartsHub</artifactId>
+    <artifactId>bikePartsHub_backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bikePartsHub</name>
+    <name>bikePartsHub_backend</name>
     <description>Ecommerce project for Bike service center</description>
     <url/>
     <licenses>

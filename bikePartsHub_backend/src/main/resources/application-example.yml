@@ -11,7 +11,7 @@ server:
 paypal:
   client-id: ${PAYPAL_CLIENT_ID}
   client-secret: ${PAYPAL_CLIENT_SECRET}
-  mode: ${PAYPAL_MODE:sandbox} # use 'sandbox' for testing and 'live' for production
+  mode: sandbox # use 'sandbox' for testing and 'live' for production
 
 s3bucket:
   access-key: ${AWS_ACCESS_KEY_ID}
